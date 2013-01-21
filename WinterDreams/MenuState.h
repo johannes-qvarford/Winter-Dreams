@@ -2,23 +2,33 @@
 #define INCLUDED_MENUSTATE
 
 #include "State.h"
-#include <list>
+#include <string>
 
 class MenuState : public State{
 public:
-	typedef std::list<State*> States;
-
-	MenuState(const States);
-	MenuState(const MenuState& menu)
-	virtual ~MenuState();
-
+	/*
+	//	MenuStates constructor performs no actions
+	*/
+	MenuState();
+	/*
+	//	MenuStates destructor performs no actions
+	*/
+	~MenuState();
+	/*
+	//	Each loop, if MenuState is the active state, update is called
+	*/
 	virtual void update();
-	State* getNewGameState();
-	State* getLoadGameState(const unsigned int loadSlot);
 
 private:
-	States mStates;
 
+	/*
+	//	MenuState is not supposed to be copied
+	*/
+	MenuState(const MenuState& menu);
+	/*
+	//	MenuState is not supposed to be copied
+	*/
+	operator=(const MenuState& menu);
 };
 
 #endif
