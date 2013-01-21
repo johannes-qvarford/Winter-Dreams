@@ -1,0 +1,34 @@
+#ifndef INCLUDED_MENUSTATE
+#define INCLUDED_MENUSTATE
+
+#include "State.h"
+#include <string>
+
+class MenuState : public State{
+public:
+	/*
+	//	MenuStates constructor performs no actions
+	*/
+	MenuState();
+	/*
+	//	MenuStates destructor performs no actions
+	*/
+	~MenuState();
+	/*
+	//	Each loop, if MenuState is the active state, update is called
+	*/
+	virtual void update();
+
+private:
+
+	/*
+	//	MenuState is not supposed to be copied
+	*/
+	MenuState(const MenuState& menu);
+	/*
+	//	MenuState is not supposed to be copied
+	*/
+	operator=(const MenuState& menu);
+};
+
+#endif
