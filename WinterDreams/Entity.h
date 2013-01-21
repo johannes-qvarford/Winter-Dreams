@@ -11,13 +11,7 @@ public:
 	//	Update is supposed to represent the action performed by 
 	//	concrete subclasses each update-loop.
 	*/
-	virtual void update(GameState* game);
-	/*
-	//	Each concrete subclass of Entity has to define a function for
-	//	drawing itself.
-	*/
-	virtual void drawSelf(sf::RenderWindow* window);
-
+	virtual void update(GameState* game) = 0;
 };
 
 #endif

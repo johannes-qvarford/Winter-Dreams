@@ -24,6 +24,7 @@ public:
 
 private:
 	State* mLoadedLevel;	//A pointer to a GameState with the argument level loaded into it.
+
 	/*
 	//	LoadingState is not supposed to be copied
 	*/

@@ -6,21 +6,21 @@
 class Animation{
 public:
 	/*
-		An animation needs the following:
-		A filepath to it's intended texture. (filePath)
-		Knowledge about how many spirtes the texture contains. (numberOfSprites)
-		Knowledge about how many frames each sprite is displayed. (framesPerSprite)
+	//	An animation needs the following:
+	//	A filepath to it's intended texture. (filePath)
+	//	Knowledge about how many spirtes the texture contains. (numberOfSprites)
+	//	Knowledge about how many frames each sprite is displayed. (framesPerSprite)
 	*/
 	Animation(const std::string filePath, const unsigned int numberOfSprites, const unsigned int framesPerSprite);
 	Animation(const Animation& animation);
 	/*
-		The destructor does not delete it's associated sf::Texture
+	//	The destructor does not delete it's associated sf::Texture
 	*/
 	~Animation();
 	/*
-		getCurrentSpirte returns the current sprite from the sf::Texture.
-		Each time getCurrentSprite is called it updates how many frames the
-		current sprite's been displayed.
+	//	getCurrentSpirte returns the current sprite from the sf::Texture.
+	//	Each time getCurrentSprite is called it updates how many frames the
+	//	current sprite's been displayed.
 	*/
 	sf::Sprite& getCurrentSprite();
 	
