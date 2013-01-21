@@ -1,6 +1,6 @@
 #include "StateManager.h"
 #include "GameState.h"
-#include "LoadState.h"
+#include "LoadingState.h"
 
 #include <string>
 
@@ -10,7 +10,7 @@ static const const char* FIRST_LEVEL_FILENAME = "changeme.json";
 int main()
 {
 	auto gameState_p = new GameState();
-	auto loadState_p = new LoadState(gameState_p, FIRST_LEVEL_FILENAME);
+	auto loadState_p = new LoadingState(gameState_p, FIRST_LEVEL_FILENAME);
 
 	/*
 		Push the game state first, and the load state second.

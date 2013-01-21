@@ -6,33 +6,33 @@
 class State;
 
 /*
-	The StateManager is a singleton that manages the different states of the game.
+//	The StateManager is a singleton that manages the different states of the game.
 */
 class StateManager {
 public:
 
 	/*
-		Get the singleton.
+	//	Get the singleton.
 	*/
 	static StateManager& get();
 
 	/*
-		Run the game.
+	//	Run the game.
 	*/
 	void run();
 
 	/*
-		Get the current State.
+	//	Get the current State.
 	*/
 	State* getState();
 
 	/*
-		Push a new State. Only this state will be updated the next frame.
+	//	Push a new State. Only this state will be updated the next frame.
 	*/
 	void pushState(State* state);
 
 	/*
-		Pop and destroy the current State.
+	//	Pop and destroy the current State.
 	*/
 	void popState();
 
@@ -40,9 +40,9 @@ private:
 
 	StateManager();
 
-	StateManager(const StateManager&);//not implemented
+	StateManager(const StateManager&);//no copy
 
-	StateManager& operator=(const StateManager&);// not implemented
+	StateManager& operator=(const StateManager&);// no copy
 
 	std::stack<State*> mStates;
 };
