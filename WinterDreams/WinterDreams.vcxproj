@@ -76,6 +76,15 @@
   <ItemGroup>
     <ClCompile Include="hello.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="GameState.h" />
+    <ClInclude Include="Inventory.h" />
+    <ClInclude Include="LoadingState.h" />
+    <ClInclude Include="MenuState.h" />
+    <ClInclude Include="ResourceManager.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
