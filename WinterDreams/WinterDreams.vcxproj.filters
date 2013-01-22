@@ -34,6 +34,24 @@
     <ClInclude Include="StateManager.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="TriggerZone.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicalEntity.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerRelated.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="DamageHitBox.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Script.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">

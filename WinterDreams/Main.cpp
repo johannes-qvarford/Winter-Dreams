@@ -5,7 +5,7 @@
 #include <string>
 
 
-static const const char* FIRST_LEVEL_FILENAME = "changeme.json";
+static const char * const FIRST_LEVEL_FILENAME = "changeme.json";
 
 int main()
 {

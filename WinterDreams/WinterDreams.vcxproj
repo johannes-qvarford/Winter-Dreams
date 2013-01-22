@@ -14,9 +14,15 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DamageHitBox.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="PhysicalEntity.h" />
+    <ClInclude Include="PlayerRelated.h" />
+    <ClInclude Include="Script.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="StateManager.h" />
+    <ClInclude Include="TriggerZone.h" />
+    <ClInclude Include="Wall.h" />
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
