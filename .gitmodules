@@ -1,6 +1,7 @@
 [submodule "SFML"]
 	path = SFML
 	url = https://github.com/LaurentGomila/SFML.git
-[submodule "boost"]
-	path = boost
+
+[submodule "boost-svn"]
+	path = boost-svn
 	url = https://github.com/ryppl/boost-svn.git
