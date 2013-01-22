@@ -11,6 +11,7 @@ public:
 	//	concrete subclasses each update-loop.
 	*/
 	virtual void update(GameState* game) = 0;
+	
 	/*
 	//	Each concrete subclass of PhysicalEntity has to define a
 	//	function for drawing itself.
