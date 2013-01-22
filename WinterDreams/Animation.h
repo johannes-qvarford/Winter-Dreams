@@ -3,6 +3,7 @@
 
 #include <SFML\Graphics.hpp>
 #include <string>
+#include <memory>
 
 class Animation{
 public:
@@ -24,15 +25,17 @@ public:
 	//	Each time getCurrentSprite is called it updates how many frames the
 	//	current sprite's been displayed.
 	*/
-	sf::Sprite& getCurrentSprite();
+	sf::Sprite getCurrentSprite();
+	void advance(int milliseconds);
 	
 private:
-	sf::Texture* mTexture_p;		//The texture from which sprites are displayed.
+	std::shared_ptr<sf::Texture> mTexture_p;		//The texture from which sprites are displayed.
 	sf::Sprite&  mSprite;			//The current sprite from mTexture.
-	sf::FloatRect mSpirteSize		//The size, in pixels, of the sprite.
+	sf::FloatRect mSpirteSize;		//The size, in pixels, of the sprite.
 	unsigned int mNumberOfSprites;	//How many spirtes mTexture contains.
 	unsigned int mFramesPerSprite;	//How many frames should each sprite be displayed.
 	unsigned int mCurrentSprite;	//Which sprite (by index) is currently displayed.
+	unsigned int mCurrentFrame;		//Which frame (not sprite) is currently active.
 	
 };
 

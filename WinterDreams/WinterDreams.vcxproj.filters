@@ -52,6 +52,15 @@
     <ClInclude Include="Script.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="ItemDisplay.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CutsceneTriggerZone.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">

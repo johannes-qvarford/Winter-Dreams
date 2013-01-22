@@ -12,7 +12,7 @@ public:
 	/*
 	//	MenuStates constructor performs no actions
 	*/
-	MenuState();
+	MenuState(std::string filePath);
 	/*
 	//	MenuStates destructor performs no actions
 	*/
@@ -20,7 +20,7 @@ public:
 	/*
 	//	Each loop, if MenuState is the active state, update is called
 	*/
-	virtual void update();
+	virtual void update(int milliseconds);
 
 private:
 

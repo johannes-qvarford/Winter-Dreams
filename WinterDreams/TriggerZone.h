@@ -7,7 +7,7 @@
 /*
 //	Trigger zones are entities with a set collision box.
 */
-class TriggerZone : PhysicalEntity {
+class TriggerZone : public PhysicalEntity {
 public:
 
 	/*

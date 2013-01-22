@@ -2,6 +2,7 @@
 #define INCLUDED_ITEMDISPLAY
 
 #include "Script.h"
+class Inventory;
 
 /*
 //	ItemDisplay is a script that draws the items in an inventory.

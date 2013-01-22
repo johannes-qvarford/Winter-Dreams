@@ -14,9 +14,12 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CutsceneTriggerZone.h" />
     <ClInclude Include="DamageHitBox.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="ItemDisplay.h" />
     <ClInclude Include="PhysicalEntity.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerRelated.h" />
     <ClInclude Include="Script.h" />
     <ClInclude Include="State.h" />

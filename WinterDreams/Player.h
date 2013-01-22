@@ -3,6 +3,7 @@
 
 #include "PlayerRelated.h"
 #include <SFML\Graphics.hpp>
+#include "Inventory.h"
 
 class Inventory;
 
@@ -33,11 +34,11 @@ public:
 	//	each time update is called. Used by GameState to perform a
 	//	series of actions each update-frame.
 	*/
-	virtual void update(GameState* gameState_p);
+	virtual void update(GameState* gameState_p, int milliseconds);
 	/*
 	//	Defines how the avatar is drawn onto the window.
 	*/
-	virtual void drawSelf(sf::RenderWindow* window_p);
+	virtual void drawSelf();
 	/*
 	//	Returns the avatar's hitbox.
 	//	Used primarily to check for collisions with other physical entitys.
@@ -95,12 +96,12 @@ public:
 	*/
 	const Inventory& getInventory() const;
 	/*
-	//	Returns a pointer to the players Inventoyr. This pointer can be used
+	//	Returns a pointer to the players Inventory. This pointer can be used
 	//	to call functions and affect the players Inventoyr.
 	//	If the player should be assigned a new item, or an item should be removed,
 	//	call function "addItem" or "removeItem" on the returned pointer.
 	*/
-	Inventory*	accessInventory();
+	Inventory*	changeInventory();
 	/*
 	//	Returns the avatars current movement mode.
 	//	This function cannot be used to affect the avatars current movement mode.
@@ -108,7 +109,7 @@ public:
 	MovementMode getCurrentMovementMode();
 	/*
 	//	Changes the avatars current movement mode to the argument mode.
-	//	The enum listing the different movement modes are availible in Player.h
+	//	The enum listing the different movement modes are availible at the top of Player.h
 	*/
 	void setMovementMode(MovementMode movementMode);
 private:
@@ -116,8 +117,8 @@ private:
 	sf::Vector2f  mPosition;	//The avatars current position
 	sf::FloatRect mHitBox;		//The avatars current hitbox
 	int			  mHealth;		//The avatars current health
-	movementMode  mMovementMode;//The avatars current movementMode
-	Inventory*	  mInventory;	//A pointer to the players inventory
+	MovementMode  mMovementMode;//The avatars current movementMode
+	Inventory	  mInventory;	//A pointer to the players inventory
 };
 
 #endif

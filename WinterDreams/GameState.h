@@ -2,6 +2,7 @@
 #define INCLUDED_GAMESTATE
 
 #include "State.h"
+#include <memory>
 #include <SFML\Graphics.hpp>
 #include <list>
 
@@ -30,29 +31,29 @@ public:
 	//	calls update on each script in mScripts
 	//	then calls render.
 	*/
-	virtual void update();
+	virtual void update(int milliseconds);
 	/*
 	//	Adds an Entity-pointer to mEntitys.
 	*/
-	void addPhysicalEntity(PhysicalEntity* physicalEntity_p);
+	void addPhysicalEntity(std::shared_ptr<PhysicalEntity> physicalEntity_p);
 	/*
 	//	Adds a Script-pointer to mScripts.
 	*/
-	void addScript(Script* script_p);
+	void addScript(std::shared_ptr<Script> script_p);
 	/*
 	//	Adds a const sf::Texture-reference to mForegroundTexture.
 	//	GameManager HAVE NO responsibility over the texture.
 	*/
-	void addForegroundTexture(const sf::Texture& texture);
+	void addForegroundTexture(const std::shared_ptr<sf::Texture> texture_p);
 	/*
 	//	Adds a const sf::Texture-reference to mBackgroundTextures.
 	//	GameManager HAVE NO responsibility over the texture.
 	*/
-	void addBackgroundTexture(const sf::Texture& texture);
+	void addBackgroundTexture(const std::shared_ptr<sf::Texture> texture_p);
 private:
-	typedef std::list<PhysicalEntity*> PhysicalEntitys;
-	typedef std::list<Script*> Scripts;
-	typedef std::list<const sf::Texture&> Textures;
+	typedef std::list<std::shared_ptr<PhysicalEntity> > PhysicalEntitys;
+	typedef std::list<std::shared_ptr<Script> > Scripts;
+	typedef std::list<const std::shared_ptr<sf::Texture> > Textures;
 	/*
 	//	Draws background, foreground, all physical entitys and all scripts. 
 	*/
@@ -73,8 +74,7 @@ private:
 	*/
 	void clearScripts();
 	/*
-	//	Empties mTextures of references. 
-	//	Does NOT delete the textures.
+	//	Empties mTextures of references.
 	*/
 	void clearTextures();
 

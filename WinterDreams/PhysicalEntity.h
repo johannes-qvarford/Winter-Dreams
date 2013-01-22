@@ -2,24 +2,17 @@
 #define INCLUDED_PHYSICALENTITY
 
 #include "Entity.h"
-#include <SFML\Graphics.hpp>
+#include <SFML\Graphics\Rect.hpp>
 /*
 //	Abstract base class for physical objects in the system.
 */
 class PhysicalEntity : public Entity {
 public:
 	/*
-	//	Concrete subclasses of PhysicalEntity has to define an update function.
-	//	Update is supposed to represent the action performed by 
-	//	concrete subclasses each update-loop.
-	*/
-	virtual void update(GameState* game) = 0;
-	
-	/*
 	//	Each concrete subclass of PhysicalEntity has to define a
 	//	function for drawing itself.
 	*/
-	virtual void drawSelf(sf::RenderWindow* window) = 0;
+	virtual void drawSelf() = 0;
 	/*
 	//	Each concrete subclass of PhysicalEntity has to define a
 	//	function for returning the objects hitbox. 

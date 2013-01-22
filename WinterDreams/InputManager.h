@@ -1,5 +1,6 @@
 #ifndef INCLUDED_INPUTMANAGER
 #define INCLUDED_INPUTMANAGER
+//DEPRECATED HEADER//
 
 #include <SFML/Window/Keyboard.hpp>
 

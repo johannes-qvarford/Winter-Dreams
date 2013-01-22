@@ -19,10 +19,10 @@ public:
 	//	Handle collision with a PlayerRelated.
 	//	Move the entity away from the Wall if its a Player. 
 	*/
-	void onCollision(PlayerRelated* pr);
+	void onCollision(PhysicalEntity* pe);
 
 	/*
-	//	Get the Walls hitbox.
+	//	Get the Wall's hitbox.
 	*/
 	const sf::Rect<float>& getHitBox() const;
 
