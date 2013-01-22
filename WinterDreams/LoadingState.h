@@ -3,15 +3,20 @@
 
 #include "State.h"
 
-class State;
-
+class GameState;
+/*
+//	A LoadingState is a state which purpouse it to parse the data file
+//	descibing a specific level and load the appropriate data into an
+//	instance of GameState
+*/
 class LoadingState : public State {
 public:
 	/*
-	//	LoadingState has to be told what level to load when it
-	//	is created.
+	//	LoadingState has to be told what GameState it is supposed
+	//	to load a level into. It also has to be told where the 
+	//	file for the level is located.
 	*/
-	LoadingState(unsigned int levelToLoad);
+	LoadingState(GameState* gameState_p, std::string levelFilePath);
 	/*
 	// LoadingStates destructor DOES NOT delete mLoadedState.
 	*/
@@ -23,7 +28,7 @@ public:
 	virtual void update();
 
 private:
-	State* mLoadedLevel;	//A pointer to a GameState with the argument level loaded into it.
+	GameState* mLoadedLevel;	//A pointer to a GameState with the argument level loaded into it.
 
 	/*
 	//	LoadingState is not supposed to be copied
@@ -32,7 +37,7 @@ private:
 	/*
 	//	LoadingState is not supposed to be copied
 	*/
-	operator=(const LoadingState& loading);
+	LoadingState& operator=(const LoadingState& loading);
 };
 
 #endif

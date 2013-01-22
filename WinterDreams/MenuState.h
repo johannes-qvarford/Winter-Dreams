@@ -4,6 +4,9 @@
 #include "State.h"
 #include <string>
 
+/*
+//	MenuState represents the main menu. 
+*/
 class MenuState : public State{
 public:
 	/*

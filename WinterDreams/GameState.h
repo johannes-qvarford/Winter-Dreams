@@ -1,12 +1,17 @@
 #ifndef INCLUDED_GAMESTATE
 #define INCLUDED_GAMESTATE
 
-#include <list>
 #include "State.h"
+#include <SFML\Graphics.hpp>
+#include <list>
 
 class PhysicalEntity;
 class Script;
-
+/*
+//	GameState is the state where the game is avalible to the player.
+//	Data ought to be loaded into GameState by a LoadingState before 
+//	a being assigned "current state" by the StateManager.
+*/
 class GameState : public State {
 public:
 	/*
@@ -29,11 +34,11 @@ public:
 	/*
 	//	Adds an Entity-pointer to mEntitys.
 	*/
-	void addPhysicalEntity(PhysicalEntity* physicalEntity);
+	void addPhysicalEntity(PhysicalEntity* physicalEntity_p);
 	/*
 	//	Adds a Script-pointer to mScripts.
 	*/
-	void addScript(Script* script);
+	void addScript(Script* script_p);
 	/*
 	//	Adds a const sf::Texture-reference to mForegroundTexture.
 	//	GameManager HAVE NO responsibility over the texture.
@@ -45,7 +50,7 @@ public:
 	*/
 	void addBackgroundTexture(const sf::Texture& texture);
 private:
-	typedef std::list<Entity*> Entitys;
+	typedef std::list<PhysicalEntity*> PhysicalEntitys;
 	typedef std::list<Script*> Scripts;
 	typedef std::list<const sf::Texture&> Textures;
 	/*
@@ -73,7 +78,7 @@ private:
 	*/
 	void clearTextures();
 
-	Entitys mEntitys;				//GameStates list of Entity-pointers
+	PhysicalEntitys mPhysicalEntitys;//GameStates list of Entity-pointers
 	Scripts mScripts;				//GameStates list of Script-pointers
 	Textures mForegroundTextures;	//GameStates list of const sf::Texture-references for the background
 	Textures mBackgroundTextures;	//GameStates list of const sf::Texture-references for the foreground

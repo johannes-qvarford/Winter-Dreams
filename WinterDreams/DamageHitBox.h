@@ -1,5 +1,6 @@
 #ifndef INCLUDED_DAMAGEHITBOX
 #define INCLUDED_DAMAGEHITBOX
+
 #include "PlayerRelated.h"
 
 class DamageHitBox:public PlayerRelated{

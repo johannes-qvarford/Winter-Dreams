@@ -2,7 +2,11 @@
 #define INCLUDED_PLAYERRELATED
 
 #include "PhysicalEntity.h"
-
+#include <SFML\Graphics.hpp>
+/*
+//	Abstract base class for the player class and and objects
+//	directly related to or created by the player.
+*/
 class PlayerRelated : public PhysicalEntity {
 public:
 	/*
@@ -18,8 +22,17 @@ public:
 	//	not provide a graphical representation of the object.
 	*/
 	virtual void drawSelf(sf::RenderWindow* window) {};
-
-	// getHitBox() & onCollision();
+	/*
+	//	Each concrete subclass of PlayerRelated has to define a
+	//	function for returning the objects hitbox. 
+	*/
+	virtual const sf::FloatRect& getHitBox() const = 0;
+	/*
+	//	Each concrete subclass of PlayerRelated has to define what
+	//	actions it is supposed to performed when it collides with 
+	//	another physical entity.
+	*/
+	virtual void onCollision(PhysicalEntity* entityCollidedWith_p) = 0;
 };
 
 #endif
