@@ -23,7 +23,7 @@ public:
 	//	actions it is supposed to performed when it collides with 
 	//	another physical entity.
 	*/
-	virtual void onCollision(PhysicalEntity* entityCollidedWith_p) = 0;
+	virtual void onCollision(PhysicalEntity* entityCollidedWith_p, const sf::Rect<float>& intersection ) = 0;
 
 };
 

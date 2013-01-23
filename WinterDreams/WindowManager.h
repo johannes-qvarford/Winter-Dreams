@@ -3,6 +3,7 @@
 
 namespace sf {
 	class RenderWindow;
+	class RenderStates;
 };
 
 /*
@@ -21,6 +22,11 @@ public:
 	*/
 	sf::RenderWindow* getWindow();
 
+	/*
+	//	Get the RenderStates for drawing.
+	*/
+	sf::RenderStates* getStates();
+
 private:
 
 	WindowManager();
@@ -30,6 +36,7 @@ private:
 	WindowManager& operator=(const WindowManager&);//no copy
 
 	sf::RenderWindow* mWindow_p;
+	sf::RenderStates* mRenderStates;
 };
 
 #endif
