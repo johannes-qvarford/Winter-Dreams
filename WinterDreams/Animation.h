@@ -1,11 +1,11 @@
 #ifndef INCLUDED_ANIMATION
 #define INCLUDED_ANIMATION
 
+#include <SFML\Graphics\Sprite.hpp>
 #include <string>
 #include <memory>
 
 namespace sf{
-	class Sprite;
 	class Texture;
 };
 
