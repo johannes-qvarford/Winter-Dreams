@@ -3,6 +3,9 @@
 
 #include "State.h"
 
+#include <string>
+#include <boost/property_tree/ptree.hpp>
+
 class GameState;
 ////////////////////////////////////////////////////////////
 // /A LoadingState is a state which purpouse it to parse the data file
@@ -29,6 +32,7 @@ public:
 
 private:
 	GameState* mLoadedLevel;	//A pointer to a GameState with the argument level loaded into it.
+	boost::property_tree::ptree mLevelData;
 
 	////////////////////////////////////////////////////////////
 	// /No copies

@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <cmath>
 
 static void checkCollisions(GameState::PhysicalEntities* physicals_p, PlayerRelated* pr_p) {
 	//iterate over entities to check for collisions.
@@ -117,8 +118,27 @@ void GameState::render() {
 	//save old matrix for later
 	auto oldMatrix = renderStates.transform;
 
-	//TODO: add some crazy(!!!) transformation matrix here, that translates to isometric coordinates.
-	renderStates.transform = sf::Transform::Identity;
+	//this entire thing could be replaced with a clockwise rotation(62.5 degrees) i think
+	{
+ 
+		//for every normal XSTEP in the game x axis, there is a translation of SC_X_XOFFSET in screen x axis, and ISO_X_YOFFSET in screen y axis.
+		static const float SC_X_XOFFSET = 32;
+		static const float SC_X_YOFFSET = 16;
+		static const float X_STEP = 35.77708763999664;
+
+		static const float SC_Y_XOFFSET = -32;
+		static const float SC_Y_YOFFSET = 16;
+		static const float Y_STEP = 35.77708763999664;
+
+		static const sf::Transform gameToScreen(
+			SC_X_XOFFSET / X_STEP,	SC_Y_XOFFSET / Y_STEP,	0,
+			SC_X_YOFFSET / X_STEP,	SC_Y_YOFFSET / Y_STEP,	0,
+			0,						0,						0
+		);
+
+		//translate game coordinates to screen coordinates
+		renderStates.transform = gameToScreen;
+	}
 
 	for(auto it = mPhysicalEntities.begin(), end = mPhysicalEntities.end(); it != end; ++it) {
 		PhysicalEntity* physical_p = it->get();
