@@ -6,28 +6,28 @@
 
 class CutsceneTriggerZone : public TriggerZone {
 public:
-	/*
-	//	Creates a TriggerZone for playing cutscenes at a
-	//	position described by a sf:FloatRect
-	*/
+	////////////////////////////////////////////////////////////
+	// /Creates a TriggerZone for playing cutscenes at a
+	// /position described by a sf:FloatRect
+	////////////////////////////////////////////////////////////
 	CutsceneTriggerZone(sf::FloatRect zone);
-	/*
-	//	No dynamic members do delete.
-	*/
+	////////////////////////////////////////////////////////////
+	// /No dynamic members do delete.
+	////////////////////////////////////////////////////////////
 	~CutsceneTriggerZone();
-	/*
-	//	Defines what action CutscenesTriggerZone should
-	//	perform each game-update.
-	*/
+	////////////////////////////////////////////////////////////
+	// /Defines what action CutscenesTriggerZone should
+	// /perform each game-update.
+	////////////////////////////////////////////////////////////
 	virtual void update(GameState* gameState_p, int milliseconds);
-	/*
-	//	CutsceneTriggerZone will be invisible, hence will 
-	//	drawSelf produce no graphical representation.
-	*/
+	////////////////////////////////////////////////////////////
+	// /CutsceneTriggerZone will be invisible, hence will 
+	// /drawSelf produce no graphical representation.
+	////////////////////////////////////////////////////////////
 	virtual void drawSelf(sf::RenderWindow* window_p);
-	/*
-	//	Returns the hitbox of the CutsceneTriggerZone.
-	*/
+	////////////////////////////////////////////////////////////
+	// /Returns the hitbox of the CutsceneTriggerZone.
+	////////////////////////////////////////////////////////////
 	virtual const sf::FloatRect& getHitBox() const;
 private:
 
