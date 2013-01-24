@@ -61,7 +61,7 @@ void LoadingState::update(int milliseconds) {
 		if(ignore == "true")
 			continue;
 
-		auto data = layer.get_child("data");
+		auto& data = layer.get_child("data");
 		auto tilesPerRow = layer.get<int>("width");
 
 		auto currentIndex = 0;

@@ -78,8 +78,8 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="GameState.cpp">
-		<Filter>Sources</Filter>
-	</ClCompile>
+      <Filter>Sources</Filter>
+    </ClCompile>
     <ClCompile Include="Inventory.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -92,8 +92,16 @@
     <ClCompile Include="ResourceManager.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="LoadingState.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
     <ClCompile Include="Wall.cpp">
       <Filter>Sources</Filter>
-    </ClCompile>	
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp" />
   </ItemGroup>
 </Project>

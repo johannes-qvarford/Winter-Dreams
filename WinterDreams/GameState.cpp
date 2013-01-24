@@ -17,7 +17,7 @@ static void checkCollisions(GameState::PhysicalEntities* physicals_p, PlayerRela
 		auto col_p = it->get();
 
 		//we can't collide with ourselves!
-		if(static_cast<PhysicalEntity*>(pr_p) != col_p)
+		if(static_cast<PhysicalEntity*>(pr_p) == col_p)
 			continue;
 
 		//PlayerRelated entities can't collide with other PlayerRelated entities.
