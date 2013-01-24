@@ -61,6 +61,12 @@
     <ClInclude Include="CutsceneTriggerZone.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="PrecompiledHeader.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameToScreen.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -103,5 +109,8 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="PrecompiledHeader.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

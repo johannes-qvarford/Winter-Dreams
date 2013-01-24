@@ -1,8 +1,10 @@
 #include "WindowManager.h"
 #include <SFML\Graphics\RenderWindow.hpp>
+#include <SFML/Graphics/RenderStates.hpp>
 
 WindowManager::WindowManager() :
-	mWindow_p( new sf::RenderWindow(sf::VideoMode(800,600), "Winter Dreams") )
+	mWindow_p( new sf::RenderWindow(sf::VideoMode(800,600), "Winter Dreams") ),
+	mRenderStates_p(new sf::RenderStates())
 {}
 	//Returns the static instance of WindowManager
 WindowManager& WindowManager::get(){

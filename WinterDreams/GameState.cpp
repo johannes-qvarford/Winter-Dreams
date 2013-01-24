@@ -43,7 +43,8 @@ static bool smallerPosition(std::shared_ptr<PhysicalEntity> lhs_p, std::shared_p
 	//return true, if 
 	//lhs has a smaller y coordinate, or
 	//they have the same y coordinate, and lhs has a smaller x coordinate
-	return (lhsBox.top < rhsBox.top) || (lhsBox.top == rhsBox.top && lhsBox.left < rhsBox.left);
+//	return (lhsBox.top < rhsBox.top) || (lhsBox.top == rhsBox.top && lhsBox.left < rhsBox.left);
+	return (lhsBox.left < rhsBox.left) || (lhsBox.left == rhsBox.left && lhsBox.top < rhsBox.top);
 }
 
 GameState::GameState():
@@ -58,6 +59,7 @@ GameState::~GameState() {
 }
 
 void GameState::update(int milliseconds) {
+
 	//update entities.
 	for(auto it = mPhysicalEntities.begin(), end = mPhysicalEntities.end(); it != end; ++it) {
 		PhysicalEntity* entity_p = it->get();
@@ -109,6 +111,19 @@ void GameState::render() {
 	
 	auto& window = *WindowManager::get().getWindow();
 	auto& renderStates = *WindowManager::get().getStates();
+	
+	static auto view = window.getDefaultView();
+	
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+		view.move(sf::Vector2f(-1, 0));
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		view.move(sf::Vector2f(1, 0));
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+		view.move(sf::Vector2f(0, -1));
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+		view.move(sf::Vector2f(0, 1));
+	
+	window.setView(view);
 
 	//clear window for drawing, and reset transformation matrix.
 	window.clear();
@@ -132,29 +147,7 @@ void GameState::render() {
 	mPhysicalEntities.sort(smallerPosition);
 	
 	//save old matrix for later
-	auto oldMatrix = renderStates.transform;
-
-	//this entire thing could be replaced with a clockwise rotation(62.5 degrees) i think
-	{
- 
-		//for every normal XSTEP in the game x axis, there is a translation of SC_X_XOFFSET in screen x axis, and ISO_X_YOFFSET in screen y axis.
-		static const float SC_X_XOFFSET = 32.f;
-		static const float SC_X_YOFFSET = 16.f;
-		static const float X_STEP = 35.77708763999664f;
-
-		static const float SC_Y_XOFFSET = -32.f;
-		static const float SC_Y_YOFFSET = 16.f;
-		static const float Y_STEP = 35.77708763999664f;
-
-		static const sf::Transform gameToScreen(
-			SC_X_XOFFSET / X_STEP,	SC_Y_XOFFSET / Y_STEP,	0,
-			SC_X_YOFFSET / X_STEP,	SC_Y_YOFFSET / Y_STEP,	0,
-			0,						0,						0
-		);
-
-		//translate game coordinates to screen coordinates
-		renderStates.transform = gameToScreen;
-	}
+	//	auto oldMatrix = renderStates.transform;
 
 	for(auto it = mPhysicalEntities.begin(), end = mPhysicalEntities.end(); it != end; ++it) {
 		PhysicalEntity* physical_p = it->get();
@@ -162,7 +155,7 @@ void GameState::render() {
 	}
 
 	//get the old matrix(that is probably the identity matrix)
-	renderStates.transform = oldMatrix;
+	//	renderStates.transform = oldMatrix;
 
 	//draw script effects directly on screen
 	for(auto it = mScripts.begin(), end = mScripts.end(); it != end; ++it) {

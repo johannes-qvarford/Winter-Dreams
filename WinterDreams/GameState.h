@@ -74,6 +74,7 @@ private:
 	Scripts mScripts;				//GameStates list of Script-pointers
 	Textures mForegroundTextures;	//GameStates list of const sf::Texture-references for the background
 	Textures mBackgroundTextures;	//GameStates list of const sf::Texture-references for the foreground
+	sf::View mView;
 	/*
 	//	GameState is not supposed to be copied
 	*/

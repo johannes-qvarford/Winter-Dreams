@@ -10,8 +10,8 @@
 
 //tile ids of small, normal, and big collision tiles. 
 const int FGID_SMALL_COL = 1;
-const int FGID_MEDIUM_COL = 5;
-const int FGID_BIG_COL = 9;
+const int FGID_MEDIUM_COL = 9;
+const int FGID_BIG_COL = 5;
 
 //the length and width of each tile, in the game
 const float STEP = 35.77708763999664f;
@@ -57,7 +57,7 @@ void LoadingState::update(int milliseconds) {
 
 		//check for the ignore property. if its "false", go to the next layer
 		//if its not, or doens't exist, check layer for tiles.
-		std::string ignore = layer.get<std::string>("ignore","false");
+		std::string ignore = layer.get<std::string>("properties.ignore","false");
 		if(ignore == "true")
 			continue;
 
@@ -66,7 +66,7 @@ void LoadingState::update(int milliseconds) {
 
 		auto currentIndex = 0;
 
-		for(auto tit = data.begin(), tend = data.end(); tit != tend; ++tit) {
+		for(auto tit = data.begin(), tend = data.end(); tit != tend; ++tit, ++currentIndex) {
 			auto tileId = tit->second.get_value<int>();
 
 			//find the correct create function based on the tileId
@@ -81,7 +81,7 @@ void LoadingState::update(int milliseconds) {
 
 			func(position, mLoadedLevel);
 
-			++currentIndex;
+			
 		}
 	}
 
