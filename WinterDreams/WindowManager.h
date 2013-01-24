@@ -3,23 +3,29 @@
 
 namespace sf {
 	class RenderWindow;
+	class RenderStates;
 };
 
-/*
-//	WindowManager is a singleton of the only window in the game.
-*/
+////////////////////////////////////////////////////////////
+// /WindowManager is a singleton of the only window in the game.
+////////////////////////////////////////////////////////////
 class WindowManager {
 public:
 
-	/*
-	//	Get the singleton.
-	*/
+	////////////////////////////////////////////////////////////
+	// /Get the singleton.
+	////////////////////////////////////////////////////////////
 	static WindowManager& get();
 
-	/*
-	//	Get the window for drawing.
-	*/
+	////////////////////////////////////////////////////////////
+	// /Get the window for drawing.
+	////////////////////////////////////////////////////////////
 	sf::RenderWindow* getWindow();
+
+	/*
+	//	Get the RenderStates for drawing.
+	*/
+	sf::RenderStates* getStates();
 
 private:
 
@@ -30,6 +36,7 @@ private:
 	WindowManager& operator=(const WindowManager&);//no copy
 
 	sf::RenderWindow* mWindow_p;
+	sf::RenderStates* mRenderStates;
 };
 
 #endif

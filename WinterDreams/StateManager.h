@@ -32,7 +32,7 @@ public:
 	void pushState(State* state);
 
 	/*
-	//	Pop and destroy the current State.
+	//	Pop and destroy the current State(the next frame).
 	*/
 	void popState();
 
@@ -45,6 +45,23 @@ private:
 	StateManager& operator=(const StateManager&);// no copy
 
 	std::stack<State*> mStates;
+
+	bool mPopNextFrame;
 };
+
+/*
+//	Inline members.
+*/
+
+inline StateManager& StateManager::get() {
+	static StateManager sMgr;
+	return sMgr;
+}
+
+inline State* StateManager::getState() {
+	return mStates.top();
+}
+
+
 
 #endif
