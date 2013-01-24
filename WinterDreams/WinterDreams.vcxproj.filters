@@ -92,5 +92,8 @@
     <ClCompile Include="ResourceManager.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="Wall.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>	
   </ItemGroup>
 </Project>

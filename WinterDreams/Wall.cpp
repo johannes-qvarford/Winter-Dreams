@@ -59,5 +59,11 @@ void update(GameState* gameState, int milliseconds){
 
 void Wall::drawSelf() const{
 
-	//Hur ska jag veta om vi debuggar?
+#ifdef DEBUG_WALL
+	auto& mgr = WindowManager::get();
+	auto window_p = mgr.getWindow();
+	auto renderStates_p = mgr.getRenderStates();
+
+	window_p->draw(mSprite, *renderStates_p);
+#endif
 }
