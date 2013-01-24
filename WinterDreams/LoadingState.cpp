@@ -14,7 +14,7 @@ const int FGID_MEDIUM_COL = 5;
 const int FGID_BIG_COL = 9;
 
 //the length and width of each tile, in the game
-const float STEP = 35.77708763999664;
+const float STEP = 35.77708763999664f;
 
 LoadingState::LoadingState(GameState* gameState_p, std::string filepath):
 	mLoadedLevel(gameState_p),

@@ -3,7 +3,13 @@
 
 #include <memory>
 #include "SFML/Graphics/Rect.hpp"
+#include <SFML/Graphics/Sprite.hpp>
 #include "PhysicalEntity.h"
+
+
+namespace sf {
+	class Texture;
+}
 
 /*
 //	A Wall is an Entity that blocks any player from entering it.
@@ -25,7 +31,7 @@ public:
 	/*
 	//	Get the Wall's hitbox.
 	*/
-	const sf::Rect<float>& getHitBox();
+	sf::Rect<float>& getHitBox();
 
 	/*
 	//	Update the Wall(by default, do nothing).
@@ -35,7 +41,7 @@ public:
 	/*
 	//	Draw self(by default, do nothing, if debugging, draw square)
 	*/
-	void drawSelf() const;
+	void drawSelf();
 
 private:
 #ifdef DEBUG_WALL

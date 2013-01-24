@@ -88,6 +88,22 @@ void GameState::update(int milliseconds) {
 	deleteInactives();
 }
 
+void GameState::addPhysicalEntity(std::shared_ptr<PhysicalEntity> physicalEntity_p){
+	mPhysicalEntities.push_back(physicalEntity_p);
+}
+
+void GameState::addScript(std::shared_ptr<Script> script_p) {
+	mScripts.push_back(script_p);
+}
+
+void GameState::addForegroundTexture(std::shared_ptr<sf::Texture> texture_p) {
+	mForegroundTextures.push_back(texture_p);
+}
+
+void GameState::addBackgroundTexture(std::shared_ptr<sf::Texture> texture_p) {
+	mBackgroundTextures.push_back(texture_p);
+}
+
 void GameState::render() {
 	//TODO: revisit to fix graphical problems that will probably occur.
 	
@@ -122,13 +138,13 @@ void GameState::render() {
 	{
  
 		//for every normal XSTEP in the game x axis, there is a translation of SC_X_XOFFSET in screen x axis, and ISO_X_YOFFSET in screen y axis.
-		static const float SC_X_XOFFSET = 32;
-		static const float SC_X_YOFFSET = 16;
-		static const float X_STEP = 35.77708763999664;
+		static const float SC_X_XOFFSET = 32.f;
+		static const float SC_X_YOFFSET = 16.f;
+		static const float X_STEP = 35.77708763999664f;
 
-		static const float SC_Y_XOFFSET = -32;
-		static const float SC_Y_YOFFSET = 16;
-		static const float Y_STEP = 35.77708763999664;
+		static const float SC_Y_XOFFSET = -32.f;
+		static const float SC_Y_YOFFSET = 16.f;
+		static const float Y_STEP = 35.77708763999664f;
 
 		static const sf::Transform gameToScreen(
 			SC_X_XOFFSET / X_STEP,	SC_Y_XOFFSET / Y_STEP,	0,

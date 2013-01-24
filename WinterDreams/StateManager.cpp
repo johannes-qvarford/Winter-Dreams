@@ -26,6 +26,7 @@ static bool pollEvents() {
 				break;
 		}
 	}
+	return true;
 }
 
 StateManager::StateManager():

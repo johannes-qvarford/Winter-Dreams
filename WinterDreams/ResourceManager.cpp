@@ -3,7 +3,7 @@
 
 	//Assigns a relative filepath for finding resources
 ResourceManager::ResourceManager() :
-	mFilePath ( "../Resources/" )
+	mFilePath ( "Resources/" )
 {}
 	//Returns the singular instance of ResouceManager
 ResourceManager& ResourceManager::get(){

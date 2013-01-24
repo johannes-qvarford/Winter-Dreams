@@ -10,7 +10,7 @@ public:
 	/*
 	//	Virtual destructor.
 	*/
-	virtual State(){}
+	virtual ~State(){}
 
 	/*
 	//	Update the state as if a number of milliseconds have passed.

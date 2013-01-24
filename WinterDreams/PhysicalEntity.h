@@ -19,7 +19,7 @@ public:
 	//	function for returning the objects hitbox.
 	//	Jag var tvungen att ta bort const för att Wall måste få modifiera pe /Gustav
 	*/
-	virtual sf::FloatRect& getHitBox() const = 0;
+	virtual sf::FloatRect& getHitBox() = 0;
 
 	////////////////////////////////////////////////////////////
 	// /Each concrete subclass of PhysicalEntity has to define what

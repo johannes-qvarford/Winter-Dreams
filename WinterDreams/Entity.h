@@ -7,6 +7,8 @@ class GameState;
 ////////////////////////////////////////////////////////////
 class Entity{
 public:
+	Entity(): mActive(true){}
+
 	virtual ~Entity(){};
 	////////////////////////////////////////////////////////////
 	// /Each concrete subclass of Entity has to define an update function.
@@ -25,7 +27,7 @@ public:
 	////////////////////////////////////////////////////////////
 	bool isActive(){return mActive;}
 private:
-	bool mActive = 1; //Keeps track of the entitys active-status
+	bool mActive; //Keeps track of the entitys active-status
 };
 
 #endif

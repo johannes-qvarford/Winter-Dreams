@@ -24,7 +24,7 @@ public:
     /////////////////////////////////////////////////////////
 	void takeItem(std::string item, unsigned short number);
 private:
-	map<std::string, unsigned short> mInventoryMap;
+	std::map<std::string, unsigned short> mInventoryMap;
 };
 
 #endif

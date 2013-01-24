@@ -34,23 +34,15 @@ public:
 	//	calls update on each script in mScripts
 	//	then calls render.
 	*/
-	virtual void update(int milliseconds);
+	void update(int milliseconds);
 	/*
 	//	Adds an Entity-pointer to mEntities.
 	*/
 	void addPhysicalEntity(std::shared_ptr<PhysicalEntity> physicalEntity_p);
 	/*
-	//	Remove an Entity-pointer to mEntities.
-	*/
-	void removePhysicalEntity(PhysicalEntity* physicalEntity_p);
-	/*
 	//	Adds a Script-pointer to mScripts.
 	*/
 	void addScript(std::shared_ptr<Script> script_p);
-	/*
-	//	Remove a Script-pointer from mScripts.
-	*/
-	void removeScript(Script* script_p);
 	/*
 	//	Adds a Texture-pointer to mForegroundTextures.
 	*/

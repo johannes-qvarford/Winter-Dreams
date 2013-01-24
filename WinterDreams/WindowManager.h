@@ -36,7 +36,7 @@ private:
 	WindowManager& operator=(const WindowManager&);//no copy
 
 	sf::RenderWindow* mWindow_p;
-	sf::RenderStates* mRenderStates;
+	sf::RenderStates* mRenderStates_p;
 };
 
 #endif

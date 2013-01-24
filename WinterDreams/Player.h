@@ -6,6 +6,7 @@
 #include <SFML\System\Vector2.hpp>
 #include <SFML\Window\Keyboard.hpp>
 #include "Inventory.h"
+#include "Animation.h"
 #include <map>
 #include "Animation.h"
 
@@ -48,7 +49,7 @@ public:
 	// /Returns the avatar's hitbox.
 	// /Used primarily to check for collisions with other physical entities.
 	//////////////////////////////////////////////////////
-	virtual const sf::FloatRect& getHitBox() const;
+	virtual sf::FloatRect& getHitBox();
 	//////////////////////////////////////////////////////
 	// /Defines what actions should be performed if the avatar collides
 	// /with the argument PhysicalEntity. 
@@ -118,9 +119,8 @@ public:
 	//////////////////////////////////////////////////////
 	void setMovementMode(MovementMode movementMode);
 private:
-
 	Animation&					mCurrentAnimation;	//The avatar's current animation
-	map<std::string, Animation> mAnimationMap;		//The avatar's animation map
+	std::map<std::string, Animation> mAnimationMap;		//The avatar's animation map
 	sf::Vector2f				mPosition;			//The avatar's current position
 	sf::FloatRect				mHitBox;			//The avatar's current hitbox
 	int							mHealth;			//The avatar's current health

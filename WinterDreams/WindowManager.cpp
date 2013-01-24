@@ -10,6 +10,10 @@ WindowManager& WindowManager::get(){
 	return window;
 }
 	//Returns a pointer to the static instance' RenderWindow
-sf::RenderWindow* WindowManager.getWindow(){
-	return WindowManager::get().mWindow_p;
+sf::RenderWindow* WindowManager::getWindow(){
+	return mWindow_p;
+}
+
+sf::RenderStates* WindowManager::getStates(){
+	return mRenderStates_p;
 }

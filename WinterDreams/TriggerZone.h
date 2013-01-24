@@ -18,7 +18,7 @@ public:
 	/*
 	//	Get the TriggerZones hitbox.
 	*/
-	const sf::Rect<float>& getHitBox() const;
+	sf::Rect<float>& getHitBox();
 
 private:
 
