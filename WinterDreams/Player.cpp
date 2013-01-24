@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "WindowManager.h"
 
 Player::Player(sf::Vector2f initialPosition){
 	mPosition=initialPosition;
@@ -6,11 +7,22 @@ Player::Player(sf::Vector2f initialPosition){
 }
 
 void Player::update(GameState* gameState_p, int milliseconds){
-
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+		Player::adjustPosition(sf::Vector2f(4,0));
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+		Player::adjustPosition(sf::Vector2f(0,-4));
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+		Player::adjustPosition(sf::Vector2f(-4,0));
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+		Player::adjustPosition(sf::Vector2f(0,4));
+	}
 }
 
 void Player::drawSelf(){
-
+	WindowManager::get().getWindow()->draw(mCurrentAnimation.getCurrentSprite(),*WindowManager::get().getStates());
 }
 
 const sf::FloatRect& Player::getHitBox() const{

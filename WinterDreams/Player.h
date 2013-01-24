@@ -3,8 +3,11 @@
 
 #include "PlayerRelated.h"
 #include <SFML\Graphics.hpp>
+#include <SFML\System\Vector2.hpp>
+#include <SFML\Window\Keyboard.hpp>
 #include "Inventory.h"
 #include <map>
+#include "Animation.h"
 
 class Inventory;
 class GameState;
@@ -116,12 +119,13 @@ public:
 	void setMovementMode(MovementMode movementMode);
 private:
 
-	map<std::string, Animation> mAnimationMap;	//The avatar's current animation
-	sf::Vector2f				mPosition;		//The avatar's current position
-	sf::FloatRect				mHitBox;		//The avatar's current hitbox
-	int							mHealth;		//The avatar's current health
-	MovementMode				mMovementMode;	//The avatar's current movementMode
-	Inventory					mInventory;		//The avatar's inventory
+	Animation&					mCurrentAnimation;	//The avatar's current animation
+	map<std::string, Animation> mAnimationMap;		//The avatar's animation map
+	sf::Vector2f				mPosition;			//The avatar's current position
+	sf::FloatRect				mHitBox;			//The avatar's current hitbox
+	int							mHealth;			//The avatar's current health
+	MovementMode				mMovementMode;		//The avatar's current movementMode
+	Inventory					mInventory;			//The avatar's inventory
 };
 
 #endif
