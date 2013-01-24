@@ -1,6 +1,7 @@
 #ifndef INCLUDED_WALL
 #define INCLUDED_WALL
 
+#include <memory>
 #include "SFML/Graphics/Rect.hpp"
 #include "PhysicalEntity.h"
 
@@ -24,7 +25,7 @@ public:
 	/*
 	//	Get the Wall's hitbox.
 	*/
-	const sf::Rect<float>& getHitBox() const;
+	const sf::Rect<float>& getHitBox();
 
 	/*
 	//	Update the Wall(by default, do nothing).
@@ -37,7 +38,10 @@ public:
 	void drawSelf() const;
 
 private:
-
+#ifdef DEBUG_WALL
+	std::shared_ptr<sf::Texture> mTexture;
+	sf::Sprite mSprite;
+#endif
 	sf::Rect<float> mHitBox;
 };
 
