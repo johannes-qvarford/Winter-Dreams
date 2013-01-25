@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="LoadingState.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="PrecompiledHeader.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="Animation.cpp" />
