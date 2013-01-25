@@ -1,9 +1,11 @@
 #include "StateManager.h"
 #include "GameState.h"
 #include "LoadingState.h"
+#include "Player.h"
+#include <SFML\System\Vector2.hpp>
 
 #include <string>
-
+#include <memory>
 
 static const char * const FIRST_LEVEL_FILENAME = "Resources/Levels/Level1.json";
 
@@ -13,7 +15,7 @@ int main()
 	try {
 		auto gameState_p = new GameState();
 		auto loadState_p = new LoadingState(gameState_p, FIRST_LEVEL_FILENAME);
-	
+		gameState_p->addPhysicalEntity(std::shared_ptr<PhysicalEntity>(new Player(sf::Vector2f(0,0) ) ) );
 		/*
 			Push the game state first, and the load state second.
 			The load state will be updated until it has initialized the game state,
