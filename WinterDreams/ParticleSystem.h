@@ -1,0 +1,69 @@
+#ifndef INCLUDED_PARTICLESYSTEM
+#define INCLUDED_PARTICLESYSTEM
+
+#include <deque>
+#include <string>
+#include <memory>
+#include <SFML\System\Vector2.hpp>
+#include <SFML\Graphics\Texture.hpp>
+#include "Particle.h"
+
+struct ParticleType{
+	std::string sTexture;
+	int sLifetime;
+};
+
+class ParticleSystem{
+public:
+	ParticleSystem();
+	/////////////////////////////////////////////////////////
+	// /Creates a new type of particle.
+	// /Name it something cute and give it a texture.
+	// /Particles also need a lifetime in milliseconds.
+	/////////////////////////////////////////////////////////
+	void newParticle(std::string name, std::string filePath, int lifetime);
+	/////////////////////////////////////////////////////////
+	// /Deletes a type of particle, killing all remaining
+	/////////////////////////////////////////////////////////
+	void deleteParticle(std::string type);
+	/////////////////////////////////////////////////////////
+	// /Creates a single particle of a type at a positon with a speed
+	/////////////////////////////////////////////////////////
+	void createParticle(std::string type, sf::Vector2f position, sf::Vector2f speed);
+	/////////////////////////////////////////////////////////
+	// /Updates the system
+	/////////////////////////////////////////////////////////
+	void updateSystem();
+	/////////////////////////////////////////////////////////
+	// /Sets the speed of all particles in the system
+	// /as a vector
+	/////////////////////////////////////////////////////////
+	void setParticleSpeed(sf::Vector2f speed);
+	/////////////////////////////////////////////////////////
+	// /Adjust the speed of all particles in the system
+	// /by means of vector addition
+	/////////////////////////////////////////////////////////
+	void adjustParticleSpeed(sf::Vector2f speedAdjust, sf::Vector2f modSpeedAdjust=sf::Vector2f(0,0));
+	/////////////////////////////////////////////////////////
+	// /Adds an emitter to the system
+	// /Requires four values for the placement of the emitter
+	/////////////////////////////////////////////////////////
+	void addEmitter(int x, int y, int w, int h);
+	/////////////////////////////////////////////////////////
+	// /Removes an emitter from the system
+	/////////////////////////////////////////////////////////
+	void removeEmitter();
+	/////////////////////////////////////////////////////////
+	// /Returns the number of particles of a given type
+	/////////////////////////////////////////////////////////
+	unsigned int countParticles(std::string type);
+	/////////////////////////////////////////////////////////
+	// /Returns the total number of particles in the system
+	/////////////////////////////////////////////////////////
+	unsigned int countTotalParticles();
+private:
+	std::map<std::string, ParticleType> mParticleTypesMap;
+	std::map<std::string, std::deque<Particle> > mParticleDequesMap;
+};
+
+#endif
