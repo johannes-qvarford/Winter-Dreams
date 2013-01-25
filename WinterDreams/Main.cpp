@@ -3,6 +3,7 @@
 #include "LoadingState.h"
 #include "Player.h"
 #include <SFML\System\Vector2.hpp>
+#include "GameToScreen.h"
 
 #include <string>
 #include <memory>
@@ -15,7 +16,7 @@ int main()
 	try {
 		auto gameState_p = new GameState();
 		auto loadState_p = new LoadingState(gameState_p, FIRST_LEVEL_FILENAME);
-		gameState_p->addPhysicalEntity(std::shared_ptr<PhysicalEntity>(new Player(sf::Vector2f(0,0) ) ) );
+		gameState_p->addPhysicalEntity(std::shared_ptr<PhysicalEntity>(new Player(sf::Vector2f(28*X_STEP,32*X_STEP) ) ) );
 		/*
 			Push the game state first, and the load state second.
 			The load state will be updated until it has initialized the game state,

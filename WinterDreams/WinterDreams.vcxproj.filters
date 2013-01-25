@@ -109,9 +109,6 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="PrecompiledHeader.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Sources</Filter>
     </ClCompile>

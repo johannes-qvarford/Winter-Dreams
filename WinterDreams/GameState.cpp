@@ -149,18 +149,18 @@ void GameState::render() {
 	auto& window = *WindowManager::get().getWindow();
 	auto& renderStates = *WindowManager::get().getStates();
 	
-	static auto view = window.getDefaultView();
-	
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-		view.move(sf::Vector2f(-5, 0));
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-		view.move(sf::Vector2f(5, 0));
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-		view.move(sf::Vector2f(0, -5));
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-		view.move(sf::Vector2f(0, 5));
-	
-	window.setView(view);
+	//static auto view = window.getDefaultView();
+	//
+	//if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	//	view.move(sf::Vector2f(-5, 0));
+	//if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	//	view.move(sf::Vector2f(5, 0));
+	//if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+	//	view.move(sf::Vector2f(0, -5));
+	//if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+	//	view.move(sf::Vector2f(0, 5));
+	//
+	//window.setView(view);
 
 	//clear window for drawing, and reset transformation matrix.
 	window.clear();

@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "GameToScreen.h"
 #include "WindowManager.h"
+#include "ResourceManager.h"
 
 Player::Player(sf::Vector2f initialPosition) :
 	mInventory (Inventory() ),
@@ -8,7 +9,7 @@ Player::Player(sf::Vector2f initialPosition) :
 	mHealth( 5 ),
 	mHitBox( sf::FloatRect(initialPosition.x, initialPosition.y, X_STEP , Y_STEP) )
 {
-	mAnimationMap.insert( std::pair<std::string, Animation>("placeholder", Animation("Images/placeholder_character.png", 85, 85, 1, 1) ) );
+	mAnimationMap.insert( std::pair<std::string, Animation>("placeholder", Animation("Images/cube64.png", 64, 64, 1, 1) ) );
 	mCurrentAnimation_p = &mAnimationMap.find("placeholder")->second;
 }
 
@@ -16,7 +17,7 @@ Player::~Player() {}
 
 void Player::update(GameState* gameState_p, int milliseconds){
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-		Player::adjustPosition(sf::Vector2f(10,0));
+		Player::adjustPosition(sf::Vector2f(-10,0));
 		//Set proper animation
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
@@ -24,7 +25,7 @@ void Player::update(GameState* gameState_p, int milliseconds){
 		//Set proper animation
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-		Player::adjustPosition(sf::Vector2f(-10,0));
+		Player::adjustPosition(sf::Vector2f(10,0));
 		//Set proper animation
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
@@ -32,7 +33,8 @@ void Player::update(GameState* gameState_p, int milliseconds){
 		//Set proper animation
 	}
 	auto& window = *WindowManager::get().getWindow();
-	auto pos = GAME_TO_SCREEN * sf::Vector2f(mHitBox.left + mHitBox.width/2, mHitBox.top + mHitBox.height/2);
+	auto pos = GAME_TO_SCREEN * sf::Vector2f(mHitBox.left, mHitBox.top);       
+	pos -= sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2);
 	auto size = sf::Vector2f(window.getSize().x, window.getSize().y );
 	auto rect = sf::FloatRect( pos, size );
 	auto view = sf::View( rect );
@@ -40,7 +42,10 @@ void Player::update(GameState* gameState_p, int milliseconds){
 }
 
 void Player::drawSelf(){
-	WindowManager::get().getWindow()->draw(mCurrentAnimation_p->getCurrentSprite(),*WindowManager::get().getStates());
+	auto sprite = sf::Sprite( *ResourceManager::get().getTexture("Images/cube64.png") );
+	sprite.setOrigin(32 , 32);
+	sprite.setPosition( GAME_TO_SCREEN * getPosition() );
+	WindowManager::get().getWindow()->draw( sprite ,*WindowManager::get().getStates());
 }
 
 sf::FloatRect& Player::getHitBox(){
