@@ -3,6 +3,7 @@
 #include "Script.h"
 #include "PlayerRelated.h"
 #include "WindowManager.h"
+#include "GameToScreen.h"
 
 #include <algorithm>
 #include <SFML/Graphics/RenderStates.hpp>
@@ -40,11 +41,47 @@ static bool smallerPosition(std::shared_ptr<PhysicalEntity> lhs_p, std::shared_p
 	auto& lhsBox = lhs_p->getHitBox();
 	auto& rhsBox = rhs_p->getHitBox();
 
+	auto lhsIsoDepth = lhsBox.left + lhsBox.top + (lhsBox.width + lhsBox.height) / 2;
+	auto rhsIsoDepth = rhsBox.left + rhsBox.top + (rhsBox.width + rhsBox.height) / 2;
+
+	return lhsIsoDepth < rhsIsoDepth;
+	/*
+	auto lhsMinScreen = GAME_TO_SCREEN * sf::Vector2f(lhsBox.left, lhsBox.top);
+	auto rhsMinScreen = GAME_TO_SCREEN * sf::Vector2f(rhsBox.left, rhsBox.top);
+	auto lhsMaxScreen = GAME_TO_SCREEN * sf::Vector2f(lhsBox.left + lhsBox.width, lhsBox.top + lhsBox.width);
+	auto rhsMaxScreen = GAME_TO_SCREEN * sf::Vector2f(rhsBox.left + rhsBox.width, rhsBox.top + rhsBox.width);
+
+	static const float EPSILON = 0.1f;
+
+	if(abs(lhsMaxScreen.y - rhsMaxScreen.y) < EPSILON) {
+		//same max y
+		if(abs(lhsMinScreen.y - rhsMinScreen.y) < EPSILON) {
+			//same min y
+			if(lhsMinScreen.x < rhsMinScreen.x)
+				return true;
+		}
+		else {
+			if(lhsMinScreen.y < rhsMinScreen.y)
+				return true;
+		}
+	}
+	else {
+		if(lhsMaxScreen.y < rhsMaxScreen.y) {
+			if(lhsMinScreen.y < rhsMinScreen.y) {
+				if(lhsMinScreen.x < rhsMinScreen.x){
+					if(lhsMaxScreen.x < rhsMaxScreen.x)
+						return true;
+				}
+			}
+		}
+	}
+	return false;
+	*/
 	//return true, if 
 	//lhs has a smaller y coordinate, or
 	//they have the same y coordinate, and lhs has a smaller x coordinate
 //	return (lhsBox.top < rhsBox.top) || (lhsBox.top == rhsBox.top && lhsBox.left < rhsBox.left);
-	return (lhsBox.left < rhsBox.left) || (lhsBox.left == rhsBox.left && lhsBox.top < rhsBox.top);
+//	return (lhsBox.top + lhsBox.height < rhsBox.top + rhsBox.height) || (lhsBox.top + lhsBox.height == rhsBox.top + rhsBox.height && lhsBox.left + lhsBox.width < rhsBox.left + rhsBox.width);
 }
 
 GameState::GameState():
@@ -115,13 +152,13 @@ void GameState::render() {
 	static auto view = window.getDefaultView();
 	
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-		view.move(sf::Vector2f(-1, 0));
+		view.move(sf::Vector2f(-5, 0));
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-		view.move(sf::Vector2f(1, 0));
+		view.move(sf::Vector2f(5, 0));
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-		view.move(sf::Vector2f(0, -1));
+		view.move(sf::Vector2f(0, -5));
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-		view.move(sf::Vector2f(0, 1));
+		view.move(sf::Vector2f(0, 5));
 	
 	window.setView(view);
 

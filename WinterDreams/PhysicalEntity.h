@@ -14,11 +14,10 @@ public:
 	////////////////////////////////////////////////////////////
 	virtual void drawSelf() = 0;
 
-	/*
-	//	Each concrete subclass of PhysicalEntity has to define a
-	//	function for returning the objects hitbox.
-	//	Jag var tvungen att ta bort const för att Wall måste få modifiera pe /Gustav
-	*/
+	////////////////////////////////////////////////////////////
+	// /Each concrete subclass of PhysicalEntity has to define a
+	// /function for returning the objects hitbox.
+	////////////////////////////////////////////////////////////
 	virtual sf::FloatRect& getHitBox() = 0;
 
 	////////////////////////////////////////////////////////////
