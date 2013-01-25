@@ -1,5 +1,7 @@
 #include "Inventory.h"
 
+Inventory::Inventory() {}
+
 unsigned short Inventory::hasItem(std::string item){
     std::map<std::string, unsigned short>::iterator it;
     it=mInventoryMap.find(item);
