@@ -46,6 +46,8 @@ void Player::drawSelf(){
 	sprite.setOrigin(32 , 32);
 	sprite.setPosition( GAME_TO_SCREEN * getPosition() );
 	WindowManager::get().getWindow()->draw( sprite ,*WindowManager::get().getStates());
+
+
 }
 
 sf::FloatRect& Player::getHitBox(){

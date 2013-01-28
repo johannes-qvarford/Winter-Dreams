@@ -10,7 +10,7 @@ Animation::Animation(const std::string filePath,
 					 unsigned int spriteHeight,
 					 unsigned int numberOfSprites, 
 					 unsigned int framesPerSprite) :
-	mNumberOfSprites(numberOfSprites),
+	mNumberOfSprites(numberOfSprites - 1),
 	mFramesPerSprite(framesPerSprite),
 	mCurrentFrame(0),
 	mCurrentSprite(0),
@@ -58,6 +58,10 @@ sf::Sprite Animation::getCurrentSprite(){
 	++mCurrentFrame;
 	if( mCurrentFrame >= mFramesPerSprite ){
 		++mCurrentSprite;
+			//If the current sprite number is higher then the 
+			//number of sprites in the sprite sheet, it resets.
+		if(mCurrentSprite == mNumberOfSprites )
+			mCurrentSprite = 0;
 		mCurrentFrame = 0;
 	}
 

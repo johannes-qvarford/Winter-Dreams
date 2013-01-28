@@ -67,6 +67,7 @@
     <ClInclude Include="GameToScreen.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -112,5 +113,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp" />
   </ItemGroup>
 </Project>
