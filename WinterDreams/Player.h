@@ -40,16 +40,16 @@ public:
 	// /each time update is called. Used by GameState to perform a
 	// /series of actions each update-frame.
 	//////////////////////////////////////////////////////
-	virtual void update(GameState* gameState_p, int milliseconds);
+	void update(GameState* gameState_p, int milliseconds);
 	//////////////////////////////////////////////////////
 	// /Defines how the avatar is drawn onto the window.
 	//////////////////////////////////////////////////////
-	virtual void drawSelf();
+	void drawSelf();
 	//////////////////////////////////////////////////////
 	// /Returns the avatar's hitbox.
 	// /Used primarily to check for collisions with other physical entities.
 	//////////////////////////////////////////////////////
-	virtual sf::FloatRect& getHitBox();
+	sf::FloatRect& getHitBox();
 	//////////////////////////////////////////////////////
 	// /Defines what actions should be performed if the avatar collides
 	// /with the argument PhysicalEntity. 
@@ -59,13 +59,13 @@ public:
 	// /This function defines how the avatar should effect
 	// /the entity collided with. NOT how the player should be effected.
 	//////////////////////////////////////////////////////
-	virtual void onCollision(PhysicalEntity* entityCollidedWith_p);
+	void onCollision(PhysicalEntity* entityCollidedWith_p, const sf::Rect<float>& intersection);
 	//////////////////////////////////////////////////////
 	// /Returns the avatars's current position as a 
 	// /const sf::Vector2f-reference.
 	// /This function cannot be used to affect the avatar's position.
 	//////////////////////////////////////////////////////
-	const sf::Vector2f& getPosition() const;
+	sf::Vector2f getPosition();
 	//////////////////////////////////////////////////////
 	// /Assigns the avatars's positonto the position
 	// /described by the argument sf::Vector2f.
@@ -119,13 +119,12 @@ public:
 	//////////////////////////////////////////////////////
 	void setMovementMode(MovementMode movementMode);
 private:
-	Animation&					mCurrentAnimation;	//The avatar's current animation
+	Animation*						 mCurrentAnimation_p; //The avatar's current animation
 	std::map<std::string, Animation> mAnimationMap;		//The avatar's animation map
-	sf::Vector2f				mPosition;			//The avatar's current position
-	sf::FloatRect				mHitBox;			//The avatar's current hitbox
-	int							mHealth;			//The avatar's current health
-	MovementMode				mMovementMode;		//The avatar's current movementMode
-	Inventory					mInventory;			//The avatar's inventory
+	sf::FloatRect					 mHitBox;			//The avatar's current hitbox
+	int								 mHealth;			//The avatar's current health
+	MovementMode					 mMovementMode;		//The avatar's current movementMode
+	Inventory						 mInventory;		//The avatar's inventory
 };
 
 #endif

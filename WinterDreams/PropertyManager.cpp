@@ -13,21 +13,18 @@ PropertyManager& PropertyManager::get() {
 
 PropertyManager::PropertyManager():
 	mGeneralSettings(),
-	mLevelSettings()
+	mObjectSettings()
 {
 	using namespace boost::property_tree;
-	json_parser::parse_json(GENERAL_SETTINGS_FILENAME, mGeneralSettings);
-	json_parser::parse_json(OBJECT_SETTINGS_FILENAME, mObjectSettings);
+	boost::property_tree::
+	json_parser::read_json(GENERAL_SETTINGS_FILENAME, mGeneralSettings);
+	json_parser::read_json(OBJECT_SETTINGS_FILENAME, mObjectSettings);
 }
 
-const boost::property_tree::ptree PropertyManager::getGeneralSettings() const {
+const boost::property_tree::ptree& PropertyManager::getGeneralSettings() const {
 	return mGeneralSettings;
 }
 
-const boost::property_tree::ptree PropertyManager::getLevelSettings() const {
-	return mLevelSettings;
-}
-
-const boost::property_tree::ptree PropertyManager::getObjectSettings() const {
+const boost::property_tree::ptree& PropertyManager::getObjectSettings() const {
 	return mObjectSettings;
 }

@@ -6,9 +6,11 @@
 #include "PropertyManager.h"
 #include "ObjectFactory.h"
 #include "GameToScreen.h"
+#include "FileStructure.h"
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
+#include <boost/optional/optional.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <map>
 #include <string>
@@ -34,7 +36,7 @@ typedef void (*CreateFunc)(const sf::Vector2f& position, GameState* gameState);
 
 static const std::string NAME_PROPERTIES_IGNORE = "ignore";
 static const std::string NAME_LEVELSETTINGS_BACKGROUND = "background";
-static const std::string NAME_LEVELSETTINGS_MAPLAYER = "maplayer";
+static const std::string NAME_LEVELSETTINGS_MAPLAYER = "map";
 
 LoadingState::LoadingState(GameState* gameState_p, std::string filepath):
 	mLoadedLevel(gameState_p),
@@ -85,22 +87,21 @@ void LoadingState::update(int milliseconds) {
 	{
 		//use properties 'height' from levelData. And 'background' and 'maplayer' from levelProperties
 		//to place background and map layer correctly in GameState.
-		auto& levelSettings = propMgr.getLevelSettings();
-		auto& level = levelSettings.get_child(mLevelName);
+		auto& properties = mLevelData.get_child("properties");
+
+//		auto& bgFilename = level.get<std::string>(NAME_LEVELSETTINGS_BACKGROUND);
+		auto& mlFilename = properties.get<std::string>(NAME_LEVELSETTINGS_MAPLAYER);
 		
-		auto& bgFilename = level.get<std::string>(NAME_LEVELSETTINGS_BACKGROUND);
-		auto& mlFilename = level.get<std::string>(NAME_LEVELSETTINGS_MAPLAYER);
-		
-		auto bgTexture_p = resMgr.getTexture(bgFilename);
-		auto mlTexture_p = resMgr.getTexture(mlFilename);
+//		auto bgTexture_p = resMgr.getTexture(bgFilename);
+		auto mlTexture_p = resMgr.getTexture(FS_DIR_MAPS + mlFilename);
 
 		auto yTiles = mLevelData.get<int>("height");
 
 		auto yLength = yTiles * Y_STEP;
-		auto mlOffset = sf::Vector2f(cos(22.5) * yLength, 0); 
+		auto mlOffset = sf::Vector2f(cosf(22.5f) * yLength, 0); 
 
 		mLoadedLevel->setBackgroundTexture(mlTexture_p, mlOffset);
-		mLoadedLevel->setBackgroundTexture(bgTexture_p, sf::Vector2f(0, 0));
+//		mLoadedLevel->setBackgroundTexture(bgTexture_p, sf::Vector2f(0, 0));
 	}
 
 	
@@ -112,8 +113,13 @@ void LoadingState::update(int milliseconds) {
 			auto& tileset = it->second;
 			auto firstgid = tileset.get<int>("firstgid");
 			
-			auto& tileproperties = tileset.get_child("tileproperties");
-			
+			auto& tileproperties_optional = tileset.get_child_optional("tileproperties");
+			if(!tileproperties_optional)
+				continue;
+
+			auto& tileproperties = tileproperties_optional.get();
+
+
 			for(auto tpit = tileproperties.begin(), tpend = tileproperties.end(); tpit != tpend; ++tpit) {
 				auto& name = tpit->first;
 				auto& prop = tpit->second;

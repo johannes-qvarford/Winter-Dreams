@@ -3,6 +3,7 @@
 #include "LoadingState.h"
 #include "PropertyManager.h"
 #include "Player.h"
+#include "FileStructure.h"
 
 #include <string>
 #include <iostream>
@@ -10,13 +11,10 @@
 
 int main()
 {
-
 	try {
 		auto gameState_p = new GameState();
 		auto firstLevelFilename = PropertyManager::get().getGeneralSettings().get<std::string>("first_level_filename");
-		auto loadState_p = new LoadingState(gameState_p, firstLevelFilename);
-	
-		gameState_p->addPhysicalEntity(new Player
+		auto loadState_p = new LoadingState(gameState_p, FS_DIR_LEVELS + firstLevelFilename);
 		/*
 			Push the game state first, and the load state second.
 			The load state will be updated until it has initialized the game state,

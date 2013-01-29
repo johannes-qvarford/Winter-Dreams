@@ -3,7 +3,7 @@
 
 #include "ObjectTypeRegistration.h"
 #include "GameState.h"
-#include "SFML/System/Vector2.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <memory>
 #include "GameToScreen.h"
 

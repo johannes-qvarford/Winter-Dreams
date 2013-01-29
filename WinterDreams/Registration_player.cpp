@@ -1,8 +1,12 @@
 #include "RegistrationCommonHeaders.h"
 #include "Player.h"
+#include "Camera.h"
 
 static void regCallback(GameState* state, const sf::Vector2f& position, const boost::property_tree::ptree& pt) {
-	state->addPhysicalEntity(std::make_shared<Player>(position));
+	auto player = std::shared_ptr<PhysicalEntity>(new Player(position));
+	auto camera = std::shared_ptr<Script>(new Camera(player));
+	state->addPhysicalEntity(player);
+	state->addScript(camera);
 }
 
-static ObjectTypeRegistration reg("collision128x64", regCallback);
+static ObjectTypeRegistration reg("player", regCallback);

@@ -1,11 +1,9 @@
 #include "ResourceManager.h"
 
-
-	//Assigns a relative filepath for finding resources
-ResourceManager::ResourceManager() :
-	mFilePath ( "Resources/" )
+ResourceManager::ResourceManager()
 {}
-	//Returns the singular instance of ResouceManager
+
+//Returns the singular instance of ResouceManager
 ResourceManager& ResourceManager::get(){
 	static ResourceManager manager;
 	return manager;

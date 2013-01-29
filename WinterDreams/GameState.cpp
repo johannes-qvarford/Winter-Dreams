@@ -87,8 +87,8 @@ static bool smallerPosition(std::shared_ptr<PhysicalEntity> lhs_p, std::shared_p
 GameState::GameState():
 	mPhysicalEntities(),
 	mScripts(),
-	mForegroundTextures(),
-	mBackgroundTextures()
+	mMapTexture(),
+	mBackgroundTexture()
 {
 }
 
@@ -136,32 +136,18 @@ void GameState::addScript(std::shared_ptr<Script> script_p) {
 }
 
 void GameState::setMapTexture(std::shared_ptr<sf::Texture> texture_p, const sf::Vector2f& position) {
-	mMapTexture.push_back( (texture_p, position));
+	mMapTexture = std::make_pair(texture_p, position);
 }
 
-void GameState::setBackgroundTexture(std::shared_ptr<sf::Texture> texture_p) {
-	mBackgroundTexture.push_back(texture_p);
+void GameState::setBackgroundTexture(std::shared_ptr<sf::Texture> texture_p, const sf::Vector2f& position) {
+	mBackgroundTexture = std::make_pair(texture_p, position);
 }
 
 void GameState::render() {
-	//TODO: revisit to fix graphical problems that will probably occur.
-	
+
 	auto& window = *WindowManager::get().getWindow();
 	auto& renderStates = *WindowManager::get().getStates();
 	
-	static auto view = window.getDefaultView();
-	 
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-		view.move(sf::Vector2f(-5, 0));
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-		view.move(sf::Vector2f(5, 0));
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-		view.move(sf::Vector2f(0, -5));
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-		view.move(sf::Vector2f(0, 5));
-	
-	window.setView(view);
-
 	//clear window for drawing, and reset transformation matrix.
 	window.clear();
 	renderStates.transform = sf::Transform::Identity;
@@ -173,26 +159,20 @@ void GameState::render() {
 		window.draw(sprite);
 	}
 
-	//draw background
+	//draw background NOT FIXED YET
 	{
-		auto sprite = sf::Sprite(*mMapTexture.first);
-		sprite.setPosition(mMapTexture.second);
-		window.draw(sprite);
+//		auto sprite = sf::Sprite(*mMapTexture.first);
+//		sprite.setPosition(mMapTexture.second);
+//		window.draw(sprite);
 	}
 
 	//sort them in drawing order.
 	mPhysicalEntities.sort(smallerPosition);
 	
-	//save old matrix for later
-	//	auto oldMatrix = renderStates.transform;
-
 	for(auto it = mPhysicalEntities.begin(), end = mPhysicalEntities.end(); it != end; ++it) {
 		PhysicalEntity* physical_p = it->get();
 		physical_p->drawSelf();
 	}
-
-	//get the old matrix(that is probably the identity matrix)
-	//	renderStates.transform = oldMatrix;
 
 	//draw script effects directly on screen
 	for(auto it = mScripts.begin(), end = mScripts.end(); it != end; ++it) {

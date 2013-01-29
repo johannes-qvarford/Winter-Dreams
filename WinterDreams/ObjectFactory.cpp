@@ -6,6 +6,11 @@ ObjectFactory& ObjectFactory::get() {
 	return sFac;
 }
 
+ObjectFactory::ObjectFactory():
+	mCallbacks()
+{
+}
+
 void ObjectFactory::registerCallback(const std::string& objectTypename, ObjectFactory::Callback cb) {
 	mCallbacks.insert(std::pair<std::string, Callback>(objectTypename, cb));
 	return;
