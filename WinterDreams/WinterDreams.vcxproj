@@ -13,7 +13,13 @@
   <ItemGroup>
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="LoadingState.cpp" />
-    <ClCompile Include="PrecompiledHeader.cpp" />
+    <ClCompile Include="ObjectFactory.cpp" />
+    <ClCompile Include="ObjectTypeRegistration.cpp" />
+    <ClCompile Include="PropertyManager.cpp" />
+    <ClCompile Include="Registration_collision128x64.cpp" />
+    <ClCompile Include="Registration_collision256x128.cpp" />
+    <ClCompile Include="Registration_collision64x32.cpp" />
+    <ClCompile Include="Registration_player.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Inventory.cpp" />
@@ -28,10 +34,14 @@
     <ClInclude Include="GameToScreen.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="ItemDisplay.h" />
+    <ClInclude Include="ObjectFactory.h" />
+    <ClInclude Include="ObjectTypeRegistration.h" />
     <ClInclude Include="PhysicalEntity.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerRelated.h" />
     <ClInclude Include="PrecompiledHeader.h" />
+    <ClInclude Include="PropertyManager.h" />
+    <ClInclude Include="RegistrationCommonHeaders.h" />
     <ClInclude Include="Script.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="StateManager.h" />
@@ -74,8 +84,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)..\..\Bin</OutDir>
-    <IntDir>$(SolutionDir)..\..\Obj</IntDir>
+    <OutDir>$(SolutionDir)..\..\Exe\</OutDir>
+    <IntDir>$(SolutionDir)..\..\Obj\</IntDir>
     <TargetName>$(ProjectName)-$(Configuration)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -99,13 +109,14 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)..\SFML\include\;$(SolutionDir)..\boost-svn\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>PrecompiledHeader.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)..\..\Obj\Hello.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

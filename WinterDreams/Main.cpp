@@ -1,19 +1,22 @@
 #include "StateManager.h"
 #include "GameState.h"
 #include "LoadingState.h"
+#include "PropertyManager.h"
+#include "Player.h"
 
 #include <string>
-
-
-static const char * const FIRST_LEVEL_FILENAME = "Resources/Levels/Level1.json";
+#include <iostream>
+#include <memory>
 
 int main()
 {
 
 	try {
 		auto gameState_p = new GameState();
-		auto loadState_p = new LoadingState(gameState_p, FIRST_LEVEL_FILENAME);
+		auto firstLevelFilename = PropertyManager::get().getGeneralSettings().get<std::string>("first_level_filename");
+		auto loadState_p = new LoadingState(gameState_p, firstLevelFilename);
 	
+		gameState_p->addPhysicalEntity(new Player
 		/*
 			Push the game state first, and the load state second.
 			The load state will be updated until it has initialized the game state,

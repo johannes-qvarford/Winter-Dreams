@@ -7,6 +7,7 @@
 #include <boost/property_tree/ptree.hpp>
 
 class GameState;
+
 ////////////////////////////////////////////////////////////
 // /A LoadingState is a state which purpouse it to parse the data file
 // /descibing a specific level and load the appropriate data into an
@@ -16,14 +17,15 @@ class LoadingState : public State {
 public:
 	////////////////////////////////////////////////////////////
 	// /LoadingState has to be told what GameState it is supposed
-	// /to load a level into. It also has to be told where the 
-	// /file for the level is located.
+	// /to load a level into. It also has to be told what level to load.
 	////////////////////////////////////////////////////////////
-	LoadingState(GameState* gameState_p, std::string levelFilePath);
+	LoadingState(GameState* gameState_p, std::string levelToLoad);
+
 	////////////////////////////////////////////////////////////
 	// /LoadingStates destructor DOES NOT delete mLoadedState.
 	////////////////////////////////////////////////////////////
 	~LoadingState();
+
 	////////////////////////////////////////////////////////////
 	// /Start loading the argument level. 
 	// /Will eventually display the loading screen aswell.
@@ -33,6 +35,7 @@ public:
 private:
 	GameState* mLoadedLevel;	//A pointer to a GameState with the argument level loaded into it.
 	boost::property_tree::ptree mLevelData;
+	std::string mLevelName;
 
 	////////////////////////////////////////////////////////////
 	// /No copies

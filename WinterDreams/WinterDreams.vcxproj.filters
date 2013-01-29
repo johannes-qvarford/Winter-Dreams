@@ -67,6 +67,18 @@
     <ClInclude Include="GameToScreen.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="PropertyManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectFactory.h">
+      <Filter>Headers\Registration</Filter>
+    </ClInclude>
+    <ClInclude Include="RegistrationCommonHeaders.h">
+      <Filter>Headers\Registration</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectTypeRegistration.h">
+      <Filter>Headers\Registration</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -74,6 +86,12 @@
     </Filter>
     <Filter Include="Sources">
       <UniqueIdentifier>{aa6cc8da-2ad6-423c-aab5-7aac6cbcbedf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Registration">
+      <UniqueIdentifier>{bd5fadd9-67b5-421c-bd45-46f564f828c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Registration">
+      <UniqueIdentifier>{76aec004-390f-43b0-b6a2-a41d786bf256}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -98,7 +116,6 @@
     <ClCompile Include="ResourceManager.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp" />
     <ClCompile Include="LoadingState.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -108,9 +125,26 @@
     <ClCompile Include="Main.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="PrecompiledHeader.cpp">
+    <ClCompile Include="PropertyManager.cpp">
       <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_collision128x64.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_collision64x32.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_collision256x128.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectTypeRegistration.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectFactory.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_player.cpp">
+      <Filter>Sources\Registration</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

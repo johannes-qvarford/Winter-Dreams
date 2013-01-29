@@ -135,12 +135,12 @@ void GameState::addScript(std::shared_ptr<Script> script_p) {
 	mScripts.push_back(script_p);
 }
 
-void GameState::addForegroundTexture(std::shared_ptr<sf::Texture> texture_p) {
-	mForegroundTextures.push_back(texture_p);
+void GameState::setMapTexture(std::shared_ptr<sf::Texture> texture_p, const sf::Vector2f& position) {
+	mMapTexture.push_back( (texture_p, position));
 }
 
-void GameState::addBackgroundTexture(std::shared_ptr<sf::Texture> texture_p) {
-	mBackgroundTextures.push_back(texture_p);
+void GameState::setBackgroundTexture(std::shared_ptr<sf::Texture> texture_p) {
+	mBackgroundTexture.push_back(texture_p);
 }
 
 void GameState::render() {
@@ -150,7 +150,7 @@ void GameState::render() {
 	auto& renderStates = *WindowManager::get().getStates();
 	
 	static auto view = window.getDefaultView();
-	
+	 
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		view.move(sf::Vector2f(-5, 0));
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
@@ -166,17 +166,17 @@ void GameState::render() {
 	window.clear();
 	renderStates.transform = sf::Transform::Identity;
 
-	for(auto it = mBackgroundTextures.begin(), end = mBackgroundTextures.end(); it != end; ++it) {
-		//draw background...
-		sf::Texture& texture = *it->get();
-		sf::Sprite sprite(texture);
+	//draw map
+	{
+		auto sprite = sf::Sprite(*mBackgroundTexture.first);
+		sprite.setPosition(mBackgroundTexture.second);
 		window.draw(sprite);
 	}
 
-	for(auto it = mForegroundTextures.begin(), end = mForegroundTextures.end(); it != end; ++it) {
-		//draw foreground...
-		sf::Texture& texture = *it->get();
-		sf::Sprite sprite(texture);
+	//draw background
+	{
+		auto sprite = sf::Sprite(*mMapTexture.first);
+		sprite.setPosition(mMapTexture.second);
 		window.draw(sprite);
 	}
 
