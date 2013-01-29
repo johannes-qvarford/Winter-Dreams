@@ -6,39 +6,34 @@
 #include "WindowManager.h"
 #include "PhysicalEntity.h"
 
-static float MAX_MOVESPEED = 5.0f;
+static sf::Vector2f LEASH (GAME_TO_SCREEN * sf::Vector2f (200,0) ); //Max leash range, in pixels along the Y-axis
+static float		DEFAULT_MOVESPEED = 10.0f;
+static float		MAX_LEASH_RANGE = std::sqrt(LEASH.x * LEASH.x + LEASH.y * LEASH.y );
 
 Camera::Camera(sf::Vector2f position) :
-	mCurrentPanSpeed( MAX_MOVESPEED ),
-	mCameraPosition( GAME_TO_SCREEN * position),
+	mCurrentPanSpeed( DEFAULT_MOVESPEED ),
+	mCameraPosition(  GAME_TO_SCREEN *position),
 	mDesiredPosition( mCameraPosition ),
 	mLockedEntity( NULL )
-{
-	snapToPosition( mCameraPosition );
-	draw();
-}
+{}
 
-Camera::Camera( PhysicalEntity* entity ) :
-	mCurrentPanSpeed( MAX_MOVESPEED ),
-	mCameraPosition (0,0),
-	mDesiredPosition( mCameraPosition ),
-	mLockedEntity( entity )
+Camera::Camera( std::shared_ptr<PhysicalEntity>(entity) ) :
+	mCurrentPanSpeed( DEFAULT_MOVESPEED ),
+	mLockedEntity( entity)
 {
-	auto entityPos = sf::Vector2f(entity->getHitBox().left, entity->getHitBox().top);
+	auto entityPos = sf::Vector2f( entity->getHitBox().left, entity->getHitBox().top ); 
 	mCameraPosition = GAME_TO_SCREEN * entityPos;
-
-	snapToPosition( mCameraPosition );
-	draw();
+	mDesiredPosition = mCameraPosition;
 }
 
 Camera::~Camera(void) {}
 
-void Camera::draw() {
+void Camera::update(GameState* gameState_p, int milliseconds){
 		//Get a reference to the render window
 	auto& window = *WindowManager::get().getWindow();
 		//If the camera is locked on an entity, update the cameras 
 		//desired position to the entitys current position
-	if( mLockedEntity != NULL ) {
+	if( mLockedEntity != 0 ) {
 		auto entityPos = sf::Vector2f(mLockedEntity->getHitBox().left, mLockedEntity->getHitBox().top);
 		mDesiredPosition = GAME_TO_SCREEN * entityPos;
 	}
@@ -46,22 +41,28 @@ void Camera::draw() {
 		//current position is greater then 0.1, move the camera
 		//'currentPanSpeed' in the direction pointing to 
 		//the desired position
-	if(	abs(mCameraPosition.x - mDesiredPosition.x) > 0.1 ||
-		abs(mCameraPosition.y - mDesiredPosition.y) > 0.1) {
+	if(	abs(mCameraPosition.x - mDesiredPosition.x) > 0.5 ||
+		abs(mCameraPosition.y - mDesiredPosition.y) > 0.5) {
 			//Take out the direction between current pos and
 			//desired pos
 		auto dirVect = mDesiredPosition - mCameraPosition;
+			//Extend the x-component by 2 to get an eliptic "camera zone"
+		dirVect.x *= 2;
 			//Calculate the lenght of the vector between the positions
 		auto dirLenght = std::sqrt( dirVect.x * dirVect.x + dirVect.y * dirVect.y );
-			//If lenght is longer then 0
-		if(dirLenght > 0 ){
+			//If lenght is longer then the currentPanSpeed, it should
+			//move currentPanSpeed in dirVect's direction
+		if(dirLenght > mCurrentPanSpeed * 1.1f ){
+				//To make the camera slow down the closer it
+				//gets to the player, calculate a panMultiplier
+			auto panMultiplier = dirLenght / MAX_LEASH_RANGE;
 				//Normalize the direction vector
 			dirVect.x = dirVect.x / dirLenght;
 			dirVect.y = dirVect.y / dirLenght;
 				//Then extend the normalized vector by the
 				//current pan speed.
-			dirVect.x *= dirLenght;
-			dirVect.y *= dirLenght;
+			dirVect.x *= (mCurrentPanSpeed * panMultiplier);
+			dirVect.y *= (mCurrentPanSpeed * panMultiplier);
 				//And update the cameras position by
 				//the direction vector.
 			mCameraPosition += dirVect;
@@ -72,9 +73,9 @@ void Camera::draw() {
 	auto winSizeF = sf::Vector2f( static_cast<float>(winSizeU.x), static_cast<float>(winSizeU.y) );
 		//Calculate the view position by substracting half the screen width
 		//and screen height from the cameras current position
-	auto camPos = mCameraPosition - sf::Vector2f(winSizeF.x * 0.5f , winSizeF.y * 0.5f);
+	auto camPos = mCameraPosition/* - sf::Vector2f(winSizeF.x * 0.5 , winSizeF.y * 0.5)*/;
 		//Set the view
-	sf::View view( sf::View( camPos, winSizeF) );
+	window.setView( sf::View( camPos, winSizeF) );
 }
 
 void Camera::followEntity(std::shared_ptr<PhysicalEntity> entity){
@@ -84,17 +85,16 @@ void Camera::followEntity(std::shared_ptr<PhysicalEntity> entity){
 void Camera::panToPosition(sf::Vector2f position){
 		//Locked entity must be assigned NULL or the camera
 		//will attempt to pan back to the locked entity
-	mLockedEntity = NULL;	
-	mDesiredPosition = position;
 }
 
 void Camera::snapToPosition(sf::Vector2f position){
 		//Locked entity must be assigned NULL or the camera
 		//will attempt to pan back to the locked entity
-	mLockedEntity = NULL;
-	mCameraPosition = position;
+
 }
 
 void Camera::setPanSpeed(float moveSpeedPercentage){
-	mCurrentPanSpeed = MAX_MOVESPEED * moveSpeedPercentage;
+	mCurrentPanSpeed = DEFAULT_MOVESPEED * moveSpeedPercentage;
 }
+
+void Camera::draw() const {}

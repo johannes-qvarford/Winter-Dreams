@@ -21,9 +21,11 @@ static bool pollEvents() {
 			case sf::Event::Closed:
 				return false;
 				break;
-			
 			default:
 				break;
+		}
+		if (ev.type == sf::Event::KeyPressed && ev.key.code == sf::Keyboard::Escape){
+			return false;
 		}
 	}
 	return true;

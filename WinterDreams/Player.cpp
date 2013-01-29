@@ -9,7 +9,7 @@ Player::Player(sf::Vector2f initialPosition) :
 	mHealth( 5 ),
 	mHitBox( sf::FloatRect(initialPosition.x, initialPosition.y, X_STEP , Y_STEP) )
 {
-	mAnimationMap.insert( std::pair<std::string, Animation>("placeholder", Animation("Images/cube64.png", 64, 64, 1, 1) ) );
+	mAnimationMap.insert( std::pair<std::string, Animation>("placeholder", Animation("Images/player 64x192.png", 64, 64, 3, 10) ) );
 	mCurrentAnimation_p = &mAnimationMap.find("placeholder")->second;
 }
 
@@ -32,17 +32,17 @@ void Player::update(GameState* gameState_p, int milliseconds){
 		Player::adjustPosition(sf::Vector2f(0,10));
 		//Set proper animation
 	}
-	auto& window = *WindowManager::get().getWindow();
-	auto pos = GAME_TO_SCREEN * sf::Vector2f(mHitBox.left, mHitBox.top);       
-	pos -= sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2);
-	auto size = sf::Vector2f(window.getSize().x, window.getSize().y );
-	auto rect = sf::FloatRect( pos, size );
-	auto view = sf::View( rect );
-	window.setView( view );
+	//auto& window = *WindowManager::get().getWindow();
+	//auto pos = GAME_TO_SCREEN * sf::Vector2f(mHitBox.left, mHitBox.top);       
+	//pos -= sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2);
+	//auto size = sf::Vector2f(window.getSize().x, window.getSize().y );
+	//auto rect = sf::FloatRect( pos, size );
+	//auto view = sf::View( rect );
+	//window.setView( view );
 }
 
 void Player::drawSelf(){
-	auto sprite = sf::Sprite( *ResourceManager::get().getTexture("Images/cube64.png") );
+	auto& sprite = mCurrentAnimation_p->getCurrentSprite();
 	sprite.setOrigin(32 , 32);
 	sprite.setPosition( GAME_TO_SCREEN * getPosition() );
 	WindowManager::get().getWindow()->draw( sprite ,*WindowManager::get().getStates());
