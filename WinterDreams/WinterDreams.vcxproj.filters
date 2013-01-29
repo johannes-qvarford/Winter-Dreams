@@ -113,6 +113,8 @@
     <ClCompile Include="Player.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Camera.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

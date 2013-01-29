@@ -2,6 +2,9 @@
 #include "GameToScreen.h"
 #include "WindowManager.h"
 #include "ResourceManager.h"
+#include <cmath>
+
+static float MOVE_SPEED = 10.0f;
 
 Player::Player(sf::Vector2f initialPosition) :
 	mInventory (Inventory() ),
@@ -16,38 +19,47 @@ Player::Player(sf::Vector2f initialPosition) :
 Player::~Player() {}
 
 void Player::update(GameState* gameState_p, int milliseconds){
+		//Create a temporary vector that will store the directions
+		//corresponding to the keys pressed.
+	sf::Vector2f tempDir(0,0);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-		Player::adjustPosition(sf::Vector2f(-10,0));
-		//Set proper animation
+		--tempDir.x;
+		++tempDir.y;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-		Player::adjustPosition(sf::Vector2f(0,-10));
-		//Set proper animation
+		--tempDir.x;
+		--tempDir.y;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-		Player::adjustPosition(sf::Vector2f(10,0));
-		//Set proper animation
+		++tempDir.x;
+		--tempDir.y;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-		Player::adjustPosition(sf::Vector2f(0,10));
-		//Set proper animation
+		++tempDir.x;
+		++tempDir.y;
 	}
-	//auto& window = *WindowManager::get().getWindow();
-	//auto pos = GAME_TO_SCREEN * sf::Vector2f(mHitBox.left, mHitBox.top);       
-	//pos -= sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2);
-	//auto size = sf::Vector2f(window.getSize().x, window.getSize().y );
-	//auto rect = sf::FloatRect( pos, size );
-	//auto view = sf::View( rect );
-	//window.setView( view );
+		//Get the length of tempDir
+	auto tempLenght = std::sqrt(tempDir.x * tempDir.x + tempDir.y * tempDir.y);
+		//Normalize tempDir if it's length is greater then 0
+	if( abs(tempLenght) > 0 ){
+		tempDir.x = tempDir.x / tempLenght;
+		tempDir.y = tempDir.y / tempLenght;
+	}
+		//Extend tempDir by the avatars move speed
+	tempDir *= MOVE_SPEED;
+		//Adjust the avatars position by tempDir
+	adjustPosition( tempDir );	
 }
 
 void Player::drawSelf(){
+		//Get the current animations sprite
 	auto& sprite = mCurrentAnimation_p->getCurrentSprite();
+		//Set the sprites origin
 	sprite.setOrigin(32 , 32);
+		//Assign the sprite a position (in Screen Coordinates)
 	sprite.setPosition( GAME_TO_SCREEN * getPosition() );
+		//Draw the sprite
 	WindowManager::get().getWindow()->draw( sprite ,*WindowManager::get().getStates());
-
-
 }
 
 sf::FloatRect& Player::getHitBox(){
