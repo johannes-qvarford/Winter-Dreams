@@ -2,11 +2,8 @@
 #include "GameState.h"
 #include "LoadingState.h"
 #include "PropertyManager.h"
-#include "Player.h"
 #include "FileStructure.h"
-#include <SFML\System\Vector2.hpp>
 #include "GameToScreen.h"
-#include "Camera.h"
 
 #include <string>
 #include <iostream>

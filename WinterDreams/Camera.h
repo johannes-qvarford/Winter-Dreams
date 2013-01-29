@@ -20,6 +20,7 @@ public:
 	// /The argument position will be the center of the view
 	////////////////////////////////////////////////////////////
 	Camera(sf::Vector2f centerPosition);
+	
 	////////////////////////////////////////////////////////////
 	// /Assign the camera to follow an entity
 	////////////////////////////////////////////////////////////
@@ -37,33 +38,48 @@ public:
 	void update(GameState* gameState_p, int milliseconds);
 	////////////////////////////////////////////////////////////
 	// /Locks the camera on a physical entity. The center of
-	// /the cameras view will match the entitys position
+	// /the cameras view will match the entitys position.
+	// /				
+	// /					 IMPORTANT!
+	// /This will NOT automaticlly lock the camera to the entity
 	////////////////////////////////////////////////////////////
 	void followEntity(std::shared_ptr<PhysicalEntity> entity);
 	////////////////////////////////////////////////////////////
 	// /The camera will pan to the argument position no faster
 	// /then the cameras current pan speed. 
 	// /The argument position will be the center of the view
+	// /This function will automaticlly unlock the camera
 	////////////////////////////////////////////////////////////
 	void panToPosition(sf::Vector2f position);
 	////////////////////////////////////////////////////////////
 	// /The camera instantainiously moves to the argument
 	// /position.
 	// /The argument position will be the center of the view
+	// /This function will automaticlly unlock the camera
 	////////////////////////////////////////////////////////////
 	void snapToPosition(sf::Vector2f position);
 	////////////////////////////////////////////////////////////
 	// /Sets the cameras maximum allowed pan speed.
-	// /An argument of 1.0 ----
+	// /The camera moves % of the distance between the cam
+	// /and the avatar each frame.
 	////////////////////////////////////////////////////////////
 	void setPanSpeed(float moveSpeedPercentage);
+	////////////////////////////////////////////////////////////
+	// /The camera will not follow the locked entity anymore
+	////////////////////////////////////////////////////////////
+	void unlockCamera() { mLockedCamera = false; }
+	////////////////////////////////////////////////////////////
+	// /The camera will follow the locked entity again if the
+	// /is  locked entity
+	////////////////////////////////////////////////////////////
+	void lockCamera()	{ mLockedCamera = true;	 }
 
 	void draw() const;
 private:
 	std::weak_ptr<PhysicalEntity>	mLockedEntity;  // A pointer to the locked entity. Will be NULL if no entity is locked.
 	sf::Vector2f					mCameraPosition;  // The cameras position, in screen  
 	sf::Vector2f					mDesiredPosition;// The position to which the came wish to move
-	float							mCurrentPanSpeed; // The current move/pan speed of the camera
+	bool							mLockedCamera;
 };
 
 #endif
