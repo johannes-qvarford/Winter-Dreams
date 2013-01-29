@@ -24,6 +24,7 @@ public:
 	// /Assign the camera to follow an entity
 	////////////////////////////////////////////////////////////
 	Camera(std::shared_ptr<PhysicalEntity> entity);
+	
 	////////////////////////////////////////////////////////////
 	// /If the camera follows a physical entity, it does not
 	// /have responsability over the entity.
@@ -33,7 +34,7 @@ public:
 	// /Updates the widows view to match the camera.
 	// /Should be called once per update. 
 	////////////////////////////////////////////////////////////
-	void draw();
+	void update(GameState* gameState_p, int milliseconds);
 	////////////////////////////////////////////////////////////
 	// /Locks the camera on a physical entity. The center of
 	// /the cameras view will match the entitys position
@@ -56,6 +57,8 @@ public:
 	// /An argument of 1.0 ----
 	////////////////////////////////////////////////////////////
 	void setPanSpeed(float moveSpeedPercentage);
+
+	void draw() const;
 private:
 	std::weak_ptr<PhysicalEntity>	mLockedEntity;  // A pointer to the locked entity. Will be NULL if no entity is locked.
 	sf::Vector2f					mCameraPosition;  // The cameras position, in screen  

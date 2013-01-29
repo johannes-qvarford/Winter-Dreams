@@ -20,19 +20,19 @@ mHitBox(x, y, width, height)
 	mSprite.setPosition(mHitBox.left, mHitBox.top);
 	
 	if(width < STEP + 1) {
-		mSprite.setOrigin(32, 32);
+		mSprite.setOrigin(0, 48);
 		mTexture = ResourceManager::get().getTexture(FS_DIR_OBJECTANIMATIONS +  WALL_IMAGE_FILENAME_1);
 		mSprite.setTexture(*mTexture);
 		mSprite.setTextureRect(sf::IntRect(0, 0, 64, 64));
 	}
 	else if(width < (STEP * 2) + 1) {
-		mSprite.setOrigin(64, 64);
+		mSprite.setOrigin(0, 96);
 		mTexture = ResourceManager::get().getTexture(FS_DIR_OBJECTANIMATIONS + WALL_IMAGE_FILENAME_2);
 		mSprite.setTexture(*mTexture);
 		mSprite.setTextureRect(sf::IntRect(0, 0, 128, 128));
 	}
 	else {
-		mSprite.setOrigin(128, 128);
+		mSprite.setOrigin(0, 192);
 		mTexture = ResourceManager::get().getTexture(FS_DIR_OBJECTANIMATIONS + WALL_IMAGE_FILENAME_3);
 		mSprite.setTexture(*mTexture);
 		mSprite.setTextureRect(sf::IntRect(0, 0, 256, 256));

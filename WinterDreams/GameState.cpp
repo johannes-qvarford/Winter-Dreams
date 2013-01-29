@@ -9,6 +9,7 @@
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <cmath>
+#include <iostream>
 
 static void checkCollisions(GameState::PhysicalEntities* physicals_p, PlayerRelated* pr_p) {
 	//iterate over entities to check for collisions.
@@ -25,8 +26,14 @@ static void checkCollisions(GameState::PhysicalEntities* physicals_p, PlayerRela
 		if(dynamic_cast<PlayerRelated*>(col_p))
 			continue;
 
-		auto& prBox = pr_p->getHitBox();
-		auto& colBox = col_p->getHitBox();
+		auto prBox = pr_p->getHitBox();
+		auto colBox = col_p->getHitBox();
+
+		prBox.top = prBox.top + prBox.height;
+		prBox.height = -prBox.height;
+		colBox.top = colBox.top + colBox.height;
+		colBox.height = -colBox.height;
+
 		auto intersection = sf::FloatRect();
 
 		//did we intersect with the entity?
@@ -40,6 +47,8 @@ static void checkCollisions(GameState::PhysicalEntities* physicals_p, PlayerRela
 static bool smallerPosition(std::shared_ptr<PhysicalEntity> lhs_p, std::shared_ptr<PhysicalEntity> rhs_p) {
 	auto& lhsBox = lhs_p->getHitBox();
 	auto& rhsBox = rhs_p->getHitBox();
+
+
 
 	auto lhsIsoDepth = lhsBox.left + lhsBox.top + (lhsBox.width + lhsBox.height) / 2;
 	auto rhsIsoDepth = rhsBox.left + rhsBox.top + (rhsBox.width + rhsBox.height) / 2;
@@ -97,6 +106,22 @@ GameState::~GameState() {
 
 void GameState::update(int milliseconds) {
 
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+		mMapTexture.second += sf::Vector2f(-1,0);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+		mMapTexture.second += sf::Vector2f(1,0);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+		mMapTexture.second += sf::Vector2f(0,-1);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+		mMapTexture.second += sf::Vector2f(0,1);
+	}
+
+	std::cout << mMapTexture.second.x << " " << mMapTexture.second.y << std::endl;
+
+
 	//update entities.
 	for(auto it = mPhysicalEntities.begin(), end = mPhysicalEntities.end(); it != end; ++it) {
 		PhysicalEntity* entity_p = it->get();
@@ -152,18 +177,18 @@ void GameState::render() {
 	window.clear();
 	renderStates.transform = sf::Transform::Identity;
 
-	//draw map
-	{
-		auto sprite = sf::Sprite(*mBackgroundTexture.first);
-		sprite.setPosition(mBackgroundTexture.second);
-		window.draw(sprite);
-	}
-
 	//draw background NOT FIXED YET
 	{
-//		auto sprite = sf::Sprite(*mMapTexture.first);
-//		sprite.setPosition(mMapTexture.second);
+//		auto sprite = sf::Sprite(*mBackgroundTexture.first);
+//		sprite.setPosition(mBackgroundTexture.second);
 //		window.draw(sprite);
+	}
+
+	//draw map
+	{
+		auto sprite = sf::Sprite(*mMapTexture.first);
+		sprite.setPosition(mMapTexture.second);
+		window.draw(sprite);
 	}
 
 	//sort them in drawing order.

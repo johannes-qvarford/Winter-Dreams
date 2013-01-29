@@ -15,25 +15,6 @@
 #include <map>
 #include <string>
 
-/*
-//tile ids of small, normal, and big collision tiles. 
-static const int FGID_SMALL_COL = 1;
-static const int FGID_MEDIUM_COL = 9;
-static const int FGID_BIG_COL = 5;
-
-void createSmallCol(const sf::Vector2f& position, GameState* gameState) {
-	gameState->addPhysicalEntity(std::shared_ptr<PhysicalEntity>(new Wall(position.x, position.y, STEP, STEP)));
-}
-void createMediumCol(const sf::Vector2f& position, GameState* gameState) {
-	gameState->addPhysicalEntity(std::shared_ptr<PhysicalEntity>(new Wall(position.x, position.y, STEP * 2, STEP * 2)));
-}
-void createBigCol(const sf::Vector2f& position, GameState* gameState) {
-	gameState->addPhysicalEntity(std::shared_ptr<PhysicalEntity>(new Wall(position.x, position.y, STEP * 4, STEP * 4)));
-}
-
-typedef void (*CreateFunc)(const sf::Vector2f& position, GameState* gameState);
-*/
-
 static const std::string NAME_PROPERTIES_IGNORE = "ignore";
 static const std::string NAME_LEVELSETTINGS_BACKGROUND = "background";
 static const std::string NAME_LEVELSETTINGS_MAPLAYER = "map";
@@ -98,9 +79,15 @@ void LoadingState::update(int milliseconds) {
 		auto yTiles = mLevelData.get<int>("height");
 
 		auto yLength = yTiles * Y_STEP;
-		auto mlOffset = sf::Vector2f(cosf(22.5f) * yLength, 0); 
 
-		mLoadedLevel->setBackgroundTexture(mlTexture_p, mlOffset);
+		//need these offsets, don't know why
+		//may need to change when switching level.
+		const float X_OFFSET = -45.f;
+		const float Y_OFFSET = -17.f;
+		auto mlOffset = sf::Vector2f((cosf(22.5f) * yLength) + X_OFFSET, Y_OFFSET); 
+
+
+		mLoadedLevel->setMapTexture(mlTexture_p, mlOffset);
 //		mLoadedLevel->setBackgroundTexture(bgTexture_p, sf::Vector2f(0, 0));
 	}
 
@@ -153,7 +140,7 @@ void LoadingState::update(int milliseconds) {
 
 				//iterate over objects
 				for(auto ogit = objects.begin(), ogend = objects.end(); ogit != ogend; ++ogit) {
-					auto& object = it->second;
+					auto& object = ogit->second;
 
 					auto objectType = object.get<std::string>("type","");
 					if(objectType == "")
