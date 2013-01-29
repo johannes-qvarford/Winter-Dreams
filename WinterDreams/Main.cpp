@@ -13,7 +13,7 @@ static const char * const FIRST_LEVEL_FILENAME = "Resources/Levels/Level1.json";
 
 int main()
 {
-	std::shared_ptr<PhysicalEntity> player (new Player(sf::Vector2f(25*X_STEP,10*X_STEP) ) );
+	std::shared_ptr<PhysicalEntity> player (new Player(sf::Vector2f(25*X_STEP,14*X_STEP) ) );
 	std::shared_ptr<Script> camera (new Camera(player) );
 	try {
 		auto gameState_p = new GameState();
