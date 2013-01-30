@@ -32,7 +32,7 @@ public:
 	// /Wall needs a direction of the object for proper 
 	// /collision check
 	////////////////////////////////////////////////////////////
-	virtual sf::Vector2f& getDirection() =0;
+	virtual sf::Vector2i getDirection() =0;
 
 };
 

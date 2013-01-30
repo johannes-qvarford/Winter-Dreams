@@ -1,22 +1,20 @@
 #include "StateManager.h"
 #include "GameState.h"
 #include "LoadingState.h"
-#include "Player.h"
-#include <SFML\System\Vector2.hpp>
+#include "PropertyManager.h"
+#include "FileStructure.h"
 #include "GameToScreen.h"
 
 #include <string>
+#include <iostream>
 #include <memory>
-
-static const char * const FIRST_LEVEL_FILENAME = "Resources/Levels/Level1.json";
 
 int main()
 {
-
 	try {
 		auto gameState_p = new GameState();
-		auto loadState_p = new LoadingState(gameState_p, FIRST_LEVEL_FILENAME);
-		gameState_p->addPhysicalEntity(std::shared_ptr<PhysicalEntity>(new Player(sf::Vector2f(28*X_STEP,32*X_STEP) ) ) );
+		auto firstLevelFilename = PropertyManager::get().getGeneralSettings().get<std::string>("first_level_filename");
+		auto loadState_p = new LoadingState(gameState_p, FS_DIR_LEVELS + firstLevelFilename);
 		/*
 			Push the game state first, and the load state second.
 			The load state will be updated until it has initialized the game state,

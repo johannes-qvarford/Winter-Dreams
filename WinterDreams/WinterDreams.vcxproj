@@ -12,8 +12,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="FileStructure.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="LoadingState.cpp" />
+    <ClCompile Include="ObjectFactory.cpp" />
+    <ClCompile Include="ObjectTypeRegistration.cpp" />
+    <ClCompile Include="PropertyManager.cpp" />
+    <ClCompile Include="Registration_collision128x64.cpp" />
+    <ClCompile Include="Registration_collision256x128.cpp" />
+    <ClCompile Include="Registration_collision64x32.cpp" />
+    <ClCompile Include="Registration_player.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="Animation.cpp" />
@@ -29,13 +37,18 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CutsceneTriggerZone.h" />
     <ClInclude Include="DamageHitBox.h" />
+    <ClInclude Include="FileStructure.h" />
     <ClInclude Include="GameToScreen.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="ItemDisplay.h" />
+    <ClInclude Include="ObjectFactory.h" />
+    <ClInclude Include="ObjectTypeRegistration.h" />
     <ClInclude Include="PhysicalEntity.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerRelated.h" />
     <ClInclude Include="PrecompiledHeader.h" />
+    <ClInclude Include="PropertyManager.h" />
+    <ClInclude Include="RegistrationCommonHeaders.h" />
     <ClInclude Include="Script.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="StateManager.h" />
@@ -91,7 +104,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)..\SFML\include\;$(SolutionDir)..\boost-svn\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PrecompiledHeader.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>PrecompiledHeader.h</ForcedIncludeFiles>
-      <PrecompiledHeaderOutputFile>$(SolutionDir)..\..\Obj\Hello-$(Configuration).pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)..\..\Obj\$(Configuration)\PCH.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -107,7 +120,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>DEBUG_WALL;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)..\SFML\include\;$(SolutionDir)..\boost-svn\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PrecompiledHeader.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)..\..\Obj\$(Configuration)\Hello.pch</PrecompiledHeaderOutputFile>

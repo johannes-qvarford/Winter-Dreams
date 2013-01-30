@@ -3,56 +3,70 @@
 #include "WindowManager.h"
 #include "ResourceManager.h"
 
+#include "FileStructure.h"
+#include <cmath>
+static float MOVE_SPEED = 10.0f;
+
 Player::Player(sf::Vector2f initialPosition) :
 	mInventory (Inventory() ),
 	mMovementMode(NORMAL),
 	mHealth( 5 ),
-	mHitBox( sf::FloatRect(initialPosition.x, initialPosition.y, X_STEP , Y_STEP) )
+	mHitBox( sf::FloatRect(initialPosition.x, initialPosition.y, X_STEP , -Y_STEP) )//All hitbox heights are now inverted, ask Johannes.
 {
-	mAnimationMap.insert( std::pair<std::string, Animation>("placeholder", Animation("Images/cube64.png", 64, 64, 1, 1) ) );
+	mAnimationMap.insert( std::pair<std::string, Animation>("placeholder", Animation(FS_DIR_OBJECTANIMATIONS + "player/placeholder.png", 64, 64, 1, 1) ) );
 	mCurrentAnimation_p = &mAnimationMap.find("placeholder")->second;
 }
 
 Player::~Player() {}
 
 void Player::update(GameState* gameState_p, int milliseconds){
-	mDirection = sf::Vector2f(0, 0);
+
+	//Create a temporary vector that will store the directions
+	//corresponding to the keys pressed.
+	sf::Vector2f tempDir(0,0);
+	mDirection = sf::Vector2i(0, 0);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-		Player::adjustPosition(sf::Vector2f(-10,0));
-		mDirection += sf::Vector2f(-10, 0);
-		//Set proper animation
+		--tempDir.x;
+		++tempDir.y;
+		mDirection += sf::Vector2i(-1, 1);		
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-		Player::adjustPosition(sf::Vector2f(0,-10));
-		mDirection += sf::Vector2f(0, -10);
-		//Set proper animation
+		--tempDir.x;
+		--tempDir.y;
+		mDirection += sf::Vector2i(-1, -1);		
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-		Player::adjustPosition(sf::Vector2f(10,0));
-		mDirection += sf::Vector2f(10, 0);
-		//Set proper animation
+		++tempDir.x;
+		--tempDir.y;
+		mDirection += sf::Vector2i(1, -1);	
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-		Player::adjustPosition(sf::Vector2f(0,10));
-		mDirection += sf::Vector2f(0, 10);
-		//Set proper animation
+		++tempDir.x;
+		++tempDir.y;
+		mDirection += sf::Vector2i(1, 1);		
 	}
-	auto& window = *WindowManager::get().getWindow();
-	auto pos = GAME_TO_SCREEN * sf::Vector2f(mHitBox.left, mHitBox.top);       
-	pos -= sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2);
-	auto size = sf::Vector2f(window.getSize().x, window.getSize().y );
-	auto rect = sf::FloatRect( pos, size );
-	auto view = sf::View( rect );
-	window.setView( view );
+		//Get the length of tempDir
+	auto tempLenght = std::sqrt(tempDir.x * tempDir.x + tempDir.y * tempDir.y);
+		//Normalize tempDir if it's length is greater then 0
+	if( abs(tempLenght) > 0 ){
+		tempDir.x = tempDir.x / tempLenght;
+		tempDir.y = tempDir.y / tempLenght;
+	}
+		//Extend tempDir by the avatars move speed
+	tempDir *= MOVE_SPEED;
+		//Adjust the avatars position by tempDir
+	adjustPosition( tempDir );	
 }
 
 void Player::drawSelf(){
-	auto sprite = sf::Sprite( *ResourceManager::get().getTexture("Images/cube64.png") );
-	sprite.setOrigin(32 , 32);
+		//Get the current animations sprite
+	auto& sprite = mCurrentAnimation_p->getCurrentSprite();
+
+	sprite.setOrigin(0 , 48);
+		//Assign the sprite a position (in Screen Coordinates)
 	sprite.setPosition( GAME_TO_SCREEN * getPosition() );
+		//Draw the sprite
 	WindowManager::get().getWindow()->draw( sprite ,*WindowManager::get().getStates());
-
-
 }
 
 sf::FloatRect& Player::getHitBox(){
@@ -105,6 +119,6 @@ void Player::setMovementMode(MovementMode movementMode){
 	mMovementMode=movementMode;
 }
 
-sf::Vector2f& Player::getDirection(){
+sf::Vector2i Player::getDirection(){
 	return mDirection;
 }

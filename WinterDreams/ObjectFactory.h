@@ -1,0 +1,56 @@
+#ifndef INCLUDED_OBJECTFACTORY
+#define INCLUDED_OBJECTFACTORY
+
+class GameState;
+
+#include <boost/property_tree/ptree_fwd.hpp>
+#include <SFML/System/Vector2.hpp>
+#include <string>
+#include <map>
+
+//////////////////////////////////////////////////////////
+// /A class used to map object types to callback functions
+// /Is used because you need to do different things
+// /when reading different objects from a level-file.
+//////////////////////////////////////////////////////////
+class ObjectFactory {
+public:
+
+	typedef void (*Callback)(GameState*, const sf::Vector2f& position, const boost::property_tree::ptree& pt);
+
+	//////////////////////////////////////////////////////////
+	// /Get the singleton.
+	//////////////////////////////////////////////////////////
+	static ObjectFactory& get();
+	
+	//////////////////////////////////////////////////////////
+	// /Register a callback function for an object type.
+	//////////////////////////////////////////////////////////
+	void registerCallback(const std::string& objectTypename, Callback cb);
+	
+	//////////////////////////////////////////////////////////
+	// /Call a callback function based on the object type.
+	// /If the type haven't been registred before, do nothing.
+	//////////////////////////////////////////////////////////
+	void callCallback(const std::string& objectTypename, GameState* state, const sf::Vector2f& position, const boost::property_tree::ptree& pt);
+
+private:
+	//////////////////////////////////////////////////////////
+	// /Default Constructor
+	//////////////////////////////////////////////////////////
+	ObjectFactory();
+
+	//////////////////////////////////////////////////////////
+	// /No copies.
+	//////////////////////////////////////////////////////////
+	ObjectFactory(const ObjectFactory&);
+
+	//////////////////////////////////////////////////////////
+	// /No copies.
+	//////////////////////////////////////////////////////////
+	ObjectFactory& operator=(const ObjectFactory&);
+
+	std::map<std::string, Callback> mCallbacks;
+};
+
+#endif

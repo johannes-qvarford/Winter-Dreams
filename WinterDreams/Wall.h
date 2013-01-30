@@ -44,9 +44,9 @@ public:
 	void drawSelf();
 
 	/*
-	//	Wall needs this
+	//	Wall needs thisfd 
 	*/
-	sf::Vector2f& getDirection();
+	sf::Vector2i getDirection();
 private:
 #ifdef DEBUG_WALL
 	std::shared_ptr<sf::Texture> mTexture;

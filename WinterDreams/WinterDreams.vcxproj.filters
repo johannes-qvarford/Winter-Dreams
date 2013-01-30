@@ -1,87 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="Animation.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="LoadingState.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="GameState.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="InputManager.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Inventory.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuState.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="WindowManager.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManager.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="State.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="StateManager.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="TriggerZone.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Wall.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicalEntity.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerRelated.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="DamageHitBox.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Script.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemDisplay.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="CutsceneTriggerZone.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="PrecompiledHeader.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="GameToScreen.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Headers">
-      <UniqueIdentifier>{7eebc484-91fd-4aaa-b4f3-50867741d76d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Sources">
-      <UniqueIdentifier>{aa6cc8da-2ad6-423c-aab5-7aac6cbcbedf}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Main.cpp">
+    <ClCompile Include="Animation.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="StateManager.cpp">
+    <ClCompile Include="Camera.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="GameState.cpp">
@@ -90,29 +13,150 @@
     <ClCompile Include="Inventory.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Animation.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="WindowManager.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceManager.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Main.cpp" />
     <ClCompile Include="LoadingState.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Wall.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp" />
     <ClCompile Include="Player.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="PropertyManager.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="StateManager.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowManager.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_collision64x32.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_collision128x64.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_collision256x128.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectTypeRegistration.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_player.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectFactory.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="FileStructure.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Animation.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowManager.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="CutsceneTriggerZone.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="DamageHitBox.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="GameToScreen.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemDisplay.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingState.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuState.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicalEntity.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerRelated.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="PrecompiledHeader.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyManager.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Script.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="StateManager.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="TriggerZone.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectTypeRegistration.h">
+      <Filter>Includes\Registration</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectFactory.h">
+      <Filter>Includes\Registration</Filter>
+    </ClInclude>
+    <ClInclude Include="RegistrationCommonHeaders.h">
+      <Filter>Includes\Registration</Filter>
+    </ClInclude>
+    <ClInclude Include="FileStructure.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{100feee6-7428-4566-b9f7-2855a750ab24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Includes">
+      <UniqueIdentifier>{a332857d-5b1d-4d4d-9706-37eb2c45cd5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Registration">
+      <UniqueIdentifier>{f08713d7-b0df-4633-9c90-b603dbc9bb71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Includes\Registration">
+      <UniqueIdentifier>{92ed7915-027b-4df6-8268-eb7cb664ec80}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

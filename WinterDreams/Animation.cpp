@@ -10,7 +10,7 @@ Animation::Animation(const std::string filePath,
 					 unsigned int spriteHeight,
 					 unsigned int numberOfSprites, 
 					 unsigned int framesPerSprite) :
-	mNumberOfSprites(numberOfSprites - 1),
+	mNumberOfSprites(numberOfSprites),
 	mFramesPerSprite(framesPerSprite),
 	mCurrentFrame(0),
 	mCurrentSprite(0),
@@ -45,12 +45,16 @@ Animation::~Animation() {}
 ////////////////////////////////////////////////////////////
 sf::Sprite Animation::getCurrentSprite(){
 	unsigned int left = mSpriteWidth * mCurrentSprite;
+		//Below is currently inactive since we use single
+		//row sprite sheets
+	////////////////////////////////////////////////////////
 	unsigned int top = 0;
-		//Calculates the left and top bounds of the rect.
-	while(left >= mTexture_p->getSize().x){
-		left -= mTexture_p->getSize().x;
-		top += mSpriteHeight;
-	}
+	//	//Calculates the left and top bounds of the rect.
+	//while(left >= mTexture_p->getSize().x){
+	//	left -= mTexture_p->getSize().x;
+	//	top += mSpriteHeight;
+	//}
+	////////////////////////////////////////////////////////
 		//Assigns the TextureRect
 	mSprite.setTextureRect(sf::IntRect( left, top, mSpriteWidth, mSpriteHeight ) );
 		//Advances frame count. If the sprite's been visible as long as it should,

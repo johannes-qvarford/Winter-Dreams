@@ -18,12 +18,16 @@ static bool pollEvents() {
 	while(window.pollEvent(ev))
 	{
 		switch(ev.type) {
+				//if the window's X is pressed
 			case sf::Event::Closed:
 				return false;
 				break;
-			
 			default:
 				break;
+		}
+			//if Esc is pressed
+		if (ev.type == sf::Event::KeyPressed && ev.key.code == sf::Keyboard::Escape){
+			return false;
 		}
 	}
 	return true;
@@ -37,33 +41,36 @@ StateManager::StateManager():
 
 void StateManager::run() {
 	sf::Clock clock;
+	sf::Time limit = sf::milliseconds( static_cast<int>(1000/60) );
 
-	clock.restart();
 	
-	sf::Time newTime;
-	sf::Time oldTime;
+	//sf::Time newTime;
+	//sf::Time oldTime;
 
-	newTime = clock.getElapsedTime();
+	//newTime = clock.getElapsedTime();
 	
 	while(true)
-	{
+	{	
+		clock.restart();
 		//end game if pollEvents returns zero.
 		if(pollEvents() == false)
 			return;
 
-		oldTime = newTime;
-		newTime = clock.getElapsedTime();
+		//oldTime = newTime;
+		//newTime = clock.getElapsedTime();
 
-		//time between frames
-		sf::Time deltaTime = newTime - oldTime;
+		////time between frames
+		//sf::Time deltaTime = newTime - oldTime;
 
 		//update top state.
-		mStates.top()->update(deltaTime.asMilliseconds());
+		mStates.top()->update( 0 /*deltaTime.asMilliseconds()*/);
 
 		if(mPopNextFrame) {
 			mStates.pop();
 			mPopNextFrame = false;
 		}
+			//sleep until limit time has passed
+		sf::sleep( limit - sf::milliseconds( clock.getElapsedTime().asMilliseconds() ) );
 	}
 }
 
