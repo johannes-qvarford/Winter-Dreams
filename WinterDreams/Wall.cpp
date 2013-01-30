@@ -47,6 +47,22 @@ void Wall::onCollision(PhysicalEntity* pe, const sf::Rect<float>& intersection){
 		return;
 
 	sf::Rect<float>& hitBox = pe->getHitBox();
+	sf::Vector2f& direction = pe->getDirection();
+
+	if (intersection.width == intersection.height){
+		if (direction == sf::Vector2f(-10, -10)){
+			hitBox.left -= intersection.width;
+			hitBox.top += intersection.height * 0.5;
+		}
+		else if (direction == sf::Vector2f(-10, 10)){
+			hitBox.left -= intersection.width;
+			hitBox.top -= intersection.height * 0.5;
+		}
+
+	}
+	
+
+
 	if (intersection.width > intersection.height){
 		if (hitBox.top > mHitBox.top)
 			hitBox.top += intersection.height;
@@ -84,4 +100,9 @@ void Wall::drawSelf(){
 
 	window_p->draw(tempSprite);
 #endif
+}
+
+sf::Vector2f& Wall::getDirection(){
+	return sf::Vector2f(10, 0);
+
 }

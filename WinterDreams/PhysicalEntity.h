@@ -27,6 +27,13 @@ public:
 	////////////////////////////////////////////////////////////
 	virtual void onCollision(PhysicalEntity* entityCollidedWith_p, const sf::Rect<float>& intersection) = 0;
 
+	
+	////////////////////////////////////////////////////////////
+	// /Wall needs a direction of the object for proper 
+	// /collision check
+	////////////////////////////////////////////////////////////
+	virtual sf::Vector2f& getDirection() =0;
+
 };
 
 #endif

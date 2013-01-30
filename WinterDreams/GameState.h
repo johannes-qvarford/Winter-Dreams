@@ -52,6 +52,7 @@ public:
 	*/
 	void addBackgroundTexture(std::shared_ptr<sf::Texture> texture_p);
 
+
 	typedef std::list<std::shared_ptr<PhysicalEntity> > PhysicalEntities;
 	typedef std::list<std::shared_ptr<Script> > Scripts;
 	typedef std::list<const std::shared_ptr<sf::Texture> > Textures;

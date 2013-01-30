@@ -16,20 +16,25 @@ Player::Player(sf::Vector2f initialPosition) :
 Player::~Player() {}
 
 void Player::update(GameState* gameState_p, int milliseconds){
+	mDirection = sf::Vector2f(0, 0);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 		Player::adjustPosition(sf::Vector2f(-10,0));
+		mDirection += sf::Vector2f(-10, 0);
 		//Set proper animation
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 		Player::adjustPosition(sf::Vector2f(0,-10));
+		mDirection += sf::Vector2f(0, -10);
 		//Set proper animation
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 		Player::adjustPosition(sf::Vector2f(10,0));
+		mDirection += sf::Vector2f(10, 0);
 		//Set proper animation
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 		Player::adjustPosition(sf::Vector2f(0,10));
+		mDirection += sf::Vector2f(0, 10);
 		//Set proper animation
 	}
 	auto& window = *WindowManager::get().getWindow();
@@ -98,4 +103,8 @@ MovementMode Player::getCurrentMovementMode(){
 
 void Player::setMovementMode(MovementMode movementMode){
 	mMovementMode=movementMode;
+}
+
+sf::Vector2f& Player::getDirection(){
+	return mDirection;
 }
