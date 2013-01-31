@@ -8,7 +8,7 @@ sf::Http::Response getResponse(){
 	sf::Http::Request request;
 
 	request.setMethod(sf::Http::Request::Get);
-	request.setUri("newsession/93e7cc301698a0302ae3a77e8c4cd587016feb4b");
+	request.setUri("newsession/API_KEY");
 
 	http.setHost("http://ukontroll.com/");
 	return http.sendRequest(request);
@@ -121,40 +121,40 @@ PacketContents getPacket(sf::TcpSocket* tcpSocket){
 
 /*
 
-    vad var det dom undrade då?
-    kanske kan försöka förklara
-    dom skickar en urlrequest hit: http://ukontroll.com/?com=newsession&apikey=566e0e4148475511e0f77bb7e5e3eb26268f7c15
+    vad var det dom undrade dï¿½?
+    kanske kan fï¿½rsï¿½ka fï¿½rklara
+    dom skickar en urlrequest hit: http://ukontroll.com/?com=newsession&apikey=API_KEY
     typ
-    det får dom en respons på
-    som på api-sidan
+    det fï¿½r dom en respons pï¿½
+    som pï¿½ api-sidan
      
     Det var nog i huvudsak om HTTP get vill ha koden som field eller body
      
-    tror inte det spelar någon roll
+    tror inte det spelar nï¿½gon roll
     det som fungerar
     sedan pumpar dom bara in session-responsen i http://ukontroll.com/?header=ajax&qr=
-    typ så: http://ukontroll.com/?header=ajax&qr=51068c35572b947b2b000000
-    så får dom qr-koden för sync
+    typ sï¿½: http://ukontroll.com/?header=ajax&qr=51068c35572b947b2b000000
+    sï¿½ fï¿½r dom qr-koden fï¿½r sync
      
-    Aight men då skall vi nog reda ut det
+    Aight men dï¿½ skall vi nog reda ut det
      
     sedan pumpas det bara en massa data
-    datan är uppdelad med pipes
+    datan ï¿½r uppdelad med pipes
      
-    Vi får vänta ut username och password sen också då
+    Vi fï¿½r vï¿½nta ut username och password sen ocksï¿½ dï¿½
      
-    regga ett konto så får ni en api-nyckel automagiskt
+    regga ett konto sï¿½ fï¿½r ni en api-nyckel automagiskt
      
     Ah najs
      
-    snart kommer ni kunna gå in och se api-nyckeln också
-    måste bara komma på hur fan man gör för att logga in med facebook på webbsidan och få det att synca upp med databasen
+    snart kommer ni kunna gï¿½ in och se api-nyckeln ocksï¿½
+    mï¿½ste bara komma pï¿½ hur fan man gï¿½r fï¿½r att logga in med facebook pï¿½ webbsidan och fï¿½ det att synca upp med databasen
      
-    Hur fixar man ett konto dåe? Det finns ju ingen register knapp
+    Hur fixar man ett konto dï¿½e? Det finns ju ingen register knapp
      
-    har för mig att datan är såhär: "play nr | styrkors | styrkors | gyro | gyro | gyro | knapp a | knapp b
-    det går bara registrera med facebook just nu
-    ska se om jag kan lyckas fixa en reg-sida också
-    ni kan köra på den här api-nyckeln sålänge: 528fc5eb9c9827733bab36f5213d0c87ba0d7da7
+    har fï¿½r mig att datan ï¿½r sï¿½hï¿½r: "play nr | styrkors | styrkors | gyro | gyro | gyro | knapp a | knapp b
+    det gï¿½r bara registrera med facebook just nu
+    ska se om jag kan lyckas fixa en reg-sida ocksï¿½
+    ni kan kï¿½ra pï¿½ den hï¿½r api-nyckeln sï¿½lï¿½nge: 528fc5eb9c9827733bab36f5213d0c87ba0d7da7
 
 */
