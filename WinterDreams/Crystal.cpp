@@ -4,8 +4,9 @@
 #include "DamageHitBox.h"
 #include "FileStructure.h"
 
-Crystal::Crystal( const sf::FloatRect& position ) : 
-	mHitBox ( sf::FloatRect( position.left, position.top, position.width, -position.height) ),
+Crystal::Crystal( const sf::FloatRect& position, bool startEnabled ) : 
+	GraphicalEntity( startEnabled ),
+//	mHitBox( SolidZone( position, startEnabled ) ),
 	mHP		( 6 )
 
 {
@@ -15,7 +16,7 @@ Crystal::Crystal( const sf::FloatRect& position ) :
 
 Crystal::~Crystal() {}
 
-void Crystal::update(GameState* gameState_p, int milliseconds) {}
+void Crystal::update(GameState* gameState_p) {}
 
 void Crystal::drawSelf() {
 	auto& windowManager = WindowManager::get();
@@ -23,7 +24,8 @@ void Crystal::drawSelf() {
 	auto& sprite = mCurrentAnimation->getCurrentSprite();
 	sprite.setOrigin( 0, 48);
 
-	auto pos = sf::Vector2f(mHitBox.left, mHitBox.top);
+	auto& box = mSolidZone->getHitBox();
+	auto pos = sf::Vector2f(box.left, box.top);
 	sprite.setPosition( GAME_TO_SCREEN * pos );
 
 	windowManager.getWindow()->draw( sprite, *windowManager.getStates() );
@@ -34,11 +36,11 @@ void Crystal::adjustHealth(int adjustment){
 }
 
 sf::FloatRect& Crystal::getHitBox() {
-	return mHitBox;
+	return mSolidZone->getHitBox();
 }
 
 void Crystal::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::FloatRect& intersection) {
-	Wall::onCollision( entityCollidedWith_p, intersection );
+	mSolidZone.onCollision( entityCollidedWith_p, intersection );
 
 	if( dynamic_cast<DamageHitBox*>( entityCollidedWith_p ) ) {
 		auto dmgHitBox = dynamic_cast<DamageHitBox*>( entityCollidedWith_p );

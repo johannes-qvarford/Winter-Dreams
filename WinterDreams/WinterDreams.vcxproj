@@ -44,6 +44,7 @@
     <ClInclude Include="FileStructure.h" />
     <ClInclude Include="GameToScreen.h" />
     <ClInclude Include="Crystal.h" />
+    <ClInclude Include="GraphicalEntity.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="ItemDisplay.h" />
     <ClInclude Include="ObjectFactory.h" />

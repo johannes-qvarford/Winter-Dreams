@@ -165,6 +165,9 @@
     <ClInclude Include="Crystal.h">
       <Filter>Includes</Filter>
     </ClInclude>
+    <ClInclude Include="GraphicalEntity.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">
