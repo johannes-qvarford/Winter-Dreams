@@ -73,8 +73,8 @@ void LoadingState::update(int milliseconds) {
 //		auto& bgFilename = level.get<std::string>(NAME_LEVELSETTINGS_BACKGROUND);
 		auto& mlFilename = properties.get<std::string>(NAME_LEVELSETTINGS_MAPLAYER);
 		
-//		auto bgTexture_p = resMgr.getTexture(bgFilename);
-		auto mlTexture_p = resMgr.getTexture(FS_DIR_MAPS + mlFilename);
+//		auto bgTexture_sp = resMgr.getTexture(bgFilename);
+		auto mlTexture_sp = resMgr.getTexture(FS_DIR_MAPS + mlFilename);
 
 		auto yTiles = mLevelData.get<int>("height");
 
@@ -87,8 +87,8 @@ void LoadingState::update(int milliseconds) {
 		auto mlOffset = sf::Vector2f((cosf(22.5f) * yLength) + X_OFFSET, Y_OFFSET); 
 
 
-		mLoadedLevel->setMapTexture(mlTexture_p, mlOffset);
-//		mLoadedLevel->setBackgroundTexture(bgTexture_p, sf::Vector2f(0, 0));
+		mLoadedLevel->setMapTexture(mlTexture_sp, mlOffset);
+//		mLoadedLevel->setBackgroundTexture(bgTexture_sp, sf::Vector2f(0, 0));
 	}
 
 	
@@ -122,6 +122,7 @@ void LoadingState::update(int milliseconds) {
 			}
 		}
 	}
+
 	{
 		auto& layers = mLevelData.get_child("layers");
 
@@ -185,71 +186,5 @@ void LoadingState::update(int milliseconds) {
 		}
 	}
 
-/*
-	//map tile ids to functions creating entities
-//	std::map<int, CreateFunc> idToFunc;
-
-//	idToFunc[FGID_SMALL_COL] = createSmallCol;
-//	idToFunc[FGID_MEDIUM_COL] = createMediumCol;
-//	idToFunc[FGID_BIG_COL] = createBigCol;
-
-	auto layers = mLevelData.get_child("layers");
-	int tilesPerRow = 0;
-
-	//iterate over tile layers
-	for(auto it = layers.begin(), end = layers.end(); it != end; ++it) {
-		auto& layer = it->second;
-
-		//check for the ignore property. if its "false", go to the next layer
-		//if its not, or doens't exist, check layer for tiles.
-		std::string ignore = layer.get<std::string>("properties.ignore","false");
-		if(ignore == "true")
-			continue;
-
-		auto& data = layer.get_child("data");
-		tilesPerRow = layer.get<int>("width");
-
-		auto currentIndex = 0;
-
-		for(auto tit = data.begin(), tend = data.end(); tit != tend; ++tit, ++currentIndex) {
-			auto tileId = tit->second.get_value<int>();
-
-			//find the correct create function based on the tileId
-			auto func = idToFunc[tileId];
-			
-			//ignore unknown tile types
-			if(func == nullptr)
-				continue;
-
-			//calculate x and y coordinates based on tileId, step length/width and tiles per row
-			sf::Vector2f position((currentIndex % tilesPerRow) * STEP, (currentIndex / tilesPerRow) * STEP);
-
-			func(position, mLoadedLevel);
-
-			
-		}
-	}
-
-	//add map layer...
-	auto& resMgr = ResourceManager::get();
-
-	//check properties...
-	//calculate the smallest screen x coordinate.
-	auto topEdgeToLeftEdgeLength = tilesPerRow * STEP;
-	auto smallestScreenX = topEdgeToLeftEdgeLength * cosf(22.5f);
-
-
-	
-	//TODO: use map_layer image in properties
-	//auto mapLayerFileName = mLevelData.get<std::string>("properties.mapLayerFile");
-	auto mapLayerFileName = MAP_LAYER_FILENAME;
-
-	mLoadedLevel->setMapTexture(
-
-	//add backgrounds...
-*/
-
-	//were done!
-	//destroy the loadingState, revealing the underlying state(the GameState)
 	StateManager::get().popState();
 }

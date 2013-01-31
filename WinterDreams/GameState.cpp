@@ -1,9 +1,13 @@
 #include "GameState.h"
-#include "PhysicalEntity.h"
+
 #include "Script.h"
+#include "GraphicalEntity.h"
+#include "CollisionZones.h"
+
 #include "PlayerRelated.h"
 #include "WindowManager.h"
 #include "GameToScreen.h"
+
 
 #include <algorithm>
 #include <SFML/Graphics/RenderStates.hpp>
@@ -11,90 +15,12 @@
 #include <cmath>
 #include <iostream>
 
-static void checkCollisions(GameState::PhysicalEntities* physicals_p, PlayerRelated* pr_p) {
-	//iterate over entities to check for collisions.
-	for(auto it = physicals_p->begin(), end = physicals_p->end(); it != end; ++it)
-	{
-		//entity to check collisions with
-		auto col_p = it->get();
-
-		//we can't collide with ourselves!
-		if(static_cast<PhysicalEntity*>(pr_p) == col_p)
-			continue;
-
-		//PlayerRelated entities can't collide with other PlayerRelated entities.
-		if(dynamic_cast<PlayerRelated*>(col_p))
-			continue;
-
-		auto prBox = pr_p->getHitBox();
-		auto colBox = col_p->getHitBox();
-
-		prBox.top = prBox.top + prBox.height;
-		prBox.height = -prBox.height;
-		colBox.top = colBox.top + colBox.height;
-		colBox.height = -colBox.height;
-
-		auto intersection = sf::FloatRect();
-
-		//did we intersect with the entity?
-		if(prBox.intersects(colBox,intersection))
-		{
-			col_p->onCollision(pr_p, intersection);
-		}
-	}
-}
-
-static bool smallerPosition(std::shared_ptr<PhysicalEntity> lhs_p, std::shared_ptr<PhysicalEntity> rhs_p) {
-	auto& lhsBox = lhs_p->getHitBox();
-	auto& rhsBox = rhs_p->getHitBox();
-
-
-
-	auto lhsIsoDepth = lhsBox.left + lhsBox.top + (lhsBox.width + lhsBox.height) / 2;
-	auto rhsIsoDepth = rhsBox.left + rhsBox.top + (rhsBox.width + rhsBox.height) / 2;
-
-	return lhsIsoDepth < rhsIsoDepth;
-	/*
-	auto lhsMinScreen = GAME_TO_SCREEN * sf::Vector2f(lhsBox.left, lhsBox.top);
-	auto rhsMinScreen = GAME_TO_SCREEN * sf::Vector2f(rhsBox.left, rhsBox.top);
-	auto lhsMaxScreen = GAME_TO_SCREEN * sf::Vector2f(lhsBox.left + lhsBox.width, lhsBox.top + lhsBox.width);
-	auto rhsMaxScreen = GAME_TO_SCREEN * sf::Vector2f(rhsBox.left + rhsBox.width, rhsBox.top + rhsBox.width);
-
-	static const float EPSILON = 0.1f;
-
-	if(abs(lhsMaxScreen.y - rhsMaxScreen.y) < EPSILON) {
-		//same max y
-		if(abs(lhsMinScreen.y - rhsMinScreen.y) < EPSILON) {
-			//same min y
-			if(lhsMinScreen.x < rhsMinScreen.x)
-				return true;
-		}
-		else {
-			if(lhsMinScreen.y < rhsMinScreen.y)
-				return true;
-		}
-	}
-	else {
-		if(lhsMaxScreen.y < rhsMaxScreen.y) {
-			if(lhsMinScreen.y < rhsMinScreen.y) {
-				if(lhsMinScreen.x < rhsMinScreen.x){
-					if(lhsMaxScreen.x < rhsMaxScreen.x)
-						return true;
-				}
-			}
-		}
-	}
-	return false;
-	*/
-	//return true, if 
-	//lhs has a smaller y coordinate, or
-	//they have the same y coordinate, and lhs has a smaller x coordinate
-//	return (lhsBox.top < rhsBox.top) || (lhsBox.top == rhsBox.top && lhsBox.left < rhsBox.left);
-//	return (lhsBox.top + lhsBox.height < rhsBox.top + rhsBox.height) || (lhsBox.top + lhsBox.height == rhsBox.top + rhsBox.height && lhsBox.left + lhsBox.width < rhsBox.left + rhsBox.width);
-}
+static bool smallerPosition(std::shared_ptr<PhysicalEntity> lhs_p, std::shared_ptr<PhysicalEntity> rhs_sp);
+static void handleCollision(PhysicalEntity* lhs_p, PhysicalEntity* rhs_p);
 
 GameState::GameState():
-	mPhysicalEntities(),
+	mCollisionZones(),
+	mGraphicalEntities(),
 	mScripts(),
 	mMapTexture(),
 	mBackgroundTexture()
@@ -104,68 +30,55 @@ GameState::GameState():
 GameState::~GameState() {
 }
 
-void GameState::update(int milliseconds) {
+void GameState::update() {
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-		mMapTexture.second += sf::Vector2f(-1,0);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		mMapTexture.second += sf::Vector2f(1,0);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-		mMapTexture.second += sf::Vector2f(0,-1);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		mMapTexture.second += sf::Vector2f(0,1);
+	//update graphical entities.
+	for(auto it = mGraphicalEntities.begin(), end = mGraphicalEntities.end(); it != end; ++it) {
+		auto graphical_sp = *it;
+
+		graphical_sp->update(this);
+		checkCollisions(graphical_sp);
 	}
 
-	std::cout << mMapTexture.second.x << " " << mMapTexture.second.y << std::endl;
+	//update collision zones.
+	for(auto it = mCollisionZones.begin(), end = mCollisionZones.end(); it != end; ++it) {
+		auto colZone_sp = *it;
 
-
-	//update entities.
-	for(auto it = mPhysicalEntities.begin(), end = mPhysicalEntities.end(); it != end; ++it) {
-		PhysicalEntity* entity_p = it->get();
-
-		entity_p->update(this, milliseconds);
-
-		//try to cast to PlayerRelated
-		auto pr_p = dynamic_cast<PlayerRelated*>(entity_p);
-
-		if(pr_p != nullptr) {
-			//the entity was a PlayerRelated
-			//check if it collides with something
-			checkCollisions(&mPhysicalEntities, pr_p);
-		}
+		colZone_sp->update(this);
 	}
 
 	//update scripts
 	for(auto it = mScripts.begin(), end = mScripts.end(); it != end; ++it) {
-		Script* script_p = it->get();
-		
-		script_p->update(this, milliseconds);
+		auto script_sp = *it;
+
+		script_sp->update(this);
 	}
 
-	//render entities and scripts. 
+	//render entities. 
 	render();
 
 	//delete inactive entities.
 	deleteInactives();
 }
 
-void GameState::addPhysicalEntity(std::shared_ptr<PhysicalEntity> physicalEntity_p){
-	mPhysicalEntities.push_back(physicalEntity_p);
+void GameState::addGraphicalEntity(std::shared_ptr<GraphicalEntity> graphical_sp){
+	mGraphicalEntities.push_back(graphical_sp);
 }
 
-void GameState::addScript(std::shared_ptr<Script> script_p) {
-	mScripts.push_back(script_p);
+void GameState::addScript(std::shared_ptr<Script> script_sp) {
+	mScripts.push_back(script_sp);
 }
 
-void GameState::setMapTexture(std::shared_ptr<sf::Texture> texture_p, const sf::Vector2f& position) {
-	mMapTexture = std::make_pair(texture_p, position);
+void GameState::addCollisionZone(std::shared_ptr<CollisionZone> colZone_sp) {
+	mCollisionZones.push_back(colZone_sp);
 }
 
-void GameState::setBackgroundTexture(std::shared_ptr<sf::Texture> texture_p, const sf::Vector2f& position) {
-	mBackgroundTexture = std::make_pair(texture_p, position);
+void GameState::setMapTexture(std::shared_ptr<sf::Texture> texture_sp, const sf::Vector2f& position) {
+	mMapTexture = std::make_pair(texture_sp, position);
+}
+
+void GameState::setBackgroundTexture(std::shared_ptr<sf::Texture> texture_sp, const sf::Vector2f& position) {
+	mBackgroundTexture = std::make_pair(texture_sp, position);
 }
 
 void GameState::render() {
@@ -177,13 +90,6 @@ void GameState::render() {
 	window.clear();
 	renderStates.transform = sf::Transform::Identity;
 
-	//draw background NOT FIXED YET
-	{
-//		auto sprite = sf::Sprite(*mBackgroundTexture.first);
-//		sprite.setPosition(mBackgroundTexture.second);
-//		window.draw(sprite);
-	}
-
 	//draw map
 	{
 		auto sprite = sf::Sprite(*mMapTexture.first);
@@ -192,17 +98,17 @@ void GameState::render() {
 	}
 
 	//sort them in drawing order.
-	mPhysicalEntities.sort(smallerPosition);
+	mGraphicalEntities.sort(smallerPosition);
 	
-	for(auto it = mPhysicalEntities.begin(), end = mPhysicalEntities.end(); it != end; ++it) {
-		PhysicalEntity* physical_p = it->get();
-		physical_p->drawSelf();
+	for(auto it = mGraphicalEntities.begin(), end = mGraphicalEntities.end(); it != end; ++it) {
+		auto graphical_sp = *it;
+		graphical_sp->drawSelf();
 	}
 
 	//draw script effects directly on screen
 	for(auto it = mScripts.begin(), end = mScripts.end(); it != end; ++it) {
-		Script* script_p = it->get();
-		script_p->draw();
+		auto script_sp = *it;
+		script_sp->draw();
 	}
 
 	//display
@@ -214,10 +120,10 @@ void GameState::deleteInactives() {
 	//if we erase an iterator; it is invalidated.
 	//the iterators around it are not.
 	
-	//iterate over physical_entities
+	//iterate over graphical entities
 	{
-		auto it = mPhysicalEntities.begin();
-		auto end = mPhysicalEntities.end();
+		auto it = mGraphicalEntities.begin();
+		auto end = mGraphicalEntities.end();
 
 		//iterator to next element
 		auto nextIt = it;
@@ -225,16 +131,37 @@ void GameState::deleteInactives() {
 		while(it != end) {
 			++nextIt;
 
-			PhysicalEntity* physical_p = it->get();
+			auto graphical_sp = *it;
 
-			if(physical_p->isActive() == false) {
+			if(graphical_sp->isActive() == false) {
 				//'it' is invalidated
-				mPhysicalEntities.erase(it);
+				mGraphicalEntities.erase(it);
 			}
 			//nextIt is not invalidated either way
 			it = nextIt;
 		}
 	}
+
+	//iterate over collision zones
+	{
+		auto it = mCollisionZones.begin();
+		auto end = mCollisionZones.end();
+
+		auto nextIt = it;
+
+		while(it != end) {
+			++nextIt;
+
+			auto colZone_sp = *it;
+
+			if(colZone_sp->isActive() == false) {
+				mCollisionZones.erase(it);
+			}
+
+			it = nextIt;
+		}
+	}
+
 	//iterare over scripts
 	{
 		auto it = mScripts.begin();
@@ -253,5 +180,55 @@ void GameState::deleteInactives() {
 
 			it = nextIt;
 		}
+	}
+}
+
+static bool smallerPosition(std::shared_ptr<PhysicalEntity> lhs_p, std::shared_ptr<PhysicalEntity> rhs_p) {
+	auto& lhsBox = lhs_p->getHitBox();
+	auto& rhsBox = rhs_p->getHitBox();
+
+	auto lhsIsoDepth = lhsBox.left + lhsBox.top + (lhsBox.width + lhsBox.height) / 2;
+	auto rhsIsoDepth = rhsBox.left + rhsBox.top + (rhsBox.width + rhsBox.height) / 2;
+
+	return lhsIsoDepth < rhsIsoDepth;
+}
+
+void GameState::checkCollisions(std::shared_ptr<GraphicalEntity> graphical_sp) {
+
+	for(auto it = mGraphicalsEntities.begin(), end = mGraphicalEntities.end(); it != end; ++it) {
+		auto other_sp = *it;
+
+		//we can't collide with ourselves!
+		if(graphical_sp == other_sp)
+			continue;
+
+		//check and handle collision
+		handleCollision(graphical_sp.get(), other_sp.get());
+	}
+
+	for(auto it = mCollisionZones.begin(), end = mCollisionZones.end(); it != end; ++it) {
+		auto other_sp = *it;
+
+		//check and handle collision
+		handleCollision(graphical_sp.get(), other_sp.get());
+	}
+}
+
+static void handleCollision(PhysicalEntity* lhs_p, PhysicalEntity* rhs_p) {
+	//collision boxes have negative width
+	//perform check as if they had a smaller y position, and a positive height
+	
+	auto lhsDummy = lhs->getHitBox();
+	auto rhsDummy = rhs->getHitBox()
+
+	lhsDummy.top = lhsDummy.top + lhsDummy.height;
+	lhsDummy.height = -lhsDummy.height;
+	rhsDummy.top = rhsDummy.top + rhsDummy.height;
+	rhsDummy.height = -rhsDummy.height;
+
+	auto intersection = sf::FloatRect();
+
+	if(lhsDummy.intersects(rhsDummy, intersection)) {
+		lhs_p->onCollision(rhsDummy, intersection);
 	}
 }

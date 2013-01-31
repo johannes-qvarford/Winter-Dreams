@@ -70,7 +70,12 @@ void StateManager::run() {
 			mPopNextFrame = false;
 		}
 			//sleep until limit time has passed
+
+		sf::Time limit2( sf::milliseconds(500/60) );
 		sf::sleep( limit - sf::milliseconds( clock.getElapsedTime().asMilliseconds() ) );
+		sf::sleep( limit2 - sf::milliseconds( clock.getElapsedTime().asMilliseconds() ) );
+		auto t = clock.getElapsedTime().asMilliseconds();
+		std::cout << t;
 	}
 }
 
