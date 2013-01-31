@@ -58,6 +58,18 @@
     <ClCompile Include="Wall.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="DamageHitBox.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleSystem.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Crystal.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -142,6 +154,18 @@
       <Filter>Includes\Registration</Filter>
     </ClInclude>
     <ClInclude Include="FileStructure.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystem.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Crystal.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicalEntity.h">
       <Filter>Includes</Filter>
     </ClInclude>
   </ItemGroup>

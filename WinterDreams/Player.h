@@ -1,7 +1,7 @@
 #ifndef INCLUDED_PLAYER
 #define INCLUDED_PLAYER
 
-#include "PlayerRelated.h"
+#include "GraphicalEntity.h"
 #include <SFML\Graphics.hpp>
 #include <SFML\System\Vector2.hpp>
 #include <SFML\Window\Keyboard.hpp>
@@ -24,13 +24,15 @@ enum MovementMode {
 ////////////////////////////////////////////////////////
 // /Concrete class representing the players character.
 ////////////////////////////////////////////////////////
-class Player : public PlayerRelated {
+class Player : public GraphicalEntity {
 public:
 	//////////////////////////////////////////////////////
-	// /Players constructor needs a sf::Vector2f to assign
+	// /Players constructor needs a sf::FloatRect to assign
 	// /the avatars initial position. 
+	// /The player only cares about the left and top properties.
+	// /Width and height will be ignored.
 	//////////////////////////////////////////////////////
-	Player(sf::Vector2f initialPosition);
+	Player(sf::FloatRect initialPosition);
 	//////////////////////////////////////////////////////
 	// /Players destructor deletes its associated Inventory.
 	//////////////////////////////////////////////////////
@@ -40,7 +42,7 @@ public:
 	// /each time update is called. Used by GameState to perform a
 	// /series of actions each update-frame.
 	//////////////////////////////////////////////////////
-	void update(GameState* gameState_p, int milliseconds);
+	void update(GameState* gameState_p);
 	//////////////////////////////////////////////////////
 	// /Defines how the avatar is drawn onto the window.
 	//////////////////////////////////////////////////////
@@ -81,13 +83,13 @@ public:
 	//////////////////////////////////////////////////////
 	// /Returns the avatars current health.
 	//////////////////////////////////////////////////////
-	int getCurrentHealth() const;
+	int getCurrentLightLevel() const;
 	//////////////////////////////////////////////////////
 	// /Sets the avatars current health to the argument amount.
 	// /This function overrides the avatars current health and assigns 
 	// /the avatars new current health to the argument amount.
 	//////////////////////////////////////////////////////
-	void setCurrentHealth(const int health);
+	void setCurrentLightLevel(const int light);
 	//////////////////////////////////////////////////////
 	// /Adjusts the characters current health by the argument amount by
 	// /adding the argument number to the avatars current health. If the
@@ -95,7 +97,7 @@ public:
 	// /to 9.
 	// /To reduce the avatars health, send a negative number as argument.
 	//////////////////////////////////////////////////////
-	void adjustCurrentHealth(const int healthAdjustment);
+	void adjustCurrentLightLevel(const int lightAdjustment);
 	//////////////////////////////////////////////////////
 	// /Returns a const Inventory-reference to the players Inventory. The
 	// /returned reference cannot be used to affect the players inventory.
@@ -118,13 +120,24 @@ public:
 	// /The enum listing the different movement modes are availible at the top of Player.h
 	//////////////////////////////////////////////////////
 	void setMovementMode(MovementMode movementMode);
+	//////////////////////////////////////////////////////
+	// /Returns the avatars direction
+	//////////////////////////////////////////////////////
+	sf::Vector2i getDirection();
+
+
 private:
 	Animation*						 mCurrentAnimation_p; //The avatar's current animation
 	std::map<std::string, Animation> mAnimationMap;		//The avatar's animation map
 	sf::FloatRect					 mHitBox;			//The avatar's current hitbox
-	int								 mHealth;			//The avatar's current health
+	int								 mLightLevel;		//The avatar's current light
 	MovementMode					 mMovementMode;		//The avatar's current movementMode
 	Inventory						 mInventory;		//The avatar's inventory
+	sf::Vector2i					 mDirection;		//The avatar's direction
+	//No copies
+	Player::Player( const Player& player );
+	//No copies
+	Player& operator=( const Player& player );
 };
 
 #endif

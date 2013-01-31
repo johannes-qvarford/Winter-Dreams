@@ -17,9 +17,10 @@ Animation::Animation(const std::string filePath,
 	mSpriteWidth(spriteWidth),
 	mSpriteHeight(spriteHeight),
 	mTexture_p(ResourceManager::get().getTexture(filePath) ),
-	mSprite()
+	mSprite(),
+	mEndOfAnimation( false )
 {
-		//Binds the texture to the spirte.
+		//Binds the sprite to the texture.
 	mSprite.setTexture(*mTexture_p);
 	mSprite.setTextureRect(sf::IntRect(0,0, mSpriteWidth, mSpriteHeight));
 }
@@ -34,7 +35,8 @@ Animation::Animation(const Animation& animation) :
 	mSpriteWidth(animation.mSpriteWidth),
 	mSpriteHeight(animation.mSpriteHeight),
 	mTexture_p(animation.mTexture_p),
-	mSprite(animation.mSprite)
+	mSprite(animation.mSprite),
+	mEndOfAnimation( animation.mEndOfAnimation )
 {}
 ////////////////////////////////////////////////////////////
 // /Destructor. No action.
@@ -64,8 +66,13 @@ sf::Sprite Animation::getCurrentSprite(){
 		++mCurrentSprite;
 			//If the current sprite number is higher then the 
 			//number of sprites in the sprite sheet, it resets.
-		if(mCurrentSprite == mNumberOfSprites )
+		if(mCurrentSprite == mNumberOfSprites ) {
 			mCurrentSprite = 0;
+			mEndOfAnimation = true;
+		}
+		else {
+			mEndOfAnimation = false;
+		}
 		mCurrentFrame = 0;
 	}
 
@@ -76,4 +83,8 @@ void Animation::resetAnimation(){
 		//Resets the frame count and sprite count.
 	mCurrentSprite= 0;
 	mCurrentFrame = 0;	
+}
+
+bool Animation::endOfAnimation() const{
+	return mEndOfAnimation;
 }

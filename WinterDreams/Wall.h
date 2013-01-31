@@ -16,7 +16,7 @@ namespace sf {
 */
 class Wall : public PhysicalEntity {
 public:
-
+	Wall() {}
 	/*
 	//	Create a Wall at (x,y) with width and height
 	*/
@@ -43,6 +43,10 @@ public:
 	*/
 	void drawSelf();
 
+	/*
+	//	Wall needs thisfd 
+	*/
+	sf::Vector2i getDirection();
 private:
 #ifdef DEBUG_WALL
 	std::shared_ptr<sf::Texture> mTexture;

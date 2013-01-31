@@ -5,29 +5,45 @@ class GameState;
 ////////////////////////////////////////////////////////////
 // /Entity is the base class for all entitys and scripts in the entire system.
 ////////////////////////////////////////////////////////////
-class Entity{
+class Entity {
 public:
-	Entity(): mActive(true){}
-
-	virtual ~Entity(){};
+	Entity ( bool startEnabled = true ) :
+		mIsEnabled	( startEnabled ), 
+		mIsAlive	( true )
+	{	}
+	virtual ~Entity() {	}
 	////////////////////////////////////////////////////////////
 	// /Each concrete subclass of Entity has to define an update function.
 	// /Update is supposed to represent the action performed by 
 	// /concrete subclasses each update-loop.
 	////////////////////////////////////////////////////////////
-	virtual void update(GameState* gameState_p, int milliseconds) = 0;
+	virtual void update(GameState* gameState_p) = 0;
 	////////////////////////////////////////////////////////////
-	// /Assigns the entitys status.
+	// /Assigns the entitys life status.
 	// /The entity will be removed if it is assigned false
 	////////////////////////////////////////////////////////////
-	void setActive(bool active){mActive=active;}
+	void setAlive( bool alive ){mIsAlive = alive; }
 	////////////////////////////////////////////////////////////
-	// /Returns true if the entity is active
+	// /Returns true if the entity is alive
 	// /Else, returns false
 	////////////////////////////////////////////////////////////
-	bool isActive(){return mActive;}
+	bool getAlive() const { return mIsAlive; } 
+	////////////////////////////////////////////////////////////
+	// /Assigns whether the entity is enabled or not
+	////////////////////////////////////////////////////////////
+	void setEnabled( bool enabled ) { mIsEnabled = enabled; }
+	////////////////////////////////////////////////////////////
+	// /Returns true if the entity is enabled
+	////////////////////////////////////////////////////////////
+	bool getEnabled() const { return mIsEnabled; }
+	////////////////////////////////////////////////////////////
+	// /Toggles the entitys enabled-status
+	////////////////////////////////////////////////////////////
+	void switchEnabled() { mIsEnabled = !mIsEnabled; }
 private:
-	bool mActive; //Keeps track of the entitys active-status
+	bool mIsAlive;	 //Keeps track of whether the entity is alive or not
+	bool mIsEnabled; //Keeps track of whether the entity is enabled or not
+	
 };
 
 #endif
