@@ -35,7 +35,7 @@ public:
 	// /Updates the widows view to match the camera.
 	// /Should be called once per update. 
 	////////////////////////////////////////////////////////////
-	void update(GameState* gameState_p, int milliseconds);
+	void update(GameState* gameState_p);
 	////////////////////////////////////////////////////////////
 	// /Locks the camera on a physical entity. The center of
 	// /the cameras view will match the entitys position.

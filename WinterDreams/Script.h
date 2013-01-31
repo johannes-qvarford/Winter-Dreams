@@ -10,7 +10,7 @@
 ////////////////////////////////////////////////////////////
 class Script : public Entity {
 public:
-
+	Script( bool startEnabled ) : Entity( startEnabled ) { }
 	////////////////////////////////////////////////////////////
 	// /Draw an effect.
 	// /The effect is expected to be on the screen, not inside the game world.

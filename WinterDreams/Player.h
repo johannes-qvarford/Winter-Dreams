@@ -27,10 +27,12 @@ enum MovementMode {
 class Player : public GraphicalEntity {
 public:
 	//////////////////////////////////////////////////////
-	// /Players constructor needs a sf::Vector2f to assign
+	// /Players constructor needs a sf::FloatRect to assign
 	// /the avatars initial position. 
+	// /The player only cares about the left and top properties.
+	// /Width and height will be ignored.
 	//////////////////////////////////////////////////////
-	Player(sf::Vector2f initialPosition);
+	Player(sf::FloatRect initialPosition);
 	//////////////////////////////////////////////////////
 	// /Players destructor deletes its associated Inventory.
 	//////////////////////////////////////////////////////

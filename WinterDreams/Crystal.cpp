@@ -6,7 +6,7 @@
 
 Crystal::Crystal( const sf::FloatRect& position, bool startEnabled ) : 
 	GraphicalEntity( startEnabled ),
-//	mHitBox( SolidZone( position, startEnabled ) ),
+//	mSolidZone( SolidZone( position, startEnabled ) ),
 	mHP		( 6 )
 
 {
@@ -14,7 +14,7 @@ Crystal::Crystal( const sf::FloatRect& position, bool startEnabled ) :
 	mCurrentAnimation = &mAnimationMap.find("placeholder")->second;
 }
 
-Crystal::~Crystal() {}
+Crystal::~Crystal() { }
 
 void Crystal::update(GameState* gameState_p) {}
 
@@ -44,7 +44,7 @@ void Crystal::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::FloatR
 
 	if( dynamic_cast<DamageHitBox*>( entityCollidedWith_p ) ) {
 		auto dmgHitBox = dynamic_cast<DamageHitBox*>( entityCollidedWith_p );
-		dmgHitBox->setActive(false);
+		dmgHitBox->setAlive(false);
 		//PLAY SOUND
 	}
 }

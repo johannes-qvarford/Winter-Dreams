@@ -10,6 +10,7 @@
 static float		CAM_PAN_PERCENTAGE = 0.10f;
 
 Camera::Camera(sf::Vector2f position) :
+	Script( true ),
 	mCameraPosition(  GAME_TO_SCREEN * position),
 	mDesiredPosition( mCameraPosition ),
 	mLockedEntity(),
@@ -17,6 +18,7 @@ Camera::Camera(sf::Vector2f position) :
 	{}
 
 Camera::Camera( std::shared_ptr<PhysicalEntity> entity ) :
+	Script( true ),
 	mLockedEntity( entity ),
 	mLockedCamera( true )
 {
@@ -29,7 +31,7 @@ Camera::Camera( std::shared_ptr<PhysicalEntity> entity ) :
 
 Camera::~Camera(void) {}
 
-void Camera::update(GameState* gameState_p, int milliseconds){
+void Camera::update(GameState* gameState_p){
 		//Get a reference to the render window
 	auto& window = *WindowManager::get().getWindow();
 		//If the camera is locked on an entity, update the cameras 

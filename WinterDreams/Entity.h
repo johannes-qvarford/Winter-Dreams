@@ -6,7 +6,7 @@ class GameState;
 // /Entity is the base class for all entitys and scripts in the entire system.
 ////////////////////////////////////////////////////////////
 class Entity {
-protected:
+public:
 	Entity ( bool startEnabled = true ) :
 		mIsEnabled	( startEnabled ), 
 		mIsAlive	( true )
