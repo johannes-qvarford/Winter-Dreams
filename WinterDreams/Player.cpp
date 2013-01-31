@@ -13,7 +13,7 @@ Player::Player(sf::Vector2f initialPosition) :
 	mHealth( 5 ),
 	mHitBox( sf::FloatRect(initialPosition.x, initialPosition.y, X_STEP , -Y_STEP) )//All hitbox heights are now inverted, ask Johannes.
 {
-	mAnimationMap.insert( std::pair<std::string, Animation>("placeholder", Animation(FS_DIR_OBJECTANIMATIONS + "player/placeholder.png", 64, 64, 1, 1) ) );
+	mAnimationMap.insert( std::pair<std::string, Animation>("placeholder", Animation(FS_DIR_OBJECTANIMATIONS + "player/placeholder.png", 64, 64, 3, 10) ) );
 	mCurrentAnimation_p = &mAnimationMap.find("placeholder")->second;
 }
 

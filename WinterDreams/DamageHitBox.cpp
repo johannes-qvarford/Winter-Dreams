@@ -2,7 +2,7 @@
 
 #include "WindowManager.h"
 #include "GameState.h"
-#include "IceBlock.h"
+#include "Crystal.h"
 #include "Wall.h"
 ///////////////////////////////////////////////
 // /Simply assigns the arguments to the correct member variable.
@@ -18,9 +18,11 @@ DamageHitBox::DamageHitBox(unsigned int damage, const sf::Rect<float>& hitBox, D
 	///////////////////////////////////////////////
 	// /Returns the hit box of the damage zone
 	///////////////////////////////////////////////
-sf::FloatRect& DamageHitBox::getHitBox() const{
+sf::FloatRect& DamageHitBox::getHitBox() {
 	return mHitBox;
 }
+
+DamageHitBox::~DamageHitBox() {}
 	///////////////////////////////////////////////
 	// /Counts down the hitbox life time. The hit box is set
 	// /to inactive when it reaches 0.
@@ -47,9 +49,9 @@ void DamageHitBox::drawSelf(){
 	///////////////////////////////////////////////
 void DamageHitBox::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::FloatRect& intersection){
 		//Checks if the DamageHitBox collides with an ice block and if the damage comes from a pickaxe.
-	if( dynamic_cast<IceBlock*>(entityCollidedWith_p) && mDamageType == PICKAXE){
-		IceBlock* ice = dynamic_cast<IceBlock*>(entityCollidedWith_p);
-		ice->adjustHealth(mDamage * -1);
+	if( dynamic_cast<Crystal*>(entityCollidedWith_p) && mDamageType == PICKAXE){
+		Crystal* crystal = dynamic_cast<Crystal*>(entityCollidedWith_p);
+		crystal->adjustHealth(mDamage * -1);
 		//Play sound for ice collision
 	}
 		//Checks if the DamageHitBox collides with a wall
