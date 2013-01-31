@@ -13,31 +13,37 @@ Player::Player(sf::Vector2f initialPosition) :
 	mHealth( 5 ),
 	mHitBox( sf::FloatRect(initialPosition.x, initialPosition.y, X_STEP , -Y_STEP) )//All hitbox heights are now inverted, ask Johannes.
 {
-	mAnimationMap.insert( std::pair<std::string, Animation>("placeholder", Animation(FS_DIR_OBJECTANIMATIONS + "player/placeholder.png", 64, 64, 1, 1) ) );
+	mAnimationMap.insert( std::pair<std::string, Animation>("placeholder", Animation(FS_DIR_OBJECTANIMATIONS + "player/placeholder.png", 64, 64, 3, 10) ) );
 	mCurrentAnimation_p = &mAnimationMap.find("placeholder")->second;
 }
 
 Player::~Player() {}
 
 void Player::update(GameState* gameState_p, int milliseconds){
-		//Create a temporary vector that will store the directions
-		//corresponding to the keys pressed.
+
+	//Create a temporary vector that will store the directions
+	//corresponding to the keys pressed.
 	sf::Vector2f tempDir(0,0);
+	mDirection = sf::Vector2i(0, 0);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 		--tempDir.x;
 		++tempDir.y;
+		mDirection += sf::Vector2i(-1, 1);		
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 		--tempDir.x;
 		--tempDir.y;
+		mDirection += sf::Vector2i(-1, -1);		
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 		++tempDir.x;
 		--tempDir.y;
+		mDirection += sf::Vector2i(1, -1);	
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 		++tempDir.x;
 		++tempDir.y;
+		mDirection += sf::Vector2i(1, 1);		
 	}
 		//Get the length of tempDir
 	auto tempLenght = std::sqrt(tempDir.x * tempDir.x + tempDir.y * tempDir.y);
@@ -111,4 +117,8 @@ MovementMode Player::getCurrentMovementMode(){
 
 void Player::setMovementMode(MovementMode movementMode){
 	mMovementMode=movementMode;
+}
+
+sf::Vector2i Player::getDirection(){
+	return mDirection;
 }

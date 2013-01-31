@@ -1,7 +1,7 @@
-#ifndef INCLUDED_ICEBLOCK
-#define INCLUDED_ICEBLOCK
+#ifndef INCLUDED_CRYSTAL
+#define INCLUDED_CRYSTAL
 
-#include "PhysicalEntity.h"
+#include "Wall.h"
 #include "Animation.h"
 #include <SFML\Graphics\Rect.hpp>
 namespace sf{
@@ -11,14 +11,18 @@ namespace sf{
 // /Represents ice blocks which can be destryed by hitting it
 // /with a pickaxe.
 //////////////////////////////////////////////////////
-class IceBlock : public PhysicalEntity {
+class Crystal : public Wall {
 public:
-	IceBlock(const sf::FloatRect& position);
-	IceBlock(const IceBlock& iceBlock);
+	//////////////////////////////////////////////////////
+	// /The FloatRect's top will represent the Crystal's Y.
+	// /The FloatRect's left will represent the Crystal's X.
+	// /The FloatRect's width and height sets bounds for it's hitbox
+	//////////////////////////////////////////////////////
+	Crystal(const sf::FloatRect& position);
 	//////////////////////////////////////////////////////
 	// /No dynamicly allocated member variables
 	//////////////////////////////////////////////////////
-	~IceBlock();
+	~Crystal();
 	//////////////////////////////////////////////////////
 	// /Defines what IceBlock should do each update
 	//////////////////////////////////////////////////////
@@ -30,7 +34,7 @@ public:
 	//////////////////////////////////////////////////////
 	// /Returns the hitbox of the IceBlock
 	//////////////////////////////////////////////////////
-	const sf::FloatRect& getHitBox() const;
+	sf::FloatRect& getHitBox();
 	//////////////////////////////////////////////////////
 	// /Defines what the IceBlock should do with the entity it collides with
 	//////////////////////////////////////////////////////
@@ -43,9 +47,14 @@ public:
 	//////////////////////////////////////////////////////
 	void adjustHealth(int adjustment);
 private:
-	sf::FloatRect mHitBox;	//The ice blocks hitbox
-	Animation mAnimation;	//The ice blocks animation
-	int mHP;				//The ice blocks HP
+	sf::FloatRect mHitBox;							//The ice blocks hitbox
+	std::map<std::string, Animation> mAnimationMap; //The ice blocks collection of Animations
+	Animation* mCurrentAnimation;					//The ice blocks animation
+	int mHP;										//The ice blocks HP
+	//No copies
+	Crystal(const Crystal& crystal);
+	//No copies
+	Crystal& operator=(const Crystal& crystal);
 };
 
 #endif

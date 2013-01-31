@@ -106,20 +106,20 @@ GameState::~GameState() {
 
 void GameState::update(int milliseconds) {
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-		mMapTexture.second += sf::Vector2f(-1,0);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		mMapTexture.second += sf::Vector2f(1,0);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-		mMapTexture.second += sf::Vector2f(0,-1);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		mMapTexture.second += sf::Vector2f(0,1);
-	}
+	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+	//	mMapTexture.second += sf::Vector2f(-1,0);
+	//}
+	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+	//	mMapTexture.second += sf::Vector2f(1,0);
+	//}
+	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+	//	mMapTexture.second += sf::Vector2f(0,-1);
+	//}
+	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+	//	mMapTexture.second += sf::Vector2f(0,1);
+	//}
 
-	std::cout << mMapTexture.second.x << " " << mMapTexture.second.y << std::endl;
+	//std::cout << mMapTexture.second.x << " " << mMapTexture.second.y << std::endl;
 
 
 	//update entities.

@@ -60,6 +60,7 @@ public:
 	*/
 	void setBackgroundTexture(std::shared_ptr<sf::Texture> texture_p, const sf::Vector2f& position);
 
+
 	typedef std::list<std::shared_ptr<PhysicalEntity> > PhysicalEntities;
 	typedef std::list<std::shared_ptr<Script> > Scripts;
 	typedef std::pair<std::shared_ptr<sf::Texture>, sf::Vector2f> PositionedTexture;

@@ -12,7 +12,7 @@ static float		CAM_PAN_PERCENTAGE = 0.10f;
 Camera::Camera(sf::Vector2f position) :
 	mCameraPosition(  GAME_TO_SCREEN * position),
 	mDesiredPosition( mCameraPosition ),
-	mLockedEntity( NULL ),
+	mLockedEntity(),
 	mLockedCamera( false )
 	{}
 

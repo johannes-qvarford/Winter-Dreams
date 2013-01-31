@@ -118,6 +118,11 @@ public:
 	// /The enum listing the different movement modes are availible at the top of Player.h
 	//////////////////////////////////////////////////////
 	void setMovementMode(MovementMode movementMode);
+	//////////////////////////////////////////////////////
+	// /Returns the avatars direction
+	// /
+	//////////////////////////////////////////////////////
+	sf::Vector2i getDirection();
 private:
 	Animation*						 mCurrentAnimation_p; //The avatar's current animation
 	std::map<std::string, Animation> mAnimationMap;		//The avatar's animation map
@@ -125,6 +130,7 @@ private:
 	int								 mHealth;			//The avatar's current health
 	MovementMode					 mMovementMode;		//The avatar's current movementMode
 	Inventory						 mInventory;		//The avatar's inventory
+	sf::Vector2i					 mDirection;		//The avatar's direction
 };
 
 #endif
