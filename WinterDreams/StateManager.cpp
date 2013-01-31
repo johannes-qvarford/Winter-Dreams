@@ -63,7 +63,7 @@ void StateManager::run() {
 		//sf::Time deltaTime = newTime - oldTime;
 
 		//update top state.
-		mStates.top()->update( 0 /*deltaTime.asMilliseconds()*/);
+		mStates.top()->update();
 
 		if(mPopNextFrame) {
 			mStates.pop();

@@ -6,7 +6,7 @@
 
 Crystal::Crystal( const sf::FloatRect& position, bool startEnabled ) : 
 	GraphicalEntity( startEnabled ),
-//	mSolidZone( SolidZone( position, startEnabled ) ),
+	mSolidZone( SolidZone( position, startEnabled ) ),
 	mHP		( 6 )
 
 {

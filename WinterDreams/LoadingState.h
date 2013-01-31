@@ -30,7 +30,7 @@ public:
 	// /Start loading the argument level. 
 	// /Will eventually display the loading screen aswell.
 	////////////////////////////////////////////////////////////
-	virtual void update(int milliseconds);
+	virtual void update();
 
 private:
 	GameState* mLoadedLevel;	//A pointer to a GameState with the argument level loaded into it.

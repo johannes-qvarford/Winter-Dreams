@@ -1,14 +1,14 @@
 #include "Player.h"
+
 #include "DamageHitBox.h"
 #include "GameState.h"
 #include "GameToScreen.h"
 #include "WindowManager.h"
 #include "ResourceManager.h"
-
 #include "FileStructure.h"
+#include "PropertyManager.h"
 #include <cmath>
 
-static float MOVE_SPEED = 10.0f;
 
 Player::Player(sf::FloatRect initialPosition) :
 	GraphicalEntity( true ),
@@ -17,7 +17,7 @@ Player::Player(sf::FloatRect initialPosition) :
 	mLightLevel( 5 ),
 	mHitBox( initialPosition.left, initialPosition.top, X_STEP , -Y_STEP ) //All hitbox heights are now inverted, ask Johannes.
 {
-	mAnimationMap.insert( std::pair<std::string, Animation>("placeholder", Animation(FS_DIR_OBJECTANIMATIONS + "player/placeholder.png", 64, 64, 3, 10) ) );
+	mAnimationMap.insert( std::pair<std::string, Animation> ("placeholder", Animation(FS_DIR_OBJECTANIMATIONS + "player/placeholder.png", 64, 64, 3, 10) ) );
 	mCurrentAnimation_p = &mAnimationMap.find("placeholder")->second;
 }
 
@@ -50,7 +50,7 @@ void Player::update(GameState* gameState_p){
 		mDirection += sf::Vector2i(1, 1);		
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-		gameState_p->addGraphicalEntity(new DamageHitBox(2, mHitBox, DamageHitBox::PICKAXE ) );
+		gameState_p->addGraphicalEntity(std::shared_ptr<DamageHitBox>( new DamageHitBox(2, mHitBox, DamageHitBox::PICKAXE ) ) );
 	}
 		//Get the length of tempDir
 	auto tempLenght = std::sqrt(tempDir.x * tempDir.x + tempDir.y * tempDir.y);
@@ -128,4 +128,66 @@ void Player::setMovementMode(MovementMode movementMode){
 
 sf::Vector2i Player::getDirection(){
 	return mDirection;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+struct AnimSpecs{
+	AnimSpecs(	const std::string filePath, 
+				unsigned int spriteWidth, 
+				unsigned int spriteHeight, 
+				unsigned int numberOfSprites, 
+				unsigned int framesPerSprite,
+				unsigned int xOrigin,
+				unsigned int yOrigin	) :
+		mWidth  ( spriteWidth ),
+		mHeight ( spriteHeight ),
+		mNrOfSprites( numberOfSprites ),
+		mFramesPerSprite ( framesPerSprite ),
+		mFilePath ( filePath ),
+		mXOrigin (xOrigin ),
+		mYOrigin (yOrigin )
+		{ }
+
+	unsigned int mWidth, mHeight, mNrOfSprites;
+	unsigned int mFramesPerSprite, mXOrigin, mYOrigin;
+	std::string mFilePath;
+};
+
+class PlayerSpecs{
+public:	
+	////////////////////////////////////////////////////////////////////////////
+	// /Singleton-pattern.
+	// /Is used to access the different properties of the player.
+	////////////////////////////////////////////////////////////////////////////
+	static PlayerSpecs& get();
+	
+	float mMoveSpeed;
+	int mNumberOfAnimations;	
+	std::map<std::string, AnimSpecs> mAnimSpecsMap;
+
+private:
+	PlayerSpecs() {}						//Singleton-pattern
+	PlayerSpecs(const PlayerSpecs& p);		//No copies
+	PlayerSpecs& operator=(PlayerSpecs& p);	//No copies
+};
+////////////////////////////////////////////////////////////////////////////////
+PlayerSpecs::PlayerSpecs() {
+	auto& obj = PropertyManager::get().getObjectSettings();
+	auto& player = obj.get_child( "objects.player" );
+
+	mMoveSpeed = player.get<float>( "walkspeed" );
+	mNumberOfAnimations = player.get<int>( "numberofanimations" );
+	
+	auto& animations = player.get_child( "animations" );
+	auto defaultWidth = animations.get<int>( "width" );
+	for(auto iter = animations.begin(), end = animations.end(); iter != end; ++iter){
+		
+		/////////////////////////////////////
+	}
+}
+
+PlayerSpecs& PlayerSpecs::get() { 
+	static PlayerSpecs p;
+	return p;
 }

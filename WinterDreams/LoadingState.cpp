@@ -30,7 +30,7 @@ LoadingState::LoadingState(GameState* gameState_p, std::string filepath):
 LoadingState::~LoadingState() {
 }
 
-void LoadingState::update(int milliseconds) {
+void LoadingState::update() {
 	using namespace boost::property_tree;
 
 

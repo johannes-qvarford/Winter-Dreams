@@ -20,7 +20,7 @@ int main()
 			The load state will be updated until it has initialized the game state,
 			at which point it will be popped from the StateManager.
 		*/
-		/*StateManager::get().pushState(gameState_p);
+		StateManager::get().pushState(gameState_p);
 		StateManager::get().pushState(loadState_p);
 
 		StateManager::get().run();
@@ -30,4 +30,4 @@ int main()
 	}
 	return 0;
 
-}*/
+}
