@@ -1,37 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Animation.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="GameState.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Inventory.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="LoadingState.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="Main.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="PropertyManager.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceManager.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="StateManager.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="WindowManager.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="Registration_collision64x32.cpp">
@@ -55,93 +25,60 @@
     <ClCompile Include="FileStructure.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Wall.cpp">
-      <Filter>Sources</Filter>
+    <ClCompile Include="Crystal.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Sources\Entity</Filter>
     </ClCompile>
     <ClCompile Include="DamageHitBox.cpp">
-      <Filter>Sources</Filter>
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="TriggerZone.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowManager.cpp">
+      <Filter>Sources\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertyManager.cpp">
+      <Filter>Sources\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Sources\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="StateManager.cpp">
+      <Filter>Sources\Manager</Filter>
     </ClCompile>
     <ClCompile Include="Particle.cpp">
-      <Filter>Sources</Filter>
+      <Filter>Sources\Particle</Filter>
     </ClCompile>
     <ClCompile Include="ParticleSystem.cpp">
-      <Filter>Sources</Filter>
+      <Filter>Sources\Particle</Filter>
     </ClCompile>
-    <ClCompile Include="Crystal.cpp">
-      <Filter>Sources</Filter>
+    <ClCompile Include="GameState.cpp">
+      <Filter>Sources\State</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingState.cpp">
+      <Filter>Sources\State</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Animation.h">
-      <Filter>Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="WindowManager.h">
-      <Filter>Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="CutsceneTriggerZone.h">
-      <Filter>Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="DamageHitBox.h">
-      <Filter>Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="GameState.h">
-      <Filter>Includes</Filter>
-    </ClInclude>
     <ClInclude Include="GameToScreen.h">
       <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="InputManager.h">
-      <Filter>Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="Inventory.h">
-      <Filter>Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemDisplay.h">
-      <Filter>Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="LoadingState.h">
-      <Filter>Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuState.h">
-      <Filter>Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicalEntity.h">
-      <Filter>Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerRelated.h">
-      <Filter>Includes</Filter>
-    </ClInclude>
     <ClInclude Include="PrecompiledHeader.h">
-      <Filter>Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="PropertyManager.h">
-      <Filter>Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManager.h">
-      <Filter>Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="Script.h">
-      <Filter>Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="State.h">
-      <Filter>Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="StateManager.h">
-      <Filter>Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="TriggerZone.h">
-      <Filter>Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="Wall.h">
       <Filter>Includes</Filter>
     </ClInclude>
     <ClInclude Include="ObjectTypeRegistration.h">
@@ -156,17 +93,74 @@
     <ClInclude Include="FileStructure.h">
       <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Particle.h">
-      <Filter>Includes</Filter>
+    <ClInclude Include="DamageHitBox.h">
+      <Filter>Includes\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleSystem.h">
-      <Filter>Includes</Filter>
+    <ClInclude Include="Animation.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Includes\Entity</Filter>
     </ClInclude>
     <ClInclude Include="Crystal.h">
-      <Filter>Includes</Filter>
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="CutsceneTriggerZone.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Includes\Entity</Filter>
     </ClInclude>
     <ClInclude Include="GraphicalEntity.h">
-      <Filter>Includes</Filter>
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Script.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyManager.h">
+      <Filter>Includes\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Includes\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="StateManager.h">
+      <Filter>Includes\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowManager.h">
+      <Filter>Includes\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Includes\State</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>Includes\State</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingState.h">
+      <Filter>Includes\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Includes\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystem.h">
+      <Filter>Includes\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuState.h">
+      <Filter>Includes\State</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicalEntity.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="TriggerZone.h">
+      <Filter>Includes\Entity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -181,6 +175,30 @@
     </Filter>
     <Filter Include="Includes\Registration">
       <UniqueIdentifier>{92ed7915-027b-4df6-8268-eb7cb664ec80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Includes\Entity">
+      <UniqueIdentifier>{25f89b4d-d8cb-45df-bcac-5e1e7defd70d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Includes\Manager">
+      <UniqueIdentifier>{3b1e944c-2e8d-4a88-975d-86ff393dee8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Includes\State">
+      <UniqueIdentifier>{55b2bcb3-0708-47fa-ac17-453d1a199f60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Includes\Particle">
+      <UniqueIdentifier>{ab3b911f-f1e2-4db6-8aaf-9305050dfbf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Manager">
+      <UniqueIdentifier>{aa50adc8-6cd3-4a40-8e09-73f73a48c7ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Entity">
+      <UniqueIdentifier>{65c0436c-2f6f-44cf-be53-5624b71e28b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Particle">
+      <UniqueIdentifier>{39962544-4434-4a95-b02b-98f4b62589fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\State">
+      <UniqueIdentifier>{b2756ea9-21c1-4154-881d-297c19999e8d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -15,6 +15,8 @@ class GraphicalEntity;
 class PhysicalEntity;
 class CollisionZone;
 class Script;
+class AiPath;
+class Entity;
 
 ////////////////////////////////////////////////////////////
 // /GameState is the state where the game is avalible to the player.
@@ -69,10 +71,33 @@ public:
 	////////////////////////////////////////////////////////////
 	void setBackgroundTexture(std::shared_ptr<sf::Texture> texture_sp, const sf::Vector2f& position);
 
+	////////////////////////////////////////////////////////////
+	// /Map a name to an entity.
+	////////////////////////////////////////////////////////////
+	void mapEntityToName(const std::string& name, std::weak_ptr<Entity> entity_wp);
+
+	////////////////////////////////////////////////////////////
+	// /Map a name to a path.
+	////////////////////////////////////////////////////////////
+	void mapAiPathToName(const std::string& name, std::weak_ptr<Entity> path_wp);
+
+	////////////////////////////////////////////////////////////
+	// /Get entity mapped to a name.
+	////////////////////////////////////////////////////////////
+	std::weak_ptr<Entity> getEntity(const std::string& name);
+
+	////////////////////////////////////////////////////////////
+	// /Get path mapped to a name.
+	////////////////////////////////////////////////////////////
+	std::weak_ptr<AiPath> getAiPath(const std::string& name);
+
 	typedef std::list<std::shared_ptr<GraphicalEntity> > GraphicalEntities;
 	typedef std::list<std::shared_ptr<Script> > Scripts;
 	typedef std::list<std::shared_ptr<CollisionZone> > CollisionZones;
+	typedef std::map<std::string, const std::weak_ptr<Entity> > EntityMap;
+	typedef std::map<std::string, const std::weak_ptr<AiPath> > AiPathMap;
 	typedef std::pair<std::shared_ptr<sf::Texture>, sf::Vector2f> PositionedTexture;
+	
 
 private:
 	
@@ -91,6 +116,10 @@ private:
 	// /Remove all entities that are not active anymore.
 	////////////////////////////////////////////////////////////
 	void deleteInactives();
+
+	EntityMap mNameToEntity;
+
+	AiPathMap mNameToAiPath;
 
 	CollisionZones mCollisionZones;
 

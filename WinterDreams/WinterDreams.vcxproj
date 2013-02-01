@@ -33,6 +33,7 @@
     <ClCompile Include="ResourceManager.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TriggerZone.cpp" />
     <ClCompile Include="WindowManager.cpp" />
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -45,15 +46,12 @@
     <ClInclude Include="GameToScreen.h" />
     <ClInclude Include="Crystal.h" />
     <ClInclude Include="GraphicalEntity.h" />
-    <ClInclude Include="InputManager.h" />
-    <ClInclude Include="ItemDisplay.h" />
     <ClInclude Include="ObjectFactory.h" />
     <ClInclude Include="ObjectTypeRegistration.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="PhysicalEntity.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayerRelated.h" />
     <ClInclude Include="PrecompiledHeader.h" />
     <ClInclude Include="PropertyManager.h" />
     <ClInclude Include="RegistrationCommonHeaders.h" />
