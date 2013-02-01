@@ -204,8 +204,8 @@ PlayerSpecs::PlayerSpecs() {
 	auto& animations = player.get_child( "animations" );
 	for(auto iter = animations.begin(), end = animations.end(); iter != end; ++iter){
 		if(iter->second.get<std::string>("filename") != "null"){
-			auto w =	iter->second.get<int>	("width");
-			auto h =	iter->second.get<int>	("height");
+			auto w =	iter->second.get<int>	("spritewidth");
+			auto h =	iter->second.get<int>	("spriteheight");
 			auto yO =	iter->second.get<int>	("yorigin");
 			auto xO =	iter->second.get<int>	("xorigin");
 			auto nos =	iter->second.get<int>	("numberofsprites");

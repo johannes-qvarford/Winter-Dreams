@@ -33,13 +33,15 @@
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Inventory.cpp" />
-    <ClCompile Include="ResourceManager.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="TriggerZone.cpp" />
     <ClCompile Include="WindowManager.cpp" />
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="PrecompiledHeader.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
@@ -131,7 +133,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>DEBUG_SOLIDZONE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLACE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)..\SFML\include\;$(SolutionDir)..\boost-svn\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PrecompiledHeader.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)..\..\Obj\$(Configuration)\Hello.pch</PrecompiledHeaderOutputFile>

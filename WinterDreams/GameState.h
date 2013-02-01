@@ -79,7 +79,7 @@ public:
 	////////////////////////////////////////////////////////////
 	// /Map a name to a path.
 	////////////////////////////////////////////////////////////
-	void mapAiPathToName(const std::string& name, std::weak_ptr<Entity> path_wp);
+	void mapAiPathToName(const std::string& name, std::weak_ptr<AiPath> path_wp);
 
 	////////////////////////////////////////////////////////////
 	// /Get entity mapped to a name.
@@ -94,8 +94,8 @@ public:
 	typedef std::list<std::shared_ptr<GraphicalEntity> > GraphicalEntities;
 	typedef std::list<std::shared_ptr<Script> > Scripts;
 	typedef std::list<std::shared_ptr<CollisionZone> > CollisionZones;
-	typedef std::map<std::string, const std::weak_ptr<Entity> > EntityMap;
-	typedef std::map<std::string, const std::weak_ptr<AiPath> > AiPathMap;
+	typedef std::map<std::string, std::weak_ptr<Entity> > EntityMap;
+	typedef std::map<std::string, std::weak_ptr<AiPath> > AiPathMap;
 	typedef std::pair<std::shared_ptr<sf::Texture>, sf::Vector2f> PositionedTexture;
 	
 

@@ -34,12 +34,6 @@
     <ClCompile Include="Animation.cpp">
       <Filter>Sources\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionZone.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="SolidZone.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="DamageHitBox.cpp">
       <Filter>Sources\Entity</Filter>
     </ClCompile>
@@ -82,6 +76,13 @@
     <ClCompile Include="Registration_crystal.cpp">
       <Filter>Sources\Registration</Filter>
     </ClCompile>
+    <ClCompile Include="SolidZone.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionZone.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="PrecompiledHeader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameToScreen.h">
@@ -150,9 +151,6 @@
     <ClInclude Include="LoadingState.h">
       <Filter>Includes\State</Filter>
     </ClInclude>
-    <ClInclude Include="SolidZone.h">
-	  <Filter>Includes</Filter>
-    </ClInclude>
     <ClInclude Include="Particle.h">
       <Filter>Includes\Particle</Filter>
     </ClInclude>
@@ -172,6 +170,10 @@
       <Filter>Includes\Entity</Filter>
     </ClInclude>
     <ClInclude Include="TriggerZone.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionZone.h" />
+    <ClInclude Include="SolidZone.h">
       <Filter>Includes\Entity</Filter>
     </ClInclude>
   </ItemGroup>

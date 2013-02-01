@@ -3,7 +3,7 @@
 
 
 TriggerZone::TriggerZone(const sf::FloatRect& hitBox, bool triggerOnce, const std::string& onEnterName, const std::string& onExitName, int lightLevel):
-	CollisionZone(hitBox, triggerOnce, false),
+	CollisionZone(false, hitBox, triggerOnce ),
 	mTouchedLastFrame(false),
 	mLightLevel(lightLevel),
 	mEnterName(onEnterName),

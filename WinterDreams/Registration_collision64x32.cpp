@@ -6,4 +6,4 @@ static void regCallback(GameState* state, const sf::Vector2f& position, const bo
 	state->addCollisionZone(solid_sp);//all hitbox sizes are now inverted.
 }
 
-static ObjectTypeRegistration reg("collision128x64", regCallback);
+static ObjectTypeRegistration reg("collision64x32", regCallback);
