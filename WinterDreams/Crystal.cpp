@@ -10,7 +10,7 @@ Crystal::Crystal( const sf::FloatRect& position, bool startEnabled ) :
 	mHP		( 6 )
 
 {
-	mAnimationMap.insert(std::pair<std::string, Animation>("placeholder", Animation(FS_DIR_OBJECTANIMATIONS + "crystal 128x64/placeholder_crystal.png", 48, 0, 1, 1) ) );
+	mAnimationMap.insert(std::pair<std::string, Animation>("placeholder", Animation(FS_DIR_OBJECTANIMATIONS + "crystal 128x64/placeholder_crystal.png", 64, 64, 1, 1, 48, 0) ) );
 	mCurrentAnimation = &mAnimationMap.find("placeholder")->second;
 }
 
@@ -22,7 +22,6 @@ void Crystal::drawSelf() {
 	auto& windowManager = WindowManager::get();
 
 	auto& sprite = mCurrentAnimation->getCurrentSprite();
-	sprite.setOrigin( 0, 48);
 
 	auto& box = mSolidZone->getHitBox();
 	auto pos = sf::Vector2f(box.left, box.top);

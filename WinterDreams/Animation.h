@@ -20,7 +20,14 @@ public:
 	// / Knowledge about how many spirtes the texture contains. (numberOfSprites) Minimum 1.
 	// / Knowledge about how many frames each sprite is displayed. (framesPerSprite) Minimum 1.
 	////////////////////////////////////////////////////////////
-	Animation(const std::string filePath, unsigned int spriteWidth, unsigned int spriteHeight, unsigned int numberOfSprites, unsigned int framesPerSprite);
+	Animation(const std::string filePath, 
+			  unsigned int spriteWidth, 
+			  unsigned int spriteHeight, 
+			  unsigned int numberOfSprites, 
+			  unsigned int framesPerSprite,
+			  unsigned int xOffset,
+			  unsigned int yOffset);
+
 	Animation(const Animation& animation);
 	////////////////////////////////////////////////////////////
 	// /The texture's shared pointer leaves scope. 

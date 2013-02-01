@@ -7,8 +7,48 @@
 #include "ResourceManager.h"
 #include "FileStructure.h"
 #include "PropertyManager.h"
+#include <list>
 #include <cmath>
+////////////////////////////////////////////////////////////////////////////////
+struct AnimSpecs{
+	AnimSpecs(	const std::string filePath, 
+				unsigned int spriteWidth, 
+				unsigned int spriteHeight, 
+				unsigned int numberOfSprites, 
+				unsigned int framesPerSprite,
+				unsigned int xOrigin,
+				unsigned int yOrigin	) :
+		mWidth  ( spriteWidth ),
+		mHeight ( spriteHeight ),
+		mNrOfSprites( numberOfSprites ),
+		mFramesPerSprite ( framesPerSprite ),
+		mFilePath ( filePath ),
+		mXOrigin (xOrigin ),
+		mYOrigin (yOrigin )
+		{ }
 
+	unsigned int mWidth, mHeight, mNrOfSprites;
+	unsigned int mFramesPerSprite, mXOrigin, mYOrigin;
+	std::string mFilePath;
+};
+////////////////////////////////////////////////////////////////////////////////
+class PlayerSpecs{
+public:	
+	////////////////////////////////////////////////////////////////////////////
+	// /Singleton-pattern.
+	// /Is used to access the different properties of the player.
+	////////////////////////////////////////////////////////////////////////////
+	static PlayerSpecs& get();
+	
+	float mMoveSpeed;
+	std::list<AnimSpecs> mAnimSpecLits;
+
+private:
+	PlayerSpecs();							//Singleton-pattern
+	PlayerSpecs(const PlayerSpecs& p);		//No copies
+	PlayerSpecs& operator=(PlayerSpecs& p);	//No copies
+};
+////////////////////////////////////////////////////////////////////////////////
 
 Player::Player(sf::FloatRect initialPosition) :
 	GraphicalEntity( true ),
@@ -17,8 +57,20 @@ Player::Player(sf::FloatRect initialPosition) :
 	mLightLevel( 5 ),
 	mHitBox( initialPosition.left, initialPosition.top, X_STEP , -Y_STEP ) //All hitbox heights are now inverted, ask Johannes.
 {
-	mAnimationMap.insert( std::pair<std::string, Animation> ("placeholder", Animation(FS_DIR_OBJECTANIMATIONS + "player/placeholder.png", 64, 64, 3, 10) ) );
-	mCurrentAnimation_p = &mAnimationMap.find("placeholder")->second;
+	using namespace std;
+	auto& p = PlayerSpecs::get();
+	for( auto iter = p.mAnimSpecLits.begin(), end = p.mAnimSpecLits.end(); iter != end; ++iter){
+		auto w =	iter->mWidth;
+		auto h =	iter->mHeight;
+		auto yO =	iter->mYOrigin;
+		auto xO =	iter->mXOrigin;
+		auto nos =	iter->mNrOfSprites;
+		auto fps =	iter->mFramesPerSprite;
+		auto name = iter->mFilePath;
+
+		Animation anim(FS_DIR_OBJECTANIMATIONS +"player/"+ name +".png", w, h, nos, fps, xO, yO);
+		mAnimationMap.insert( pair<string, Animation>( name , anim ) );
+	}
 }
 
 Player::~Player() {}
@@ -60,7 +112,7 @@ void Player::update(GameState* gameState_p){
 		tempDir.y = tempDir.y / tempLenght;
 	}
 		//Extend tempDir by the avatars move speed
-	tempDir *= MOVE_SPEED;
+	tempDir *= PlayerSpecs::get().mMoveSpeed;
 		//Adjust the avatars position by tempDir
 	adjustPosition( tempDir );	
 }
@@ -68,8 +120,6 @@ void Player::update(GameState* gameState_p){
 void Player::drawSelf(){
 		//Get the current animation's sprite
 	auto& sprite = mCurrentAnimation_p->getCurrentSprite();
-
-	sprite.setOrigin(0 , 48);
 		//Assign the sprite a position (in Screen Coordinates)
 	sprite.setPosition( GAME_TO_SCREEN * getPosition() );
 		//Draw the sprite
@@ -131,63 +181,33 @@ sf::Vector2i Player::getDirection(){
 }
 
 
-////////////////////////////////////////////////////////////////////////////////
-struct AnimSpecs{
-	AnimSpecs(	const std::string filePath, 
-				unsigned int spriteWidth, 
-				unsigned int spriteHeight, 
-				unsigned int numberOfSprites, 
-				unsigned int framesPerSprite,
-				unsigned int xOrigin,
-				unsigned int yOrigin	) :
-		mWidth  ( spriteWidth ),
-		mHeight ( spriteHeight ),
-		mNrOfSprites( numberOfSprites ),
-		mFramesPerSprite ( framesPerSprite ),
-		mFilePath ( filePath ),
-		mXOrigin (xOrigin ),
-		mYOrigin (yOrigin )
-		{ }
 
-	unsigned int mWidth, mHeight, mNrOfSprites;
-	unsigned int mFramesPerSprite, mXOrigin, mYOrigin;
-	std::string mFilePath;
-};
-
-class PlayerSpecs{
-public:	
-	////////////////////////////////////////////////////////////////////////////
-	// /Singleton-pattern.
-	// /Is used to access the different properties of the player.
-	////////////////////////////////////////////////////////////////////////////
-	static PlayerSpecs& get();
-	
-	float mMoveSpeed;
-	int mNumberOfAnimations;	
-	std::map<std::string, AnimSpecs> mAnimSpecsMap;
-
-private:
-	PlayerSpecs() {}						//Singleton-pattern
-	PlayerSpecs(const PlayerSpecs& p);		//No copies
-	PlayerSpecs& operator=(PlayerSpecs& p);	//No copies
-};
 ////////////////////////////////////////////////////////////////////////////////
 PlayerSpecs::PlayerSpecs() {
 	auto& obj = PropertyManager::get().getObjectSettings();
 	auto& player = obj.get_child( "objects.player" );
 
 	mMoveSpeed = player.get<float>( "walkspeed" );
-	mNumberOfAnimations = player.get<int>( "numberofanimations" );
 	
 	auto& animations = player.get_child( "animations" );
-	auto defaultWidth = animations.get<int>( "width" );
 	for(auto iter = animations.begin(), end = animations.end(); iter != end; ++iter){
-		
-		/////////////////////////////////////
+		auto w =	iter->second.get<unsigned int>	("width");
+		auto h =	iter->second.get<unsigned int>	("height");
+		auto yO =	iter->second.get<unsigned int>	("yorigin");
+		auto xO =	iter->second.get<unsigned int>	("xorigin");
+		auto nos =	iter->second.get<unsigned int>	("numberofsprites");
+		auto fps =	iter->second.get<unsigned int>	("framespersprite");
+		auto path = iter->second.get<std::string>	("filename");
+
+		if(path != "null"){
+			AnimSpecs as(path, w, h, nos, fps, xO, yO);
+			mAnimSpecLits.emplace_back( as );
+		}
 	}
 }
-
+////////////////////////////////////////////////////////////////////////////////
 PlayerSpecs& PlayerSpecs::get() { 
 	static PlayerSpecs p;
 	return p;
 }
+////////////////////////////////////////////////////////////////////////////////

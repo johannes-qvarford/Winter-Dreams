@@ -9,20 +9,21 @@ Animation::Animation(const std::string filePath,
 					 unsigned int spriteWidth,
 					 unsigned int spriteHeight,
 					 unsigned int numberOfSprites, 
-					 unsigned int framesPerSprite) :
+					 unsigned int framesPerSprite,
+					 unsigned int xOffset,
+					 unsigned int yOffset) :
 	mNumberOfSprites(numberOfSprites),
 	mFramesPerSprite(framesPerSprite),
 	mCurrentFrame(0),
 	mCurrentSprite(0),
-	mSpriteWidth(spriteWidth),
-	mSpriteHeight(spriteHeight),
 	mTexture_p(ResourceManager::get().getTexture(filePath) ),
 	mSprite(),
 	mEndOfAnimation( false )
 {
 		//Binds the sprite to the texture.
 	mSprite.setTexture(*mTexture_p);
-	mSprite.setTextureRect(sf::IntRect(0,0, mSpriteWidth, mSpriteHeight));
+	mSprite.setTextureRect(sf::IntRect(0,0, spriteWidth, spriteHeight));
+	mSprite.setOrigin( static_cast<float>(xOffset), static_cast<float>(yOffset) );
 }
 ////////////////////////////////////////////////////////////
 // /Copy constructor for animation. 
@@ -32,8 +33,6 @@ Animation::Animation(const Animation& animation) :
 	mFramesPerSprite(animation.mFramesPerSprite),
 	mCurrentFrame(animation.mCurrentFrame),
 	mCurrentSprite(animation.mCurrentSprite),
-	mSpriteWidth(animation.mSpriteWidth),
-	mSpriteHeight(animation.mSpriteHeight),
 	mTexture_p(animation.mTexture_p),
 	mSprite(animation.mSprite),
 	mEndOfAnimation( animation.mEndOfAnimation )
