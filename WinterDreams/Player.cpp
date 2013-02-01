@@ -11,7 +11,8 @@
 #include <cmath>
 ////////////////////////////////////////////////////////////////////////////////
 struct AnimSpecs{
-	AnimSpecs(	const std::string filePath, 
+	AnimSpecs(	const std::string animName,
+				const std::string fileName, 
 				unsigned int spriteWidth, 
 				unsigned int spriteHeight, 
 				unsigned int numberOfSprites, 
@@ -22,14 +23,15 @@ struct AnimSpecs{
 		mHeight ( spriteHeight ),
 		mNrOfSprites( numberOfSprites ),
 		mFramesPerSprite ( framesPerSprite ),
-		mFilePath ( filePath ),
+		mAnimName ( animName ),
+		mFileName ( fileName ),
 		mXOrigin (xOrigin ),
 		mYOrigin (yOrigin )
 		{ }
 
 	unsigned int mWidth, mHeight, mNrOfSprites;
 	unsigned int mFramesPerSprite, mXOrigin, mYOrigin;
-	std::string mFilePath;
+	std::string mFileName, mAnimName;
 };
 ////////////////////////////////////////////////////////////////////////////////
 class PlayerSpecs{
@@ -40,6 +42,8 @@ public:
 	////////////////////////////////////////////////////////////////////////////
 	static PlayerSpecs& get();
 	
+	bool mEnabled;
+	int mLightLevel;
 	float mMoveSpeed;
 	std::list<AnimSpecs> mAnimSpecLits;
 
@@ -51,10 +55,10 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 
 Player::Player(sf::FloatRect initialPosition) :
-	GraphicalEntity( true ),
+	GraphicalEntity( PlayerSpecs::get().mEnabled ),
 	mInventory (Inventory() ),
 	mMovementMode(NORMAL),
-	mLightLevel( 5 ),
+	mLightLevel( PlayerSpecs::get().mLightLevel ),
 	mHitBox( initialPosition.left, initialPosition.top, X_STEP , -Y_STEP ) //All hitbox heights are now inverted, ask Johannes.
 {
 	using namespace std;
@@ -66,11 +70,14 @@ Player::Player(sf::FloatRect initialPosition) :
 		auto xO =	iter->mXOrigin;
 		auto nos =	iter->mNrOfSprites;
 		auto fps =	iter->mFramesPerSprite;
-		auto name = iter->mFilePath;
+		auto file = iter->mFileName;
+		auto name = iter->mAnimName;
 
-		Animation anim(FS_DIR_OBJECTANIMATIONS +"player/"+ name +".png", w, h, nos, fps, xO, yO);
+		Animation anim(FS_DIR_OBJECTANIMATIONS +"player/"+ file , w, h, nos, fps, xO, yO);
 		mAnimationMap.insert( pair<string, Animation>( name , anim ) );
 	}
+
+	mCurrentAnimation_p = &mAnimationMap.begin()->second;
 }
 
 Player::~Player() {}
@@ -102,7 +109,7 @@ void Player::update(GameState* gameState_p){
 		mDirection += sf::Vector2i(1, 1);		
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-		gameState_p->addGraphicalEntity(std::shared_ptr<DamageHitBox>( new DamageHitBox(2, mHitBox, DamageHitBox::PICKAXE ) ) );
+		gameState_p->addGraphicalEntity(std::shared_ptr<DamageHitBox>( new DamageHitBox(mHitBox, 2, DamageHitBox::PICKAXE ) ) );
 	}
 		//Get the length of tempDir
 	auto tempLenght = std::sqrt(tempDir.x * tempDir.x + tempDir.y * tempDir.y);
@@ -187,7 +194,9 @@ PlayerSpecs::PlayerSpecs() {
 	auto& obj = PropertyManager::get().getObjectSettings();
 	auto& player = obj.get_child( "objects.player" );
 
+	mLightLevel = player.get<int>( "startlight" );
 	mMoveSpeed = player.get<float>( "walkspeed" );
+	mEnabled = player.get<bool>( "startenabled" );
 	
 	auto& animations = player.get_child( "animations" );
 	for(auto iter = animations.begin(), end = animations.end(); iter != end; ++iter){
@@ -197,10 +206,11 @@ PlayerSpecs::PlayerSpecs() {
 		auto xO =	iter->second.get<unsigned int>	("xorigin");
 		auto nos =	iter->second.get<unsigned int>	("numberofsprites");
 		auto fps =	iter->second.get<unsigned int>	("framespersprite");
-		auto path = iter->second.get<std::string>	("filename");
+		auto file = iter->second.get<std::string>	("filename");
+		auto name = iter->first;
 
-		if(path != "null"){
-			AnimSpecs as(path, w, h, nos, fps, xO, yO);
+		if(file != "null"){
+			AnimSpecs as(name, file, w, h, nos, fps, xO, yO);
 			mAnimSpecLits.emplace_back( as );
 		}
 	}

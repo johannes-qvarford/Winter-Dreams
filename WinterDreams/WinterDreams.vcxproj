@@ -25,6 +25,7 @@
     <ClCompile Include="Registration_collision128x64.cpp" />
     <ClCompile Include="Registration_collision256x128.cpp" />
     <ClCompile Include="Registration_collision64x32.cpp" />
+    <ClCompile Include="Registration_crystal.cpp" />
     <ClCompile Include="Registration_player.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="StateManager.cpp" />

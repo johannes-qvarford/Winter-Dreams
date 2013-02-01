@@ -2,7 +2,7 @@
 #define INCLUDED_CRYSTAL
 
 #include "GraphicalEntity.h"
-//#include "SolidZone.h"
+#include "SolidZone.h"
 #include "Animation.h"
 #include <SFML\Graphics\Rect.hpp>
 
@@ -24,28 +24,34 @@ public:
 	//////////////////////////////////////////////////////
 	~Crystal();
 	//////////////////////////////////////////////////////
-	// /Defines what IceBlock should do each update
+	// /Defines what Crystal should do each update
 	//////////////////////////////////////////////////////
 	void update(GameState* gameState_p);
 	//////////////////////////////////////////////////////
-	// /Defines how the IceBlock should draw itself
+	// /Defines how the Crystal should draw itself
 	//////////////////////////////////////////////////////
 	void drawSelf();
 	//////////////////////////////////////////////////////
-	// /Returns the hitbox of the IceBlock
+	// /Returns the hitbox of the Crystal
 	//////////////////////////////////////////////////////
 	sf::FloatRect& getHitBox();
 	//////////////////////////////////////////////////////
-	// /Defines what the IceBlock should do with the entity it collides with
+	// /Defines what the Crystal should do with the entity it collides with
 	//////////////////////////////////////////////////////
 	void onCollision(PhysicalEntity* entityCollidedWith_p, const sf::FloatRect& intersection);
 	//////////////////////////////////////////////////////
-	// /Used for increasing och decreasing an ice block's health.
+	// /Used for increasing och decreasing an Crystal's health.
 	// /Send a negative argument to decrease the health.
-	// /If the health reaches zero, or lower, the ice block is tagged
+	// /If the health reaches zero, or lower, the Crystal is tagged
 	// /as inactive.
 	//////////////////////////////////////////////////////
 	void adjustHealth(int adjustment);
+	//////////////////////////////////////////////////////
+	// /This definition is requested by Physical Entity.
+	// /Unless an object is dependent on it's direction,
+	// /the return value is of no importence.
+	//////////////////////////////////////////////////////
+	sf::Vector2i getDirection() { return sf::Vector2i( 0,0 ); }
 private:
 	std::map<std::string, Animation> mAnimationMap; //The crystal's collection of Animations
 	Animation* mCurrentAnimation;					//The crystal's animation

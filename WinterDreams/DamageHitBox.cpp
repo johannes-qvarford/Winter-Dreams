@@ -10,7 +10,7 @@
 // /Simply assigns the arguments to the correct member variable.
 // /EXCEPTION: mLifeTime is assigned manually. Defines how many updates the hitbox lives.
 ///////////////////////////////////////////////
-DamageHitBox::DamageHitBox(unsigned int damage, const sf::Rect<float>& hitBox, DamageType type) :
+DamageHitBox::DamageHitBox(const sf::Rect<float>& hitBox, unsigned int damage, DamageType type) :
 	GraphicalEntity( true ),
 	mHitBox( hitBox ),
 	mDamage( damage ),
