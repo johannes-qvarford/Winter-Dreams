@@ -58,6 +58,12 @@
     <ClCompile Include="Wall.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionZone.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SolidZone.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -142,6 +148,12 @@
       <Filter>Includes\Registration</Filter>
     </ClInclude>
     <ClInclude Include="FileStructure.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionZone.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="SolidZone.h">
       <Filter>Includes</Filter>
     </ClInclude>
   </ItemGroup>
