@@ -33,6 +33,7 @@
     </ClCompile>
     <ClCompile Include="Animation.cpp">
       <Filter>Sources\Entity</Filter>
+    </ClCompile>
     <ClCompile Include="CollisionZone.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -148,12 +149,6 @@
     </ClInclude>
     <ClInclude Include="LoadingState.h">
       <Filter>Includes\State</Filter>
-	</ClInclude>
-    <ClInclude Include="FileStructure.h">
-      <Filter>Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionZone.h">
-      <Filter>Includes</Filter>
     </ClInclude>
     <ClInclude Include="SolidZone.h">
 	  <Filter>Includes</Filter>
@@ -178,8 +173,6 @@
     </ClInclude>
     <ClInclude Include="TriggerZone.h">
       <Filter>Includes\Entity</Filter>
-    <ClInclude Include="GraphicalEntity.h">
-      <Filter>Includes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
