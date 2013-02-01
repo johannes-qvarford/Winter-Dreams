@@ -7,7 +7,6 @@
 #include "WindowManager.h"
 #include "GameToScreen.h"
 
-
 #include <algorithm>
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -18,6 +17,8 @@ static bool smallerPosition(std::shared_ptr<PhysicalEntity> lhs_p, std::shared_p
 static void handleCollision(PhysicalEntity* lhs_p, PhysicalEntity* rhs_p);
 
 GameState::GameState():
+	mNameToEntity(),
+	mNameToAiPath(),
 	mCollisionZones(),
 	mGraphicalEntities(),
 	mScripts(),
@@ -78,6 +79,22 @@ void GameState::setMapTexture(std::shared_ptr<sf::Texture> texture_sp, const sf:
 
 void GameState::setBackgroundTexture(std::shared_ptr<sf::Texture> texture_sp, const sf::Vector2f& position) {
 	mBackgroundTexture = std::make_pair(texture_sp, position);
+}
+
+void mapEntityToName(const std::string& name, std::weak_ptr<Entity> entity_wp) {
+	mNameToEntity.insert(std::make_pair(name, entity_wp));
+}
+
+void mapAiPathToName(const std::string& name, std::weak_ptr<AiPath> path_wp) {
+	mNameToAiPath[name] = path_wp;
+}
+
+std::weak_ptr<Entity> getEntity(const std::string& name) {
+	return mNameToEntity[name];
+}
+
+std::weak_ptr<AiPath> getAiPath(const std::string& name) {
+	return mNameToAiPath[name];
 }
 
 void GameState::render() {
