@@ -64,6 +64,21 @@
     <ClCompile Include="SolidZone.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="DamageHitBox.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleSystem.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Crystal.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_crystal.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -154,6 +169,18 @@
       <Filter>Includes</Filter>
     </ClInclude>
     <ClInclude Include="SolidZone.h">
+	  <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystem.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Crystal.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicalEntity.h">
       <Filter>Includes</Filter>
     </ClInclude>
   </ItemGroup>

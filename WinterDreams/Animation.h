@@ -20,7 +20,14 @@ public:
 	// / Knowledge about how many spirtes the texture contains. (numberOfSprites) Minimum 1.
 	// / Knowledge about how many frames each sprite is displayed. (framesPerSprite) Minimum 1.
 	////////////////////////////////////////////////////////////
-	Animation(const std::string filePath, unsigned int spriteWidth, unsigned int spriteHeight, unsigned int numberOfSprites, unsigned int framesPerSprite);
+	Animation(const std::string filePath, 
+			  unsigned int spriteWidth, 
+			  unsigned int spriteHeight, 
+			  unsigned int numberOfSprites, 
+			  unsigned int framesPerSprite,
+			  unsigned int xOffset,
+			  unsigned int yOffset);
+
 	Animation(const Animation& animation);
 	////////////////////////////////////////////////////////////
 	// /The texture's shared pointer leaves scope. 
@@ -37,6 +44,10 @@ public:
 	// / Usually used once when another animation is assigned to an object.
 	////////////////////////////////////////////////////////////
 	void resetAnimation();
+	////////////////////////////////////////////////////////////
+	// /Returns True the animation will reset next frame.
+	////////////////////////////////////////////////////////////
+	bool endOfAnimation() const;
 private:
 	std::shared_ptr<sf::Texture> mTexture_p; //The texture from which sprites are displayed.
 	sf::Sprite  mSprite;			//The current sprite from mTexture.
@@ -46,6 +57,7 @@ private:
 	unsigned int mFramesPerSprite;	//How many frames should each sprite be displayed.
 	unsigned int mCurrentSprite;	//Which sprite (by index) is currently displayed.
 	unsigned int mCurrentFrame;		//Which frame (not sprite) is currently active.
+	bool mEndOfAnimation;			//Kepps track of whether the animation currently displays the last image's last frame.
 
 };
 

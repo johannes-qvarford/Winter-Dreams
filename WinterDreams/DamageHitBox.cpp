@@ -1,61 +1,61 @@
 #include "DamageHitBox.h"
-
+	#ifdef DEBUG_WALL
 #include "WindowManager.h"
+#include "ResourceManager.h"
+	#endif
 #include "GameState.h"
-#include "IceBlock.h"
-#include "Wall.h"
+#include "Crystal.h"
+#include <SFML\Audio.hpp>
 ///////////////////////////////////////////////
 // /Simply assigns the arguments to the correct member variable.
 // /EXCEPTION: mLifeTime is assigned manually. Defines how many updates the hitbox lives.
 ///////////////////////////////////////////////
-DamageHitBox::DamageHitBox(unsigned int damage, const sf::Rect<float>& hitBox, DamageTypes type) :
+DamageHitBox::DamageHitBox(const sf::Rect<float>& hitBox, unsigned int damage, DamageType type) :
+	GraphicalEntity( true ),
 	mHitBox( hitBox ),
 	mDamage( damage ),
 	mDamageType( type ),
 	mLifeTime(20)
-{
+{ 
 }
+
+DamageHitBox::~DamageHitBox() { }
 	///////////////////////////////////////////////
 	// /Returns the hit box of the damage zone
 	///////////////////////////////////////////////
-sf::FloatRect& DamageHitBox::getHitBox() const{
+sf::FloatRect& DamageHitBox::getHitBox() {
 	return mHitBox;
 }
 	///////////////////////////////////////////////
 	// /Counts down the hitbox life time. The hit box is set
 	// /to inactive when it reaches 0.
 	///////////////////////////////////////////////
-void DamageHitBox::update(GameState* gameState_p, int milliseconds){
+void DamageHitBox::update(GameState* gameState_p){
 	if( mLifeTime <= 0 )
-		setActive(false);
+		setAlive( false );
 
 	--mLifeTime;
 }
 	///////////////////////////////////////////////
 	// /Draws a red circle representing the damage hitbox. Only for bug testing
 	///////////////////////////////////////////////
-void DamageHitBox::drawSelf(){
-	WindowManager& window = WindowManager::get();
-	sf::CircleShape c;
-	c.setFillColor(sf::Color(sf::Uint8(255), sf::Uint8(0), sf::Uint8(0) ) );
-	c.setPosition(mHitBox.left, mHitBox.top);
-
-	window.getWindow()->draw(c);
+void DamageHitBox::drawSelf(){ 
+#ifdef DEBUG_WALL
+	auto tex = ResourceManager::get().getTexture("DEBUG.png");
+	sf::Sprite s( *tex );
+	WindowManager::get().getWindow()->draw( s, *WindowManager::get().getStates() );
+#endif
 }
 	///////////////////////////////////////////////
 	// /Defines what the DamageHitBox should do on collision.
 	///////////////////////////////////////////////
 void DamageHitBox::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::FloatRect& intersection){
 		//Checks if the DamageHitBox collides with an ice block and if the damage comes from a pickaxe.
-	if( dynamic_cast<IceBlock*>(entityCollidedWith_p) && mDamageType == PICKAXE){
-		IceBlock* ice = dynamic_cast<IceBlock*>(entityCollidedWith_p);
-		ice->adjustHealth(mDamage * -1);
-		//Play sound for ice collision
+	if( dynamic_cast<Crystal*>(entityCollidedWith_p) && mDamageType == PICKAXE){
+			//Cast the pointer to a Crystal-pointer
+		Crystal* crystal = dynamic_cast<Crystal*>(entityCollidedWith_p);
+			//Adjust the Crystals health by the hitbox' damage
+		crystal->adjustHealth(mDamage * -1);
+			//Play sound for ice collision
 	}
-		//Checks if the DamageHitBox collides with a wall
-	else if( dynamic_cast<Wall*>(entityCollidedWith_p) ){
-		//Play sounds for wall collision.
-	}
-		//In case of further collisions
-	else {}
 }

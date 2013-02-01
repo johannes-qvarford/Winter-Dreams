@@ -17,7 +17,7 @@ namespace sf {
 */
 class Wall : public PhysicalEntity {
 public:
-
+	Wall() {}
 	/*
 	//	Create a Wall at (x,y) with width and height
 	*/

@@ -11,87 +11,107 @@ namespace sf {
 	class Texture;
 }
 
-class PlayerRelated;
+class GraphicalEntity;
 class PhysicalEntity;
+class CollisionZone;
 class Script;
-/*
-//	GameState is the state where the game is avalible to the player.
-//	Data ought to be loaded into GameState by a LoadingState before 
-//	a being assigned "current state" by the StateManager.
-*/
+
+////////////////////////////////////////////////////////////
+// /GameState is the state where the game is avalible to the player.
+// /Data ought to be loaded into GameState by a LoadingState before 
+// /a being assigned "current state" by the StateManager.
+////////////////////////////////////////////////////////////
 class GameState : public State {
 public:
-	/*
-	//	GameStates constructor does not create anything. GameStates
-	//	has to be assigned PhysicalEntitys, Scripts and Textures via
-	//	the functions addPhysicalEntity, addScript and addTexture.
-	*/
+
+	////////////////////////////////////////////////////////////
+	// /GameStates constructor does not create anything. GameStates
+	// /has to be assigned GraphicalEntitys, Scripts, CollisionZones and Textures via
+	// /the functions addGraphicalEntity, addCollisionZones,  addScript, setBackgroundTexture
+	// /and setMapTexture.
+	////////////////////////////////////////////////////////////
 	GameState();
 
-	/*
+	////////////////////////////////////////////////////////////
 	//	GameStates destructor.
-	*/
+	////////////////////////////////////////////////////////////
 	~GameState();
 	
-	/*
-	//	Calls update on each entity in mEntitys,
-	//	calls update on each script in mScripts
-	//	then calls render.
-	*/
-	void update(int milliseconds);
+	////////////////////////////////////////////////////////////
+	// /Call update on each entity. Checks collisions between
+	// /GraphicalEntities and CollissionZones, and then render
+	// /all GraphicalEntities and Scripts.
+	////////////////////////////////////////////////////////////
+	void update();
 	
-	/*
-	//	Adds an Entity-pointer to mEntities.
-	*/
-	void addPhysicalEntity(std::shared_ptr<PhysicalEntity> physicalEntity_p);
+	////////////////////////////////////////////////////////////
+	// /Add a graphical entity to the state. 
+	////////////////////////////////////////////////////////////
+	void addGraphicalEntity(std::shared_ptr<GraphicalEntity> graphicalEntity_sp);
 	
-	/*
-	//	Adds a Script-pointer to mScripts.
-	*/
-	void addScript(std::shared_ptr<Script> script_p);
-	
-	/*
-	//	Adds the map texture.
-	*/
-	void setMapTexture(std::shared_ptr<sf::Texture> texture_p, const sf::Vector2f& position);
-	
-	/*
-	//	Adds the background texture.
-	*/
-	void setBackgroundTexture(std::shared_ptr<sf::Texture> texture_p, const sf::Vector2f& position);
+	////////////////////////////////////////////////////////////
+	// /Add a collision zone to the state. 
+	////////////////////////////////////////////////////////////
+	void addCollisionZone(std::shared_ptr<CollisionZone> graphicalEntity_sp);
 
+	////////////////////////////////////////////////////////////
+	// /Add a script to the state.
+	////////////////////////////////////////////////////////////
+	void addScript(std::shared_ptr<Script> script_sp);
+	
+	////////////////////////////////////////////////////////////
+	// /Set the map texture at a position in screencoordinates.
+	////////////////////////////////////////////////////////////
+	void setMapTexture(std::shared_ptr<sf::Texture> texture_sp, const sf::Vector2f& position);
+	
+	////////////////////////////////////////////////////////////
+	// /Set the background texture at a position in screencoordinates.
+	////////////////////////////////////////////////////////////
+	void setBackgroundTexture(std::shared_ptr<sf::Texture> texture_sp, const sf::Vector2f& position);
 
-	typedef std::list<std::shared_ptr<PhysicalEntity> > PhysicalEntities;
+	typedef std::list<std::shared_ptr<GraphicalEntity> > GraphicalEntities;
 	typedef std::list<std::shared_ptr<Script> > Scripts;
+	typedef std::list<std::shared_ptr<CollisionZone> > CollisionZones;
 	typedef std::pair<std::shared_ptr<sf::Texture>, sf::Vector2f> PositionedTexture;
 
 private:
 	
-	/*
-	//	Draws background, foreground, all physical entitys and all scripts. 
-	*/
+	////////////////////////////////////////////////////////////
+	// /Check collisions between a GraphicalEntity
+	// /and the other PhysicalEntities. 
+	////////////////////////////////////////////////////////////
+	void checkCollisions(std::shared_ptr<GraphicalEntity> graphical_sp);
+
+	////////////////////////////////////////////////////////////
+	// /Draw background, map, all graphical entities and all scripts. 
+	////////////////////////////////////////////////////////////
 	void render();
-	/*
-	//	Iterates over mEntitys and removes all entitys tagged as inactive and removes their
-	//	associated pointers.
-	//	Iterates over mScripts and removes all scripts tagged as inactive and removes their
-	//	associated pointers.
-	*/
+
+	////////////////////////////////////////////////////////////
+	// /Remove all entities that are not active anymore.
+	////////////////////////////////////////////////////////////
 	void deleteInactives();
 
-	PhysicalEntities mPhysicalEntities;	//GameStates list of Entity-pointers
-	Scripts mScripts;					//GameStates list of Script-pointers
-	PositionedTexture mMapTexture;	//GameStates map texture + position
-	PositionedTexture mBackgroundTexture;	//GameStates background texture + position
+	CollisionZones mCollisionZones;
+
+	GraphicalEntities mGraphicalEntities;
+
+	Scripts mScripts;			
+
+	PositionedTexture mMapTexture;
+
+	PositionedTexture mBackgroundTexture;
+
 	sf::View mView;
 
-	/*
-	//	GameState is not supposed to be copied
-	*/
+	////////////////////////////////////////////////////////////
+	// /No copying.
+	////////////////////////////////////////////////////////////
 	GameState(const GameState& game);
-	/*
-	//	GameState is not supposed to be copied
-	*/
+
+	////////////////////////////////////////////////////////////
+	// /No copying.
+	////////////////////////////////////////////////////////////
 	GameState& operator=(const GameState& game);
 };
 
