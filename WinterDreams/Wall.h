@@ -5,6 +5,7 @@
 #include "SFML/Graphics/Rect.hpp"
 #include <SFML/Graphics/Sprite.hpp>
 #include "PhysicalEntity.h"
+//#include "CollisionZone.h"
 
 
 namespace sf {

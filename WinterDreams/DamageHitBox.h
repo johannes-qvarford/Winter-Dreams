@@ -18,7 +18,7 @@ public:
 	// /The member variable mLifeTime (in the definition) describes it's life time
 	// /----SHOULD ADD ITSELF TO THE ENTITY VECTOR----
     ///////////////////////////////////////////////
-	DamageHitBox(unsigned int damage, const sf::Rect<float>& hitBox, DamageType type);
+	DamageHitBox(const sf::Rect<float>& hitBox, unsigned int damage, DamageType type);
 	~DamageHitBox();
     ///////////////////////////////////////////////
     // /Returns the rectal hitbox
