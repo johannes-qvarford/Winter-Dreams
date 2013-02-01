@@ -2,9 +2,8 @@
 
 #include "Script.h"
 #include "GraphicalEntity.h"
-#include "CollisionZones.h"
+#include "CollisionZone.h"
 
-#include "PlayerRelated.h"
 #include "WindowManager.h"
 #include "GameToScreen.h"
 
@@ -133,7 +132,7 @@ void GameState::deleteInactives() {
 
 			auto graphical_sp = *it;
 
-			if(graphical_sp->isActive() == false) {
+			if(graphical_sp->getAlive() == false) {
 				//'it' is invalidated
 				mGraphicalEntities.erase(it);
 			}
@@ -154,7 +153,7 @@ void GameState::deleteInactives() {
 
 			auto colZone_sp = *it;
 
-			if(colZone_sp->isActive() == false) {
+			if(colZone_sp->getAlive() == false) {
 				mCollisionZones.erase(it);
 			}
 
@@ -174,7 +173,7 @@ void GameState::deleteInactives() {
 
 			Script* script_p = it->get();
 
-			if(script_p->isActive() == false) {
+			if(script_p->getAlive() == false) {
 				mScripts.erase(it);
 			}
 
@@ -195,7 +194,7 @@ static bool smallerPosition(std::shared_ptr<PhysicalEntity> lhs_p, std::shared_p
 
 void GameState::checkCollisions(std::shared_ptr<GraphicalEntity> graphical_sp) {
 
-	for(auto it = mGraphicalsEntities.begin(), end = mGraphicalEntities.end(); it != end; ++it) {
+	for(auto it = mGraphicalEntities.begin(), end = mGraphicalEntities.end(); it != end; ++it) {
 		auto other_sp = *it;
 
 		//we can't collide with ourselves!
@@ -218,8 +217,8 @@ static void handleCollision(PhysicalEntity* lhs_p, PhysicalEntity* rhs_p) {
 	//collision boxes have negative width
 	//perform check as if they had a smaller y position, and a positive height
 	
-	auto lhsDummy = lhs->getHitBox();
-	auto rhsDummy = rhs->getHitBox()
+	auto lhsDummy = lhs_p->getHitBox();
+	auto rhsDummy = rhs_p->getHitBox();
 
 	lhsDummy.top = lhsDummy.top + lhsDummy.height;
 	lhsDummy.height = -lhsDummy.height;
@@ -229,6 +228,6 @@ static void handleCollision(PhysicalEntity* lhs_p, PhysicalEntity* rhs_p) {
 	auto intersection = sf::FloatRect();
 
 	if(lhsDummy.intersects(rhsDummy, intersection)) {
-		lhs_p->onCollision(rhsDummy, intersection);
+		lhs_p->onCollision(rhs_p, intersection);
 	}
 }
