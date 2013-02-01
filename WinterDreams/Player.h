@@ -132,6 +132,7 @@ private:
 	sf::FloatRect					 mHitBox;			//The avatar's current hitbox
 	int								 mLightLevel;		//The avatar's current light
 	MovementMode					 mMovementMode;		//The avatar's current movementMode
+	int								 mMoveSpeed;		//The avatar's movespeed
 	Inventory						 mInventory;		//The avatar's inventory
 	sf::Vector2i					 mDirection;		//The avatar's direction
 	//No copies

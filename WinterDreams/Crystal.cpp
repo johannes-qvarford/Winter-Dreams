@@ -6,7 +6,7 @@
 
 Crystal::Crystal( const sf::FloatRect& position, bool startEnabled ) : 
 	GraphicalEntity( startEnabled ),
-	mSolidZone( SolidZone( position, startEnabled ) ),
+	mSolidZone( new SolidZone( position, startEnabled ) ),
 	mHP		( 6 )
 
 {
@@ -39,7 +39,7 @@ sf::FloatRect& Crystal::getHitBox() {
 }
 
 void Crystal::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::FloatRect& intersection) {
-	mSolidZone.onCollision( entityCollidedWith_p, intersection );
+	mSolidZone->onCollision( entityCollidedWith_p, intersection );
 
 	if( dynamic_cast<DamageHitBox*>( entityCollidedWith_p ) ) {
 		auto dmgHitBox = dynamic_cast<DamageHitBox*>( entityCollidedWith_p );

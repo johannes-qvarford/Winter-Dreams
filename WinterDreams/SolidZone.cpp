@@ -1,4 +1,10 @@
 #include "SolidZone.h"
+#ifdef DEBUG_SOLIDZONE
+#include "GameToScreen.h"
+#include "FileStructure.h"
+#include "ResourceManager.h"
+#include "WindowManager.h"
+#endif
 #include "Player.h"
 
 static const char* SolidZone_IMAGE_FILENAME_1 = "collision128x64/placeholder.png";
@@ -13,13 +19,13 @@ SolidZone::SolidZone(sf::Rect<float> HitBox, bool startsEnabled):
 #ifdef DEBUG_SOLIDZONE
 	mSprite.setPosition(mHitBox.left, mHitBox.top);
 	
-	if(width < STEP + 1) {
+	if(mHitBox.width < STEP + 1) {
 		mSprite.setOrigin(0, 48);
 		mTexture = ResourceManager::get().getTexture(FS_DIR_OBJECTANIMATIONS +  SolidZone_IMAGE_FILENAME_1);
 		mSprite.setTexture(*mTexture);
 		mSprite.setTextureRect(sf::IntRect(0, 0, 64, 64));
 	}
-	else if(width < (STEP * 2) + 1) {
+	else if(mHitBox.width < (STEP * 2) + 1) {
 		mSprite.setOrigin(0, 96);
 		mTexture = ResourceManager::get().getTexture(FS_DIR_OBJECTANIMATIONS + SolidZone_IMAGE_FILENAME_2);
 		mSprite.setTexture(*mTexture);
