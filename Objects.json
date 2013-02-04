@@ -41,8 +41,24 @@
 		"trigger": {
 			
 		},
+		"npc" : {
+			"startdisabled": false,
+			"speed" : 1.0,
+			"tolerance" : 0.01,
+			"animations" : {
+				"placeholder": {
+					"spritewidth": "64",
+					"spriteheight": "64",
+					"yorigin": "48",
+					"xorigin": "0",
+					"numberofsprites": "3",
+					"framespersprite": "10",
+					"filename": "placeholder.png"
+				}
+			}
+		},
 		"player": {
-			"startenabled": true,
+			"startdisabled": false,
 			"startlight": 5,
 			"walkspeed": 5,
 			"animations": {
