@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AnimationSpecs.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CollisionZone.cpp" />
     <ClCompile Include="DamageHitBox.cpp" />
@@ -42,6 +43,7 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimationSpecs.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CollisionZone.h" />
     <ClInclude Include="CutsceneTriggerZone.h" />
