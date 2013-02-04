@@ -11,13 +11,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AnimationSpecs.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CollisionZone.cpp" />
     <ClCompile Include="DamageHitBox.cpp" />
     <ClCompile Include="FileStructure.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Crystal.cpp" />
+    <ClCompile Include="InventoryDisplay.cpp" />
     <ClCompile Include="LoadingState.cpp" />
+    <ClCompile Include="NPC.cpp" />
     <ClCompile Include="ObjectFactory.cpp" />
     <ClCompile Include="ObjectTypeRegistration.cpp" />
     <ClCompile Include="Particle.cpp" />
@@ -29,19 +32,19 @@
     <ClCompile Include="Registration_crystal.cpp" />
     <ClCompile Include="Registration_player.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Registration_trigger.cpp" />
     <ClCompile Include="SolidZone.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Inventory.cpp" />
-    <ClCompile Include="ResourceManager.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="TriggerZone.cpp" />
     <ClCompile Include="WindowManager.cpp" />
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimationSpecs.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CollisionZone.h" />
     <ClInclude Include="CutsceneTriggerZone.h" />
@@ -50,6 +53,8 @@
     <ClInclude Include="GameToScreen.h" />
     <ClInclude Include="Crystal.h" />
     <ClInclude Include="GraphicalEntity.h" />
+    <ClInclude Include="NPC.h" />
+    <ClInclude Include="InventoryDisplay.h" />
     <ClInclude Include="ObjectFactory.h" />
     <ClInclude Include="ObjectTypeRegistration.h" />
     <ClInclude Include="Particle.h" />
@@ -131,7 +136,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLACE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)..\SFML\include\;$(SolutionDir)..\boost-svn\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PrecompiledHeader.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)..\..\Obj\$(Configuration)\Hello.pch</PrecompiledHeaderOutputFile>
