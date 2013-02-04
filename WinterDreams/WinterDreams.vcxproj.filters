@@ -195,6 +195,9 @@
     <ClInclude Include="CollisionZone.h">
       <Filter>Includes\Entity</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionZone.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
     <ClInclude Include="NPC.h">
       <Filter>Includes\Entity</Filter>
 	</ClInclude>

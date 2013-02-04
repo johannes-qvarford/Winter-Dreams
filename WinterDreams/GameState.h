@@ -80,11 +80,7 @@ public:
 	////////////////////////////////////////////////////////////
 	// /Map a name to a path.
 	////////////////////////////////////////////////////////////
-<<<<<<< HEAD
 	void mapAiPathToName(const std::string& name, const std::vector<sf::Vector2f>& path);
-=======
-	void mapAiPathToName(const std::string& name, std::weak_ptr<AiPath> path_wp);
->>>>>>> master
 
 	////////////////////////////////////////////////////////////
 	// /Get entity mapped to a name.
