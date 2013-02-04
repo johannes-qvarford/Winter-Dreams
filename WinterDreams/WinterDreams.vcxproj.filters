@@ -90,7 +90,6 @@
     </ClCompile>
     <ClCompile Include="AnimationSpecs.cpp">
       <Filter>Sources\Entity\Animations</Filter>
-
     </ClCompile>
     <ClCompile Include="InventoryDisplay.cpp">
       <Filter>Sources\Entity</Filter>

@@ -11,6 +11,8 @@
 #include <cmath>
 #include <iostream>
 
+
+
 class PlayerSpecs{
 public:	
 	////////////////////////////////////////////////////////////////////////////
@@ -18,6 +20,7 @@ public:
 	// /Is used to access the different properties of the player.
 	////////////////////////////////////////////////////////////////////////////
 	static PlayerSpecs& get();
+
 
 	float mMoveSpeed;
 	std::list<AnimationSpecs> mAnimSpecList;
