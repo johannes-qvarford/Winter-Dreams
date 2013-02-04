@@ -39,7 +39,7 @@ public:
 	////////////////////////////////////////////////////////////
 	// /Toggles the entitys enabled-status
 	////////////////////////////////////////////////////////////
-	void switchEnabled() { mIsEnabled = !mIsEnabled; }
+	void swapEnabled() { mIsEnabled = !mIsEnabled; }
 private:
 	bool mIsAlive;	 //Keeps track of whether the entity is alive or not
 	bool mIsEnabled; //Keeps track of whether the entity is enabled or not

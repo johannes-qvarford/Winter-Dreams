@@ -17,7 +17,7 @@ public:
 	sf::Rect<float>& getHitBox();
 
 	sf::Vector2i getDirection();
-private:
+protected:
 
 	sf::Rect<float> mHitBox;
 	bool mOnce;

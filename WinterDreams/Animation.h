@@ -2,6 +2,7 @@
 #define INCLUDED_ANIMATION
 
 #include <SFML\Graphics\Sprite.hpp>
+#include "AnimationSpecs.h"
 #include <string>
 #include <memory>
 
@@ -39,6 +40,12 @@ public:
 	// / current sprite's been displayed
 	////////////////////////////////////////////////////////////
 	sf::Sprite getCurrentSprite();
+	////////////////////////////////////////////////////////////
+	// /Assigns a position to the animation.
+	// /This is not requered as you can acces the sprite 
+	// /and change it's position manually.
+	////////////////////////////////////////////////////////////
+	void setPosition(const sf::Vector2f& position);
 	////////////////////////////////////////////////////////////
 	// / Resets the animation to display the first sprite in the spritesheet
 	// / Usually used once when another animation is assigned to an object.

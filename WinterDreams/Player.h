@@ -32,7 +32,7 @@ public:
 	// /The player only cares about the left and top properties.
 	// /Width and height will be ignored.
 	//////////////////////////////////////////////////////
-	Player(sf::FloatRect initialPosition);
+	Player(sf::FloatRect initialPosition, int lightLevel, bool startEnabled);
 	//////////////////////////////////////////////////////
 	// /Players destructor deletes its associated Inventory.
 	//////////////////////////////////////////////////////
@@ -125,13 +125,13 @@ public:
 	//////////////////////////////////////////////////////
 	sf::Vector2i getDirection();
 
-
 private:
 	Animation*						 mCurrentAnimation_p; //The avatar's current animation
 	std::map<std::string, Animation> mAnimationMap;		//The avatar's animation map
 	sf::FloatRect					 mHitBox;			//The avatar's current hitbox
 	int								 mLightLevel;		//The avatar's current light
 	MovementMode					 mMovementMode;		//The avatar's current movementMode
+	float							 mMoveSpeed;		//The avatar's movespeed
 	Inventory						 mInventory;		//The avatar's inventory
 	sf::Vector2i					 mDirection;		//The avatar's direction
 	//No copies
