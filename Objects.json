@@ -1,0 +1,81 @@
+{
+	"defaultanimations": {
+		"small": {
+			"defaultwidth": 64,
+			"defaultheight": 32,
+			"defaultyoffset": 0,
+			"defaultxoffset": 0,
+			"defaultframecount": 1,
+			"defaultfps": 30,
+			"defaultfilename": "null"
+		},
+		"medium": {
+			"defaultwidth": 128,
+			"defaultheight": 64,
+			"defaultyoffset": 0,
+			"defaultxoffset": 0,
+			"defaultframecount": 1,
+			"defaultfps": 30,
+			"defaultfilename": "null"
+		},
+		"large": {
+			"defaultwidth": 256,
+			"defaultheight": 128,
+			"defaultyoffset": 0,
+			"defaultxoffset": 0,
+			"defaultframecount": 1,
+			"defaultfps": 30,
+			"defaultfilename": "null"
+		}
+	},
+	"objects": {
+		"collision64x32": {
+			
+		},
+		"collision128x64": {
+			
+		},
+		"collision256x128": {
+			
+		},
+		"trigger": {
+			
+		},
+		"player": {
+			"startenabled": true,
+			"startlight": 5,
+			"walkspeed": 5,
+			"animations": {
+				"placeholder": {				
+					"spritewidth": "64",
+					"spriteheight": "64",
+					"yorigin": "48",
+					"xorigin": "0",
+					"numberofsprites": "3",
+					"framespersprite": "10",
+					"filename": "placeholder.png"
+				},
+				"walkleft": {
+					"width": "null",
+					"height": "null",
+					"yorigin": "null",
+					"xorigin": "null",
+					"numberofsprites": "null",
+					"framespersprite": "null",
+					"filename": "null"
+				}
+			}
+		},
+		"statue": {
+			"startenabled": true,
+			"animations": {
+				"facewest": {
+					
+				}
+			}
+		}
+	},
+	"ids": {
+		
+	}
+}

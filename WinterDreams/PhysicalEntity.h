@@ -25,6 +25,8 @@ public:
 	// /collision check
 	////////////////////////////////////////////////////////////
 	virtual sf::Vector2i getDirection() = 0;
+
+	virtual void drawSelf() = 0;
 protected:
 	PhysicalEntity( bool startEnabled = true ) : Entity (true) { }
 };

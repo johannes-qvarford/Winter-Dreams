@@ -9,16 +9,17 @@
 #include "PropertyManager.h"
 #include <list>
 #include <cmath>
+#include <iostream>
 ////////////////////////////////////////////////////////////////////////////////
 struct AnimSpecs{
 	AnimSpecs(	const std::string animName,
 				const std::string fileName, 
-				unsigned int spriteWidth, 
-				unsigned int spriteHeight, 
-				unsigned int numberOfSprites, 
-				unsigned int framesPerSprite,
-				unsigned int xOrigin,
-				unsigned int yOrigin	) :
+				int spriteWidth, 
+				int spriteHeight, 
+				int numberOfSprites, 
+				int framesPerSprite,
+				int xOrigin,
+				int yOrigin	) :
 		mWidth  ( spriteWidth ),
 		mHeight ( spriteHeight ),
 		mNrOfSprites( numberOfSprites ),
@@ -29,8 +30,8 @@ struct AnimSpecs{
 		mYOrigin (yOrigin )
 		{ }
 
-	unsigned int mWidth, mHeight, mNrOfSprites;
-	unsigned int mFramesPerSprite, mXOrigin, mYOrigin;
+	int mWidth, mHeight, mNrOfSprites;
+	int mFramesPerSprite, mXOrigin, mYOrigin;
 	std::string mFileName, mAnimName;
 };
 ////////////////////////////////////////////////////////////////////////////////
@@ -57,6 +58,7 @@ private:
 Player::Player(sf::FloatRect initialPosition) :
 	GraphicalEntity( PlayerSpecs::get().mEnabled ),
 	mInventory (Inventory() ),
+	mMoveSpeed( PlayerSpecs::get().mMoveSpeed ),
 	mMovementMode(NORMAL),
 	mLightLevel( PlayerSpecs::get().mLightLevel ),
 	mHitBox( initialPosition.left, initialPosition.top, X_STEP , -Y_STEP ) //All hitbox heights are now inverted, ask Johannes.
@@ -119,7 +121,7 @@ void Player::update(GameState* gameState_p){
 		tempDir.y = tempDir.y / tempLenght;
 	}
 		//Extend tempDir by the avatars move speed
-	tempDir *= PlayerSpecs::get().mMoveSpeed;
+	tempDir *= static_cast<float>(mMoveSpeed);
 		//Adjust the avatars position by tempDir
 	adjustPosition( tempDir );	
 }
@@ -131,6 +133,7 @@ void Player::drawSelf(){
 	sprite.setPosition( GAME_TO_SCREEN * getPosition() );
 		//Draw the sprite
 	WindowManager::get().getWindow()->draw( sprite ,*WindowManager::get().getStates() );
+
 }
 
 sf::FloatRect& Player::getHitBox(){
@@ -138,7 +141,7 @@ sf::FloatRect& Player::getHitBox(){
 }
 
 void Player::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::Rect<float>& intersection){
-
+	std::cout<< mHitBox.left <<"," <<mHitBox.top <<" ";
 }
 
 sf::Vector2f Player::getPosition(){
@@ -200,16 +203,16 @@ PlayerSpecs::PlayerSpecs() {
 	
 	auto& animations = player.get_child( "animations" );
 	for(auto iter = animations.begin(), end = animations.end(); iter != end; ++iter){
-		auto w =	iter->second.get<unsigned int>	("width");
-		auto h =	iter->second.get<unsigned int>	("height");
-		auto yO =	iter->second.get<unsigned int>	("yorigin");
-		auto xO =	iter->second.get<unsigned int>	("xorigin");
-		auto nos =	iter->second.get<unsigned int>	("numberofsprites");
-		auto fps =	iter->second.get<unsigned int>	("framespersprite");
-		auto file = iter->second.get<std::string>	("filename");
-		auto name = iter->first;
-
-		if(file != "null"){
+		if(iter->second.get<std::string>("filename") != "null"){
+			auto w =	iter->second.get<int>	("spritewidth");
+			auto h =	iter->second.get<int>	("spriteheight");
+			auto yO =	iter->second.get<int>	("yorigin");
+			auto xO =	iter->second.get<int>	("xorigin");
+			auto nos =	iter->second.get<int>	("numberofsprites");
+			auto fps =	iter->second.get<int>	("framespersprite");
+			auto file = iter->second.get<std::string>	("filename");
+			auto name = iter->first;
+		
 			AnimSpecs as(name, file, w, h, nos, fps, xO, yO);
 			mAnimSpecLits.emplace_back( as );
 		}

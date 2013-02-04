@@ -41,8 +41,7 @@ StateManager::StateManager():
 
 void StateManager::run() {
 	sf::Clock clock;
-	sf::Time limit = sf::milliseconds( static_cast<int>(1000/60) );
-
+	sf::Time limit = sf::milliseconds( static_cast<int>(16) );
 	
 	//sf::Time newTime;
 	//sf::Time oldTime;
@@ -69,13 +68,10 @@ void StateManager::run() {
 			mStates.pop();
 			mPopNextFrame = false;
 		}
-			//sleep until limit time has passed
 
-		sf::Time limit2( sf::milliseconds(500/60) );
-		sf::sleep( limit - sf::milliseconds( clock.getElapsedTime().asMilliseconds() ) );
-		sf::sleep( limit2 - sf::milliseconds( clock.getElapsedTime().asMilliseconds() ) );
-		auto t = clock.getElapsedTime().asMilliseconds();
-		std::cout << t;
+		if(limit > clock.getElapsedTime()) {
+			sf::sleep( limit - sf::milliseconds( clock.getElapsedTime().asMilliseconds() ) );
+		}
 	}
 }
 

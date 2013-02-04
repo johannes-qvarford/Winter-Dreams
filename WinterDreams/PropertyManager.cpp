@@ -4,7 +4,6 @@
 #include <string>
 
 static const std::string GENERAL_SETTINGS_FILENAME = "Settings.json";
-static const std::string OBJECT_SETTINGS_FILENAME = "Objects.json";
 
 PropertyManager& PropertyManager::get() {
 	static PropertyManager sMgr;
@@ -16,9 +15,9 @@ PropertyManager::PropertyManager():
 	mObjectSettings()
 {
 	using namespace boost::property_tree;
-	boost::property_tree::
 	json_parser::read_json(GENERAL_SETTINGS_FILENAME, mGeneralSettings);
-	json_parser::read_json(OBJECT_SETTINGS_FILENAME, mObjectSettings);
+	auto obj = mGeneralSettings.get<std::string>("objects");
+	json_parser::read_json( obj , mObjectSettings );
 }
 
 const boost::property_tree::ptree& PropertyManager::getGeneralSettings() const {
