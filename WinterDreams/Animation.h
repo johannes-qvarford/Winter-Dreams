@@ -2,6 +2,7 @@
 #define INCLUDED_ANIMATION
 
 #include <SFML\Graphics\Sprite.hpp>
+#include "AnimationSpecs.h"
 #include <string>
 #include <memory>
 
