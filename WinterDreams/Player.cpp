@@ -11,51 +11,47 @@
 #include <cmath>
 #include <iostream>
 
-class EntitySpecs{
+
+class PlayerSpecs{
 public:	
 	////////////////////////////////////////////////////////////////////////////
 	// /Singleton-pattern.
 	// /Is used to access the different properties of the player.
 	////////////////////////////////////////////////////////////////////////////
-	static EntitySpecs& get();
-	
-	bool mEnabled;
-	int mLightLevel;
+	static PlayerSpecs& get();
+		
 	float mMoveSpeed;
 	std::list<AnimationSpecs> mAnimSpecList;
 
 private:
-	EntitySpecs();							//Singleton-pattern
-	EntitySpecs(const EntitySpecs& p);		//No copies
-	EntitySpecs& operator=(EntitySpecs& p);	//No copies
+	PlayerSpecs();							//Singleton-pattern
+	PlayerSpecs(const PlayerSpecs& p);		//No copies
+	PlayerSpecs& operator=(PlayerSpecs& p);	//No copies
 };
 ////////////////////////////////////////////////////////////////////////////////
-EntitySpecs::EntitySpecs() {
+PlayerSpecs::PlayerSpecs() {
 	auto& obj = PropertyManager::get().getObjectSettings();
 	auto& player = obj.get_child( "objects.player" );
-
-	mLightLevel = player.get<int>( "startlight" );
 	mMoveSpeed = player.get<float>( "walkspeed" );
-	mEnabled = player.get<bool>( "startenabled" );
 	
 	AnimationSpecs::parse( player, mAnimSpecList );
 }
 ////////////////////////////////////////////////////////////////////////////////
-EntitySpecs& EntitySpecs::get() { 
-	static EntitySpecs p;
+PlayerSpecs& PlayerSpecs::get() { 
+	static PlayerSpecs p;
 	return p;
 }
 ////////////////////////////////////////////////////////////////////////////////
-Player::Player(sf::FloatRect initialPosition) :
-	GraphicalEntity( EntitySpecs::get().mEnabled ),
+Player::Player(sf::FloatRect initialPosition, int lightLevel, bool startEnabled) :
+	GraphicalEntity( startEnabled ),
 	mInventory (Inventory() ),
-	mMoveSpeed( EntitySpecs::get().mMoveSpeed ),
+	mMoveSpeed( PlayerSpecs::get().mMoveSpeed ),
 	mMovementMode(NORMAL),
-	mLightLevel( EntitySpecs::get().mLightLevel ),
+	mLightLevel( lightLevel ),
 	mHitBox( initialPosition.left, initialPosition.top, X_STEP , -Y_STEP ) //All hitbox heights are now inverted, ask Johannes.
 {
 	using namespace std;
-	auto& p = EntitySpecs::get();
+	auto& p = PlayerSpecs::get();
 	for( auto iter = p.mAnimSpecList.begin(), end = p.mAnimSpecList.end(); iter != end; ++iter){
 		auto w =	iter->mWidth;
 		auto h =	iter->mHeight;
@@ -132,7 +128,6 @@ sf::FloatRect& Player::getHitBox(){
 }
 
 void Player::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::Rect<float>& intersection){
-	std::cout<< mHitBox.left <<"," <<mHitBox.top <<" ";
 }
 
 sf::Vector2f Player::getPosition(){

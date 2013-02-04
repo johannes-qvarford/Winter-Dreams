@@ -79,12 +79,17 @@
     <ClCompile Include="CollisionZone.cpp">
       <Filter>Sources\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="PrecompiledHeader.cpp" />
     <ClCompile Include="Animation.cpp">
       <Filter>Sources\Entity\Animations</Filter>
     </ClCompile>
     <ClCompile Include="AnimationSpecs.cpp">
       <Filter>Sources\Entity\Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="InventoryDisplay.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="PrecompiledHeader.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -172,7 +177,6 @@
     <ClInclude Include="TriggerZone.h">
       <Filter>Includes\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionZone.h" />
     <ClInclude Include="SolidZone.h">
       <Filter>Includes\Entity</Filter>
     </ClInclude>
@@ -181,6 +185,12 @@
     </ClInclude>
     <ClInclude Include="AnimationSpecs.h">
       <Filter>Includes\Entity\Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionZone.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="InventoryDisplay.h">
+      <Filter>Includes\Entity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

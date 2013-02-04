@@ -65,14 +65,14 @@ void SolidZone::onCollision(PhysicalEntity* pe, const sf::Rect<float>& intersect
 		if (direction.y < 0 && direction.x < 0){
 			hitBox.left -= intersection.width;
 			//* 0.5 kommer ifrån att den måste fortfarande ha intersection för att fungera
-			hitBox.top += intersection.height * 0.5;
+			hitBox.top += intersection.height * 0.5f;
 		}
 		/*
 		// Fall 2, då man går mot väggen som är från botten höger till toppen vänster
 		*/
 		else if (direction.x < 0 && direction.y > 0){
 			hitBox.left -= intersection.width;
-			hitBox.top -= intersection.height * 0.5;
+			hitBox.top -= intersection.height * 0.5f;
 		}
 
 	}
