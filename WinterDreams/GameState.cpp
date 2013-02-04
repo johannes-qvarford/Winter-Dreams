@@ -2,6 +2,8 @@
 
 #include "Script.h"
 #include "GraphicalEntity.h"
+#include "CollisionZone.h"
+
 #include "WindowManager.h"
 #include "GameToScreen.h"
 
@@ -79,19 +81,19 @@ void GameState::setBackgroundTexture(std::shared_ptr<sf::Texture> texture_sp, co
 	mBackgroundTexture = std::make_pair(texture_sp, position);
 }
 
-void mapEntityToName(const std::string& name, std::weak_ptr<Entity> entity_wp) {
+void GameState::mapEntityToName(const std::string& name, std::weak_ptr<Entity> entity_wp) {
 	mNameToEntity.insert(std::make_pair(name, entity_wp));
 }
 
-void mapAiPathToName(const std::string& name, std::weak_ptr<AiPath> path_wp) {
+void GameState::mapAiPathToName(const std::string& name, std::weak_ptr<AiPath> path_wp) {
 	mNameToAiPath[name] = path_wp;
 }
 
-std::weak_ptr<Entity> getEntity(const std::string& name) {
+std::weak_ptr<Entity> GameState::getEntity(const std::string& name) {
 	return mNameToEntity[name];
 }
 
-std::weak_ptr<AiPath> getAiPath(const std::string& name) {
+std::weak_ptr<AiPath> GameState::getAiPath(const std::string& name) {
 	return mNameToAiPath[name];
 }
 
@@ -110,6 +112,21 @@ void GameState::render() {
 		sprite.setPosition(mMapTexture.second);
 		window.draw(sprite);
 	}
+#ifdef DEBUG_SOLIDZONE
+	std::list<std::shared_ptr<PhysicalEntity> > L;
+	for( auto it = mGraphicalEntities.begin(), end = mGraphicalEntities.end(); it != end; ++it){
+		L.push_back( std::static_pointer_cast<PhysicalEntity>(*it) );
+	}
+	for( auto it = mCollisionZones.begin(), end = mCollisionZones.end(); it != end; ++it){
+		L.push_back( std::static_pointer_cast<PhysicalEntity>(*it) );
+	}
+	L.sort(smallerPosition);
+	
+	for(auto it = L.begin(), end = L.end(); it != end; ++it){
+		(*it)->drawSelf();
+	}
+#else
+
 
 	//sort them in drawing order.
 	mGraphicalEntities.sort(smallerPosition);
@@ -118,6 +135,8 @@ void GameState::render() {
 		auto graphical_sp = *it;
 		graphical_sp->drawSelf();
 	}
+
+#endif
 
 	//draw script effects directly on screen
 	for(auto it = mScripts.begin(), end = mScripts.end(); it != end; ++it) {
@@ -147,7 +166,7 @@ void GameState::deleteInactives() {
 
 			auto graphical_sp = *it;
 
-			if(graphical_sp->isActive() == false) {
+			if(graphical_sp->getAlive() == false) {
 				//'it' is invalidated
 				mGraphicalEntities.erase(it);
 			}
@@ -168,7 +187,7 @@ void GameState::deleteInactives() {
 
 			auto colZone_sp = *it;
 
-			if(colZone_sp->isActive() == false) {
+			if(colZone_sp->getAlive() == false) {
 				mCollisionZones.erase(it);
 			}
 
@@ -188,7 +207,7 @@ void GameState::deleteInactives() {
 
 			Script* script_p = it->get();
 
-			if(script_p->isActive() == false) {
+			if(script_p->getAlive() == false) {
 				mScripts.erase(it);
 			}
 
@@ -209,7 +228,7 @@ static bool smallerPosition(std::shared_ptr<PhysicalEntity> lhs_p, std::shared_p
 
 void GameState::checkCollisions(std::shared_ptr<GraphicalEntity> graphical_sp) {
 
-	for(auto it = mGraphicalsEntities.begin(), end = mGraphicalEntities.end(); it != end; ++it) {
+	for(auto it = mGraphicalEntities.begin(), end = mGraphicalEntities.end(); it != end; ++it) {
 		auto other_sp = *it;
 
 		//we can't collide with ourselves!
@@ -224,7 +243,7 @@ void GameState::checkCollisions(std::shared_ptr<GraphicalEntity> graphical_sp) {
 		auto other_sp = *it;
 
 		//check and handle collision
-		handleCollision(graphical_sp.get(), other_sp.get());
+		handleCollision(other_sp.get(), graphical_sp.get());
 	}
 }
 
@@ -232,8 +251,8 @@ static void handleCollision(PhysicalEntity* lhs_p, PhysicalEntity* rhs_p) {
 	//collision boxes have negative width
 	//perform check as if they had a smaller y position, and a positive height
 	
-	auto lhsDummy = lhs->getHitBox();
-	auto rhsDummy = rhs->getHitBox()
+	auto lhsDummy = lhs_p->getHitBox();
+	auto rhsDummy = rhs_p->getHitBox();
 
 	lhsDummy.top = lhsDummy.top + lhsDummy.height;
 	lhsDummy.height = -lhsDummy.height;
@@ -243,6 +262,6 @@ static void handleCollision(PhysicalEntity* lhs_p, PhysicalEntity* rhs_p) {
 	auto intersection = sf::FloatRect();
 
 	if(lhsDummy.intersects(rhsDummy, intersection)) {
-		lhs_p->onCollision(rhsDummy, intersection);
+		lhs_p->onCollision(rhs_p, intersection);
 	}
 }

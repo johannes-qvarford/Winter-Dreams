@@ -9,31 +9,8 @@
 #include "PropertyManager.h"
 #include <list>
 #include <cmath>
-////////////////////////////////////////////////////////////////////////////////
-struct AnimSpecs{
-	AnimSpecs(	const std::string animName,
-				const std::string fileName, 
-				unsigned int spriteWidth, 
-				unsigned int spriteHeight, 
-				unsigned int numberOfSprites, 
-				unsigned int framesPerSprite,
-				unsigned int xOrigin,
-				unsigned int yOrigin	) :
-		mWidth  ( spriteWidth ),
-		mHeight ( spriteHeight ),
-		mNrOfSprites( numberOfSprites ),
-		mFramesPerSprite ( framesPerSprite ),
-		mAnimName ( animName ),
-		mFileName ( fileName ),
-		mXOrigin (xOrigin ),
-		mYOrigin (yOrigin )
-		{ }
+#include <iostream>
 
-	unsigned int mWidth, mHeight, mNrOfSprites;
-	unsigned int mFramesPerSprite, mXOrigin, mYOrigin;
-	std::string mFileName, mAnimName;
-};
-////////////////////////////////////////////////////////////////////////////////
 class PlayerSpecs{
 public:	
 	////////////////////////////////////////////////////////////////////////////
@@ -41,11 +18,9 @@ public:
 	// /Is used to access the different properties of the player.
 	////////////////////////////////////////////////////////////////////////////
 	static PlayerSpecs& get();
-	
-	bool mEnabled;
-	int mLightLevel;
+
 	float mMoveSpeed;
-	std::list<AnimSpecs> mAnimSpecLits;
+	std::list<AnimationSpecs> mAnimSpecList;
 
 private:
 	PlayerSpecs();							//Singleton-pattern
@@ -53,17 +28,30 @@ private:
 	PlayerSpecs& operator=(PlayerSpecs& p);	//No copies
 };
 ////////////////////////////////////////////////////////////////////////////////
-
-Player::Player(sf::FloatRect initialPosition) :
-	GraphicalEntity( PlayerSpecs::get().mEnabled ),
+PlayerSpecs::PlayerSpecs() {
+	auto& obj = PropertyManager::get().getObjectSettings();
+	auto& player = obj.get_child( "objects.player" );
+	mMoveSpeed = player.get<float>( "walkspeed" );
+	
+	AnimationSpecs::parse( player, mAnimSpecList );
+}
+////////////////////////////////////////////////////////////////////////////////
+PlayerSpecs& PlayerSpecs::get() { 
+	static PlayerSpecs p;
+	return p;
+}
+////////////////////////////////////////////////////////////////////////////////
+Player::Player(sf::FloatRect initialPosition, int lightLevel, bool startEnabled) :
+	GraphicalEntity( startEnabled ),
 	mInventory (Inventory() ),
+	mMoveSpeed( EntitySpecs::get().mMoveSpeed ),
 	mMovementMode(NORMAL),
-	mLightLevel( PlayerSpecs::get().mLightLevel ),
+	mLightLevel( lightLevel ),
 	mHitBox( initialPosition.left, initialPosition.top, X_STEP , -Y_STEP ) //All hitbox heights are now inverted, ask Johannes.
 {
 	using namespace std;
 	auto& p = PlayerSpecs::get();
-	for( auto iter = p.mAnimSpecLits.begin(), end = p.mAnimSpecLits.end(); iter != end; ++iter){
+	for( auto iter = p.mAnimSpecList.begin(), end = p.mAnimSpecList.end(); iter != end; ++iter){
 		auto w =	iter->mWidth;
 		auto h =	iter->mHeight;
 		auto yO =	iter->mYOrigin;
@@ -119,7 +107,7 @@ void Player::update(GameState* gameState_p){
 		tempDir.y = tempDir.y / tempLenght;
 	}
 		//Extend tempDir by the avatars move speed
-	tempDir *= PlayerSpecs::get().mMoveSpeed;
+	tempDir *= static_cast<float>(mMoveSpeed);
 		//Adjust the avatars position by tempDir
 	adjustPosition( tempDir );	
 }
@@ -131,6 +119,7 @@ void Player::drawSelf(){
 	sprite.setPosition( GAME_TO_SCREEN * getPosition() );
 		//Draw the sprite
 	WindowManager::get().getWindow()->draw( sprite ,*WindowManager::get().getStates() );
+
 }
 
 sf::FloatRect& Player::getHitBox(){
@@ -138,7 +127,6 @@ sf::FloatRect& Player::getHitBox(){
 }
 
 void Player::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::Rect<float>& intersection){
-
 }
 
 sf::Vector2f Player::getPosition(){
@@ -186,38 +174,3 @@ void Player::setMovementMode(MovementMode movementMode){
 sf::Vector2i Player::getDirection(){
 	return mDirection;
 }
-
-
-
-////////////////////////////////////////////////////////////////////////////////
-PlayerSpecs::PlayerSpecs() {
-	auto& obj = PropertyManager::get().getObjectSettings();
-	auto& player = obj.get_child( "objects.player" );
-
-	mLightLevel = player.get<int>( "startlight" );
-	mMoveSpeed = player.get<float>( "walkspeed" );
-	mEnabled = player.get<bool>( "startenabled" );
-	
-	auto& animations = player.get_child( "animations" );
-	for(auto iter = animations.begin(), end = animations.end(); iter != end; ++iter){
-		auto w =	iter->second.get<unsigned int>	("width");
-		auto h =	iter->second.get<unsigned int>	("height");
-		auto yO =	iter->second.get<unsigned int>	("yorigin");
-		auto xO =	iter->second.get<unsigned int>	("xorigin");
-		auto nos =	iter->second.get<unsigned int>	("numberofsprites");
-		auto fps =	iter->second.get<unsigned int>	("framespersprite");
-		auto file = iter->second.get<std::string>	("filename");
-		auto name = iter->first;
-
-		if(file != "null"){
-			AnimSpecs as(name, file, w, h, nos, fps, xO, yO);
-			mAnimSpecLits.emplace_back( as );
-		}
-	}
-}
-////////////////////////////////////////////////////////////////////////////////
-PlayerSpecs& PlayerSpecs::get() { 
-	static PlayerSpecs p;
-	return p;
-}
-////////////////////////////////////////////////////////////////////////////////

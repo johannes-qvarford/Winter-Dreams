@@ -14,6 +14,8 @@ Animation::Animation(const std::string filePath,
 					 unsigned int yOffset) :
 	mNumberOfSprites(numberOfSprites),
 	mFramesPerSprite(framesPerSprite),
+	mSpriteWidth( spriteWidth ),
+	mSpriteHeight( spriteHeight ),
 	mCurrentFrame(0),
 	mCurrentSprite(0),
 	mTexture_p(ResourceManager::get().getTexture(filePath) ),
@@ -33,6 +35,8 @@ Animation::Animation(const Animation& animation) :
 	mFramesPerSprite(animation.mFramesPerSprite),
 	mCurrentFrame(animation.mCurrentFrame),
 	mCurrentSprite(animation.mCurrentSprite),
+	mSpriteHeight( animation.mSpriteHeight ),
+	mSpriteWidth( animation.mSpriteWidth ),
 	mTexture_p(animation.mTexture_p),
 	mSprite(animation.mSprite),
 	mEndOfAnimation( animation.mEndOfAnimation )
@@ -76,6 +80,10 @@ sf::Sprite Animation::getCurrentSprite(){
 	}
 
 	return mSprite;
+}
+
+void Animation::setPosition(const sf::Vector2f& position) {
+	mSprite.setPosition( position );
 }
 
 void Animation::resetAnimation(){
