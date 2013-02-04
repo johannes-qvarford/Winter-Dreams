@@ -30,5 +30,5 @@ void Particle::adjustSpeed(const sf::Vector2f& adjustVector){
 }
 
 bool Particle::getDead(){
-	return mLife;
+	return mLife ? true : false;
 }

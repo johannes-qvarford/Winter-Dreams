@@ -2,9 +2,11 @@
 #define INCLUDED_NPC
 
 #include "GraphicalEntity.h"
+#include "Animation.h"
 
 #include <SFML/Graphics/Rect.hpp>
 #include <string>
+
 
 //////////////////////////////////////////////////////
 // /NPC is an enemy that walks along a path.
@@ -33,6 +35,10 @@ public:
 	void drawSelf();
 
 private:
+
+	Animation* mCurrentAnimation_p;
+
+	std::map<std::string, Animation> mAnimationMap;
 
 	bool mFoundPath;
 

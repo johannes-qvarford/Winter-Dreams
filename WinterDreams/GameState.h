@@ -96,7 +96,7 @@ public:
 	typedef std::list<std::shared_ptr<Script> > Scripts;
 	typedef std::list<std::shared_ptr<CollisionZone> > CollisionZones;
 	typedef std::map<std::string, std::weak_ptr<Entity> > EntityMap;
-	typedef std::map<std::string, std::weak_ptr<AiPath> > AiPathMap;
+	typedef std::map<std::string, std::vector<sf::Vector2f> > AiPathMap;
 	typedef std::pair<std::shared_ptr<sf::Texture>, sf::Vector2f> PositionedTexture;
 	
 

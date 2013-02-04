@@ -15,13 +15,18 @@ public:
 	// /Create a TriggerZone, that can trigger once or several times, only at a certain lightlevel.
 	// /If triggering only once, onExitName is ignored.
 	///////////////////////////////////////////////
-	TriggerZone(const sf::FloatRect& hitBox, const std::string& onEnterName, const std::string& onExitName, int lightLevel, bool triggerOnce); 
+	TriggerZone(const sf::FloatRect& hitBox, const std::string& onEnterName, const std::string& onExitName, int lightLevel, bool triggerOnce, bool startEnabled); 
 	
 	///////////////////////////////////////////////
 	// /swap exit entities enabled state when a player
 	// /hasn't touched the zone in a few frames.
 	///////////////////////////////////////////////
 	void update(GameState* state);
+
+	///////////////////////////////////////////////
+	// /draw the trigger zone in debug mode.
+	///////////////////////////////////////////////
+	void drawSelf();
 
 	///////////////////////////////////////////////
 	// /swap enter entities enabled state when a player

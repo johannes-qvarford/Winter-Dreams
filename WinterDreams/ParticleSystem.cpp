@@ -58,8 +58,7 @@ void ParticleSystem::adjustParticleSpeed(sf::Vector2f speedAdjust, sf::Vector2f 
 	it = mParticleDequesMap.begin();
 	for(size_t i=0; i<mParticleTypesMap.size();++i){
 		for (size_t j=0; j<it->second.size();++j){
-			float rVal(rand());
-			rVal = rVal/RAND_MAX;
+			float rVal = static_cast<float>(rand()) / RAND_MAX;
 			auto modVector = sf::Vector2f(modSpeedAdjust.x*rVal,modSpeedAdjust.y*rVal);
 			it->second[j].adjustSpeed(speedAdjust+modVector);
 		}

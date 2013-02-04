@@ -39,7 +39,6 @@
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="TriggerZone.cpp" />
     <ClCompile Include="WindowManager.cpp" />
-    <ClCompile Include="Wall.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -67,7 +66,6 @@
     <ClInclude Include="State.h" />
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="TriggerZone.h" />
-    <ClInclude Include="Wall.h" />
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

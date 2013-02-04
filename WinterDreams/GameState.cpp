@@ -85,15 +85,15 @@ void GameState::mapEntityToName(const std::string& name, std::weak_ptr<Entity> e
 	mNameToEntity.insert(std::make_pair(name, entity_wp));
 }
 
-void GameState::mapAiPathToName(const std::string& name, std::weak_ptr<AiPath> path_wp) {
-	mNameToAiPath[name] = path_wp;
+void GameState::mapAiPathToName(const std::string& name, const std::vector<sf::Vector2f>& path) {
+	mNameToAiPath[name] = path;
 }
 
 std::weak_ptr<Entity> GameState::getEntity(const std::string& name) {
 	return mNameToEntity[name];
 }
 
-std::weak_ptr<AiPath> GameState::getAiPath(const std::string& name) {
+const std::vector<sf::Vector2f>& GameState::getAiPath(const std::string& name) {
 	return mNameToAiPath[name];
 }
 

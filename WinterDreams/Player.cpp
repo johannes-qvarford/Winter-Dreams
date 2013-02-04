@@ -36,7 +36,7 @@ EntitySpecs::EntitySpecs() {
 
 	mLightLevel = player.get<int>( "startlight" );
 	mMoveSpeed = player.get<float>( "walkspeed" );
-	mEnabled = player.get<bool>( "startenabled" );
+	mEnabled = !player.get<bool>( "startdisabled" );
 	
 	AnimationSpecs::parse( player, mAnimSpecList );
 }
