@@ -82,7 +82,12 @@
     <ClCompile Include="CollisionZone.cpp">
       <Filter>Sources\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="PrecompiledHeader.cpp" />
+    <ClCompile Include="NPC.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_trigger.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameToScreen.h">
@@ -172,8 +177,13 @@
     <ClInclude Include="TriggerZone.h">
       <Filter>Includes\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionZone.h" />
     <ClInclude Include="SolidZone.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionZone.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="NPC.h">
       <Filter>Includes\Entity</Filter>
     </ClInclude>
   </ItemGroup>

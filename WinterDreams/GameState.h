@@ -4,6 +4,7 @@
 #include "State.h"
 #include <memory>
 #include <list>
+#include <vector>
 
 #include <SFML/System/Vector2.hpp>
 
@@ -79,7 +80,7 @@ public:
 	////////////////////////////////////////////////////////////
 	// /Map a name to a path.
 	////////////////////////////////////////////////////////////
-	void mapAiPathToName(const std::string& name, std::weak_ptr<AiPath> path_wp);
+	void mapAiPathToName(const std::string& name, const std::vector<sf::Vector2f>& path);
 
 	////////////////////////////////////////////////////////////
 	// /Get entity mapped to a name.
@@ -89,7 +90,7 @@ public:
 	////////////////////////////////////////////////////////////
 	// /Get path mapped to a name.
 	////////////////////////////////////////////////////////////
-	std::weak_ptr<AiPath> getAiPath(const std::string& name);
+	const std::vector<sf::Vector2f>& getAiPath(const std::string& name);
 
 	typedef std::list<std::shared_ptr<GraphicalEntity> > GraphicalEntities;
 	typedef std::list<std::shared_ptr<Script> > Scripts;
