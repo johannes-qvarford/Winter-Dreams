@@ -22,5 +22,4 @@ protected:
 	sf::Rect<float> mHitBox;
 	bool mOnce;
 };
-
 #endif

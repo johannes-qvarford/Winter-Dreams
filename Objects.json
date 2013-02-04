@@ -58,8 +58,6 @@
 			}
 		},
 		"player": {
-			"startdisabled": false,
-			"startlight": 5,
 			"walkspeed": 5,
 			"animations": {
 				"placeholder": {				
@@ -80,8 +78,33 @@
 					"framespersprite": "null",
 					"filename": "null"
 				}
-			}
+			},
+			"itemdisplay": {
+				"xposition": "0.5",
+				"yposition": "0.1",
+				"animations": {
+					"itembox": {				
+						"spritewidth": "64",
+						"spriteheight": "64",
+						"yorigin": "32",
+						"xorigin": "32",
+						"numberofsprites": "1",
+						"framespersprite": "100",
+						"filename": "itembox.png"
+					},
+					"pickaxe": {
+						"width": "64",
+						"height": "64",
+						"yorigin": "32",
+						"xorigin": "32",
+						"numberofsprites": "1",
+						"framespersprite": "100",
+						"filename": "null"
+					}
+				}
+			}	
 		},
+		
 		"statue": {
 			"startenabled": true,
 			"animations": {

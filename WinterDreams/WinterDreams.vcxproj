@@ -18,6 +18,7 @@
     <ClCompile Include="FileStructure.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Crystal.cpp" />
+    <ClCompile Include="InventoryDisplay.cpp" />
     <ClCompile Include="LoadingState.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="ObjectFactory.cpp" />
@@ -52,6 +53,7 @@
     <ClInclude Include="Crystal.h" />
     <ClInclude Include="GraphicalEntity.h" />
     <ClInclude Include="NPC.h" />
+    <ClInclude Include="InventoryDisplay.h" />
     <ClInclude Include="ObjectFactory.h" />
     <ClInclude Include="ObjectTypeRegistration.h" />
     <ClInclude Include="Particle.h" />

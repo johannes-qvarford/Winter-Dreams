@@ -32,7 +32,7 @@ public:
 	// /The player only cares about the left and top properties.
 	// /Width and height will be ignored.
 	//////////////////////////////////////////////////////
-	Player(sf::FloatRect initialPosition);
+	Player(sf::FloatRect initialPosition, int lightLevel, bool startEnabled);
 	//////////////////////////////////////////////////////
 	// /Players destructor deletes its associated Inventory.
 	//////////////////////////////////////////////////////
@@ -124,7 +124,6 @@ public:
 	// /Returns the avatars direction
 	//////////////////////////////////////////////////////
 	sf::Vector2i getDirection();
-
 
 private:
 	Animation*						 mCurrentAnimation_p; //The avatar's current animation

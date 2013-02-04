@@ -82,6 +82,10 @@ sf::Sprite Animation::getCurrentSprite(){
 	return mSprite;
 }
 
+void Animation::setPosition(const sf::Vector2f& position) {
+	mSprite.setPosition( position );
+}
+
 void Animation::resetAnimation(){
 		//Resets the frame count and sprite count.
 	mCurrentSprite= 0;
