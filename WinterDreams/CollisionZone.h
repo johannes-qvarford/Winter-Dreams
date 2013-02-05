@@ -7,7 +7,6 @@
 class CollisionZone : public PhysicalEntity {
 public: 
 
-
 	CollisionZone(bool startsEnabled, sf::Rect<float> HitBox, bool onceCollisionCheck);
 
 	void onCollision(PhysicalEntity* pe, const sf::Rect<float>& intersection);

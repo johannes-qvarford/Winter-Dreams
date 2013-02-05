@@ -25,6 +25,10 @@
     <ClCompile Include="ObjectTypeRegistration.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
+    <ClCompile Include="PrecompiledHeader.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="PropertyManager.cpp" />
     <ClCompile Include="Registration_collision128x64.cpp" />
     <ClCompile Include="Registration_collision256x128.cpp" />
@@ -137,7 +141,7 @@
       <PreprocessorDefinitions>PLACE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)..\SFML\include\;$(SolutionDir)..\boost-svn\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PrecompiledHeader.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>$(SolutionDir)..\..\Obj\$(Configuration)\Hello.pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)..\..\Obj\$(Configuration)\PCH.pch</PrecompiledHeaderOutputFile>
       <ForcedIncludeFiles>PrecompiledHeader.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>

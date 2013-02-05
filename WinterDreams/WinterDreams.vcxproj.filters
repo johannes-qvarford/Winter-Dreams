@@ -81,7 +81,7 @@
     </ClCompile>
     <ClCompile Include="Registration_trigger.cpp">
       <Filter>Sources\Registration</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="Animation.cpp">
       <Filter>Sources\Entity\Animations</Filter>
     </ClCompile>
@@ -91,11 +91,11 @@
     <ClCompile Include="InventoryDisplay.cpp">
       <Filter>Sources\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="PrecompiledHeader.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="InventoryDisplay.cpp">
       <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="PrecompiledHeader.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="PrecompiledHeader.cpp">
       <Filter>Sources</Filter>

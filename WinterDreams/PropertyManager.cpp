@@ -3,7 +3,13 @@
 
 #include <string>
 
+#ifdef SHIPPING
 static const std::string GENERAL_SETTINGS_FILENAME = "Settings.json";
+static const std::string OBJECTS_FILENAME = "Objects.json";
+#else
+static const std::string GENERAL_SETTINGS_FILENAME = "../Winter-Dreams/Settings.json";
+static const std::string OBJECTS_FILENAME = "../Winter-Dreams/Objects.json";
+#endif
 
 PropertyManager& PropertyManager::get() {
 	static PropertyManager sMgr;
