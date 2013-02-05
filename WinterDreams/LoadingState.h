@@ -32,6 +32,8 @@ public:
 	////////////////////////////////////////////////////////////
 	virtual void update();
 
+	void render() { }
+
 private:
 	GameState* mLoadedLevel;	//A pointer to a GameState with the argument level loaded into it.
 	boost::property_tree::ptree mLevelData;

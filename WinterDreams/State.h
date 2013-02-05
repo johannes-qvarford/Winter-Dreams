@@ -16,6 +16,8 @@ public:
 	//	Update the state as if a number of milliseconds have passed.
 	*/
 	virtual void update() = 0;
+
+	virtual void render() = 0;
 };
 
 #endif

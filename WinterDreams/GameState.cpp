@@ -54,9 +54,6 @@ void GameState::update() {
 		script_sp->update(this);
 	}
 
-	//render entities. 
-	render();
-
 	//delete inactive entities.
 	deleteInactives();
 }
