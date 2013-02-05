@@ -109,7 +109,7 @@ void GameState::render() {
 		sprite.setPosition(mMapTexture.second);
 		window.draw(sprite);
 	}
-#ifdef DEBUG_SOLIDZONE
+#ifdef DEBUG_SOLIDZONEI
 	std::list<std::shared_ptr<PhysicalEntity> > L;
 	for( auto it = mGraphicalEntities.begin(), end = mGraphicalEntities.end(); it != end; ++it){
 		L.push_back( std::static_pointer_cast<PhysicalEntity>(*it) );

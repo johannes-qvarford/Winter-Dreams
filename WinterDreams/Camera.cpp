@@ -4,10 +4,12 @@
 #include <memory>
 
 #include "GameToScreen.h"
+#include "PropertyManager.h"
 #include "WindowManager.h"
 #include "PhysicalEntity.h"
 
-static float		CAM_PAN_PERCENTAGE = 0.10f;
+
+static float CAM_PAN_PERCENTAGE = 0;
 
 Camera::Camera(sf::Vector2f position) :
 	Script( true ),
@@ -15,7 +17,9 @@ Camera::Camera(sf::Vector2f position) :
 	mDesiredPosition( mCameraPosition ),
 	mLockedEntity(),
 	mLockedCamera( false )
-	{}
+	{
+	CAM_PAN_PERCENTAGE = PropertyManager::get().getGeneralSettings().get<float>("cam_pan_percentage");
+	}
 
 Camera::Camera( std::shared_ptr<PhysicalEntity> entity ) :
 	Script( true ),
@@ -27,6 +31,8 @@ Camera::Camera( std::shared_ptr<PhysicalEntity> entity ) :
 		//Assign the cameras position (and desired position) to the entitys position
 	mCameraPosition = GAME_TO_SCREEN * entityPos;
 	mDesiredPosition = mCameraPosition;
+
+	CAM_PAN_PERCENTAGE = PropertyManager::get().getGeneralSettings().get<float>("cam_pan_percentage");
 }
 
 Camera::~Camera(void) {}

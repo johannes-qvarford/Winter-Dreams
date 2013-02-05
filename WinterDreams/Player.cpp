@@ -125,6 +125,8 @@ void Player::update(GameState* gameState_p){
 	tempDir *= static_cast<float>(mMoveSpeed);
 		//Adjust the avatars position by tempDir
 	adjustPosition( tempDir );	
+
+	mCurrentAnimation_p->updateAnimation();
 }
 
 void Player::drawSelf(){

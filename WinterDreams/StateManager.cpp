@@ -41,7 +41,7 @@ StateManager::StateManager():
 
 void StateManager::run() {
 	sf::Clock clock;
-	sf::Time limit = sf::milliseconds( static_cast<int>(16) );
+	sf::Time limit = sf::milliseconds( static_cast<int>(10) );
 	
 	//sf::Time newTime;
 	//sf::Time oldTime;

@@ -49,9 +49,24 @@ Animation::~Animation() {}
 // /Returns the current sprite from the sprite sheet.
 ////////////////////////////////////////////////////////////
 sf::Sprite Animation::getCurrentSprite(){
+	return mSprite;
+}
+
+void Animation::setPosition(const sf::Vector2f& position) {
+	mSprite.setPosition( position );
+}
+
+void Animation::resetAnimation(){
+		//Resets the frame count and sprite count.
+	mCurrentSprite= 0;
+	mCurrentFrame = 0;	
+}
+
+void Animation::updateAnimation(){
 	unsigned int left = mSpriteWidth * mCurrentSprite;
-		//Below is currently inactive since we use single
-		//row sprite sheets
+	////////////////////////////////////////////////////////
+	//Below is currently inactive since we use single
+	//row sprite sheets
 	////////////////////////////////////////////////////////
 	unsigned int top = 0;
 	//	//Calculates the left and top bounds of the rect.
@@ -78,18 +93,6 @@ sf::Sprite Animation::getCurrentSprite(){
 		}
 		mCurrentFrame = 0;
 	}
-
-	return mSprite;
-}
-
-void Animation::setPosition(const sf::Vector2f& position) {
-	mSprite.setPosition( position );
-}
-
-void Animation::resetAnimation(){
-		//Resets the frame count and sprite count.
-	mCurrentSprite= 0;
-	mCurrentFrame = 0;	
 }
 
 bool Animation::endOfAnimation() const{
