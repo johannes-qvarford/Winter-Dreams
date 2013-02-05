@@ -48,7 +48,7 @@ Animation::~Animation() {}
 ////////////////////////////////////////////////////////////
 // /Returns the current sprite from the sprite sheet.
 ////////////////////////////////////////////////////////////
-sf::Sprite Animation::getCurrentSprite(){
+sf::Sprite Animation::getCurrentSprite() const{
 	return mSprite;
 }
 

@@ -39,6 +39,7 @@ private:
 	Animation*						 mBoxAnimation_p;		//Animates the inventory box
 	std::map<std::string, Animation> mAnimationMap;			//Holds all the different animations for the inventory
 	
+	void updateUI();
 
 	//No copies
 	InventoryDisplay(const InventoryDisplay& i);
