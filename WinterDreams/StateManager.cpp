@@ -47,33 +47,30 @@ void StateManager::run() {
 	//sf::Time oldTime;
 
 	//newTime = clock.getElapsedTime();
-	
+	clock.restart();
 	while(true)
 	{	
-		clock.restart();
+		
 		//end game if pollEvents returns zero.
 		if(pollEvents() == false)
 			return;
 
-		//oldTime = newTime;
-		//newTime = clock.getElapsedTime();
-
-		////time between frames
-		//sf::Time deltaTime = newTime - oldTime;
-
-		//update top state.
-		mStates.top()->update();
-
+		while(limit.asMicroseconds() < clock.getElapsedTime().asMicroseconds() ) {
+			auto i = clock.getElapsedTime().asMicroseconds();
+			clock.restart();
+			//update top state
+			mStates.top()->update();
+		}
+		mStates.top()->render();
+	
 		if(mPopNextFrame) {
 			mStates.pop();
 			mPopNextFrame = false;
 		}
 
-		if(limit > clock.getElapsedTime()) {
-			sf::sleep( limit - sf::milliseconds( clock.getElapsedTime().asMilliseconds() ) );
+		std::cout << clock.getElapsedTime().asMilliseconds() <<" ";
 		}
 	}
-}
 
 void StateManager::pushState(State* state) {
 	mStates.push(state);

@@ -69,19 +69,46 @@
 					"framespersprite": "10",
 					"filename": "placeholder.png"
 				},
-				"walkleft": {
-					"width": "null",
-					"height": "null",
-					"yorigin": "null",
-					"xorigin": "null",
-					"numberofsprites": "null",
-					"framespersprite": "null",
-					"filename": "null"
+				"backleft": {
+					"spritewidth": "85",
+					"spriteheight": "85",
+					"yorigin": "69",
+					"xorigin": "10",
+					"numberofsprites": "8",
+					"framespersprite": "4",
+					"filename": "spritesheet_zeles_back_left.png"
+				},
+				"backright": {
+					"spritewidth": "85",
+					"spriteheight": "85",
+					"yorigin": "69",
+					"xorigin": "10",
+					"numberofsprites": "8",
+					"framespersprite": "4",
+					"filename": "spritesheet_zeles_back_right.png"
+				},
+				"frontleft": {
+					"spritewidth": "85",
+					"spriteheight": "85",
+					"yorigin": "69",
+					"xorigin": "10",
+					"numberofsprites": "6",
+					"framespersprite": "5",
+					"filename": "spritesheet_zeles_front_left.png"
+				},
+				"frontright": {
+					"spritewidth": "85",
+					"spriteheight": "85",
+					"yorigin": "69",
+					"xorigin": "10",
+					"numberofsprites": "6",
+					"framespersprite": "5",
+					"filename": "spritesheet_zeles_front_right.png"
 				}
 			},
 			"itemdisplay": {
-				"xposition": "0.5",
-				"yposition": "0.1",
+				"xfromleft": "50",
+				"yfromtop": "50",
 				"animations": {
 					"itembox": {				
 						"spritewidth": "64",

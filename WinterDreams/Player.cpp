@@ -11,8 +11,6 @@
 #include <cmath>
 #include <iostream>
 
-
-
 class PlayerSpecs{
 public:	
 	////////////////////////////////////////////////////////////////////////////
@@ -82,7 +80,7 @@ void Player::update(GameState* gameState_p){
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 		--tempDir.x;
 		++tempDir.y;
-		mDirection += sf::Vector2i(-1, 1);		
+		mDirection += sf::Vector2i(-1, 1);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 		--tempDir.x;
@@ -102,6 +100,20 @@ void Player::update(GameState* gameState_p){
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 		gameState_p->addGraphicalEntity(std::shared_ptr<DamageHitBox>( new DamageHitBox(mHitBox, 2, DamageHitBox::PICKAXE ) ) );
 	}
+	/////////////////////////////////////////////////////////////////
+	if(mDirection.x == 1)
+		if(mDirection.y == -1)
+			mCurrentAnimation_p = &mAnimationMap.find("frontright")->second;
+	if(mDirection.x == -1)
+		if(mDirection.y == 1)
+			mCurrentAnimation_p = &mAnimationMap.find("backleft")->second;
+	if(mDirection.y == -1)
+		if( mDirection.x == -1)
+			mCurrentAnimation_p = &mAnimationMap.find("backright")->second;
+	if(mDirection.y == 1)
+		if(mDirection.x == 1)
+			mCurrentAnimation_p = &mAnimationMap.find("frontleft")->second;		
+	/////////////////////////////////////////////////////////////////
 		//Get the length of tempDir
 	auto tempLenght = std::sqrt(tempDir.x * tempDir.x + tempDir.y * tempDir.y);
 		//Normalize tempDir if it's length is greater then 0
@@ -116,6 +128,9 @@ void Player::update(GameState* gameState_p){
 }
 
 void Player::drawSelf(){
+		//If the character did not move, idle.
+	if(mDirection.x == 0 && mDirection.y == 0)
+		mCurrentAnimation_p->resetAnimation();
 		//Get the current animation's sprite
 	auto& sprite = mCurrentAnimation_p->getCurrentSprite();
 		//Assign the sprite a position (in Screen Coordinates)

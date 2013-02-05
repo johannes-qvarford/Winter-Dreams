@@ -32,12 +32,11 @@ public:
 
 	void update(GameState* gameState_p);
 private:
-	float mXPos;
-	float mYPos;
+	int mXPos;
+	int mYPos;
 
 	std::weak_ptr<Player>			 mPlayer_wp;			//A pointer to the player
-	Animation*						 mBoxAnimation;			//Animates the inventory box
-	Animation*						 mCurrentItemAnimation; //Holds a pointer to animation of the item the player currently has equiped. Can be NULL
+	Animation*						 mBoxAnimation_p;		//Animates the inventory box
 	std::map<std::string, Animation> mAnimationMap;			//Holds all the different animations for the inventory
 	
 
