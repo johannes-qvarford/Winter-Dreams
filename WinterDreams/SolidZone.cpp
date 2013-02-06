@@ -7,10 +7,16 @@
 #endif
 #include "Player.h"
 
-static const char* SolidZone_IMAGE_FILENAME_1 = "collision128x64/placeholder.png";
-static const char* SolidZone_IMAGE_FILENAME_2 = "collision256x128/placeholder.png";
-static const char* SolidZone_IMAGE_FILENAME_3 = "collision512x256/placeholder.png";
+static const char* SolidZone_IMAGE_FILENAME_1 = "collision128x64/flat64.png";
+static const char* SolidZone_IMAGE_FILENAME_2 = "collision256x128/flat128.png";
+static const char* SolidZone_IMAGE_FILENAME_3 = "collision512x256/flat256.png";
 static const float STEP = 35.77708763999664f;
+
+#ifdef DEBUG_SOLIDZONE
+	static auto mTexture1 = ResourceManager::get().getTexture(FS_DIR_OBJECTANIMATIONS + SolidZone_IMAGE_FILENAME_1);
+	static auto mTexture2 = ResourceManager::get().getTexture(FS_DIR_OBJECTANIMATIONS + SolidZone_IMAGE_FILENAME_2);
+	static auto mTexture3 = ResourceManager::get().getTexture(FS_DIR_OBJECTANIMATIONS + SolidZone_IMAGE_FILENAME_3);
+#endif
 
 SolidZone::SolidZone(sf::Rect<float> HitBox, bool startsEnabled):
 	CollisionZone(startsEnabled, HitBox, false)
@@ -21,24 +27,21 @@ SolidZone::SolidZone(sf::Rect<float> HitBox, bool startsEnabled):
 	mSprite.setPosition(hitBox.left, hitBox.top);
 	
 	if(hitBox.width < STEP + 1) {
-		mSprite.setOrigin(0, 48);
-		mTexture = ResourceManager::get().getTexture(FS_DIR_OBJECTANIMATIONS +  SolidZone_IMAGE_FILENAME_1);
-		mSprite.setTexture(*mTexture);
-		mSprite.setTextureRect(sf::IntRect(0, 0, 64, 64));
+		mSprite.setOrigin(0, 32);
+		mSprite.setTexture(*mTexture1.get() );
+		mSprite.setTextureRect(sf::IntRect(0, 0, 64, 48));
 	}
 	else if(hitBox.width < (STEP * 2) + 1) {
-		mSprite.setOrigin(0, 96);
-		mTexture = ResourceManager::get().getTexture(FS_DIR_OBJECTANIMATIONS + SolidZone_IMAGE_FILENAME_2);
-		mSprite.setTexture(*mTexture);
-		mSprite.setTextureRect(sf::IntRect(0, 0, 128, 128));
+		mSprite.setOrigin(0, 48);		
+		mSprite.setTexture(*mTexture2.get() );
+		mSprite.setTextureRect(sf::IntRect(0, 0, 128, 80));
 	}
 	else {
-		mSprite.setOrigin(0, 192);
-		mTexture = ResourceManager::get().getTexture(FS_DIR_OBJECTANIMATIONS + SolidZone_IMAGE_FILENAME_3);
-		mSprite.setTexture(*mTexture);
-		mSprite.setTextureRect(sf::IntRect(0, 0, 256, 256));
+		mSprite.setOrigin(0, 80);
+		mSprite.setTexture(*mTexture3.get() );
+		mSprite.setTextureRect(sf::IntRect(0, 0, 256, 144));
 	}
-	
+	mSprite.setPosition( GAME_TO_SCREEN * mSprite.getPosition() );
 #endif
 }
 
@@ -84,9 +87,9 @@ void SolidZone::onCollision(PhysicalEntity* pe, const sf::Rect<float>& intersect
 			hitBox.top -= intersection.height * 0.5f;
 		}
 		/*
-		// Fall 3, då man åker pixelperfekt neråt i skärmkordinater
+		// Fall 4, då man åker pixelperfekt neråt i skärmkordinater
 		*/
-		else if (direction.x > 0 && direction.y < 0){
+		else if (direction.x > 0 && direction.y > 0){
 //			hitBox.left += intersection.width;
 			//* 0.5 kommer ifrån att den måste fortfarande ha intersection för att fungera
 			hitBox.top += intersection.height * 0.5f;
@@ -123,12 +126,7 @@ void SolidZone::onCollision(PhysicalEntity* pe, const sf::Rect<float>& intersect
 
 void SolidZone::drawSelf(){
 	#ifdef DEBUG_SOLIDZONE
-	auto& mgr = WindowManager::get();
-	auto window_p = mgr.getWindow();
-
-	auto tempSprite = mSprite;
-	tempSprite.setPosition(GAME_TO_SCREEN * tempSprite.getPosition());
-
-	window_p->draw(tempSprite);
+	auto window_p = WindowManager::get().getWindow();
+	window_p->draw(mSprite);
 #endif
 }

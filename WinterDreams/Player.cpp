@@ -67,6 +67,10 @@ Player::Player(sf::FloatRect initialPosition, int lightLevel, bool startEnabled)
 	}
 
 	mCurrentAnimation_p = &mAnimationMap.begin()->second;
+
+	mInventory.giveItem("pickaxe", 1);
+	mInventory.giveItem("wheel", 1);
+	mInventory.giveItem("shoes", 1);
 }
 
 Player::~Player() {}

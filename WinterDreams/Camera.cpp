@@ -27,7 +27,9 @@ Camera::Camera( std::shared_ptr<PhysicalEntity> entity ) :
 	mLockedCamera( true )
 {
 		//Get the entitys position
-	auto entityPos = sf::Vector2f( entity->getHitBox().left, entity->getHitBox().top ); 
+	auto entityX = entity->getHitBox().left + entity->getHitBox().width/2; 
+	auto entityY = entity->getHitBox().top + entity->getHitBox().height/2;
+	auto entityPos = sf::Vector2f( entityX , entityY );
 		//Assign the cameras position (and desired position) to the entitys position
 	mCameraPosition = GAME_TO_SCREEN * entityPos;
 	mDesiredPosition = mCameraPosition;
@@ -45,15 +47,18 @@ void Camera::update(GameState* gameState_p){
 
 	if( mLockedCamera && !mLockedEntity.expired() ) {
 		auto physical = std::shared_ptr<PhysicalEntity>( mLockedEntity );
-		auto entityPos = sf::Vector2f(physical->getHitBox().left, physical->getHitBox().top);
+		auto entityX = physical->getHitBox().left + physical->getHitBox().width/2; 
+		auto entityY = physical->getHitBox().top + physical->getHitBox().height/2;
+		auto entityPos = sf::Vector2f( entityX , entityY );
 		mDesiredPosition = GAME_TO_SCREEN * entityPos;
 	}
+	float threshhold = 0.1 / CAM_PAN_PERCENTAGE;
 		//If the difference between the desired position and the 
-		//current position is greater then 0.1, move the camera
-		//'currentPanSpeed' in the direction pointing to 
+		//current position is greater then the movement threshhold, 
+		//move the camera in the direction pointing to 
 		//the desired position
-	if(	abs(mCameraPosition.x - mDesiredPosition.x) > 0.5 ||
-		abs(mCameraPosition.y - mDesiredPosition.y) > 0.5) {
+	if(	abs(mCameraPosition.x - mDesiredPosition.x) > threshhold ||
+		abs(mCameraPosition.y - mDesiredPosition.y) > threshhold) {
 			//Take out the direction between current pos and
 			//desired pos
 		auto dirVect = mDesiredPosition - mCameraPosition;
@@ -63,7 +68,7 @@ void Camera::update(GameState* gameState_p){
 		auto dirLenght = std::sqrt( dirVect.x * dirVect.x + dirVect.y * dirVect.y );
 			//If lenght is longer then the currentPanSpeed, it should
 			//move currentPanSpeed in dirVect's direction
-		if(dirLenght > 0.1 ){
+		if(dirLenght > 0.1) {
 				//To make the camera slow down the closer it
 				//gets to the player, calculate a panMultiplier
 			auto panMultiplier = dirLenght * CAM_PAN_PERCENTAGE;
@@ -102,10 +107,6 @@ void Camera::snapToPosition(sf::Vector2f position){
 	unlockCamera();
 	mCameraPosition = position;
 	mDesiredPosition = position;
-}
-
-void Camera::setPanSpeed(float moveSpeedPercentage){
-	CAM_PAN_PERCENTAGE = moveSpeedPercentage;
 }
 
 void Camera::draw() const {}

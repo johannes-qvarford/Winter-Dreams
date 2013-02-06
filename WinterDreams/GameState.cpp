@@ -109,28 +109,39 @@ void GameState::render() {
 		sprite.setPosition(mMapTexture.second);
 		window.draw(sprite);
 	}
-#ifdef DEBUG_SOLIDZONEI
+#ifdef DEBUG_SOLIDZONE_
 	std::list<std::shared_ptr<PhysicalEntity> > L;
+	auto& view = WindowManager::get().getWindow()->getView();
+	auto center = view.getCenter();
+	auto size = view.getSize();
+	auto viewRect = sf::FloatRect(center.x - size.x*0.6, center.y - size.y*0.6, size.x*1.2, size.y*1.2) ;
+
 	for( auto it = mGraphicalEntities.begin(), end = mGraphicalEntities.end(); it != end; ++it){
-		L.push_back( std::static_pointer_cast<PhysicalEntity>(*it) );
+		auto aRect = GAME_TO_SCREEN.transformRect( (*it)->getHitBox() );
+		if( viewRect.intersects( aRect ) ){	
+			L.push_back( std::static_pointer_cast<PhysicalEntity>(*it) );
+		}
 	}
 	for( auto it = mCollisionZones.begin(), end = mCollisionZones.end(); it != end; ++it){
-		L.push_back( std::static_pointer_cast<PhysicalEntity>(*it) );
-	}
+		auto aRect = GAME_TO_SCREEN.transformRect( (*it)->getHitBox() );
+		if( viewRect.intersects( aRect ) ){	
+			L.push_back( std::static_pointer_cast<PhysicalEntity>(*it) );
+		}
+	} 
 	L.sort(smallerPosition);
-	
-	for(auto it = L.begin(), end = L.end(); it != end; ++it){
-		(*it)->drawSelf();
-	}
-#else
 
+	for( auto a = L.begin(), b = L.end(); a != b; ++a) {	
+		(*a)->drawSelf();
+	}
+	std::cout << "["<<L.size() <<"]"<<" ";
+#else
 
 	//sort them in drawing order.
 	mGraphicalEntities.sort(smallerPosition);
 	
 	for(auto it = mGraphicalEntities.begin(), end = mGraphicalEntities.end(); it != end; ++it) {
 		auto graphical_sp = *it;
-		graphical_sp->drawSelf();
+	graphical_sp->drawSelf();
 	}
 
 #endif

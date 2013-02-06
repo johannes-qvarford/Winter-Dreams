@@ -100,21 +100,23 @@ void InventoryDisplay::draw() const{
 		auto player = mPlayer_wp.lock();
 		auto inventory = player->getInventory();
 
-		inventory;
+		int nrOfItems = 0;
+			//Iterate over all possible items and ask it the player has any of them in it's inventory
+		for( auto iter = mAnimationMap.begin(), end = mAnimationMap.end(); iter != end; ++iter) {		
+				//Check if the player has the item in it's inventory
+			if( inventory.hasItem( iter->first ) > 0 ) {
+				++nrOfItems;
 
-
-
-
-
+				auto& sprite = iter->second.getCurrentSprite();
+				window.draw( sprite, rendState);
+			}
+		}
+			//If the player had at least one item, draw the itembox
+		if( nrOfItems > 0 ){
+			auto& sprite = mBoxAnimation_p->getCurrentSprite();
+			window.draw( sprite, rendState );
+		}
 	}
-	auto& pickaxe = mAnimationMap.find("pickaxe")->second.getCurrentSprite();
-	auto& wheel = mAnimationMap.find("wheel")->second.getCurrentSprite();
-	auto& shoes = mAnimationMap.find("shoes")->second.getCurrentSprite();
-
-	window.draw( mBoxAnimation_p->getCurrentSprite(), rendState );
-	window.draw( pickaxe , rendState );
-	window.draw( wheel , rendState );
-	window.draw( shoes , rendState );
 }
 
 void InventoryDisplay::update(GameState* gameState_p){
@@ -139,10 +141,13 @@ void InventoryDisplay::updateUI() {
 			//Get the icons index
 		auto index = spec.mIconIndices.find(name)->second;
 			//Calculate it's offest from the first icon
-		auto offset = sf::Vector2f(static_cast<float>(spec.mIconsAppart) * static_cast<float>(index), 0 );
+		auto offset = sf::Vector2f(static_cast<float>(spec.mIconsAppart * index), 0 );
 			//Assign it's position
 		iter->second.setPosition(firstIconPos + offset);
 	}
-
-
+	////Ask what item the player has equipped right now
+	//auto index = spec.get().mIconIndices.find( /*CurrentItemName*/  );
+	auto offset = sf::Vector2f(static_cast<float>(spec.mIconsAppart * /*index*/ 0), 0 );
+	mBoxAnimation_p->setPosition( firstIconPos + offset );
+	///////////////////////////////////////////////////
 }
