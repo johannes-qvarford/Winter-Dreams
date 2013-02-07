@@ -61,7 +61,7 @@ InventoryDisplay::InventoryDisplay(std::weak_ptr<Player> player) :
 	mPlayer_wp( player )
 {
 		//get a copy to the windows size
-	auto winSize = WindowManager::get().getWindow()->getSize();
+	auto winSize = WindowManager::get().getRenderWindow()->getSize();
 	auto& specs = InvDispSpecs::get();
 		//assign the center of the display box
 	mXPos = specs.mXPos;
@@ -93,7 +93,7 @@ InventoryDisplay::~InventoryDisplay()
 
 /////////////////////////////////////////////////////////
 void InventoryDisplay::draw() const{
-	auto& window = *WindowManager::get().getWindow();
+	auto& window = *WindowManager::get().getRenderWindow();
 	auto& rendState = *WindowManager::get().getStates();
 
 	if( !mPlayer_wp.expired() ) {

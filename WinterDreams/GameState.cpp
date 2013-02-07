@@ -13,6 +13,9 @@
 #include <cmath>
 #include <iostream>
 
+#include <SFML/Graphics/Shader.hpp>
+#include <SFML/Window/Keyboard.hpp>
+
 static bool smallerPosition(std::shared_ptr<PhysicalEntity> lhs_p, std::shared_ptr<PhysicalEntity> rhs_sp);
 static void handleCollision(PhysicalEntity* lhs_p, PhysicalEntity* rhs_p);
 
@@ -97,6 +100,7 @@ const std::vector<sf::Vector2f>& GameState::getAiPath(const std::string& name) {
 void GameState::render() {
 
 	auto& window = *WindowManager::get().getWindow();
+	auto& renderWindow = *WindowManager::get().getRenderWindow();
 	auto& renderStates = *WindowManager::get().getStates();
 	
 	//clear window for drawing, and reset transformation matrix.
@@ -135,14 +139,33 @@ void GameState::render() {
 
 #endif
 
+	//display
+	
+	static float pxt=1;
+	static sf::Shader* shader = new sf::Shader;
+	shader->loadFromFile("../Winter-Dreams/Resources/Darkness.frag", sf::Shader::Fragment);
+	window.display();
+	sf::Sprite renderTextureSprite(window.getTexture());
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+		shader->setParameter("pixel_threshold",pxt);
+		renderWindow.draw(renderTextureSprite, shader);
+	} else {
+		renderWindow.draw(renderTextureSprite);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
+		pxt+=0.1;
+	} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)){
+		pxt-=0.1;
+	}
+
 	//draw script effects directly on screen
 	for(auto it = mScripts.begin(), end = mScripts.end(); it != end; ++it) {
 		auto script_sp = *it;
 		script_sp->draw();
 	}
 
-	//display
-	window.display();
+	renderWindow.display();
+
 }
 
 void GameState::deleteInactives() {
