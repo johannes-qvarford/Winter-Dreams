@@ -11,7 +11,7 @@
 //	Returns whether or not the game should end.
 */
 static bool pollEvents() {
-	auto& window = *WindowManager::get().getWindow();
+	auto& window = *WindowManager::get().getRenderWindow();
 	sf::Event ev;
 
 	//poll events. for now, end game if window is closed.
@@ -21,6 +21,9 @@ static bool pollEvents() {
 				//if the window's X is pressed
 			case sf::Event::Closed:
 				return false;
+				break;
+			case sf::Event::Resized:
+				WindowManager::get().resizeTexture(ev.size.width, ev.size.height);
 				break;
 			default:
 				break;
