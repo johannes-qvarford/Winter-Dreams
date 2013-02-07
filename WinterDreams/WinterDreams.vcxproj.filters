@@ -100,6 +100,12 @@
     <ClCompile Include="PrecompiledHeader.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_item.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameToScreen.h">
@@ -208,6 +214,9 @@
       <Filter>Includes\Entity</Filter>
     </ClInclude>
     <ClInclude Include="DamageHitBox.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
       <Filter>Includes\Entity</Filter>
     </ClInclude>
   </ItemGroup>

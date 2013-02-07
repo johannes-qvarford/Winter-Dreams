@@ -6,7 +6,7 @@ WindowManager::WindowManager() :
 	mWindow_p( new sf::RenderWindow(sf::VideoMode(800,600), "Winter Dreams") ),
 	mRenderStates_p(new sf::RenderStates())
 {
-	mWindow_p->setVerticalSyncEnabled( true );
+	mWindow_p->setVerticalSyncEnabled( false );
 }
 	//Returns the static instance of WindowManager
 WindowManager& WindowManager::get(){

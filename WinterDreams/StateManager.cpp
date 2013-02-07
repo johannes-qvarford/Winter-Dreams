@@ -39,39 +39,31 @@ StateManager::StateManager():
 {
 }
 
-void StateManager::run() {
-	const int FRAMES_PER_SECOND = 65;
-	const int SKIP_TICKS = 1000 / FRAMES_PER_SECOND;
+void StateManager::run() {a
+	const int FRAMES_PER_SECOND = 60;
+	const int advances = 1000 / FRAMES_PER_SECOND;
 	/*
-		Since LoadingState's update is called int he game loop,
-		we cannot have a frame skip higher then 1. If we increase
-		frameskip higher then 1, LoadingState will run one
-		additional time for each frameskip higher then 1.
+		MAX_FRAMESKIP may not be 0 or 1, since that
+		will reuslt in a unlimited frame rate.
 	*/
-	const int MAX_FRAMESKIP = 1;	
+	const unsigned int MAX_FRAMESKIP = 5;	
 	
-	sf::Time next_game_tick( sf::microseconds(0) );
+	sf::Time next_game_tick( sf::milliseconds(0) );
 	sf::Clock GetTickCount;
 	sf::Clock frameTime;
+	sf::Clock rendTime;
 	int loops = 0;
+
+	frameTime.restart();
+	rendTime.restart();
 
 	while(true)
 	{	
-		loops = 0;	
-
-		if(pollEvents() == false)
-			return;
-
-		while(GetTickCount.getElapsedTime() > next_game_tick && loops < MAX_FRAMESKIP ) { 
-			mStates.top()->update();  
-
-			next_game_tick += sf::Time( sf::milliseconds(SKIP_TICKS) );
-			++loops;
-			std::cout << 1000 / (frameTime.getElapsedTime().asMilliseconds()+1) <<"\t";	//+1 to not get a "divided by zero" error
-			frameTime.restart();
-		}	
-
-		mStates.top()->render();
+		if(loops == MAX_FRAMESKIP){
+			next_game_tick = sf::microseconds(0);
+			GetTickCount.restart();
+		}
+		loops = 0;
 
 		if(mPopNextFrame) {
 			mStates.pop();
@@ -80,6 +72,25 @@ void StateManager::run() {
 			next_game_tick = sf::microseconds(0);
 			GetTickCount.restart();
 		}
+			
+		if(pollEvents() == false)
+			return;
+
+		while(GetTickCount.getElapsedTime() > next_game_tick && loops < MAX_FRAMESKIP ) { 
+			mStates.top()->update();  
+			
+			if( !mStates.top()->isRepeatable() )
+				break;
+
+			next_game_tick += sf::Time( sf::milliseconds(advances) );
+			++loops;
+			std::cout << 1000 / (frameTime.getElapsedTime().asMilliseconds()+1)  <<"\t";	//+1 to not get a "divided by zero" error
+			frameTime.restart();
+		}	
+
+		mStates.top()->render();
+		std::cout<< "[" <<rendTime.getElapsedTime().asMilliseconds() <<"]\t";
+		rendTime.restart();
 	}
 }
 
