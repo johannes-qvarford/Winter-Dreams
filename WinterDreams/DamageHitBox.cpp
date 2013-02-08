@@ -1,11 +1,8 @@
 #include "DamageHitBox.h"
-	#ifdef DEBUG_WALL
-#include "WindowManager.h"
-#include "ResourceManager.h"
-	#endif
 #include "GameState.h"
 #include "Crystal.h"
 #include <SFML\Audio.hpp>
+
 ///////////////////////////////////////////////
 // /Simply assigns the arguments to the correct member variable.
 // /EXCEPTION: mLifeTime is assigned manually. Defines how many updates the hitbox lives.
@@ -15,8 +12,15 @@ DamageHitBox::DamageHitBox(const sf::Rect<float>& hitBox, unsigned int damage, D
 	mHitBox( hitBox ),
 	mDamage( damage ),
 	mDamageType( type ),
-	mLifeTime(20)
+	mLifeTime(3)
+#ifndef SHIPPING
+	,
+	mAnimation( "DEBUG.png", 64, 64, 1, 1, 0, 48 )
+#endif
 { 
+#ifndef SHIPPING
+	mAnimation.setPosition( GAME_TO_SCREEN * sf::Vector2f(mHitBox.left, mHitBox.top) );
+#endif
 }
 
 DamageHitBox::~DamageHitBox() { }
@@ -40,10 +44,8 @@ void DamageHitBox::update(GameState* gameState_p){
 	// /Draws a red circle representing the damage hitbox. Only for bug testing
 	///////////////////////////////////////////////
 void DamageHitBox::drawSelf(){ 
-#ifdef DEBUG_WALL
-	auto tex = ResourceManager::get().getTexture("DEBUG.png");
-	sf::Sprite s( *tex );
-	WindowManager::get().getWindow()->draw( s, *WindowManager::get().getStates() );
+#ifndef SHIPPING
+	WindowManager::get().getWindow()->draw( mAnimation.getCurrentSprite(), *WindowManager::get().getStates() );
 #endif
 }
 	///////////////////////////////////////////////

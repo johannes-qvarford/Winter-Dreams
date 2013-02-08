@@ -42,35 +42,60 @@ StateManager::StateManager():
 {
 }
 
-void StateManager::run() {
-	sf::Clock clock;
-	sf::Time limit = sf::milliseconds( static_cast<int>(10) );
+void StateManager::run() {a
+	const int FRAMES_PER_SECOND = 60;
+	const int advances = 1000 / FRAMES_PER_SECOND;
+	/*
+		MAX_FRAMESKIP may not be 0 or 1, since that
+		will reuslt in a unlimited frame rate.
+	*/
+	const unsigned int MAX_FRAMESKIP = 5;	
 	
-	//sf::Time newTime;
-	//sf::Time oldTime;
+	sf::Time next_game_tick( sf::milliseconds(0) );
+	sf::Clock GetTickCount;
+	sf::Clock frameTime;
+	sf::Clock rendTime;
+	int loops = 0;
 
-	//newTime = clock.getElapsedTime();
-	clock.restart();
+	frameTime.restart();
+	rendTime.restart();
+
 	while(true)
 	{	
-		clock.restart();
-		//end game if pollEvents returns zero.
-		if(pollEvents() == false)
-			return;
-		
-		mStates.top()->update();
+		if(loops == MAX_FRAMESKIP){
+			next_game_tick = sf::microseconds(0);
+			GetTickCount.restart();
+		}
+		loops = 0;
 
 		if(mPopNextFrame) {
 			mStates.pop();
 			mPopNextFrame = false;
-		}
 
-		while(limit > clock.getElapsedTime() ) {
-			mStates.top()->render();
+			next_game_tick = sf::microseconds(0);
+			GetTickCount.restart();
 		}
-		std::cout << clock.getElapsedTime().asMilliseconds() <<" ";
-		}
+			
+		if(pollEvents() == false)
+			return;
+
+		while(GetTickCount.getElapsedTime() > next_game_tick && loops < MAX_FRAMESKIP ) { 
+			mStates.top()->update();  
+			
+			if( !mStates.top()->isRepeatable() )
+				break;
+
+			next_game_tick += sf::Time( sf::milliseconds(advances) );
+			++loops;
+			std::cout << 1000 / (frameTime.getElapsedTime().asMilliseconds()+1)  <<"\t";	//+1 to not get a "divided by zero" error
+			frameTime.restart();
+		}	
+
+		mStates.top()->render();
+		std::cout<< "[" <<rendTime.getElapsedTime().asMilliseconds() <<"]\t";
+		rendTime.restart();
 	}
+}
 
 void StateManager::pushState(State* state) {
 	mStates.push(state);

@@ -58,7 +58,7 @@
 			}
 		},
 		"player": {
-			"walkspeed": 5,
+			"walkspeed": 2,
 			"animations": {
 				"placeholder": {				
 					"spritewidth": "64",
@@ -104,6 +104,42 @@
 					"numberofsprites": "6",
 					"framespersprite": "5",
 					"filename": "spritesheet_zeles_front_right.png"
+				},
+				"front": {
+					"spritewidth": "85",
+					"spriteheight": "85",
+					"yorigin": "64",
+					"xorigin": "10",
+					"numberofsprites": "8",
+					"framespersprite": "4",				
+					"filename": "spritesheet_zeles_front.png"
+				},
+				"back": {
+					"spritewidth": "85",
+					"spriteheight": "85",
+					"yorigin": "64",
+					"xorigin": "10",
+					"numberofsprites": "8",
+					"framespersprite": "4",				
+					"filename": "spritesheet_zeles_front.png"
+				},
+				"right": {
+					"spritewidth": "85",
+					"spriteheight": "85",
+					"yorigin": "64",
+					"xorigin": "10",
+					"numberofsprites": "8",
+					"framespersprite": "4",				
+					"filename": "spritesheet_zeles_front.png"
+				},
+				"left": {
+					"spritewidth": "85",
+					"spriteheight": "85",
+					"yorigin": "64",
+					"xorigin": "10",
+					"numberofsprites": "8",
+					"framespersprite": "4",				
+					"filename": "spritesheet_zeles_front.png"
 				}
 			},
 			"itemdisplay": {

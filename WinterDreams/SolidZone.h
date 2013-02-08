@@ -17,13 +17,8 @@ public:
 
 private:
 #ifdef DEBUG_SOLIDZONE
-	std::shared_ptr<sf::Texture> mTexture;
 	sf::Sprite mSprite;
 #endif
-
 };
-
-
-
 
 #endif

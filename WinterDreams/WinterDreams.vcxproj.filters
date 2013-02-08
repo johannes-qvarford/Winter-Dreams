@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -99,6 +99,12 @@
     </ClCompile>
     <ClCompile Include="PrecompiledHeader.cpp">
       <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_item.cpp">
+      <Filter>Sources\Registration</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -201,13 +207,16 @@
     <ClInclude Include="AnimationSpecs.h">
       <Filter>Includes\Entity\Animations</Filter>
     </ClInclude>
-    <ClInclude Include="DamageHitBox.h">
-      <Filter>Includes\Particle</Filter>
-    </ClInclude>
     <ClInclude Include="CollisionZone.h">
       <Filter>Includes\Entity</Filter>
     </ClInclude>
     <ClInclude Include="InventoryDisplay.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="DamageHitBox.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
       <Filter>Includes\Entity</Filter>
     </ClInclude>
   </ItemGroup>
