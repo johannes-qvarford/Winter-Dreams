@@ -42,7 +42,7 @@ StateManager::StateManager():
 {
 }
 
-void StateManager::run() {a
+void StateManager::run() {
 	const int FRAMES_PER_SECOND = 60;
 	const int advances = 1000 / FRAMES_PER_SECOND;
 	/*

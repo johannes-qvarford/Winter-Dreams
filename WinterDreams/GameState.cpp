@@ -15,6 +15,7 @@
 
 #include <SFML/Graphics/Shader.hpp>
 #include <SFML/Window/Keyboard.hpp>
+#include <SFML/Window/Mouse.hpp>
 
 static bool smallerPosition(std::shared_ptr<PhysicalEntity> lhs_p, std::shared_ptr<PhysicalEntity> rhs_sp);
 static void handleCollision(PhysicalEntity* lhs_p, PhysicalEntity* rhs_p);
@@ -153,11 +154,19 @@ void GameState::render() {
 	//display
 	
 	static float pxt=1;
+	static float lightPosx=0.5;
+	static float lightPosy=0.5;
 	static sf::Shader* shader = new sf::Shader;
 	shader->loadFromFile("../Winter-Dreams/Resources/Darkness.frag", sf::Shader::Fragment);
 	window.display();
+
+	shader->setParameter("lightPosx[0]",0.5);
+	shader->setParameter("lightPosy[0]",0.5);
+
 	sf::Sprite renderTextureSprite(window.getTexture());
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+		shader->setParameter("lightPosx[1]", float(sf::Mouse::getPosition(renderWindow).x)/float(renderWindow.getSize().x));
+		shader->setParameter("lightPosy[1]", 1-float(sf::Mouse::getPosition(renderWindow).y)/float(renderWindow.getSize().y));
 		shader->setParameter("pixel_threshold",pxt);
 		renderWindow.draw(renderTextureSprite, shader);
 	} else {
