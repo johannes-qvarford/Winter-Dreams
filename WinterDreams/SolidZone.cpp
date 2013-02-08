@@ -53,7 +53,7 @@ void SolidZone::onCollision(PhysicalEntity* pe, const sf::Rect<float>& intersect
 		return;
 
 	sf::Rect<float>& hitBox = pe->getHitBox();
-	sf::Vector2i& direction = pe->getDirection();
+	sf::Vector2i& direction = pl->getDirection();
 	sf::Rect<float>& myHitBox = getHitBox();
 /*
 // Specialfallan då höjden och bredden på intersection är lika stora (ish)

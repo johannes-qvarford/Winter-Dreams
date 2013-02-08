@@ -41,7 +41,7 @@ StateManager::StateManager():
 
 void StateManager::run() {
 	sf::Clock clock;
-	sf::Time limit = sf::milliseconds( static_cast<int>(16) );
+	sf::Time limit = sf::milliseconds( static_cast<int>(10) );
 	
 	//sf::Time newTime;
 	//sf::Time oldTime;
@@ -50,24 +50,21 @@ void StateManager::run() {
 	clock.restart();
 	while(true)
 	{	
-		
+		clock.restart();
 		//end game if pollEvents returns zero.
 		if(pollEvents() == false)
 			return;
+		
+		mStates.top()->update();
 
-		while(limit.asMicroseconds() < clock.getElapsedTime().asMicroseconds() ) {
-			auto i = clock.getElapsedTime().asMicroseconds();
-			clock.restart();
-			//update top state
-			mStates.top()->update();
-		}
-		mStates.top()->render();
-	
 		if(mPopNextFrame) {
 			mStates.pop();
 			mPopNextFrame = false;
 		}
 
+		while(limit > clock.getElapsedTime() ) {
+			mStates.top()->render();
+		}
 		std::cout << clock.getElapsedTime().asMilliseconds() <<" ";
 		}
 	}

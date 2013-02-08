@@ -1,6 +1,8 @@
 #include "Animation.h"
 #include "ResourceManager.h"
 #include <SFML\Graphics.hpp>
+#include "FileStructure.h"
+
 ////////////////////////////////////////////////////////////
 // /Constructor.
 // /Simply assigns the arguments to the correct member variable.
@@ -49,9 +51,24 @@ Animation::~Animation() {}
 // /Returns the current sprite from the sprite sheet.
 ////////////////////////////////////////////////////////////
 sf::Sprite Animation::getCurrentSprite(){
+	return mSprite;
+}
+
+void Animation::setPosition(const sf::Vector2f& position) {
+	mSprite.setPosition( position );
+}
+
+void Animation::resetAnimation(){
+		//Resets the frame count and sprite count.
+	mCurrentSprite= 0;
+	mCurrentFrame = 0;	
+}
+
+void Animation::updateAnimation(){
 	unsigned int left = mSpriteWidth * mCurrentSprite;
-		//Below is currently inactive since we use single
-		//row sprite sheets
+	////////////////////////////////////////////////////////
+	//Below is currently inactive since we use single
+	//row sprite sheets
 	////////////////////////////////////////////////////////
 	unsigned int top = 0;
 	//	//Calculates the left and top bounds of the rect.
@@ -78,20 +95,25 @@ sf::Sprite Animation::getCurrentSprite(){
 		}
 		mCurrentFrame = 0;
 	}
-
-	return mSprite;
-}
-
-void Animation::setPosition(const sf::Vector2f& position) {
-	mSprite.setPosition( position );
-}
-
-void Animation::resetAnimation(){
-		//Resets the frame count and sprite count.
-	mCurrentSprite= 0;
-	mCurrentFrame = 0;	
 }
 
 bool Animation::endOfAnimation() const{
 	return mEndOfAnimation;
+}
+
+void Animation::makeAnimations(const std::string& objectNamePlusSlash, const std::list<AnimationSpecs>& animSpecList, std::map<std::string, Animation>* animMap_p) {
+	
+	for( auto it = animSpecList.begin(), end = animSpecList.end(); it != end; ++it){
+		auto w =	it->mWidth;
+		auto h =	it->mHeight;
+		auto yO =	it->mYOrigin;
+		auto xO =	it->mXOrigin;
+		auto nos =	it->mNrOfSprites;
+		auto fps =	it->mFramesPerSprite;
+		auto file = it->mFileName;
+		auto name = it->mAnimName;
+
+		Animation anim(FS_DIR_OBJECTANIMATIONS + objectNamePlusSlash + file , w, h, nos, fps, xO, yO);
+		animMap_p->insert( std::pair<std::string, Animation>( name , anim ) );
+	}
 }

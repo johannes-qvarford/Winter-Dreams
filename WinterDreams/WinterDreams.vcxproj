@@ -19,6 +19,7 @@
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Crystal.cpp" />
     <ClCompile Include="InventoryDisplay.cpp" />
+    <ClCompile Include="LightPoint.cpp" />
     <ClCompile Include="LoadingState.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="ObjectFactory.cpp" />
@@ -34,6 +35,7 @@
     <ClCompile Include="Registration_collision256x128.cpp" />
     <ClCompile Include="Registration_collision64x32.cpp" />
     <ClCompile Include="Registration_crystal.cpp" />
+    <ClCompile Include="Registration_light.cpp" />
     <ClCompile Include="Registration_player.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Registration_trigger.cpp" />
@@ -56,6 +58,7 @@
     <ClInclude Include="GameToScreen.h" />
     <ClInclude Include="Crystal.h" />
     <ClInclude Include="GraphicalEntity.h" />
+    <ClInclude Include="LightPoint.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="InventoryDisplay.h" />
     <ClInclude Include="ObjectFactory.h" />
@@ -118,7 +121,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>DEBUG_SOLIDZONE;SFML_DYNAMIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SFML_DYNAMIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)..\SFML\include\;$(SolutionDir)..\boost-svn\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PrecompiledHeader.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>PrecompiledHeader.h</ForcedIncludeFiles>

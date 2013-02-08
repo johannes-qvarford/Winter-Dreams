@@ -20,11 +20,6 @@ public:
 	// /another physical entity.
 	////////////////////////////////////////////////////////////
 	virtual void onCollision(PhysicalEntity* entityCollidedWith_p, const sf::Rect<float>& intersection) = 0;
-	////////////////////////////////////////////////////////////
-	// /Wall needs a direction of the object for proper 
-	// /collision check
-	////////////////////////////////////////////////////////////
-	virtual sf::Vector2i getDirection() = 0;
 
 	virtual void drawSelf() = 0;
 protected:

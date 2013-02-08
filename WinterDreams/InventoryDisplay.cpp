@@ -73,21 +73,20 @@
 //
 //InventoryDisplay::~InventoryDisplay()
 //{}
-///////////////////////////////////////////////////////////
+//
 ///////////////////////////////////////////////////////////
 //void InventoryDisplay::draw() const{
 //	auto& window = *WindowManager::get().getWindow();
 //	auto& rendState = *WindowManager::get().getStates();
 //	
-//	window.draw( mBoxAnimation->getCurrentSprite(), rendState );
-//	window.draw( mCurrentItemAnimation->getCurrentSprite(), rendState );
+//	window.draw( mBoxAnimation_p->getCurrentSprite(), rendState );
 //}
 //
 //void InventoryDisplay::update(GameState* gameState_p){
 //	if( !mPlayer_wp.expired() ) {
 //		auto player = mPlayer_wp.lock();
-//		
+//
 //		auto& inventory = player->getInventory();
 //
-//	}/////////////////////////////////////////////////////////
+//	
 //}/////////////////////////////////////////////////////////

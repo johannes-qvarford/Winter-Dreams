@@ -22,7 +22,6 @@ PropertyManager::PropertyManager():
 {
 	using namespace boost::property_tree;
 	json_parser::read_json(GENERAL_SETTINGS_FILENAME, mGeneralSettings);
-	auto obj = mGeneralSettings.get<std::string>("objects");
 	json_parser::read_json( OBJECTS_FILENAME , mObjectSettings );
 }
 

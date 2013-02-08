@@ -18,7 +18,6 @@ public:
 
 	const std::list<AnimationSpecs>& getAnimSpecList(){ return mAnimSpecList; }
 
-	
 private:
 
 	float mSpeed;
@@ -55,24 +54,10 @@ NPC::NPC(const std::string& pathName, const sf::FloatRect& initialPosition, bool
 	auto& npcSpecs = NPCSpecs::get();
 	auto& animSpecs = npcSpecs.getAnimSpecList();
 
-	//fill map with animations
-	for( auto it = animSpecs.begin(), end = animSpecs.end(); it != end; ++it) {
-		const auto& as = *it;
-		auto w =	as.mWidth;
-		auto h =	as.mHeight;
-		auto yO =	as.mYOrigin;
-		auto xO =	as.mXOrigin;
-		auto nos =	as.mNrOfSprites;
-		auto fps =	as.mFramesPerSprite;
-		auto file = as.mFileName;
-		auto name = as.mAnimName;
-
-		Animation anim(FS_DIR_OBJECTANIMATIONS +"npc/"+ file , w, h, nos, fps, xO, yO);
-		mAnimationMap.insert( std::pair<std::string, Animation>( name , anim ) );
-	}
+	Animation::makeAnimations("npc/", animSpecs, &mAnimationMap);
 	//use placeholder for now
-	auto phit = mAnimationMap.find("placeholder");
-	mCurrentAnimation_p = &phit->second;
+	auto it = mAnimationMap.find("placeholder");
+	mCurrentAnimation_p = &it->second;
 }
 
 void NPC::update(GameState* state) {
