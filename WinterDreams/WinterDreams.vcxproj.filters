@@ -104,6 +104,19 @@
       <Filter>Sources\Entity</Filter>
     </ClCompile>
     <ClCompile Include="Registration_soundscape.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="LightPoint.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_light.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_item.cpp">
+
       <Filter>Sources\Registration</Filter>
     </ClCompile>
   </ItemGroup>
@@ -207,9 +220,6 @@
     <ClInclude Include="AnimationSpecs.h">
       <Filter>Includes\Entity\Animations</Filter>
     </ClInclude>
-    <ClInclude Include="DamageHitBox.h">
-      <Filter>Includes\Particle</Filter>
-    </ClInclude>
     <ClInclude Include="CollisionZone.h">
       <Filter>Includes\Entity</Filter>
     </ClInclude>
@@ -217,6 +227,15 @@
       <Filter>Includes\Entity</Filter>
     </ClInclude>
     <ClInclude Include="SoundScape.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="LightPoint.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="DamageHitBox.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
       <Filter>Includes\Entity</Filter>
     </ClInclude>
   </ItemGroup>

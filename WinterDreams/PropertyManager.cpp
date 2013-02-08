@@ -22,14 +22,7 @@ PropertyManager::PropertyManager():
 {
 	using namespace boost::property_tree;
 	json_parser::read_json(GENERAL_SETTINGS_FILENAME, mGeneralSettings);
-#ifdef SHIPPING
-	auto obj = mGeneralSettings.get<std::string>("objects");
-	json_parser::read_json( obj , mObjectSettings );
-#else
-	auto obj = OBJECTS_FILENAME;
-	json_parser::read_json( obj , mObjectSettings );
-#endif
-
+	json_parser::read_json( OBJECTS_FILENAME , mObjectSettings );
 }
 
 const boost::property_tree::ptree& PropertyManager::getGeneralSettings() const {

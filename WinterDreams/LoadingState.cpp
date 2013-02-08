@@ -71,6 +71,8 @@ void LoadingState::update() {
 		auto& properties = mLevelData.get_child("properties");
 
 //		auto& bgFilename = level.get<std::string>(NAME_LEVELSETTINGS_BACKGROUND);
+		auto map = properties.get_child(NAME_LEVELSETTINGS_MAPLAYER);
+		properties.get_value<std::string>();
 		auto& mlFilename = properties.get<std::string>(NAME_LEVELSETTINGS_MAPLAYER);
 		
 //		auto bgTexture_sp = resMgr.getTexture(bgFilename);

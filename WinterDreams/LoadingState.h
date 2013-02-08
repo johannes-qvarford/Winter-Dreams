@@ -34,6 +34,8 @@ public:
 
 	void render() { }
 
+	bool isRepeatable() const { return false; }
+
 private:
 	GameState* mLoadedLevel;	//A pointer to a GameState with the argument level loaded into it.
 	boost::property_tree::ptree mLevelData;

@@ -52,21 +52,13 @@ Player::Player(sf::FloatRect initialPosition, int lightLevel, bool startEnabled)
 {
 	using namespace std;
 	auto& p = PlayerSpecs::get();
-	for( auto iter = p.mAnimSpecList.begin(), end = p.mAnimSpecList.end(); iter != end; ++iter){
-		auto w =	iter->mWidth;
-		auto h =	iter->mHeight;
-		auto yO =	iter->mYOrigin;
-		auto xO =	iter->mXOrigin;
-		auto nos =	iter->mNrOfSprites;
-		auto fps =	iter->mFramesPerSprite;
-		auto file = iter->mFileName;
-		auto name = iter->mAnimName;
-
-		Animation anim(FS_DIR_OBJECTANIMATIONS +"player/"+ file , w, h, nos, fps, xO, yO);
-		mAnimationMap.insert( pair<string, Animation>( name , anim ) );
-	}
-
+	//construct the animation map
+	Animation::makeAnimations("player/", p.mAnimSpecList, &mAnimationMap);
 	mCurrentAnimation_p = &mAnimationMap.begin()->second;
+
+	mInventory.giveItem("pickaxe", 1);
+	mInventory.giveItem("wheel", 1);
+	mInventory.giveItem("shoes", 1);
 }
 
 Player::~Player() {}
@@ -101,18 +93,32 @@ void Player::update(GameState* gameState_p){
 		gameState_p->addGraphicalEntity(std::shared_ptr<DamageHitBox>( new DamageHitBox(mHitBox, 2, DamageHitBox::PICKAXE ) ) );
 	}
 	/////////////////////////////////////////////////////////////////
-	if(mDirection.x == 1)
-		if(mDirection.y == -1)
-			mCurrentAnimation_p = &mAnimationMap.find("frontright")->second;
-	if(mDirection.x == -1)
-		if(mDirection.y == 1)
+	if( mDirection.x >= 1) {
+		if( mDirection.y == 1 )
+			mCurrentAnimation_p = &mAnimationMap.find("front")->second;
+		if( mDirection.y == -1 )
+			mCurrentAnimation_p = &mAnimationMap.find("right")->second;
+		if( mDirection.y == 0 )
+			mCurrentAnimation_p =  &mAnimationMap.find("frontright")->second;
+	}
+	if( mDirection.x <= -1) {
+		if( mDirection.y == 1 )
+			mCurrentAnimation_p = &mAnimationMap.find("left")->second;
+		if( mDirection.y == -1 )
+			mCurrentAnimation_p = &mAnimationMap.find("back")->second;
+		if( mDirection.y == 0 )
 			mCurrentAnimation_p = &mAnimationMap.find("backleft")->second;
-	if(mDirection.y == -1)
-		if( mDirection.x == -1)
+	}
+	if( mDirection.x == 0 ) {
+		if( mDirection.y >= 1 )
+			mCurrentAnimation_p = &mAnimationMap.find("frontleft")->second;
+		if( mDirection.y <= -1 )
 			mCurrentAnimation_p = &mAnimationMap.find("backright")->second;
-	if(mDirection.y == 1)
-		if(mDirection.x == 1)
-			mCurrentAnimation_p = &mAnimationMap.find("frontleft")->second;		
+		if( mDirection.y == 0 )
+				//If the character did not move, idle.
+			mCurrentAnimation_p->resetAnimation();
+	}
+
 	/////////////////////////////////////////////////////////////////
 		//Get the length of tempDir
 	auto tempLenght = std::sqrt(tempDir.x * tempDir.x + tempDir.y * tempDir.y);
@@ -125,14 +131,12 @@ void Player::update(GameState* gameState_p){
 	tempDir *= static_cast<float>(mMoveSpeed);
 		//Adjust the avatars position by tempDir
 	adjustPosition( tempDir );	
-
+		
+		//We must update the animation in order to make it advance in frames.
 	mCurrentAnimation_p->updateAnimation();
 }
 
 void Player::drawSelf(){
-		//If the character did not move, idle.
-	if(mDirection.x == 0 && mDirection.y == 0)
-		mCurrentAnimation_p->resetAnimation();
 		//Get the current animation's sprite
 	auto& sprite = mCurrentAnimation_p->getCurrentSprite();
 		//Assign the sprite a position (in Screen Coordinates)

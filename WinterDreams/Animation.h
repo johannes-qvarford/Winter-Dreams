@@ -39,7 +39,7 @@ public:
 	// / Each time getCurrentSprite is called it updates how many frames the
 	// / current sprite's been displayed
 	////////////////////////////////////////////////////////////
-	sf::Sprite getCurrentSprite();
+	sf::Sprite getCurrentSprite() const;
 	////////////////////////////////////////////////////////////
 	// /Assigns a position to the animation.
 	// /This is not requered as you can acces the sprite 
@@ -62,6 +62,11 @@ public:
 	// /Returns True the animation will reset next frame.
 	////////////////////////////////////////////////////////////
 	bool endOfAnimation() const;
+	////////////////////////////////////////////////////////////
+	// /go through the animation specs list, and make a map of animations. 
+	////////////////////////////////////////////////////////////
+	static void makeAnimations(const std::string& objectNamePlusSlash, const std::list<AnimationSpecs>& animSpecList, std::map<std::string, Animation>* animMap_p);
+
 private:
 	std::shared_ptr<sf::Texture> mTexture_p; //The texture from which sprites are displayed.
 	sf::Sprite  mSprite;			//The current sprite from mTexture.
@@ -74,5 +79,4 @@ private:
 	bool mEndOfAnimation;			//Kepps track of whether the animation currently displays the last image's last frame.
 
 };
-
 #endif

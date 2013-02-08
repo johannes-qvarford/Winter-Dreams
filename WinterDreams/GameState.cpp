@@ -6,12 +6,17 @@
 
 #include "WindowManager.h"
 #include "GameToScreen.h"
+#include "FileStructure.h"
 
 #include <algorithm>
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <cmath>
 #include <iostream>
+
+#include <SFML/Graphics/Shader.hpp>
+#include <SFML/Window/Keyboard.hpp>
+#include <SFML/Window/Mouse.hpp>
 
 static bool smallerPosition(std::shared_ptr<PhysicalEntity> lhs_p, std::shared_ptr<PhysicalEntity> rhs_sp);
 static void handleCollision(PhysicalEntity* lhs_p, PhysicalEntity* rhs_p);
@@ -97,6 +102,7 @@ const std::vector<sf::Vector2f>& GameState::getAiPath(const std::string& name) {
 void GameState::render() {
 
 	auto& window = *WindowManager::get().getWindow();
+	auto& renderWindow = *WindowManager::get().getRenderWindow();
 	auto& renderStates = *WindowManager::get().getStates();
 	
 	//clear window for drawing, and reset transformation matrix.
@@ -109,31 +115,71 @@ void GameState::render() {
 		sprite.setPosition(mMapTexture.second);
 		window.draw(sprite);
 	}
-#ifdef DEBUG_SOLIDZONEI
+	
+#ifdef DEBUG_SOLIDZONE
+
 	std::list<std::shared_ptr<PhysicalEntity> > L;
+	auto& view = WindowManager::get().getWindow()->getView();
+	auto center = view.getCenter();
+	auto size = view.getSize();
+	auto viewRect = sf::FloatRect(center.x - size.x*0.6, center.y - size.y*0.6, size.x*1.2, size.y*1.2) ;
+
 	for( auto it = mGraphicalEntities.begin(), end = mGraphicalEntities.end(); it != end; ++it){
-		L.push_back( std::static_pointer_cast<PhysicalEntity>(*it) );
+		auto aRect = GAME_TO_SCREEN.transformRect( (*it)->getHitBox() );
+		if( viewRect.intersects( aRect ) ){	
+			L.push_back( std::static_pointer_cast<PhysicalEntity>(*it) );
+		}
 	}
 	for( auto it = mCollisionZones.begin(), end = mCollisionZones.end(); it != end; ++it){
-		L.push_back( std::static_pointer_cast<PhysicalEntity>(*it) );
-	}
+		auto aRect = GAME_TO_SCREEN.transformRect( (*it)->getHitBox() );
+		if( viewRect.intersects( aRect ) ){	
+			L.push_back( std::static_pointer_cast<PhysicalEntity>(*it) );
+		}
+	} 
 	L.sort(smallerPosition);
-	
-	for(auto it = L.begin(), end = L.end(); it != end; ++it){
-		(*it)->drawSelf();
-	}
-#else
 
+	for( auto a = L.begin(), b = L.end(); a != b; ++a) {	
+		(*a)->drawSelf();
+	}
+	std::cout << "["<<L.size() <<"]"<<" ";
+#else
 
 	//sort them in drawing order.
 	mGraphicalEntities.sort(smallerPosition);
 	
 	for(auto it = mGraphicalEntities.begin(), end = mGraphicalEntities.end(); it != end; ++it) {
 		auto graphical_sp = *it;
-		graphical_sp->drawSelf();
+	graphical_sp->drawSelf();
 	}
 
 #endif
+
+	//display
+	
+	static float pxt=1;
+	static float lightPosx=0.5;
+	static float lightPosy=0.5;
+	static sf::Shader* shader = new sf::Shader;
+	shader->loadFromFile(FS_DIR_SHADERS + "Darkness.frag", sf::Shader::Fragment);
+	window.display();
+
+	shader->setParameter("lightPosx[0]",0.5);
+	shader->setParameter("lightPosy[0]",0.5);
+
+	sf::Sprite renderTextureSprite(window.getTexture());
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+		shader->setParameter("lightPosx[1]", float(sf::Mouse::getPosition(renderWindow).x)/float(renderWindow.getSize().x));
+		shader->setParameter("lightPosy[1]", 1-float(sf::Mouse::getPosition(renderWindow).y)/float(renderWindow.getSize().y));
+		shader->setParameter("pixel_threshold",pxt);
+		renderWindow.draw(renderTextureSprite, shader);
+	} else {
+		renderWindow.draw(renderTextureSprite);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
+		pxt+=0.1;
+	} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)){
+		pxt-=0.1;
+	}
 
 	//draw script effects directly on screen
 	for(auto it = mScripts.begin(), end = mScripts.end(); it != end; ++it) {
@@ -141,8 +187,8 @@ void GameState::render() {
 		script_sp->draw();
 	}
 
-	//display
-	window.display();
+	renderWindow.display();
+
 }
 
 void GameState::deleteInactives() {
