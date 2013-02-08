@@ -145,13 +145,14 @@ void GameState::render() {
 
 	//sort them in drawing order.
 	mGraphicalEntities.sort(smallerPosition);
-	
+
 	for(auto it = mGraphicalEntities.begin(), end = mGraphicalEntities.end(); it != end; ++it) {
 		auto graphical_sp = *it;
-	graphical_sp->drawSelf();
+		graphical_sp->drawSelf();
 	}
 
 #endif
+
 
 	//display
 	
@@ -180,7 +181,7 @@ void GameState::render() {
 		pxt-=0.1;
 	}
 
-	//draw script effects directly on screen
+		//draw script effects directly on screen
 	for(auto it = mScripts.begin(), end = mScripts.end(); it != end; ++it) {
 		auto script_sp = *it;
 		script_sp->draw();

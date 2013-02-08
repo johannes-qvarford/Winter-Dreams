@@ -83,7 +83,7 @@ InventoryDisplay::InventoryDisplay(std::weak_ptr<Player> player) :
 	}
 
 	mBoxAnimation_p = &mAnimationMap.find("itembox")->second;
-	auto& win = *WindowManager::get().getWindow();
+	auto& win = *WindowManager::get().getRenderWindow();
 	auto& pos = win.getView().getCenter();
 
 }
@@ -125,7 +125,7 @@ void InventoryDisplay::update(GameState* gameState_p){
 
 void InventoryDisplay::updateUI() {
 	auto& spec = InvDispSpecs::get();
-	auto& win = *WindowManager::get().getWindow();
+	auto& win = *WindowManager::get().getRenderWindow();
 	auto& centPos = win.getView().getCenter();
 		//The vector describing the top left corner of the screen
 	auto centDif = sf::Vector2f( static_cast<float>(win.getSize().x / 2), static_cast<float>(win.getSize().y / 2));
