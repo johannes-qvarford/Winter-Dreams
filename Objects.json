@@ -71,7 +71,7 @@
 			}
 		},		
 		"player": {
-			"walkspeed": 5,
+			"walkspeed": 2,
 			"animations": {
 				"placeholder": {				
 					"spritewidth": "64",
@@ -117,29 +117,87 @@
 					"numberofsprites": "6",
 					"framespersprite": "5",
 					"filename": "spritesheet_zeles_front_right.png"
+				},
+				"front": {
+					"spritewidth": "85",
+					"spriteheight": "85",
+					"yorigin": "64",
+					"xorigin": "10",
+					"numberofsprites": "8",
+					"framespersprite": "4",				
+					"filename": "spritesheet_zeles_front.png"
+				},
+				"back": {
+					"spritewidth": "85",
+					"spriteheight": "85",
+					"yorigin": "64",
+					"xorigin": "10",
+					"numberofsprites": "8",
+					"framespersprite": "4",				
+					"filename": "spritesheet_zeles_front.png"
+				},
+				"right": {
+					"spritewidth": "85",
+					"spriteheight": "85",
+					"yorigin": "64",
+					"xorigin": "10",
+					"numberofsprites": "8",
+					"framespersprite": "4",				
+					"filename": "spritesheet_zeles_front.png"
+				},
+				"left": {
+					"spritewidth": "85",
+					"spriteheight": "85",
+					"yorigin": "64",
+					"xorigin": "10",
+					"numberofsprites": "8",
+					"framespersprite": "4",				
+					"filename": "spritesheet_zeles_front.png"
 				}
 			},
 			"itemdisplay": {
 				"xfromleft": "50",
 				"yfromtop": "50",
+				"iconsappart": "100",
 				"animations": {
 					"itembox": {				
-						"spritewidth": "64",
-						"spriteheight": "64",
-						"yorigin": "32",
-						"xorigin": "32",
+						"spritewidth": "90",
+						"spriteheight": "90",
+						"yorigin": "45",
+						"xorigin": "45",
 						"numberofsprites": "1",
 						"framespersprite": "100",
 						"filename": "itembox.png"
 					},
 					"pickaxe": {
-						"width": "64",
-						"height": "64",
-						"yorigin": "32",
-						"xorigin": "32",
+						"iconindex": "0",
+						"spritewidth": "85",
+						"spriteheight": "85",
+						"yorigin": "42",
+						"xorigin": "42",
 						"numberofsprites": "1",
 						"framespersprite": "100",
-						"filename": "null"
+						"filename": "pickaxe.png"
+					},
+					"wheel": {
+						"iconindex": "1",
+						"spritewidth": "85",
+						"spriteheight": "85",
+						"yorigin": "42",
+						"xorigin": "42",
+						"numberofsprites": "1",
+						"framespersprite": "100",
+						"filename": "wheel.png"
+					},
+					"shoes": {
+						"iconindex": "2",
+						"spritewidth": "85",
+						"spriteheight": "85",
+						"yorigin": "42",
+						"xorigin": "42",
+						"numberofsprites": "1",
+						"framespersprite": "100",
+						"filename": "shoes.png"
 					}
 				}
 			}	

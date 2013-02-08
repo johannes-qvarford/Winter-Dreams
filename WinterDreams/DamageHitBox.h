@@ -5,6 +5,14 @@
 #include <memory>
 #include "GraphicalEntity.h"
 
+	#ifndef SHIPPING
+#include "Animation.h"
+#include "WindowManager.h"
+#include "ResourceManager.h"
+#include "GameToScreen.h"
+	#endif
+
+
 namespace sf{
 	class Sound;
 };
@@ -53,5 +61,9 @@ private:
 	int							mLifeTime;
 	DamageType					mDamageType;
 	std::shared_ptr<sf::Sound>	mSound;
+#ifndef SHIPPING
+	Animation mAnimation;
+#endif
+
 };
 #endif

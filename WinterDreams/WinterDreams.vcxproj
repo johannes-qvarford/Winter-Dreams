@@ -20,6 +20,7 @@
     <ClCompile Include="Crystal.cpp" />
     <ClCompile Include="InventoryDisplay.cpp" />
     <ClCompile Include="LightPoint.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="LoadingState.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="ObjectFactory.cpp" />
@@ -36,6 +37,7 @@
     <ClCompile Include="Registration_collision64x32.cpp" />
     <ClCompile Include="Registration_crystal.cpp" />
     <ClCompile Include="Registration_light.cpp" />
+    <ClCompile Include="Registration_item.cpp" />
     <ClCompile Include="Registration_player.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Registration_trigger.cpp" />
@@ -59,6 +61,7 @@
     <ClInclude Include="Crystal.h" />
     <ClInclude Include="GraphicalEntity.h" />
     <ClInclude Include="LightPoint.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="InventoryDisplay.h" />
     <ClInclude Include="ObjectFactory.h" />
@@ -113,7 +116,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)..\..\Exe\</OutDir>
-    <IntDir>$(SolutionDir)..\..\Obj\$(Configuration)</IntDir>
+    <IntDir>$(SolutionDir)..\..\Obj\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)-$(Configuration)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

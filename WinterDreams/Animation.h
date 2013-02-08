@@ -39,7 +39,7 @@ public:
 	// / Each time getCurrentSprite is called it updates how many frames the
 	// / current sprite's been displayed
 	////////////////////////////////////////////////////////////
-	sf::Sprite getCurrentSprite();
+	sf::Sprite getCurrentSprite() const;
 	////////////////////////////////////////////////////////////
 	// /Assigns a position to the animation.
 	// /This is not requered as you can acces the sprite 
@@ -79,5 +79,4 @@ private:
 	bool mEndOfAnimation;			//Kepps track of whether the animation currently displays the last image's last frame.
 
 };
-
 #endif
