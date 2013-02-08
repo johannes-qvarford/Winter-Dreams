@@ -9,6 +9,9 @@
 #include <iostream>
 #include <memory>
 
+#include <SFML/Audio/Sound.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
+
 int main()
 {
 	try {
@@ -28,6 +31,7 @@ int main()
 	catch(std::exception& e) {
 		std::cout << "exception thrown: " << e.what() << std::endl;
 	}
+
 	return 0;
 
 }

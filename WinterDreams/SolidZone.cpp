@@ -84,9 +84,9 @@ void SolidZone::onCollision(PhysicalEntity* pe, const sf::Rect<float>& intersect
 			hitBox.top -= intersection.height * 0.5f;
 		}
 		/*
-		// Fall 3, då man åker pixelperfekt neråt i skärmkordinater
+		// Fall 4, då man åker pixelperfekt neråt i skärmkordinater
 		*/
-		else if (direction.x > 0 && direction.y < 0){
+		else if (direction.x > 0 && direction.y > 0){
 //			hitBox.left += intersection.width;
 			//* 0.5 kommer ifrån att den måste fortfarande ha intersection för att fungera
 			hitBox.top += intersection.height * 0.5f;

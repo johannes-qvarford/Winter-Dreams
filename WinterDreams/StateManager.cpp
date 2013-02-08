@@ -39,6 +39,13 @@ StateManager::StateManager():
 {
 }
 
+StateManager::~StateManager() {
+	while(mStates.empty() == false) {
+		delete mStates.top();
+		mStates.pop();
+	}
+}
+
 void StateManager::run() {
 	sf::Clock clock;
 	sf::Time limit = sf::milliseconds( static_cast<int>(10) );

@@ -1,0 +1,127 @@
+#include "SoundScape.h"
+#include "GameState.h"
+#include "ResourceManager.h"
+#include "FileStructure.h"
+#include "WindowManager.h"
+#include "GameToScreen.h"
+#include <cmath>
+
+
+
+SoundScape::SoundScape(sf::Rect<float> collisionBox, float innerRadius, int rangeDecay, float volume, bool loop, std::string soundName, bool startsEnabled):
+CollisionZone(startsEnabled, collisionBox, false),
+mBoolEntity(false),
+mInnerRadius(innerRadius),
+mRangeDecay(rangeDecay),
+mVolume(volume),
+mLoop(loop),
+mSoundName(soundName),
+mEnabledLastFrame(startsEnabled)
+
+
+{
+////////////////////////////////////////////////////////////////////////
+// /FS_DIR_SOUNDS betyder: vart ligger filen, mSoundName betyder: vad heter filen
+////////////////////////////////////////////////////////////////////////
+	mBuffer = ResourceManager::get().getSoundBuffer(FS_DIR_SOUNDS + mSoundName);
+	mSound.setBuffer(*mBuffer);
+	mSound.setLoop(loop);
+	mSound.setVolume(mVolume);
+}
+
+SoundScape::~SoundScape(){
+	mSound.stop();
+}
+
+//////////////////////////////////////////////////////////
+// /player ska bara hämtas en gång och får inte vara en weak pointer så därför görs den om till en shared pointer
+//////////////////////////////////////////////////////////
+void SoundScape::update(GameState* gameState){
+	if (mBoolEntity == false){
+		auto entity_wp = gameState->getEntity("player");
+		auto entity_sp = std::shared_ptr<Entity>(entity_wp);
+		auto player_sp = std::static_pointer_cast<Player>(entity_sp);
+		mPlayer_wp = player_sp;
+		if (getEnabled() == true){
+			mSound.play();
+		}
+		mBoolEntity = true;
+	}
+
+//////////////////////////////////////////////////////////////////
+// /när ljudet/låten stoppas så ska det inte längre vara aktiverat så att man kan aktivera de igen
+//////////////////////////////////////////////////////////////////
+	if (mSound.getStatus() == sf::Sound::Stopped){
+		setEnabled(false);
+	}
+	auto enabledThisFrame = getEnabled();
+	
+//////////////////////////////////////////////////////////////////////
+// /för att ett ljud/låt ska börja att spela så behöver det gå från att inte vara aktiverad till att vara det
+//////////////////////////////////////////////////////////////////////
+	if (enabledThisFrame == true && mEnabledLastFrame == false){
+		mSound.play();
+	}
+//////////////////////////////////////////////////////////////////////
+// /Samma sak fast tvärtom
+//////////////////////////////////////////////////////////////////////
+	else if (enabledThisFrame == false && mEnabledLastFrame == true){
+		mSound.stop();
+	}
+
+	std::shared_ptr<Player> player_sp(mPlayer_wp);
+
+	sf::Rect<float> soundScapeHitBox_r = getHitBox();
+	sf::Rect<float> playerHitBox_r = player_sp->getHitBox();
+
+	sf::Vector2f soundScapeHitBox(soundScapeHitBox_r.left, soundScapeHitBox_r.top);
+	sf::Vector2f playerHitBox(playerHitBox_r.left, playerHitBox_r.top);
+	sf::Vector2f playerToSoundVector(playerHitBox - soundScapeHitBox);
+
+
+//////////////////////////////////////////////////////////////////////
+// /fullVolumeRadius är den radie som volymen ska vara satt till max i
+// /distance är avståndet mellan ljudkällan och spelaren
+// /maxRange är den längsta längden som det kommer höras ljud från
+//////////////////////////////////////////////////////////////////////
+	float volume;
+	float fullVolumeRadius = X_STEP * mInnerRadius;
+	float distance = sqrt(playerToSoundVector.x * playerToSoundVector.x + playerToSoundVector.y * playerToSoundVector.y);
+	float maxRange = (X_STEP * 100/mRangeDecay) + fullVolumeRadius;
+
+
+//////////////////////////////////////////////////////////////////////
+// /om spelaren är innanför radien som volymen ska vara satt till max så ska ljudet vara max.
+// /Annar om spelaren är utanför radien där volymen ska vara satt till max men innanför
+//  längden som det ska komma någon volym ifrån så är volymen beroende av 
+//  maxVolymen gånger ett tal som ska bli 0,nått beroende på vart man står 
+//  maxRange - distance är för att få hur stort talet är
+//  och / maxRange - fullVolumeRadius är för att få det till 0,nått
+//////////////////////////////////////////////////////////////////////
+	if (distance < fullVolumeRadius){
+		volume = mVolume;
+	}
+	else if (distance <= maxRange && distance >= fullVolumeRadius){
+		volume = mVolume * ((maxRange - distance) / (maxRange - fullVolumeRadius));
+	}
+	else
+		volume = 0;
+
+	mSound.setVolume(volume);
+
+	mEnabledLastFrame = enabledThisFrame;
+}
+
+void SoundScape::drawSelf(){
+	auto& manager = WindowManager::get();
+	auto& window = *manager.getWindow();
+	auto& states = *manager.getStates(); 
+
+	auto& hitBox = getHitBox();
+	auto position = sf::Vector2f(hitBox.left, hitBox.top);
+	position = GAME_TO_SCREEN * position;
+
+	sf::Vertex vertex(position, sf::Color::Red);
+
+	window.draw(&vertex, 1, sf::PrimitiveType::Points, states);
+}

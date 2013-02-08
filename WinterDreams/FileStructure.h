@@ -7,5 +7,6 @@ extern const std::string FS_DIR_BACKGROUNDS;
 extern const std::string FS_DIR_MAPS;
 extern const std::string FS_DIR_OBJECTANIMATIONS;
 extern const std::string FS_DIR_LEVELS;
+extern const std::string FS_DIR_SOUNDS;
 
 #endif

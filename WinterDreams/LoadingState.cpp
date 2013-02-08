@@ -147,6 +147,7 @@ void LoadingState::update() {
 					if(objectType == "")
 						continue;
 
+
 					//an objects position is (x,y) * 32 / STEP in gamecoordinates
 					auto x = object.get<int>("x");
 					auto y = object.get<int>("y");

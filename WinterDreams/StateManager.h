@@ -16,6 +16,8 @@ public:
 	*/
 	static StateManager& get();
 
+	~StateManager();
+
 	/*
 	//	Run the game.
 	*/
