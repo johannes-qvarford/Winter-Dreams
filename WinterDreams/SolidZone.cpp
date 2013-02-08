@@ -12,19 +12,16 @@ static const char* SolidZone_IMAGE_FILENAME_2 = "collision256x128/flat128.png";
 static const char* SolidZone_IMAGE_FILENAME_3 = "collision512x256/flat256.png";
 static const float STEP = 35.77708763999664f;
 
-#ifdef DEBUG_SOLIDZONE
-	static auto mTexture1 = ResourceManager::get().getTexture(FS_DIR_OBJECTANIMATIONS + SolidZone_IMAGE_FILENAME_1);
-	static auto mTexture2 = ResourceManager::get().getTexture(FS_DIR_OBJECTANIMATIONS + SolidZone_IMAGE_FILENAME_2);
-	static auto mTexture3 = ResourceManager::get().getTexture(FS_DIR_OBJECTANIMATIONS + SolidZone_IMAGE_FILENAME_3);
-#endif
-
 SolidZone::SolidZone(sf::Rect<float> HitBox, bool startsEnabled):
 	CollisionZone(startsEnabled, HitBox, false)
-
 {
 #ifdef DEBUG_SOLIDZONE
 	auto& hitBox = getHitBox();
 	mSprite.setPosition(hitBox.left, hitBox.top);
+
+	static auto mTexture1 = ResourceManager::get().getTexture(FS_DIR_OBJECTANIMATIONS + SolidZone_IMAGE_FILENAME_1);
+	static auto mTexture2 = ResourceManager::get().getTexture(FS_DIR_OBJECTANIMATIONS + SolidZone_IMAGE_FILENAME_2);
+	static auto mTexture3 = ResourceManager::get().getTexture(FS_DIR_OBJECTANIMATIONS + SolidZone_IMAGE_FILENAME_3);
 	
 	if(hitBox.width < STEP + 1) {
 		mSprite.setOrigin(0, 32);
@@ -56,7 +53,7 @@ void SolidZone::onCollision(PhysicalEntity* pe, const sf::Rect<float>& intersect
 		return;
 
 	sf::Rect<float>& hitBox = pe->getHitBox();
-	sf::Vector2i& direction = pe->getDirection();
+	sf::Vector2i& direction = pl->getDirection();
 	sf::Rect<float>& myHitBox = getHitBox();
 /*
 // Specialfallan då höjden och bredden på intersection är lika stora (ish)
@@ -125,6 +122,8 @@ void SolidZone::onCollision(PhysicalEntity* pe, const sf::Rect<float>& intersect
 }
 
 void SolidZone::drawSelf(){
+
+
 	#ifdef DEBUG_SOLIDZONE
 	auto window_p = WindowManager::get().getWindow();
 	window_p->draw(mSprite);

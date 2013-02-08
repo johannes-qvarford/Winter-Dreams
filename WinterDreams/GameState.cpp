@@ -114,7 +114,9 @@ void GameState::render() {
 		sprite.setPosition(mMapTexture.second);
 		window.draw(sprite);
 	}
-#ifdef DEBUG_SOLIDZONE_
+	
+#ifdef DEBUG_SOLIDZONE
+
 	std::list<std::shared_ptr<PhysicalEntity> > L;
 	auto& view = WindowManager::get().getWindow()->getView();
 	auto center = view.getCenter();

@@ -52,20 +52,8 @@ Player::Player(sf::FloatRect initialPosition, int lightLevel, bool startEnabled)
 {
 	using namespace std;
 	auto& p = PlayerSpecs::get();
-	for( auto iter = p.mAnimSpecList.begin(), end = p.mAnimSpecList.end(); iter != end; ++iter){
-		auto w =	iter->mWidth;
-		auto h =	iter->mHeight;
-		auto yO =	iter->mYOrigin;
-		auto xO =	iter->mXOrigin;
-		auto nos =	iter->mNrOfSprites;
-		auto fps =	iter->mFramesPerSprite;
-		auto file = iter->mFileName;
-		auto name = iter->mAnimName;
-
-		Animation anim(FS_DIR_OBJECTANIMATIONS +"player/"+ file , w, h, nos, fps, xO, yO);
-		mAnimationMap.insert( pair<string, Animation>( name , anim ) );
-	}
-
+	//construct the animation map
+	Animation::makeAnimations("player/", p.mAnimSpecList, &mAnimationMap);
 	mCurrentAnimation_p = &mAnimationMap.begin()->second;
 
 	mInventory.giveItem("pickaxe", 1);

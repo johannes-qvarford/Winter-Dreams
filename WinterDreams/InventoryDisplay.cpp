@@ -128,9 +128,9 @@ void InventoryDisplay::updateUI() {
 	auto& win = *WindowManager::get().getWindow();
 	auto& centPos = win.getView().getCenter();
 		//The vector describing the top left corner of the screen
-	auto centDif = sf::Vector2f( win.getSize().x / 2, win.getSize().y / 2);
+	auto centDif = sf::Vector2f( static_cast<float>(win.getSize().x / 2), static_cast<float>(win.getSize().y / 2));
 		//The vector describing the distance from the window boarder to the first item
-	auto cornDif = sf::Vector2f( mXPos, mYPos );
+	auto cornDif = sf::Vector2f( static_cast<float>(mXPos), static_cast<float>(mYPos) );
 		//The vector for the first icon
 	auto firstIconPos = centPos -	 centDif +	cornDif;
 		

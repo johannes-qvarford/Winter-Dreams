@@ -1,6 +1,8 @@
 #include "Animation.h"
 #include "ResourceManager.h"
 #include <SFML\Graphics.hpp>
+#include "FileStructure.h"
+
 ////////////////////////////////////////////////////////////
 // /Constructor.
 // /Simply assigns the arguments to the correct member variable.
@@ -97,4 +99,21 @@ void Animation::updateAnimation(){
 
 bool Animation::endOfAnimation() const{
 	return mEndOfAnimation;
+}
+
+void Animation::makeAnimations(const std::string& objectNamePlusSlash, const std::list<AnimationSpecs>& animSpecList, std::map<std::string, Animation>* animMap_p) {
+	
+	for( auto it = animSpecList.begin(), end = animSpecList.end(); it != end; ++it){
+		auto w =	it->mWidth;
+		auto h =	it->mHeight;
+		auto yO =	it->mYOrigin;
+		auto xO =	it->mXOrigin;
+		auto nos =	it->mNrOfSprites;
+		auto fps =	it->mFramesPerSprite;
+		auto file = it->mFileName;
+		auto name = it->mAnimName;
+
+		Animation anim(FS_DIR_OBJECTANIMATIONS + objectNamePlusSlash + file , w, h, nos, fps, xO, yO);
+		animMap_p->insert( std::pair<std::string, Animation>( name , anim ) );
+	}
 }

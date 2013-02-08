@@ -100,6 +100,12 @@
     <ClCompile Include="PrecompiledHeader.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="LightPoint.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_light.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
     <ClCompile Include="Item.cpp">
       <Filter>Sources\Entity</Filter>
     </ClCompile>
@@ -211,6 +217,9 @@
       <Filter>Includes\Entity</Filter>
     </ClInclude>
     <ClInclude Include="InventoryDisplay.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="LightPoint.h">
       <Filter>Includes\Entity</Filter>
     </ClInclude>
     <ClInclude Include="DamageHitBox.h">
