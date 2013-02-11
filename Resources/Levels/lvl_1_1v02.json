@@ -39,7 +39,7 @@
                  "properties":
                     {
                      "innerradius":"999",
-                     "loop":"false",
+                     "loop":"true",
                      "rangedecay":"15",
                      "soundfile":"[]DysterDanga.wav",
                      "volume":"30"

@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "PropertyManager.h"
 #include "WindowManager.h"
+#include "FileStructure.h"
 
 class LightPointSpecs{
 public:
@@ -37,7 +38,7 @@ LightPoint::LightPoint(const sf::FloatRect& initialPosition, int lightLevel, boo
 	mOnce(once)
 {
 	auto& lp = LightPointSpecs::get();
-	Animation::makeAnimations("light/", lp.getAnimSpecList(), &mAnimationMap);
+	Animation::fromListToMap(lp.getAnimSpecList(), FS_DIR_OBJECTANIMATIONS + "npc/", &mAnimationMap);
 	auto it = mAnimationMap.find("placeholder");
 	mCurrentAnimation_p = &it->second;
 }

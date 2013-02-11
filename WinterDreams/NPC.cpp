@@ -54,7 +54,7 @@ NPC::NPC(const std::string& pathName, const sf::FloatRect& initialPosition, bool
 	auto& npcSpecs = NPCSpecs::get();
 	auto& animSpecs = npcSpecs.getAnimSpecList();
 
-	Animation::makeAnimations("npc/", animSpecs, &mAnimationMap);
+	Animation::fromListToMap(animSpecs, FS_DIR_OBJECTANIMATIONS + "npc/", &mAnimationMap);
 	//use placeholder for now
 	auto it = mAnimationMap.find("placeholder");
 	mCurrentAnimation_p = &it->second;
