@@ -55,7 +55,7 @@ Player::Player(sf::FloatRect initialPosition, int lightLevel, bool startEnabled)
 	using namespace std;
 	auto& p = PlayerSpecs::get();
 	//construct the animation map
-	Animation::makeAnimations("player/", p.mAnimSpecList, &mAnimationMap);
+	Animation::fromListToMap(p.mAnimSpecList, FS_DIR_OBJECTANIMATIONS + "player/", &mAnimationMap);
 	mCurrentAnimation_p = &mAnimationMap.begin()->second;
 
 	mInventory.giveItem("pickaxe", 1);

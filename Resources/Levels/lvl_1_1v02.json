@@ -38,10 +38,10 @@
                  "name":"enter_main_cave_sound",
                  "properties":
                     {
-                     "innerradius":"5",
+                     "innerradius":"999",
                      "loop":"false",
                      "rangedecay":"15",
-                     "soundfile":"End Credits (Final).wav",
+                     "soundfile":"[]DysterDanga.wav",
                      "volume":"30"
                     },
                  "type":"soundscape",

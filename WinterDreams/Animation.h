@@ -74,7 +74,7 @@ public:
 	// /The argument map will be filled with the created 
 	// /animations.
 	////////////////////////////////////////////////////////////
-	static void fromListToMap(const std::list<AnimationSpecs>& list, const std::string& texturesFilePath, std::map<std::string, Animation>& animationMap);
+	static void fromListToMap(const std::list<AnimationSpecs>& list, const std::string& texturesFilePath, std::map<std::string, Animation>* animationMap_p);
 
 private:
 	std::shared_ptr<sf::Texture> mTexture_p; //The texture from which sprites are displayed.
