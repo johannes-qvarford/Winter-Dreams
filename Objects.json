@@ -57,21 +57,8 @@
 				}
 			}
 		},
-		"light" : {
-			"animations" : {
-				"placeholder": {
-					"spritewidth": "64",
-					"spriteheight": "64",
-					"yorigin": "48",
-					"xorigin": "0",
-					"numberofsprites": "1",
-					"framespersprite": "100",
-					"filename": "placeholder.png"
-				}
-			}
-		},		
 		"player": {
-			"walkspeed": 2,
+			"walkspeed": 1,
 			"animations": {
 				"placeholder": {				
 					"spritewidth": "64",
@@ -88,7 +75,7 @@
 					"yorigin": "69",
 					"xorigin": "10",
 					"numberofsprites": "8",
-					"framespersprite": "4",
+					"framespersprite": "6",
 					"filename": "spritesheet_zeles_back_left.png"
 				},
 				"backright": {
@@ -97,7 +84,7 @@
 					"yorigin": "69",
 					"xorigin": "10",
 					"numberofsprites": "8",
-					"framespersprite": "4",
+					"framespersprite": "6",
 					"filename": "spritesheet_zeles_back_right.png"
 				},
 				"frontleft": {
@@ -106,7 +93,7 @@
 					"yorigin": "69",
 					"xorigin": "10",
 					"numberofsprites": "6",
-					"framespersprite": "5",
+					"framespersprite": "9",
 					"filename": "spritesheet_zeles_front_left.png"
 				},
 				"frontright": {
@@ -115,7 +102,7 @@
 					"yorigin": "69",
 					"xorigin": "10",
 					"numberofsprites": "6",
-					"framespersprite": "5",
+					"framespersprite": "9",
 					"filename": "spritesheet_zeles_front_right.png"
 				},
 				"front": {
@@ -124,35 +111,35 @@
 					"yorigin": "64",
 					"xorigin": "10",
 					"numberofsprites": "8",
-					"framespersprite": "4",				
+					"framespersprite": "9",				
 					"filename": "spritesheet_zeles_front.png"
 				},
 				"back": {
 					"spritewidth": "85",
 					"spriteheight": "85",
-					"yorigin": "64",
+					"yorigin": "69",
 					"xorigin": "10",
 					"numberofsprites": "8",
-					"framespersprite": "4",				
-					"filename": "spritesheet_zeles_front.png"
+					"framespersprite": "9",				
+					"filename": "spritesheet_zeles_back.png"
 				},
 				"right": {
 					"spritewidth": "85",
 					"spriteheight": "85",
-					"yorigin": "64",
+					"yorigin": "69",
 					"xorigin": "10",
-					"numberofsprites": "8",
-					"framespersprite": "4",				
-					"filename": "spritesheet_zeles_front.png"
+					"numberofsprites": "7",
+					"framespersprite": "9",				
+					"filename": "spritesheet_zeles_right.png"
 				},
 				"left": {
 					"spritewidth": "85",
 					"spriteheight": "85",
-					"yorigin": "64",
+					"yorigin": "69",
 					"xorigin": "10",
-					"numberofsprites": "8",
-					"framespersprite": "4",				
-					"filename": "spritesheet_zeles_front.png"
+					"numberofsprites": "7",
+					"framespersprite": "9",				
+					"filename": "spritesheet_zeles_left.png"
 				}
 			},
 			"itemdisplay": {
@@ -202,21 +189,7 @@
 				}
 			}	
 		},
-		"crystal": {
-			"startenabled": true,
-			"hp": "6",
-			"animations": {
-				"placeholder": {				
-					"spritewidth": "64",
-					"spriteheight": "64",
-					"yorigin": "48",
-					"xorigin": "0",
-					"numberofsprites": "1",
-					"framespersprite": "100",
-					"filename": "crystal.png"
-				}
-			}
-		},
+		
 		"statue": {
 			"startenabled": true,
 			"animations": {
