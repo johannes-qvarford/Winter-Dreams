@@ -202,7 +202,21 @@
 				}
 			}	
 		},
-		
+		"crystal": {
+			"startenabled": true,
+			"hp": "6",
+			"animations": {
+				"placeholder": {				
+					"spritewidth": "64",
+					"spriteheight": "64",
+					"yorigin": "48",
+					"xorigin": "0",
+					"numberofsprites": "1",
+					"framespersprite": "100",
+					"filename": "crystal.png"
+				}
+			}
+		},
 		"statue": {
 			"startenabled": true,
 			"animations": {

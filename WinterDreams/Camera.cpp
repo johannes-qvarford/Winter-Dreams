@@ -52,7 +52,7 @@ void Camera::update(GameState* gameState_p){
 		auto entityPos = sf::Vector2f( entityX , entityY );
 		mDesiredPosition = GAME_TO_SCREEN * entityPos;
 	}
-	float threshhold = 0.1f / CAM_PAN_PERCENTAGE;
+	float threshhold = 0.01f / CAM_PAN_PERCENTAGE;
 		//If the difference between the desired position and the 
 		//current position is greater then the movement threshhold, 
 		//move the camera in the direction pointing to 

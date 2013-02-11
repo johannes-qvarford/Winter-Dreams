@@ -126,6 +126,14 @@ public:
 	sf::Vector2i getDirection();
 
 private:
+	// /Updates the players movement
+	void updateMovement(GameState* gameState_p);
+	// /Updates the players animations
+	void updateAnimations(GameState* gameState_p);
+	// /Updates the players actions.
+	// /This includes swinging with pickaxe and such
+	void updateActions(GameState* gameState_p);
+
 	Animation*						 mCurrentAnimation_p; //The avatar's current animation
 	std::map<std::string, Animation> mAnimationMap;		//The avatar's animation map
 	sf::FloatRect					 mHitBox;			//The avatar's current hitbox
@@ -134,6 +142,7 @@ private:
 	float							 mMoveSpeed;		//The avatar's movespeed
 	Inventory						 mInventory;		//The avatar's inventory
 	sf::Vector2i					 mDirection;		//The avatar's direction
+	int								 mActionCooldown;	//Regulates the avatar's action cooldowns
 	//No copies
 	Player::Player( const Player& player );
 	//No copies
