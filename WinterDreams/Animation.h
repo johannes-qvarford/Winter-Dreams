@@ -63,9 +63,18 @@ public:
 	////////////////////////////////////////////////////////////
 	bool endOfAnimation() const;
 	////////////////////////////////////////////////////////////
-	// /go through the animation specs list, and make a map of animations. 
+	// /Takes a list of animation specs and fills a map with animations
+	// /made from the specifications.
+	// /
+	// /The argument list must be a list of animationSpecs.
+	// /
+	// /The argument string is the full filepath to the folder
+	// /where the textures for the animation can be found.
+	// /
+	// /The argument map will be filled with the created 
+	// /animations.
 	////////////////////////////////////////////////////////////
-	static void makeAnimations(const std::string& objectNamePlusSlash, const std::list<AnimationSpecs>& animSpecList, std::map<std::string, Animation>* animMap_p);
+	static void fromListToMap(const std::list<AnimationSpecs>& list, const std::string& texturesFilePath, std::map<std::string, Animation>* animationMap_p);
 
 private:
 	std::shared_ptr<sf::Texture> mTexture_p; //The texture from which sprites are displayed.

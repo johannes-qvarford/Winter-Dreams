@@ -100,6 +100,9 @@
     <ClCompile Include="PrecompiledHeader.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="SoundScape.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
     <ClCompile Include="LightPoint.cpp">
       <Filter>Sources\Entity</Filter>
     </ClCompile>
@@ -117,6 +120,12 @@
     </ClCompile>
     <ClCompile Include="SubLevel.cpp">
       <Filter>Sources\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_soundscape.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelPortal.cpp">
+      <Filter>Sources\Entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -225,6 +234,9 @@
     <ClInclude Include="InventoryDisplay.h">
       <Filter>Includes\Entity</Filter>
     </ClInclude>
+    <ClInclude Include="SoundScape.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
     <ClInclude Include="LightPoint.h">
       <Filter>Includes\Entity</Filter>
     </ClInclude>
@@ -239,6 +251,9 @@
     </ClInclude>
     <ClInclude Include="SubLevel.h">
       <Filter>Includes\State</Filter>
+	</ClInclude>  
+    <ClInclude Include="LevelPortal.h">
+      <Filter>Includes\Entity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

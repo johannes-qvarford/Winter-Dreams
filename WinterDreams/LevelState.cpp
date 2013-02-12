@@ -7,7 +7,8 @@ LevelState::LevelState():
 	mSubLevels(),
 	mCurrentSubLevel(),
 	mPlayer_sp(),
-	mCamera_sp()
+	mCamera_sp(),
+	mInventoryDisplay_sp()
 {
 }
 
@@ -48,6 +49,10 @@ void LevelState::setCamera(std::shared_ptr<Camera> camera_sp) {
 	mCamera_sp = camera_sp;
 }
 
+void LevelState::setInventoryDisplay(std::shared_ptr<InventoryDisplay> display_sp) {
+	mInventoryDisplay_sp = display_sp;
+}
+
 std::shared_ptr<Player> LevelState::getPlayer() {
 	return mPlayer_sp;
 }
@@ -56,3 +61,6 @@ std::shared_ptr<Camera> LevelState::getCamera() {
 	return mCamera_sp;
 }
 
+std::shared_ptr<InventoryDisplay> LevelState::getInventoryDisplay() {
+	return mInventoryDisplay_sp;
+}

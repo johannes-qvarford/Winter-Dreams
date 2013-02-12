@@ -6,6 +6,7 @@
 
 #include "WindowManager.h"
 #include "GameToScreen.h"
+#include "FileStructure.h"
 
 #include <algorithm>
 #include <SFML/Graphics/RenderStates.hpp>
@@ -164,14 +165,14 @@ void SubLevel::render() {
 	static float lightPosx=0.5;
 	static float lightPosy=0.5;
 	static sf::Shader* shader = new sf::Shader;
-	shader->loadFromFile("../Winter-Dreams/Resources/Darkness.frag", sf::Shader::Fragment);
+	shader->loadFromFile(FS_DIR_SHADERS + "Darkness.frag", sf::Shader::Fragment);
 	window.display();
 
 	shader->setParameter("lightPosx[0]",0.5);
 	shader->setParameter("lightPosy[0]",0.5);
 
 	sf::Sprite renderTextureSprite(window.getTexture());
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 		shader->setParameter("lightPosx[1]", float(sf::Mouse::getPosition(renderWindow).x)/float(renderWindow.getSize().x));
 		shader->setParameter("lightPosy[1]", 1-float(sf::Mouse::getPosition(renderWindow).y)/float(renderWindow.getSize().y));
 		shader->setParameter("pixel_threshold",pxt);
@@ -180,15 +181,9 @@ void SubLevel::render() {
 		renderWindow.draw(renderTextureSprite);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
-		pxt+=0.1;
+		pxt+=0.1f;
 	} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)){
-		pxt-=0.1;
-	}
-
-	//draw script effects directly on screen
-	for(auto it = mScripts.begin(), end = mScripts.end(); it != end; ++it) {
-		auto script_sp = *it;
-		script_sp->draw();
+		pxt-=0.1f;
 	}
 
 	renderWindow.display();

@@ -4,20 +4,135 @@
 #include "StateManager.h"
 #include "ResourceManager.h"
 #include "PropertyManager.h"
+#include "ResourceManager.h"
 #include "ObjectFactory.h"
 #include "GameToScreen.h"
+#include "WindowManager.h"
 #include "FileStructure.h"
-
+#include "StateManager.h"
+#include <map>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/optional/optional.hpp>
-#include <SFML/System/Vector2.hpp>
-#include <map>
-#include <string>
+
+#include "Player.h"
+#include "InventoryDisplay.h"
+#include "Camera.h"
 
 static const std::string NAME_PROPERTIES_IGNORE = "ignore";
 static const std::string NAME_LEVELSETTINGS_BACKGROUND = "background";
 static const std::string NAME_LEVELSETTINGS_MAPLAYER = "map";
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+struct LoadingSpecs{
+	LoadingSpecs(const std::string& levelName, LevelState* level_p, sf::Mutex* mutex_p, bool* running_p) :
+		mLoadedLevel_p( level_p ),
+		mLevelName( levelName ),
+		mMutex_p( mutex_p ),
+		mRunning_p( running_p )
+		{ } 
+	
+	LevelState* mLoadedLevel_p;	//Pointer to the gamestate into which the level is to be loaded
+	sf::Mutex* mMutex_p;			//Keeps track so that several threads does not access the same memory
+	bool* mRunning_p;				//Keeps track of whether the thread is running
+	std::string mLevelName;
+};
+
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+
+static void loadSubLevel(const std::string& subLevelName, LevelState* levelState_p);
+static void loadLevel(LoadingSpecs& specs);
+
+LoadingState::LoadingState(std::string levelName, LevelState* levelState_p):
+	mLoadingSpecs_p(new LoadingSpecs(levelName, levelState_p, &mMutex, &mRunning)),
+	mThread( loadLevel, *mLoadingSpecs_p),
+	mRunning( true ),
+	mLoadingScreenTexture( ResourceManager::get().getTexture(FS_DIR_LOADINGSCREEN + "loadingscreen.png") ),
+	mLoadingIconTexture( ResourceManager::get().getTexture(FS_DIR_LOADINGSCREEN + "loadingicon.png") )
+{
+	auto& win = *WindowManager::get().getRenderWindow();
+	auto& size = win.getSize();
+
+	mLoadingScreen.setTexture( *mLoadingScreenTexture );
+	mLoadingScreen.setScale(1.f , 1.f );
+
+	mLoadingIcon.setTexture( *mLoadingIconTexture );
+	mLoadingIcon.setPosition( float(size.x) - size.x*0.15f , float(size.y) - size.y*0.15f );
+	mLoadingIcon.setOrigin( 55, 55 );
+	mLoadingIcon.setScale(1.f , 1.f );	
+
+	mThread.launch();
+}
+
+LoadingState::~LoadingState() {
+	mThread.terminate();	//Not a good solution but it works
+	delete mLoadingSpecs_p;
+}
+
+void LoadingState::update() {
+	mLoadingIcon.rotate(-5);
+}
+
+void LoadingState::render() {
+	auto& rendWin = *WindowManager::get().getRenderWindow();
+	auto& rendState = *WindowManager::get().getStates();
+
+	rendWin.draw( mLoadingScreen, rendState );
+	rendWin.draw( mLoadingIcon, rendState );
+
+	rendWin.display();
+
+	mMutex.lock();
+	if( mRunning == false)		
+		StateManager::get().popState();
+	mMutex.unlock();
+
+}
+
+template<typename T>
+T forward(const T& t){ return t; }
+
+static void loadLevel(LoadingSpecs& specs) {
+	//look in settings for which sublevels to load.
+	auto& settings = PropertyManager::get().getGeneralSettings();
+	auto& levels = settings.get_child("levels");
+	auto& level = levels.get_child(specs.mLevelName);
+	auto& sublevels = level.get_child("sublevels");
+
+	for(auto it = sublevels.begin(), end = sublevels.end(); it != end; ++it) {
+		//load sublevels one at a time.
+		auto& entry = it->second;
+		auto& subLevelName = entry.get_value<std::string>();
+		loadSubLevel(subLevelName, specs.mLoadedLevel_p);
+	}
+	specs.mLoadedLevel_p->switchSubLevel(level.get<std::string>("first_sublevel_name"));
+
+	//now, add player, camera, and inventory display to sub levels.
+	std::shared_ptr<Player> player_sp = specs.mLoadedLevel_p->getPlayer();
+	std::shared_ptr<Camera> camera_sp = specs.mLoadedLevel_p->getCamera();
+	std::shared_ptr<InventoryDisplay> display_sp = specs.mLoadedLevel_p->getInventoryDisplay();
+
+	for(auto it = sublevels.begin(), end = sublevels.end(); it != end; ++it) {
+		//iterate over all sublevels.
+		auto& entry = it->second;
+		auto& subLevelName = entry.get_value<std::string>();
+		auto& subLevel_sp = specs.mLoadedLevel_p->getSubLevel(subLevelName);
+
+		//add them to the sublevel.
+		subLevel_sp->addGraphicalEntity(std::static_pointer_cast<GraphicalEntity>(player_sp));
+		subLevel_sp->addScript(std::static_pointer_cast<Script>(camera_sp));
+		subLevel_sp->addScript(std::static_pointer_cast<Script>(display_sp));
+	}
+
+	//we're done here!
+	specs.mMutex_p->lock();
+	*specs.mRunning_p = false;
+	specs.mMutex_p->unlock();
+}
 
 static void loadSubLevel(const std::string& subLevelName, LevelState* levelState_p) {
 	using namespace boost::property_tree;
@@ -119,6 +234,7 @@ static void loadSubLevel(const std::string& subLevelName, LevelState* levelState
 					if(objectType == "")
 						continue;
 
+
 					//an objects position is (x,y) * 32 / STEP in gamecoordinates
 					auto x = object.get<int>("x");
 					auto y = object.get<int>("y");
@@ -157,39 +273,4 @@ static void loadSubLevel(const std::string& subLevelName, LevelState* levelState
 			}
 		}
 	}
-
-}
-
-static void loadLevel(const std::string& levelName, LevelState* level_p) {
-	//look in settings for which sublevels to load.
-	auto& settings = PropertyManager::get().getGeneralSettings();
-	auto& levels = settings.get_child("levels");
-	auto& level = levels.get_child(levelName);
-	auto& sublevels = level.get_child("sublevels");
-
-	for(auto it = sublevels.begin(), end = sublevels.end(); it != end; ++it) {
-		//load sublevels one at a time.
-		auto& entry = it->second;
-		auto& subLevelName = entry.get_value<std::string>();
-		loadSubLevel(subLevelName, level_p);
-	}
-	level_p->switchSubLevel(level.get<std::string>("first_sublevel_name"));
-
-	StateManager::get().popState();
-}
-
-LoadingState::LoadingState(std::string levelName, LevelState* level_p)
-{
-	using namespace boost::property_tree;
-	loadLevel(levelName, level_p);
-}
-
-LoadingState::~LoadingState() {
-}
-
-void LoadingState::update() {
-	using namespace boost::property_tree;
-
-
-
 }

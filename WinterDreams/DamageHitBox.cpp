@@ -1,6 +1,7 @@
 #include "DamageHitBox.h"
 #include "SubLevel.h"
 #include "Crystal.h"
+#include "FileStructure.h"
 #include <SFML\Audio.hpp>
 
 ///////////////////////////////////////////////
@@ -15,11 +16,12 @@ DamageHitBox::DamageHitBox(const sf::Rect<float>& hitBox, unsigned int damage, D
 	mLifeTime(3)
 #ifndef SHIPPING
 	,
-	mAnimation( "DEBUG.png", 64, 64, 1, 1, 0, 48 )
+	mAnimation( FS_DIR_OBJECTANIMATIONS + "itemdisplay/pickaxe.png" , 64, 64, 1, 1, 0, 48 )
 #endif
 { 
 #ifndef SHIPPING
 	mAnimation.setPosition( GAME_TO_SCREEN * sf::Vector2f(mHitBox.left, mHitBox.top) );
+	mAnimation.getCurrentSprite().setScale( 0.8f, 0.8f);
 #endif
 }
 
@@ -51,13 +53,12 @@ void DamageHitBox::drawSelf(){
 	///////////////////////////////////////////////
 	// /Defines what the DamageHitBox should do on collision.
 	///////////////////////////////////////////////
-void DamageHitBox::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::FloatRect& intersection){
-		//Checks if the DamageHitBox collides with an ice block and if the damage comes from a pickaxe.
-	if( dynamic_cast<Crystal*>(entityCollidedWith_p) && mDamageType == PICKAXE){
-			//Cast the pointer to a Crystal-pointer
-		Crystal* crystal = dynamic_cast<Crystal*>(entityCollidedWith_p);
-			//Adjust the Crystals health by the hitbox' damage
-		crystal->adjustHealth(mDamage * -1);
-			//Play sound for ice collision
-	}
+void DamageHitBox::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::FloatRect& intersection){ }
+
+int DamageHitBox::getDamageAmount() const {
+	return getEnabled() ? mDamage: 0;
+}
+
+DamageHitBox::DamageType DamageHitBox::getDamageType() const {
+	return mDamageType;
 }

@@ -21,17 +21,18 @@
          "objects":[
                 {
                  "height":64,
-                 "name":"enter_main_cave_sound_trigger",
+                 "name":"enter_main_cave_narrator_trigger",
                  "properties":
                     {
-                     "entertrigger":"enter_main_cave_sound",
-                     "once":"true"
+                     "entertrigger":"enter_main_cave_narrator",
+                     "once":"true",
+					 "startdisabled":"false"
                     },
                  "type":"trigger",
                  "visible":true,
                  "width":64,
-                 "x":224,
-                 "y":2912
+                 "x":390,
+                 "y":2760
                 }, 
                 {
                  "height":32,
@@ -39,17 +40,38 @@
                  "properties":
                     {
                      "innerradius":"5",
+                     "loop":"true",
+					 "soundtype":"music",
+                     "rangedecay":"0",
+                     "soundfile":"Grottmusik.wav",
+                     "volume":"70",
+					 "startdisabled":"false" 
+                    },
+                 "type":"soundscape",
+                 "visible":true,
+                 "width":32,
+                 "x":224,
+                 "y":2912
+                }, 
+				{
+                 "height":32,
+                 "name":"enter_main_cave_narrator",
+                 "properties":
+                    {
+                     "innerradius":"5",
                      "loop":"false",
-                     "rangedecay":"15",
-                     "soundfile":"*Sounddirectory*",
-                     "volume":"30"
+					 "soundtype":"narrator",
+                     "rangedecay":"0",
+                     "soundfile":"MidnightDragon_LV1Sample_Natalie.wav",
+                     "volume":"70",
+					 "startdisabled":"true" 
                     },
                  "type":"soundscape",
                  "visible":true,
                  "width":32,
                  "x":1024,
                  "y":2176
-                }, 
+                },
                 {
                  "height":32,
                  "name":"player",

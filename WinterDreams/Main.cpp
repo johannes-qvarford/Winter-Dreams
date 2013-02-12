@@ -9,25 +9,28 @@
 #include <iostream>
 #include <memory>
 
+#include <SFML/Audio/Sound.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
+
 int main()
 {
 	try {
+		//create the first LevelState, and put it on top of the stack.
 		auto levelState_p = new LevelState();
-		auto firstLevelname = PropertyManager::get().getGeneralSettings().get<std::string>("first_level_name");
-		auto loadState_p = new LoadingState(firstLevelname, levelState_p);
-		/*
-			Push the level state first, and the load state second.
-			The load state will be updated until it has initialized the level state,
-			at which point it will be popped from the StateManager.
-		*/
-		StateManager::get().pushState(levelState_p);
 		StateManager::get().pushState(levelState_p);
 
+		//add LoadingState to the top of the stack, filling the first level state with information.
+		auto firstLevelname = PropertyManager::get().getGeneralSettings().get<std::string>("first_level_name");
+		auto loadState_p = new LoadingState(firstLevelname, levelState_p);
+		StateManager::get().pushState(loadState_p);
+
+		//run the game.
 		StateManager::get().run();
 	}
 	catch(std::exception& e) {
 		std::cout << "exception thrown: " << e.what() << std::endl;
 	}
+
 	return 0;
 
 }

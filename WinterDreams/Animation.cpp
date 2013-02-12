@@ -101,9 +101,9 @@ bool Animation::endOfAnimation() const{
 	return mEndOfAnimation;
 }
 
-void Animation::makeAnimations(const std::string& objectNamePlusSlash, const std::list<AnimationSpecs>& animSpecList, std::map<std::string, Animation>* animMap_p) {
+void Animation::fromListToMap(const std::list<AnimationSpecs>& list, const std::string& texturesFilePath, std::map<std::string, Animation>* animationMap_p) {
 	
-	for( auto it = animSpecList.begin(), end = animSpecList.end(); it != end; ++it){
+	for( auto it = list.begin(), end = list.end(); it != end; ++it){
 		auto w =	it->mWidth;
 		auto h =	it->mHeight;
 		auto yO =	it->mYOrigin;
@@ -113,7 +113,7 @@ void Animation::makeAnimations(const std::string& objectNamePlusSlash, const std
 		auto file = it->mFileName;
 		auto name = it->mAnimName;
 
-		Animation anim(FS_DIR_OBJECTANIMATIONS + objectNamePlusSlash + file , w, h, nos, fps, xO, yO);
-		animMap_p->insert( std::pair<std::string, Animation>( name , anim ) );
+		Animation anim(texturesFilePath + file , w, h, nos, fps, xO, yO);
+		animationMap_p->insert( std::pair<std::string, Animation>( name , anim ) );
 	}
 }

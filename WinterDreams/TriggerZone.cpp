@@ -42,7 +42,7 @@ void TriggerZone::update(SubLevel* subLevel_p) {
 		if(getEnabled() == false)
 			return;
 		
-		for(auto it = mEnterNames.begin(), end = mExitNames.end(); it != end; ++it) {
+		for(auto it = mExitNames.begin(), end = mExitNames.end(); it != end; ++it) {
 			auto& name = *it;
 			auto entity_wp = mSubLevel_p->getEntity(name);
 			
@@ -95,7 +95,7 @@ void TriggerZone::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::Re
 		if(getEnabled() == false)
 			return;
 
-		for(auto it = mExitNames.begin(), end = mExitNames.end(); it != end; ++it) {
+		for(auto it = mEnterNames.begin(), end = mEnterNames.end(); it != end; ++it) {
 			auto& name = *it;
 
 			//do nothing if entity is dead
