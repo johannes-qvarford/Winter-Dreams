@@ -32,8 +32,7 @@ public:
 
 	void update(SubLevel* subLevel_p);
 private:
-	int mXPos;
-	int mYPos;
+	sf::Vector2f initPos;
 
 	std::weak_ptr<Player>			 mPlayer_wp;			//A pointer to the player
 	Animation*						 mBoxAnimation_p;		//Animates the inventory box

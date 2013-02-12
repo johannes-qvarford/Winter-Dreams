@@ -16,9 +16,10 @@ public:
 	
 	int mXPos, mYPos, mIconsAppart;
 
-	std::list<AnimationSpecs> mAnimSpecList;
-	std::map<std::string, int> mIconIndices;
-
+	std::list<AnimationSpecs>	mAnimSpecList;	//List of animation specs
+	std::list<std::string>		mAuxIconList;	//List of icons of tempItems and the itemBox
+	std::map<std::string, int>	mEquipIconIndices; //List of icons of equipItems.
+	
 private:
 	InvDispSpecs();							//Singleton-pattern
 	InvDispSpecs(const InvDispSpecs& p);		//No copies
@@ -41,13 +42,15 @@ InvDispSpecs::InvDispSpecs() {
 	for( auto iter = anims.begin(), end = anims.end(); iter != end; ++iter) {
 		std::string s = iter->first;
 		int index = iter->second.get<int>("iconindex", -1);
-			//If the animation didn't have an index (i.e. was the itembox), continue
+			//If the animation didn't have an index, add it to the auxIcon list
 		if(index < 0 )
-			continue;
+			mAuxIconList.push_back(s);
 			//Else, insert the pair
 		std::pair<std::string, int> pair(s, index);
-		mIconIndices.insert( pair );
+		mEquipIconIndices.insert( pair );
 	}
+		//Sort the auxList
+	mAuxIconList.sort();
 }
 ////////////////////////////////////////////////////////////////////////////////
 InvDispSpecs& InvDispSpecs::get() { 
@@ -63,10 +66,10 @@ InventoryDisplay::InventoryDisplay(std::weak_ptr<Player> player) :
 		//get a copy to the windows size
 	auto winSize = WindowManager::get().getRenderWindow()->getSize();
 	auto& specs = InvDispSpecs::get();
-		//assign the center of the display box
-	mXPos = specs.mXPos;
-	mYPos = specs.mYPos;
 		//get a reference to the scriptspecs
+	
+	initPos = sf::Vector2f( float(specs.mXPos), float(specs.mYPos) );
+
 	auto& p = InvDispSpecs::get();
 	for( auto iter = p.mAnimSpecList.begin(), end = p.mAnimSpecList.end(); iter != end; ++iter){
 		auto w =	iter->mWidth;
@@ -83,8 +86,6 @@ InventoryDisplay::InventoryDisplay(std::weak_ptr<Player> player) :
 	}
 
 	mBoxAnimation_p = &mAnimationMap.find("itembox")->second;
-	auto& win = *WindowManager::get().getRenderWindow();
-	auto& pos = win.getView().getCenter();
 
 }
 
@@ -130,20 +131,48 @@ void InventoryDisplay::updateUI() {
 		//The vector describing the top left corner of the screen
 	auto centDif = sf::Vector2f( static_cast<float>(win.getSize().x / 2), static_cast<float>(win.getSize().y / 2));
 		//The vector describing the distance from the window boarder to the first item
-	auto cornDif = sf::Vector2f( static_cast<float>(mXPos), static_cast<float>(mYPos) );
-		//The vector for the first icon
-	auto firstIconPos = centPos -	 centDif +	cornDif;
-		
+	auto cornDif = initPos;
+		//The vector for the first icon (this one is invisible)
+	auto firstIconPos = centPos - centDif +	cornDif;
+	
+		//Assign the equipment items positions
 	for( auto iter =  mAnimationMap.begin(), end = mAnimationMap.end(); iter != end; ++iter) {
-		auto name = iter->first;
-		if( name == "itembox" )
+		auto& name = iter->first;
+		if( spec.mEquipIconIndices.find(name) == spec.mEquipIconIndices.end() )
 			continue;
 			//Get the icons index
-		auto index = spec.mIconIndices.find(name)->second;
+		auto& index = spec.mEquipIconIndices.find(name)->second;
 			//Calculate it's offest from the first icon
 		auto offset = sf::Vector2f(static_cast<float>(spec.mIconsAppart * index), 0 );
 			//Assign it's position
 		iter->second.setPosition(firstIconPos + offset);
+	}
+
+		//Assign the aux icons positions
+	{
+		int index = 1;
+		std::list<std::string> temp;
+		auto& auxList = spec.mAuxIconList;
+		auto& player = *mPlayer_wp.lock();
+			//Iterate over the list of auxiliry items and check if the player has an
+			// item of the type indicated by iter.
+			//If it does, add that item to the temporary list named auxItems.
+		for( auto iter = auxList.begin(), end = auxList.end(); iter != end; ++iter ){
+			auto item = *iter;
+
+			if( player.getInventory().hasItem( item ) > 0 ){
+				temp.push_back( item );			
+			}
+		}
+			//Sort temp list
+		temp.sort();
+
+			//Iterate over temp and calculate each items position
+		for( auto iter = temp.begin(), end = temp.end(); iter != end; ++iter){
+			auto offset = sf::Vector2f(0, static_cast<float>(spec.mIconsAppart * index) );
+			mAnimationMap.find(*iter)->second.setPosition(firstIconPos + offset);
+			++index;
+		}
 	}
 	////Ask what item the player has equipped right now
 	//auto index = spec.get().mIconIndices.find( /*CurrentItemName*/  );
