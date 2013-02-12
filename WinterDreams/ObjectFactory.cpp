@@ -16,13 +16,13 @@ void ObjectFactory::registerCallback(const std::string& objectTypename, ObjectFa
 	return;
 }
 
-void ObjectFactory::callCallback(const std::string& objectTypename, GameState* state, const sf::Vector2f& position, const boost::property_tree::ptree& pt) {
+void ObjectFactory::callCallback(const std::string& objectTypename, SubLevel* subLevel_p, const sf::Vector2f& position, const boost::property_tree::ptree& pt) {
 	auto it = mCallbacks.find(objectTypename);
 	
 	if(it == mCallbacks.end())
 		return;
 
 	auto callback = it->second;
-	callback(state, position, pt);
+	callback(subLevel_p, position, pt);
 	return;
 }

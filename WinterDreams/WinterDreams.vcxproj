@@ -19,6 +19,7 @@
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Crystal.cpp" />
     <ClCompile Include="InventoryDisplay.cpp" />
+    <ClCompile Include="LevelState.cpp" />
     <ClCompile Include="LightPoint.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="LoadingState.cpp" />
@@ -46,6 +47,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="SubLevel.cpp" />
     <ClCompile Include="TriggerZone.cpp" />
     <ClCompile Include="WindowManager.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -60,6 +62,7 @@
     <ClInclude Include="GameToScreen.h" />
     <ClInclude Include="Crystal.h" />
     <ClInclude Include="GraphicalEntity.h" />
+    <ClInclude Include="LevelState.h" />
     <ClInclude Include="LightPoint.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="NPC.h" />
@@ -77,6 +80,7 @@
     <ClInclude Include="SolidZone.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="StateManager.h" />
+    <ClInclude Include="SubLevel.h" />
     <ClInclude Include="TriggerZone.h" />
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>

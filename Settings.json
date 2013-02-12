@@ -1,4 +1,13 @@
 {
-	"first_level_filename" : "lvl_1_1v03.json",
-	"cam_pan_percentage" : "0.05"
+	"first_level_name" : "lvl_1",
+	"cam_pan_percentage" : "0.05",
+	
+	"levels":
+	{
+		"lvl_1":
+		{
+			"first_sublevel_name" : "lvl_1_1v03.json",
+			"sublevels": ["lvl_1_1v03.json"]
+		}
+	}
 }

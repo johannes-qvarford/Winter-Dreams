@@ -1,7 +1,7 @@
 #include "Player.h"
 
 #include "DamageHitBox.h"
-#include "GameState.h"
+#include "SubLevel.h"
 #include "GameToScreen.h"
 #include "WindowManager.h"
 #include "ResourceManager.h"
@@ -63,7 +63,7 @@ Player::Player(sf::FloatRect initialPosition, int lightLevel, bool startEnabled)
 
 Player::~Player() {}
 
-void Player::update(GameState* gameState_p){
+void Player::update(SubLevel* subLevel_p){
 
 	//Create a temporary vector that will store the directions
 	//corresponding to the keys pressed.
@@ -90,7 +90,7 @@ void Player::update(GameState* gameState_p){
 		mDirection += sf::Vector2i(1, 1);		
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-		gameState_p->addGraphicalEntity(std::shared_ptr<DamageHitBox>( new DamageHitBox(mHitBox, 2, DamageHitBox::PICKAXE ) ) );
+//		subLevel_p->addGraphicalEntity(std::shared_ptr<DamageHitBox>( new DamageHitBox(mHitBox, 2, DamageHitBox::PICKAXE ) ) );
 	}
 	/////////////////////////////////////////////////////////////////
 	if( mDirection.x >= 1) {

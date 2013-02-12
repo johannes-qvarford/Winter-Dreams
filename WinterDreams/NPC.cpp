@@ -1,6 +1,6 @@
 #include "NPC.h"
 #include "AnimationSpecs.h"
-#include "GameState.h"
+#include "SubLevel.h"
 #include "PropertyManager.h"
 #include "FileStructure.h"
 #include "GameToScreen.h"
@@ -60,12 +60,12 @@ NPC::NPC(const std::string& pathName, const sf::FloatRect& initialPosition, bool
 	mCurrentAnimation_p = &it->second;
 }
 
-void NPC::update(GameState* state) {
+void NPC::update(SubLevel* subLevel_p) {
 	
 	
 	//are we still looking for the path?
 	if(mFoundPath == false) {
-		auto& points = state->getAiPath(mPathName);
+		auto& points = subLevel_p->getAiPath(mPathName);
 		
 		//does it exist (yet)?
 		if(points.empty() == false)

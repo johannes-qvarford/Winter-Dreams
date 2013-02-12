@@ -119,7 +119,7 @@ void InventoryDisplay::draw() const{
 	}
 }
 
-void InventoryDisplay::update(GameState* gameState_p){
+void InventoryDisplay::update(SubLevel* subLevel_p){
 	updateUI();		
 }
 

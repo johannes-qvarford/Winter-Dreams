@@ -27,7 +27,7 @@ public:
 	// /If not currently along the path; move to the 
 	// /nearest point.
 	//////////////////////////////////////////////////////
-	void update(GameState* state);
+	void update(SubLevel* subLevel_p);
 
 	//////////////////////////////////////////////////////
 	// /Draw the NPC.

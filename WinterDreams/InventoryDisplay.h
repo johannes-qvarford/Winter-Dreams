@@ -30,7 +30,7 @@ public:
 	////////////////////////////////////////////////////////////
 	void draw() const;
 
-	void update(GameState* gameState_p);
+	void update(SubLevel* subLevel_p);
 private:
 	int mXPos;
 	int mYPos;

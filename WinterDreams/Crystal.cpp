@@ -16,7 +16,7 @@ Crystal::Crystal( const sf::FloatRect& position, bool startEnabled ) :
 
 Crystal::~Crystal() { }
 
-void Crystal::update(GameState* gameState_p) {}
+void Crystal::update(SubLevel* subLevel_p) {}
 
 void Crystal::drawSelf() {
 	auto& windowManager = WindowManager::get();

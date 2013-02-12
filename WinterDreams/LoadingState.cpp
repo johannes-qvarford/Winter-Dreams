@@ -1,7 +1,7 @@
 #include "LoadingState.h"
-#include "GameState.h"
+#include "SubLevel.h"
+#include "LevelState.h"
 #include "StateManager.h"
-#include "Wall.h"
 #include "ResourceManager.h"
 #include "PropertyManager.h"
 #include "ObjectFactory.h"
@@ -19,56 +19,27 @@ static const std::string NAME_PROPERTIES_IGNORE = "ignore";
 static const std::string NAME_LEVELSETTINGS_BACKGROUND = "background";
 static const std::string NAME_LEVELSETTINGS_MAPLAYER = "map";
 
-LoadingState::LoadingState(GameState* gameState_p, std::string filepath):
-	mLoadedLevel(gameState_p),
-	mLevelData()
-{
+static void loadSubLevel(const std::string& subLevelName, LevelState* levelState_p) {
 	using namespace boost::property_tree;
-	json_parser::read_json(filepath, mLevelData);
-}
-
-LoadingState::~LoadingState() {
-}
-
-void LoadingState::update() {
-	using namespace boost::property_tree;
-
-
-	/*
-		get background filename from propMgr.levelSettings.'levelname'.background.
-		get map layer filename from propMgr.levelSettings.'levelname'.maplayer
-
-		get map offset by using the levels y length
-		place maptexture at offset in GameState
-		place backgroundtexure at (0,0) in GameState
-
-		Check all tilesets...
-			save firstgid as property firstgid
-			Check tileproperties...
-				if has objectname property
-					map objectname to firstgid + tile
-
-		Check all layers...
-			if not has use property
-				continue
-			if has type="objectgroup"
-				Check all objects...
-					call factory with objectname, constructed position and tree
-			else
-				Check all tiles...
-					save objectname as objectname mapped to gid
-					call factory with objectname, constructed position and empty tree
-
-	*/
+	
+	//get managers
 	auto& propMgr = PropertyManager::get();
 	auto& resMgr = ResourceManager::get();
 	auto& objFact = ObjectFactory::get();
 	auto tilesToObjects = std::map<int, std::string>();
+	
+	//read sublevel from json
+	auto& levelData = ptree();
+	json_parser::read_json(FS_DIR_LEVELS + subLevelName, levelData);
+
+	//connect sublevel with level
+	auto subLevel_sp = std::shared_ptr<SubLevel>(new SubLevel(levelState_p));
+	levelState_p->addSubLevel(subLevelName, subLevel_sp);
 
 	{
 		//use properties 'height' from levelData. And 'background' and 'maplayer' from levelProperties
-		//to place background and map layer correctly in GameState.
-		auto& properties = mLevelData.get_child("properties");
+		//to place background and map layer correctly in SubLevel.
+		auto& properties = levelData.get_child("properties");
 
 //		auto& bgFilename = level.get<std::string>(NAME_LEVELSETTINGS_BACKGROUND);
 		auto map = properties.get_child(NAME_LEVELSETTINGS_MAPLAYER);
@@ -78,7 +49,7 @@ void LoadingState::update() {
 //		auto bgTexture_sp = resMgr.getTexture(bgFilename);
 		auto mlTexture_sp = resMgr.getTexture(FS_DIR_MAPS + mlFilename);
 
-		auto yTiles = mLevelData.get<int>("height");
+		auto yTiles = levelData.get<int>("height");
 
 		auto yLength = yTiles * Y_STEP;
 
@@ -88,15 +59,14 @@ void LoadingState::update() {
 		const float Y_OFFSET = -17.f;
 		auto mlOffset = sf::Vector2f((cosf(22.5f) * yLength) + X_OFFSET, Y_OFFSET); 
 
-
-		mLoadedLevel->setMapTexture(mlTexture_sp, mlOffset);
+		subLevel_sp->setMapTexture(mlTexture_sp, mlOffset);
 //		mLoadedLevel->setBackgroundTexture(bgTexture_sp, sf::Vector2f(0, 0));
 	}
 
 	
 	{
 		//check tilesets, to map gids to objectnames
-		auto tilesets = mLevelData.get_child("tilesets");
+		auto tilesets = levelData.get_child("tilesets");
 		for(auto it = tilesets.begin(), end = tilesets.end(); it != end; ++it) {
 			//look for first gid in tileset
 			auto& tileset = it->second;
@@ -126,7 +96,7 @@ void LoadingState::update() {
 	}
 
 	{
-		auto& layers = mLevelData.get_child("layers");
+		auto& layers = levelData.get_child("layers");
 
 		for(auto it = layers.begin(), end = layers.end(); it != end; ++it) {
 			auto& layer = it->second;
@@ -154,13 +124,13 @@ void LoadingState::update() {
 					auto y = object.get<int>("y");
 					auto position = sf::Vector2f(x * X_STEP / 32, y * Y_STEP / 32);
 
-					objFact.callCallback(objectType, mLoadedLevel, position, object);
+					objFact.callCallback(objectType, subLevel_sp.get(), position, object);
 				}
 			}
 			else {
 				//a tile layer
 				auto& data = layer.get_child("data");
-				auto width = mLevelData.get<int>("width");
+				auto width = levelData.get<int>("width");
 				auto index = 0;
 				//tiles doesn't have any properties
 				auto emptyPt = boost::property_tree::ptree();
@@ -182,11 +152,44 @@ void LoadingState::update() {
 					auto y = index / width;
 					auto position = sf::Vector2f(x * X_STEP, y * Y_STEP);
 
-					objFact.callCallback(objectType, mLoadedLevel, position, emptyPt);
+					objFact.callCallback(objectType, subLevel_sp.get(), position, emptyPt);
 				}
 			}
 		}
 	}
 
+}
+
+static void loadLevel(const std::string& levelName, LevelState* level_p) {
+	//look in settings for which sublevels to load.
+	auto& settings = PropertyManager::get().getGeneralSettings();
+	auto& levels = settings.get_child("levels");
+	auto& level = levels.get_child(levelName);
+	auto& sublevels = level.get_child("sublevels");
+
+	for(auto it = sublevels.begin(), end = sublevels.end(); it != end; ++it) {
+		//load sublevels one at a time.
+		auto& entry = it->second;
+		auto& subLevelName = entry.get_value<std::string>();
+		loadSubLevel(subLevelName, level_p);
+	}
+	level_p->switchSubLevel(level.get<std::string>("first_sublevel_name"));
+
 	StateManager::get().popState();
+}
+
+LoadingState::LoadingState(std::string levelName, LevelState* level_p)
+{
+	using namespace boost::property_tree;
+	loadLevel(levelName, level_p);
+}
+
+LoadingState::~LoadingState() {
+}
+
+void LoadingState::update() {
+	using namespace boost::property_tree;
+
+
+
 }

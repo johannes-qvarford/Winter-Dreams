@@ -1,4 +1,4 @@
-#include "GameState.h"
+#include "SubLevel.h"
 
 #include "Script.h"
 #include "GraphicalEntity.h"
@@ -20,7 +20,8 @@
 static bool smallerPosition(std::shared_ptr<PhysicalEntity> lhs_p, std::shared_ptr<PhysicalEntity> rhs_sp);
 static void handleCollision(PhysicalEntity* lhs_p, PhysicalEntity* rhs_p);
 
-GameState::GameState():
+SubLevel::SubLevel(LevelState* levelState_p):
+	mLevelState_p(levelState_p),
 	mNameToEntity(),
 	mNameToAiPath(),
 	mCollisionZones(),
@@ -31,16 +32,20 @@ GameState::GameState():
 {
 }
 
-GameState::~GameState() {
+SubLevel::~SubLevel() {
 }
 
-void GameState::update() {
+LevelState* SubLevel::getLevel() {
+	return mLevelState_p;
+}
+
+void SubLevel::update() {
 
 	//update graphical entities.
 	for(auto it = mGraphicalEntities.begin(), end = mGraphicalEntities.end(); it != end; ++it) {
 		auto graphical_sp = *it;
 
-//		graphical_sp->update(this);
+		graphical_sp->update(this);
 		checkCollisions(graphical_sp);
 	}
 
@@ -48,57 +53,57 @@ void GameState::update() {
 	for(auto it = mCollisionZones.begin(), end = mCollisionZones.end(); it != end; ++it) {
 		auto colZone_sp = *it;
 
-//		colZone_sp->update(this);
+		colZone_sp->update(this);
 	}
 
 	//update scripts
 	for(auto it = mScripts.begin(), end = mScripts.end(); it != end; ++it) {
 		auto script_sp = *it;
 
-//		script_sp->update(this);
+		script_sp->update(this);
 	}
 
 	//delete inactive entities.
 	deleteInactives();
 }
 
-void GameState::addGraphicalEntity(std::shared_ptr<GraphicalEntity> graphical_sp){
+void SubLevel::addGraphicalEntity(std::shared_ptr<GraphicalEntity> graphical_sp){
 	mGraphicalEntities.push_back(graphical_sp);
 }
 
-void GameState::addScript(std::shared_ptr<Script> script_sp) {
+void SubLevel::addScript(std::shared_ptr<Script> script_sp) {
 	mScripts.push_back(script_sp);
 }
 
-void GameState::addCollisionZone(std::shared_ptr<CollisionZone> colZone_sp) {
+void SubLevel::addCollisionZone(std::shared_ptr<CollisionZone> colZone_sp) {
 	mCollisionZones.push_back(colZone_sp);
 }
 
-void GameState::setMapTexture(std::shared_ptr<sf::Texture> texture_sp, const sf::Vector2f& position) {
+void SubLevel::setMapTexture(std::shared_ptr<sf::Texture> texture_sp, const sf::Vector2f& position) {
 	mMapTexture = std::make_pair(texture_sp, position);
 }
 
-void GameState::setBackgroundTexture(std::shared_ptr<sf::Texture> texture_sp, const sf::Vector2f& position) {
+void SubLevel::setBackgroundTexture(std::shared_ptr<sf::Texture> texture_sp, const sf::Vector2f& position) {
 	mBackgroundTexture = std::make_pair(texture_sp, position);
 }
 
-void GameState::mapEntityToName(const std::string& name, std::weak_ptr<Entity> entity_wp) {
+void SubLevel::mapEntityToName(const std::string& name, std::weak_ptr<Entity> entity_wp) {
 	mNameToEntity.insert(std::make_pair(name, entity_wp));
 }
 
-void GameState::mapAiPathToName(const std::string& name, const std::vector<sf::Vector2f>& path) {
+void SubLevel::mapAiPathToName(const std::string& name, const std::vector<sf::Vector2f>& path) {
 	mNameToAiPath[name] = path;
 }
 
-std::weak_ptr<Entity> GameState::getEntity(const std::string& name) {
+std::weak_ptr<Entity> SubLevel::getEntity(const std::string& name) {
 	return mNameToEntity[name];
 }
 
-const std::vector<sf::Vector2f>& GameState::getAiPath(const std::string& name) {
+const std::vector<sf::Vector2f>& SubLevel::getAiPath(const std::string& name) {
 	return mNameToAiPath[name];
 }
 
-void GameState::render() {
+void SubLevel::render() {
 
 	auto& window = *WindowManager::get().getWindow();
 	auto& renderWindow = *WindowManager::get().getRenderWindow();
@@ -190,7 +195,7 @@ void GameState::render() {
 
 }
 
-void GameState::deleteInactives() {
+void SubLevel::deleteInactives() {
 	//we need to be careful about invalid iterators
 	//if we erase an iterator; it is invalidated.
 	//the iterators around it are not.
@@ -268,7 +273,7 @@ static bool smallerPosition(std::shared_ptr<PhysicalEntity> lhs_p, std::shared_p
 	return lhsIsoDepth < rhsIsoDepth;
 }
 
-void GameState::checkCollisions(std::shared_ptr<GraphicalEntity> graphical_sp) {
+void SubLevel::checkCollisions(std::shared_ptr<GraphicalEntity> graphical_sp) {
 
 	for(auto it = mGraphicalEntities.begin(), end = mGraphicalEntities.end(); it != end; ++it) {
 		auto other_sp = *it;

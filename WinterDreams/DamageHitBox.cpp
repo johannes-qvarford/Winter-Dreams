@@ -1,5 +1,5 @@
 #include "DamageHitBox.h"
-#include "GameState.h"
+#include "SubLevel.h"
 #include "Crystal.h"
 #include <SFML\Audio.hpp>
 
@@ -34,7 +34,7 @@ sf::FloatRect& DamageHitBox::getHitBox() {
 	// /Counts down the hitbox life time. The hit box is set
 	// /to inactive when it reaches 0.
 	///////////////////////////////////////////////
-void DamageHitBox::update(GameState* gameState_p){
+void DamageHitBox::update(SubLevel* subLevel_p){
 	if( mLifeTime <= 0 )
 		setAlive( false );
 

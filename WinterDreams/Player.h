@@ -8,10 +8,8 @@
 #include "Inventory.h"
 #include "Animation.h"
 #include <map>
-#include "Animation.h"
 
 class Inventory;
-class GameState;
 
 ///////////////////////////////////////////////////////
 // /This enum lists the different movement modes avalible to the
@@ -39,10 +37,10 @@ public:
 	~Player();
 	//////////////////////////////////////////////////////
 	// /Defines what actions should be performed on the avatar
-	// /each time update is called. Used by GameState to perform a
+	// /each time update is called. Used by SubLevel to perform a
 	// /series of actions each update-frame.
 	//////////////////////////////////////////////////////
-	void update(GameState* gameState_p);
+	void update(SubLevel* subLevel_p);
 	//////////////////////////////////////////////////////
 	// /Defines how the avatar is drawn onto the window.
 	//////////////////////////////////////////////////////

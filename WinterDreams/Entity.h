@@ -1,7 +1,7 @@
 #ifndef INCLUDED_ENTITY
 #define INCLUDED_ENTITY
 
-class GameState;
+class SubLevel;
 ////////////////////////////////////////////////////////////
 // /Entity is the base class for all entitys and scripts in the entire system.
 ////////////////////////////////////////////////////////////
@@ -17,7 +17,7 @@ public:
 	// /Update is supposed to represent the action performed by 
 	// /concrete subclasses each update-loop.
 	////////////////////////////////////////////////////////////
-	virtual void update(GameState* gameState_p) = 0;
+	virtual void update(SubLevel* subLevel_p) = 0;
 	////////////////////////////////////////////////////////////
 	// /Assigns the entitys life status.
 	// /The entity will be removed if it is assigned false

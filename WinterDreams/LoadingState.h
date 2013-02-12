@@ -6,20 +6,21 @@
 #include <string>
 #include <boost/property_tree/ptree.hpp>
 
-class GameState;
+
+class SubLevel;
+class LevelState;
 
 ////////////////////////////////////////////////////////////
 // /A LoadingState is a state which purpouse it to parse the data file
 // /descibing a specific level and load the appropriate data into an
-// /instance of GameState
+// /instance of LevelState
 ////////////////////////////////////////////////////////////
 class LoadingState : public State {
 public:
 	////////////////////////////////////////////////////////////
-	// /LoadingState has to be told what GameState it is supposed
-	// /to load a level into. It also has to be told what level to load.
+	// /LoadingState has to be told what level to load.
 	////////////////////////////////////////////////////////////
-	LoadingState(GameState* gameState_p, std::string levelToLoad);
+	LoadingState(std::string levelName, LevelState* level_p);
 
 	////////////////////////////////////////////////////////////
 	// /LoadingStates destructor DOES NOT delete mLoadedState.
@@ -37,10 +38,6 @@ public:
 	bool isRepeatable() const { return false; }
 
 private:
-	GameState* mLoadedLevel;	//A pointer to a GameState with the argument level loaded into it.
-	boost::property_tree::ptree mLevelData;
-	std::string mLevelName;
-
 	////////////////////////////////////////////////////////////
 	// /No copies
 	////////////////////////////////////////////////////////////

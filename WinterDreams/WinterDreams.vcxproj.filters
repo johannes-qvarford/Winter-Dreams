@@ -112,6 +112,12 @@
     <ClCompile Include="Registration_item.cpp">
       <Filter>Sources\Registration</Filter>
     </ClCompile>
+    <ClCompile Include="LevelState.cpp">
+      <Filter>Sources\State</Filter>
+    </ClCompile>
+    <ClCompile Include="SubLevel.cpp">
+      <Filter>Sources\State</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameToScreen.h">
@@ -227,6 +233,12 @@
     </ClInclude>
     <ClInclude Include="Item.h">
       <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelState.h">
+      <Filter>Includes\State</Filter>
+    </ClInclude>
+    <ClInclude Include="SubLevel.h">
+      <Filter>Includes\State</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

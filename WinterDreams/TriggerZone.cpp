@@ -1,5 +1,5 @@
 #include "TriggerZone.h"
-#include "GameState.h"
+#include "SubLevel.h"
 #include "Player.h"
 #include "WindowManager.h"
 #include "GameToScreen.h"
@@ -13,23 +13,23 @@
 //to mean that the player has left the zone.
 static const int EXIT_FRAMES = 2;
 
-TriggerZone::TriggerZone(const sf::FloatRect& hitBox, const std::string& onEnterName, const std::string& onExitName, int lightLevel, bool triggerOnce, bool startEnabled):
+TriggerZone::TriggerZone(const sf::FloatRect& hitBox, const std::list<std::string>& onEnterNames, const std::list<std::string>& onExitNames, int lightLevel, bool triggerOnce, bool startEnabled):
 	CollisionZone(startEnabled, hitBox, triggerOnce),
 	mUpdatesSinceLastTouch(EXIT_FRAMES + 1),
 	mInZone(false),
 	mLightLevel(lightLevel),
-	mEnterName(onEnterName),
-	mExitName(onExitName),
-	mGameState(NULL)
+	mEnterNames(onEnterNames),
+	mExitNames(onExitNames),
+	mSubLevel_p(NULL)
 {
 }
 
-void TriggerZone::update(GameState* state) {
+void TriggerZone::update(SubLevel* subLevel_p) {
 	mUpdatesSinceLastTouch++;
 	mUpdatesSinceLastTouch %= (EXIT_FRAMES + 2);
 
-	//we have found our game state
-	mGameState = state;
+	//we have found our sublevel
+	mSubLevel_p = subLevel_p;
 
 	//if there have been a few frames since last touch,
 	//and the player is in the zone,
@@ -38,18 +38,22 @@ void TriggerZone::update(GameState* state) {
 
 		mInZone = false;
 
-		//do nothing if entity is dead
-		auto entity_wp = mGameState->getEntity(mEnterName);
-		if(entity_wp.expired())
-			return;
-
 		//do nothing if not enabled
 		if(getEnabled() == false)
 			return;
+		
+		for(auto it = mEnterNames.begin(), end = mExitNames.end(); it != end; ++it) {
+			auto& name = *it;
+			auto entity_wp = mSubLevel_p->getEntity(name);
+			
+			//do nothing if entity is dead
+			if(entity_wp.expired())
+				return;
 
-		//swap enabled state of entity
-		std::shared_ptr<Entity> entity_sp(entity_wp);
-		entity_sp->swapEnabled();
+			//swap enabled state of entity
+			std::shared_ptr<Entity> entity_sp(entity_wp);
+			entity_sp->swapEnabled();
+		}
 	}
 }
 
@@ -87,22 +91,28 @@ void TriggerZone::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::Re
 	if(mInZone == false) {
 		mInZone = true;
 
-		//do nothing if entity is dead
-		auto entity_wp = mGameState->getEntity(mExitName);
-		if(entity_wp.expired())
+		//do nothing if not enabled
+		if(getEnabled() == false)
 			return;
 
-		//do nothing if entity is 
+		for(auto it = mExitNames.begin(), end = mExitNames.end(); it != end; ++it) {
+			auto& name = *it;
 
-		//swap enabled state of entity
-		std::shared_ptr<Entity> entity_sp(entity_wp);
-		entity_sp->swapEnabled();
+			//do nothing if entity is dead
+			auto entity_wp = mSubLevel_p->getEntity(name);
+			if(entity_wp.expired())
+				return;
 
-		//destroy self if it's a one time trigger
-		CollisionZone::onCollision(entityCollidedWith_p, intersection);
+			//swap enabled state of entity
+			std::shared_ptr<Entity> entity_sp(entity_wp);
+			entity_sp->swapEnabled();
+
+			//disable self if it's a one time trigger
+			CollisionZone::onCollision(entityCollidedWith_p, intersection);
+		}
 	}
 
-	
+
 	//reset
 	mUpdatesSinceLastTouch = 0;
 }

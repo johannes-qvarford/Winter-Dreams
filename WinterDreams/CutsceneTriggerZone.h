@@ -19,7 +19,7 @@ public:
 	// /Defines what action CutscenesTriggerZone should
 	// /perform each game-update.
 	////////////////////////////////////////////////////////////
-	virtual void update(GameState* gameState_p, int milliseconds);
+	virtual void update(SubLevel* subLevel_p, int milliseconds);
 	////////////////////////////////////////////////////////////
 	// /CutsceneTriggerZone will be invisible, hence will 
 	// /drawSelf produce no graphical representation.
