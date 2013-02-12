@@ -61,6 +61,9 @@ Player::Player(sf::FloatRect initialPosition, int lightLevel, bool startEnabled)
 	mInventory.giveItem("pickaxe", 1);
 	mInventory.giveItem("wheel", 1);
 	mInventory.giveItem("shoes", 1);
+	mInventory.giveItem("orb1", 1);
+	mInventory.giveItem("orb2", 1);
+	mInventory.giveItem("orb3", 1);
 }
 
 Player::~Player() {}
