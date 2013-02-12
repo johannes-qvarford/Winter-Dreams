@@ -72,6 +72,7 @@ void Player::update(GameState* gameState_p){
 	updateAnimations(gameState_p);
 
 	updateActions(gameState_p);
+
 }
 
 void Player::drawSelf(){

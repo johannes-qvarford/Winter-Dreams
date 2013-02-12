@@ -63,7 +63,8 @@ std::shared_ptr<sf::SoundBuffer> ResourceManager::getSoundBuffer(const std::stri
 	If it is loaded, a shared_ptr to the font is returned.
 	If it isn't loaded, the resource is loaded and a shared pointer to the 
 	font is returned. A weak_ptr is then stored in a map, mapping key to the
-	font.																	*/
+	font.*/
+
 std::shared_ptr<sf::Font> ResourceManager::getFont(const std::string &key){
 	std::map<std::string, std::weak_ptr<sf::Font> >::iterator iter;
 	iter = mFontMap.find(key);
@@ -78,5 +79,22 @@ std::shared_ptr<sf::Font> ResourceManager::getFont(const std::string &key){
 		}
 		mFontMap.insert(std::pair<std::string, std::weak_ptr<sf::Font> >(key, fnt) );
 		return fnt;
+	}
+}
+
+std::shared_ptr<sf::Shader> ResourceManager::getShader(const std::string &key){
+	std::map<std::string, std::weak_ptr<sf::Shader> >::iterator iter;
+	iter = mShaderMap.find(key);
+
+	if( iter != mShaderMap.end() && !iter->second.expired() ){
+		return iter->second.lock();
+	}
+	else{
+		std::shared_ptr<sf::Shader> shdr (new sf::Shader);
+		if (!shdr->loadFromFile(mFilePath + key, sf::Shader::Fragment)){
+			assert(false);
+		}
+		mShaderMap.insert(std::pair<std::string, std::weak_ptr<sf::Shader> >(key, shdr) );
+		return shdr;
 	}
 }
