@@ -97,9 +97,6 @@ void StateManager::run() {
 			mStates.top()->render();			
 			std::cout<< "[" <<rendTime.getElapsedTime().asMicroseconds() <<"]\t";
 			rendTime.restart();
-
-			if( !mStates.top()->isRepeatable() )
-				break;
 		}	
 	}
 }

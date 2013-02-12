@@ -16,6 +16,7 @@ static void regCallback(GameState* state, const sf::Vector2f& position, const bo
 	state->mapEntityToName(name, soundScape_sp);
 	state->addCollisionZone(soundScape_sp);
 
+
 }
 
 static ObjectTypeRegistration reg("soundscape", regCallback);
