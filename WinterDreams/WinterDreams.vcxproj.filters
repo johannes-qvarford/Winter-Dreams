@@ -103,9 +103,6 @@
     <ClCompile Include="SoundScape.cpp">
       <Filter>Sources\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="Registration_soundscape.cpp">
-      <Filter>Sources\Entity</Filter>
-    </ClCompile>
     <ClCompile Include="LightPoint.cpp">
       <Filter>Sources\Entity</Filter>
     </ClCompile>
@@ -117,6 +114,12 @@
     </ClCompile>
     <ClCompile Include="Registration_item.cpp">
       <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_soundscape.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelPortal.cpp">
+      <Filter>Sources\Entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -235,6 +238,9 @@
       <Filter>Includes\Entity</Filter>
     </ClInclude>
     <ClInclude Include="Item.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelPortal.h">
       <Filter>Includes\Entity</Filter>
     </ClInclude>
   </ItemGroup>

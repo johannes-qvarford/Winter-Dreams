@@ -37,11 +37,12 @@ public:
 	////////////////////////////////////////////////////////////
 	void update(GameState* gameState_p);
 	////////////////////////////////////////////////////////////
-	// /Locks the camera on a physical entity. The center of
-	// /the cameras view will match the entitys position.
-	// /				
+	// /Locks the camera on a physical entity. The camera can then.
+	// /be instructed to follow that entity.
+	// /
 	// /					 IMPORTANT!
-	// /This will NOT automaticlly lock the camera to the entity
+	// /This will NOT automaticlly make the camera follow to the entity
+	// /Call lockCamera() to make the camera follow the entity.
 	////////////////////////////////////////////////////////////
 	void followEntity(std::shared_ptr<PhysicalEntity> entity);
 	////////////////////////////////////////////////////////////
@@ -63,10 +64,10 @@ public:
 	////////////////////////////////////////////////////////////
 	void unlockCamera() { mLockedCamera = false; }
 	////////////////////////////////////////////////////////////
-	// /The camera will follow the locked entity again if the
-	// /is  locked entity
+	// /The camera will follow the locked entity again if there
+	// /is a locked entity.
 	////////////////////////////////////////////////////////////
-	void lockCamera()	{ mLockedCamera = true;	 }
+	void lockCamera()	{ if( !mLockedEntity.expired() ) mLockedCamera = true;	 }
 
 	void draw() const;
 private:

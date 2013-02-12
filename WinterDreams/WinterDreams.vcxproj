@@ -19,6 +19,7 @@
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Crystal.cpp" />
     <ClCompile Include="InventoryDisplay.cpp" />
+    <ClCompile Include="LevelPortal.cpp" />
     <ClCompile Include="LightPoint.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="LoadingState.cpp" />
@@ -62,6 +63,7 @@
     <ClInclude Include="GameToScreen.h" />
     <ClInclude Include="Crystal.h" />
     <ClInclude Include="GraphicalEntity.h" />
+    <ClInclude Include="LevelPortal.h" />
     <ClInclude Include="LightPoint.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="NPC.h" />
