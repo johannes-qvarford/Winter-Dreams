@@ -32,6 +32,6 @@ sf::RenderStates* WindowManager::getStates(){
 
 void WindowManager::resizeTexture(unsigned int x, unsigned int y){
 	mTexture_p->create(x,y);
-	sf::View view(sf::FloatRect(0,0,x,y));
+	sf::View view(sf::FloatRect(0, 0, static_cast<float>(x), static_cast<float>(y) ) );
 	mWindow_p->setView(view);
 }

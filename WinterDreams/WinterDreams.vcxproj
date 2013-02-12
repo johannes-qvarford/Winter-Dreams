@@ -19,6 +19,7 @@
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Crystal.cpp" />
     <ClCompile Include="InventoryDisplay.cpp" />
+    <ClCompile Include="LevelPortal.cpp" />
     <ClCompile Include="LightPoint.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="LoadingState.cpp" />
@@ -62,6 +63,7 @@
     <ClInclude Include="GameToScreen.h" />
     <ClInclude Include="Crystal.h" />
     <ClInclude Include="GraphicalEntity.h" />
+    <ClInclude Include="LevelPortal.h" />
     <ClInclude Include="LightPoint.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="NPC.h" />
@@ -113,7 +115,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)..\..\Exe\</OutDir>
-    <IntDir>$(SolutionDir)..\..\Obj\$(Configuration)</IntDir>
+    <IntDir>$(SolutionDir)..\..\Obj\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)-$(Configuration)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -127,7 +129,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>SFML_DYNAMIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DEBUG_SOLIDZONE;SFML_DYNAMIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)..\SFML\include\;$(SolutionDir)..\boost-svn\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PrecompiledHeader.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>PrecompiledHeader.h</ForcedIncludeFiles>

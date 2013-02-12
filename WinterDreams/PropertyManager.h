@@ -25,6 +25,12 @@ public:
 	////////////////////////////////////////////////////////////
 	const boost::property_tree::ptree& getObjectSettings() const;
 
+	
+	////////////////////////////////////////////////////////////
+	// /Get the settings from the user.
+	////////////////////////////////////////////////////////////
+	boost::property_tree::ptree* getUserSettings();
+
 private:
 	
 	////////////////////////////////////////////////////////////
@@ -45,6 +51,8 @@ private:
 	boost::property_tree::ptree mGeneralSettings;
 
 	boost::property_tree::ptree mObjectSettings;
+
+	boost::property_tree::ptree mUserSettings;
 };
 
 #endif

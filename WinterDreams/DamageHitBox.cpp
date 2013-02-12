@@ -21,7 +21,7 @@ DamageHitBox::DamageHitBox(const sf::Rect<float>& hitBox, unsigned int damage, D
 { 
 #ifndef SHIPPING
 	mAnimation.setPosition( GAME_TO_SCREEN * sf::Vector2f(mHitBox.left, mHitBox.top) );
-	mAnimation.getCurrentSprite().setScale( 0.8, 0.8);
+	mAnimation.getCurrentSprite().setScale( 0.8f, 0.8f);
 #endif
 }
 

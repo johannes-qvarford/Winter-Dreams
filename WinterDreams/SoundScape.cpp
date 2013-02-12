@@ -4,17 +4,19 @@
 #include "FileStructure.h"
 #include "WindowManager.h"
 #include "GameToScreen.h"
+#include "PropertyManager.h"
 #include <cmath>
 
 
 
-SoundScape::SoundScape(sf::Rect<float> collisionBox, float innerRadius, int rangeDecay, float volume, bool loop, std::string soundName, bool startsEnabled):
+SoundScape::SoundScape(sf::Rect<float> collisionBox, float innerRadius, int rangeDecay, float volume, bool loop, std::string soundName, bool startsEnabled, std::string soundType):
 CollisionZone(startsEnabled, collisionBox, false),
 mBoolEntity(false),
 mInnerRadius(innerRadius),
 mRangeDecay(rangeDecay),
 mVolume(volume),
 mLoop(loop),
+mSoundType(soundType),
 mSoundName(soundName),
 mEnabledLastFrame(startsEnabled)
 
@@ -51,7 +53,7 @@ void SoundScape::update(GameState* gameState){
 //////////////////////////////////////////////////////////////////
 // /när ljudet/låten stoppas så ska det inte längre vara aktiverat så att man kan aktivera de igen
 //////////////////////////////////////////////////////////////////
-	if (mSound.getStatus() == sf::Sound::Stopped){
+	if (mEnabledLastFrame && mSound.getStatus() == sf::Sound::Stopped){
 		setEnabled(false);
 	}
 	auto enabledThisFrame = getEnabled();
@@ -83,11 +85,35 @@ void SoundScape::update(GameState* gameState){
 // /fullVolumeRadius är den radie som volymen ska vara satt till max i
 // /distance är avståndet mellan ljudkällan och spelaren
 // /maxRange är den längsta längden som det kommer höras ljud från
+// /+ 0.0000001 är där för att mRangeDecay ska kunna vara 0 (bakgrundsmusik som är på hela banan)
 //////////////////////////////////////////////////////////////////////
 	float volume;
 	float fullVolumeRadius = X_STEP * mInnerRadius;
 	float distance = sqrt(playerToSoundVector.x * playerToSoundVector.x + playerToSoundVector.y * playerToSoundVector.y);
-	float maxRange = (X_STEP * 100/mRangeDecay) + fullVolumeRadius;
+	float maxRange = (X_STEP * 100/(mRangeDecay + 0.0000001)) + fullVolumeRadius;
+	float volumeModifier;
+
+	
+
+
+//////////////////////////////////////////////////////////////////////
+// /beroende på vad soundTypen är så ska volymen vara olika från vad användaren 
+//  har satt för värden.
+// /Är soundTypen en narrator så hämtas volymen för narrator via propertyManagersfunktion getUserSettings.
+// /OSV. volumeModifier delas med 100 för att få ett decimaltal som man kan gångra med mVolume senare
+//////////////////////////////////////////////////////////////////////
+	if (mSoundType == "narrator"){
+		volumeModifier = PropertyManager::get().getUserSettings()->get<int>("narratorVolume");
+		volumeModifier = volumeModifier/100;
+	}
+	else if (mSoundType == "sound"){
+		volumeModifier = PropertyManager::get().getUserSettings()->get<int>("soundVolume");
+		volumeModifier = volumeModifier/100;
+	}
+	else {
+		volumeModifier = PropertyManager::get().getUserSettings()->get<int>("musicVolume");
+		volumeModifier = volumeModifier/100;
+	}
 
 
 //////////////////////////////////////////////////////////////////////
@@ -99,10 +125,10 @@ void SoundScape::update(GameState* gameState){
 //  och / maxRange - fullVolumeRadius är för att få det till 0,nått
 //////////////////////////////////////////////////////////////////////
 	if (distance < fullVolumeRadius){
-		volume = mVolume;
+		volume = mVolume * volumeModifier;
 	}
 	else if (distance <= maxRange && distance >= fullVolumeRadius){
-		volume = mVolume * ((maxRange - distance) / (maxRange - fullVolumeRadius));
+		volume = mVolume * volumeModifier * ((maxRange - distance) / (maxRange - fullVolumeRadius));
 	}
 	else
 		volume = 0;
@@ -121,7 +147,12 @@ void SoundScape::drawSelf(){
 	auto position = sf::Vector2f(hitBox.left, hitBox.top);
 	position = GAME_TO_SCREEN * position;
 
-	sf::Vertex vertex(position, sf::Color::Red);
 
-	window.draw(&vertex, 1, sf::PrimitiveType::Points, states);
+	for (int i = 0; i < 7; i++){
+		position.x += i;
+
+		sf::Vertex vertex[] = {sf::Vertex(position, sf::Color::Yellow)};
+		window.draw(vertex, 1, sf::PrimitiveType::Points, states);
+
+	}
 }
