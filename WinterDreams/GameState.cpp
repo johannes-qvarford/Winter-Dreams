@@ -7,6 +7,7 @@
 #include "WindowManager.h"
 #include "GameToScreen.h"
 #include "FileStructure.h"
+#include "ResourceManager.h"
 
 #include <algorithm>
 #include <SFML/Graphics/RenderStates.hpp>
@@ -160,8 +161,7 @@ void GameState::render() {
 	static float pxt=1;
 	static float lightPosx=0.5;
 	static float lightPosy=0.5;
-	static sf::Shader* shader = new sf::Shader;
-	shader->loadFromFile(FS_DIR_SHADERS + "Darkness.frag", sf::Shader::Fragment);
+	auto shader = ResourceManager::get().getShader(FS_DIR_SHADERS + "Darkness.frag");
 	window.display();
 
 	shader->setParameter("lightPosx[0]",0.5);
@@ -172,7 +172,7 @@ void GameState::render() {
 		shader->setParameter("lightPosx[1]", float(sf::Mouse::getPosition(renderWindow).x)/float(renderWindow.getSize().x));
 		shader->setParameter("lightPosy[1]", 1-float(sf::Mouse::getPosition(renderWindow).y)/float(renderWindow.getSize().y));
 		shader->setParameter("pixel_threshold",pxt);
-		renderWindow.draw(renderTextureSprite, shader);
+		renderWindow.draw(renderTextureSprite, shader.get());
 	} else {
 		renderWindow.draw(renderTextureSprite);
 	}

@@ -15,7 +15,7 @@ public:
 	////////////////////////////////////////////////////////////
 	virtual void drawSelf() = 0;
 protected:
-	GraphicalEntity( bool startEnabled ) : PhysicalEntity( startEnabled ) { }
+	GraphicalEntity( bool startEnabled=true ) : PhysicalEntity( startEnabled ) { }
 };
 
 #endif

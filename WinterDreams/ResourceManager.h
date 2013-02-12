@@ -17,8 +17,7 @@ public:
 	//////////////////////////////////////////////////////////
 	// /If requested Texture exists, returns a shared pointer
 	// /Else, tries loading the texture into memory and
-	// /Returns one.
-	// /
+	// /Returns one
 	//////////////////////////////////////////////////////////
 	std::shared_ptr<sf::Texture> getTexture(const std::string& key);
 	//////////////////////////////////////////////////////////
@@ -29,6 +28,10 @@ public:
 	// /If you can't figure this out by yourself you should go
 	//////////////////////////////////////////////////////////
 	std::shared_ptr<sf::Font> getFont(const std::string& key);
+	//////////////////////////////////////////////////////////
+	// /REALLY
+	//////////////////////////////////////////////////////////
+	std::shared_ptr<sf::Shader> getShader(const std::string& key);
 
 private:
 	
@@ -45,6 +48,10 @@ private:
 	std::map<std::string, std::weak_ptr<sf::Font>> mFontMap;
 	
 	std::shared_ptr<sf::Font> loadFont(const std::string& key);
+
+	std::map<std::string, std::weak_ptr<sf::Shader>> mShaderMap;
+
+	std::shared_ptr<sf::Shader> loadShader(const std::string& key);
 
 	std::string mFilePath;
 };
