@@ -39,7 +39,7 @@ void TriggerZone::update(GameState* state) {
 		mInZone = false;
 
 		//do nothing if entity is dead
-		auto entity_wp = mGameState->getEntity(mEnterName);
+		auto entity_wp = mGameState->getEntity(mExitName);
 		if(entity_wp.expired())
 			return;
 
@@ -88,7 +88,7 @@ void TriggerZone::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::Re
 		mInZone = true;
 
 		//do nothing if entity is dead
-		auto entity_wp = mGameState->getEntity(mExitName);
+		auto entity_wp = mGameState->getEntity(mEnterName);
 		if(entity_wp.expired())
 			return;
 

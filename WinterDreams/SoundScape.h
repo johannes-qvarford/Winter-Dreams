@@ -17,21 +17,24 @@ public:
 // /loop behövs för att veta om ljudet/låten ska loopa
 // /soundName behövs för att veta vilket ljud/låt det är som ska hämtas
 // /startsEnabled behövs för att veta om ljudet ska köras direkt eller om det ska aktiveras först
+// /soundType är för att bestämma om soundscapen är en narrator, sound eller music 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-	SoundScape(sf::Rect<float> collisionBox, float innerRadius, int rangeDecay, float volume, bool loop, std::string soundName, bool startsEnabled);
+	SoundScape(sf::Rect<float> collisionBox, float innerRadius, int rangeDecay, float volume, bool loop, std::string soundName, bool startsEnabled, std::string soundType);
 
 ////////////////////////////////////////////////////////////////////////
 // /stoppa ljudet/musiken
 ////////////////////////////////////////////////////////////////////////
 	~SoundScape();
 
-	void update(GameState* gameState);
 
 ////////////////////////////////////////////////////////////////////////
 // /Spela upp ljud/musik med full volym om man är inom en viss radie, spela det
 // /lägre om man är utanför maxvoymradien men innanför maxlängdradien, loopa ljudet/låten
 // /om den ska det.
 ////////////////////////////////////////////////////////////////////////
+	void update(GameState* gameState);
+
+
 	void drawSelf();
 private:
 
@@ -40,12 +43,13 @@ private:
 	int mRangeDecay;
 	float mVolume;
 	bool mLoop;
+	std::string mSoundType;
 	std::string mSoundName;
 	std::shared_ptr<sf::SoundBuffer> mBuffer;
 	sf::Sound mSound;
 	std::weak_ptr<Player> mPlayer_wp;
 	bool mEnabledLastFrame;
-
+	
 
 };
 
