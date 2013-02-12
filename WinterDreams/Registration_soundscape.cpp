@@ -12,7 +12,7 @@ static void regCallback(GameState* state, const sf::Vector2f& position, const bo
 
 	auto collisionBox = sf::FloatRect(position.x, position.y, -1, 1);
 
-	state->addCollisionZone(std::shared_ptr<CollisionZone>(new SoundScape(collisionBox, innerradius, rangedecay, volume, loop, soundfile, !startdisabled)));
+	state->addCollisionZone(std::shared_ptr<CollisionZone>(new SoundScape(collisionBox, innerradius, static_cast<int>(rangedecay), volume, loop, soundfile, !startdisabled)));
 
 }
 

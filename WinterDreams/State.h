@@ -22,8 +22,6 @@ public:
 	// /Render the current frame.
 	////////////////////////////////////////////////////////////
 	virtual void render() = 0;
-
-	virtual bool isRepeatable() const {return true; }
 };
 
 #endif

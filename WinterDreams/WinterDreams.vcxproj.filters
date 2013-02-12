@@ -116,7 +116,6 @@
       <Filter>Sources\Entity</Filter>
     </ClCompile>
     <ClCompile Include="Registration_item.cpp">
-
       <Filter>Sources\Registration</Filter>
     </ClCompile>
   </ItemGroup>

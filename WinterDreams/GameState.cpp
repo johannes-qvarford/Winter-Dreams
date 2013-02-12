@@ -177,9 +177,9 @@ void GameState::render() {
 		renderWindow.draw(renderTextureSprite);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
-		pxt+=0.1;
+		pxt+=0.1f;
 	} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)){
-		pxt-=0.1;
+		pxt-=0.1f;
 	}
 
 		//draw script effects directly on screen
