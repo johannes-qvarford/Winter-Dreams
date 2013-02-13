@@ -157,7 +157,7 @@
 						"filename": "itembox.png"
 					},
 					"pickaxe": {
-						"iconindex": "0",
+						"iconindex": "1",
 						"spritewidth": "85",
 						"spriteheight": "85",
 						"yorigin": "42",
@@ -167,7 +167,7 @@
 						"filename": "pickaxe.png"
 					},
 					"wheel": {
-						"iconindex": "1",
+						"iconindex": "2",
 						"spritewidth": "85",
 						"spriteheight": "85",
 						"yorigin": "42",
@@ -177,7 +177,7 @@
 						"filename": "wheel.png"
 					},
 					"shoes": {
-						"iconindex": "2",
+						"iconindex": "3",
 						"spritewidth": "85",
 						"spriteheight": "85",
 						"yorigin": "42",
@@ -185,6 +185,33 @@
 						"numberofsprites": "1",
 						"framespersprite": "100",
 						"filename": "shoes.png"
+					},
+					"orb1": {				
+						"spritewidth": "85",
+						"spriteheight": "85",
+						"yorigin": "45",
+						"xorigin": "45",
+						"numberofsprites": "1",
+						"framespersprite": "100",
+						"filename": "orb1.png"
+					},
+					"orb2": {				
+						"spritewidth": "85",
+						"spriteheight": "85",
+						"yorigin": "45",
+						"xorigin": "45",
+						"numberofsprites": "1",
+						"framespersprite": "100",
+						"filename": "orb2.png"
+					},
+					"orb3": {				
+						"spritewidth": "85",
+						"spriteheight": "85",
+						"yorigin": "45",
+						"xorigin": "45",
+						"numberofsprites": "1",
+						"framespersprite": "100",
+						"filename": "orb3.png"
 					}
 				}
 			}	

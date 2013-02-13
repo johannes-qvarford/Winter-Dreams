@@ -112,7 +112,7 @@ sf::Rect<float>& Wall::getHitBox(){
 
 }
 
-void Wall::update(GameState* gameState, int milliseconds){
+void Wall::update(GameState* subLevel, int milliseconds){
 }
 
 void Wall::drawSelf(){

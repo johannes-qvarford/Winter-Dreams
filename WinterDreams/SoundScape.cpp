@@ -1,5 +1,6 @@
 #include "SoundScape.h"
-#include "GameState.h"
+#include "SubLevel.h"
+#include "LevelState.h"
 #include "ResourceManager.h"
 #include "FileStructure.h"
 #include "WindowManager.h"
@@ -38,11 +39,9 @@ SoundScape::~SoundScape(){
 //////////////////////////////////////////////////////////
 // /player ska bara hämtas en gång och får inte vara en weak pointer så därför görs den om till en shared pointer
 //////////////////////////////////////////////////////////
-void SoundScape::update(GameState* gameState){
+void SoundScape::update(SubLevel* subLevel_p){
 	if (mBoolEntity == false){
-		auto entity_wp = gameState->getEntity("player");
-		auto entity_sp = std::shared_ptr<Entity>(entity_wp);
-		auto player_sp = std::static_pointer_cast<Player>(entity_sp);
+		auto player_sp = subLevel_p->getLevel()->getPlayer();
 		mPlayer_wp = player_sp;
 		if (getEnabled() == true){
 			mSound.play();

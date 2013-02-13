@@ -4,7 +4,7 @@
 #include "ObjectFactory.h"
 
 #include <string>
-class GameState;
+class SubLevel;
 
 ////////////////////////////////////////////////////////////
 // /Class whose constructor registers an object typename with

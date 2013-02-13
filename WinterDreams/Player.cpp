@@ -2,7 +2,7 @@
 
 #include "Crystal.h"
 #include "DamageHitBox.h"
-#include "GameState.h"
+#include "SubLevel.h"
 #include "GameToScreen.h"
 #include "WindowManager.h"
 #include "ResourceManager.h"
@@ -61,17 +61,20 @@ Player::Player(sf::FloatRect initialPosition, int lightLevel, bool startEnabled)
 	mInventory.giveItem("pickaxe", 1);
 	mInventory.giveItem("wheel", 1);
 	mInventory.giveItem("shoes", 1);
+	mInventory.giveItem("orb1", 1);
+	mInventory.giveItem("orb2", 1);
+	mInventory.giveItem("orb3", 1);
 }
 
 Player::~Player() {}
 
-void Player::update(GameState* gameState_p){
+void Player::update(SubLevel* subLevel_p){
 
-	updateMovement(gameState_p);
+	updateMovement(subLevel_p);
 
-	updateAnimations(gameState_p);
+	updateAnimations(subLevel_p);
 
-	updateActions(gameState_p);
+	updateActions(subLevel_p);
 }
 
 void Player::drawSelf(){
@@ -137,7 +140,7 @@ sf::Vector2i Player::getDirection(){
 	return mDirection;
 }
 
-void Player::updateMovement(GameState* gameState_p) {
+void Player::updateMovement(SubLevel* subLevel_p) {
 	
 	//Create a temporary vector that will store the directions
 	//corresponding to the keys pressed.
@@ -178,7 +181,7 @@ void Player::updateMovement(GameState* gameState_p) {
 	adjustPosition( tempDir );
 }
 
-void Player::updateAnimations(GameState* gameState_p) {
+void Player::updateAnimations(SubLevel* subLevel_p) {
 	/////////////////////////////////////////////////////////////////
 	if( mDirection.x >= 1) {
 		if( mDirection.y == 1 )
@@ -209,14 +212,14 @@ void Player::updateAnimations(GameState* gameState_p) {
 	mCurrentAnimation_p->updateAnimation();
 }
 
-void Player::updateActions(GameState* gameState_p) {
+void Player::updateActions(SubLevel* subLevel_p) {
 	--mActionCooldown;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && mActionCooldown <= 0) {
 		auto rect = mHitBox;
 		rect.left += mHitBox.width;
 		rect.top += mHitBox.height;
-		gameState_p->addGraphicalEntity(std::shared_ptr<DamageHitBox>( new DamageHitBox(rect, 2, DamageHitBox::PICKAXE ) ) );
+		subLevel_p->addGraphicalEntity(std::shared_ptr<DamageHitBox>( new DamageHitBox(rect, 2, DamageHitBox::PICKAXE ) ) );
 		mActionCooldown = 60;
 	}
 
@@ -224,7 +227,7 @@ void Player::updateActions(GameState* gameState_p) {
 		auto rect = mHitBox;
 		rect.left += 40;
 		rect.top += 40;
-		gameState_p->addGraphicalEntity(std::shared_ptr<Crystal>( new Crystal(rect, true) ) );
+		subLevel_p->addGraphicalEntity(std::shared_ptr<Crystal>( new Crystal(rect, true) ) );
 
 		mActionCooldown = 60;
 	}

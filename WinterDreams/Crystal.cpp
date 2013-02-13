@@ -75,7 +75,7 @@ Crystal::Crystal( const sf::FloatRect& position, bool startEnabled ) :
 
 Crystal::~Crystal() { }
 
-void Crystal::update(GameState* gameState_p) {
+void Crystal::update(SubLevel* subLevel_p) {
 
 	if( mHP <= 0 )
 		setAlive( false );
@@ -111,4 +111,3 @@ void Crystal::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::FloatR
 		}
 	}
 }
-

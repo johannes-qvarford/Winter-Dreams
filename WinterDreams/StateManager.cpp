@@ -6,6 +6,8 @@
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
 
+#include <cmath>
+
 /*
 //	Poll sfml window events.
 //	Returns whether or not the game should end.
@@ -101,8 +103,8 @@ void StateManager::run() {
 	}
 }
 
-void StateManager::pushState(State* state) {
-	mStates.push(state);
+void StateManager::pushState(State* subLevel_p) {
+	mStates.push(subLevel_p);
 }
 
 void StateManager::popState() {

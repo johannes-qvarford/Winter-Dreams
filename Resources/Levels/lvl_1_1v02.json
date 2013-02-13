@@ -25,7 +25,8 @@
                  "properties":
                     {
                      "entertrigger":"enter_main_cave_narrator",
-                     "once":"true"
+                     "once":"true",
+					 "startdisabled":"false"
                     },
                  "type":"trigger",
                  "visible":true,

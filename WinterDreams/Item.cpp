@@ -76,7 +76,7 @@ sf::FloatRect& Item::getHitBox()  {
 	return mHitBox; 
 }
 
-void Item::update(GameState* gameState_p) { /* Do nothing */ } 
+void Item::update(SubLevel* subLevel_p) { /* Do nothing */ } 
 
 void Item::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::Rect<float>& intersection) {
 	if( static_cast<Player*>( entityCollidedWith_p ) ){

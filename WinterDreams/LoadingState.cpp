@@ -1,5 +1,8 @@
-#include "PrecompiledHeader.h"
 #include "LoadingState.h"
+#include "SubLevel.h"
+#include "LevelState.h"
+#include "StateManager.h"
+#include "ResourceManager.h"
 #include "PropertyManager.h"
 #include "ResourceManager.h"
 #include "ObjectFactory.h"
@@ -7,37 +10,46 @@
 #include "WindowManager.h"
 #include "FileStructure.h"
 #include "StateManager.h"
-#include "GameState.h"
 #include <map>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/optional/optional.hpp>
 
+#include "Player.h"
+#include "InventoryDisplay.h"
+#include "Camera.h"
+
 static const std::string NAME_PROPERTIES_IGNORE = "ignore";
 static const std::string NAME_LEVELSETTINGS_BACKGROUND = "background";
 static const std::string NAME_LEVELSETTINGS_MAPLAYER = "map";
 
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
 struct LoadingSpecs{
-	LoadingSpecs(std::string filePath, GameState* gameState_p, sf::Mutex* mutex, bool* running) :
-		mLoadedLevel( gameState_p ),
-		mFilePath( filePath ),
-		mMutex( mutex ),
-		mRunning( running ),
-		mLevelData( )
+	LoadingSpecs(const std::string& levelName, LevelState* level_p, sf::Mutex* mutex_p, bool* running_p) :
+		mLoadedLevel_p( level_p ),
+		mLevelName( levelName ),
+		mMutex_p( mutex_p ),
+		mRunning_p( running_p )
 		{ } 
 	
-	GameState* mLoadedLevel;	//Pointer to the gamestate into which the level is to be loaded
-	sf::Mutex* mMutex;			//Keeps track so that several threads does not access the same memory
-	bool* mRunning;				//Keeps track of whether the thread is running
-	std::string mFilePath;
-	boost::property_tree::ptree mLevelData;
+	LevelState* mLoadedLevel_p;	//Pointer to the gamestate into which the level is to be loaded
+	sf::Mutex* mMutex_p;			//Keeps track so that several threads does not access the same memory
+	bool* mRunning_p;				//Keeps track of whether the thread is running
+	std::string mLevelName;
 };
 
-static void loadLevel( LoadingSpecs& specs );
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 
-LoadingState::LoadingState(GameState* gameState_p, std::string filepath):
-	mLoadingSpecs( new LoadingSpecs( filepath, gameState_p, &mMutex, &mRunning ) ),
-	mThread( loadLevel, *mLoadingSpecs),
+static void loadSubLevel(const std::string& subLevelName, LevelState* levelState_p);
+static void loadLevel(LoadingSpecs& specs);
+
+LoadingState::LoadingState(std::string levelName, LevelState* levelState_p):
+	mLoadingSpecs_p(new LoadingSpecs(levelName, levelState_p, &mMutex, &mRunning)),
+	mThread( loadLevel, *mLoadingSpecs_p),
 	mRunning( true ),
 	mLoadingScreenTexture( ResourceManager::get().getTexture(FS_DIR_LOADINGSCREEN + "loadingscreen.png") ),
 	mLoadingIconTexture( ResourceManager::get().getTexture(FS_DIR_LOADINGSCREEN + "loadingicon.png") )
@@ -55,11 +67,10 @@ LoadingState::LoadingState(GameState* gameState_p, std::string filepath):
 
 	mThread.launch();
 }
-	 
+
 LoadingState::~LoadingState() {
 	mThread.terminate();	//Not a good solution but it works
-	delete mLoadingSpecs;
-	
+	delete mLoadingSpecs_p;
 }
 
 void LoadingState::update() {
@@ -82,49 +93,68 @@ void LoadingState::render() {
 
 }
 
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
+template<typename T>
+T forward(const T& t){ return t; }
 
 static void loadLevel(LoadingSpecs& specs) {
+	//look in settings for which sublevels to load.
+	auto& settings = PropertyManager::get().getGeneralSettings();
+	auto& levels = settings.get_child("levels");
+	auto& level = levels.get_child(specs.mLevelName);
+	auto& sublevels = level.get_child("sublevels");
+
+	for(auto it = sublevels.begin(), end = sublevels.end(); it != end; ++it) {
+		//load sublevels one at a time.
+		auto& entry = it->second;
+		auto& subLevelName = entry.get_value<std::string>();
+		loadSubLevel(subLevelName, specs.mLoadedLevel_p);
+	}
+	specs.mLoadedLevel_p->switchSubLevel(level.get<std::string>("first_sublevel_name"));
+
+	//now, add player, camera, and inventory display to sub levels.
+	std::shared_ptr<Player> player_sp = specs.mLoadedLevel_p->getPlayer();
+	std::shared_ptr<Camera> camera_sp = specs.mLoadedLevel_p->getCamera();
+	std::shared_ptr<InventoryDisplay> display_sp = specs.mLoadedLevel_p->getInventoryDisplay();
+
+	for(auto it = sublevels.begin(), end = sublevels.end(); it != end; ++it) {
+		//iterate over all sublevels.
+		auto& entry = it->second;
+		auto& subLevelName = entry.get_value<std::string>();
+		auto& subLevel_sp = specs.mLoadedLevel_p->getSubLevel(subLevelName);
+
+		//add them to the sublevel.
+		subLevel_sp->addGraphicalEntity(std::static_pointer_cast<GraphicalEntity>(player_sp));
+		subLevel_sp->addScript(std::static_pointer_cast<Script>(camera_sp));
+		subLevel_sp->addScript(std::static_pointer_cast<Script>(display_sp));
+	}
+
+	//we're done here!
+	specs.mMutex_p->lock();
+	*specs.mRunning_p = false;
+	specs.mMutex_p->unlock();
+}
+
+static void loadSubLevel(const std::string& subLevelName, LevelState* levelState_p) {
 	using namespace boost::property_tree;
-	json_parser::read_json(specs.mFilePath, specs.mLevelData);
-
-	/*
-		get background filename from propMgr.levelSettings.'levelname'.background.
-		get map layer filename from propMgr.levelSettings.'levelname'.maplayer
-
-		get map offset by using the levels y length
-		place maptexture at offset in GameState
-		place backgroundtexure at (0,0) in GameState
-
-		Check all tilesets...
-			save firstgid as property firstgid
-			Check tileproperties...
-				if has objectname property
-					map objectname to firstgid + tile
-
-		Check all layers...
-			if not has use property
-				continue
-			if has type="objectgroup"
-				Check all objects...
-					call factory with objectname, constructed position and tree
-			else
-				Check all tiles...
-					save objectname as objectname mapped to gid
-					call factory with objectname, constructed position and empty tree
-
-	*/
+	
+	//get managers
 	auto& propMgr = PropertyManager::get();
 	auto& resMgr = ResourceManager::get();
 	auto& objFact = ObjectFactory::get();
 	auto tilesToObjects = std::map<int, std::string>();
+	
+	//read sublevel from json
+	auto& levelData = ptree();
+	json_parser::read_json(FS_DIR_LEVELS + subLevelName, levelData);
+
+	//connect sublevel with level
+	auto subLevel_sp = std::shared_ptr<SubLevel>(new SubLevel(levelState_p));
+	levelState_p->addSubLevel(subLevelName, subLevel_sp);
 
 	{
 		//use properties 'height' from levelData. And 'background' and 'maplayer' from levelProperties
-		//to place background and map layer correctly in GameState.
-		auto& properties = specs.mLevelData.get_child("properties");
+		//to place background and map layer correctly in SubLevel.
+		auto& properties = levelData.get_child("properties");
 
 //		auto& bgFilename = level.get<std::string>(NAME_LEVELSETTINGS_BACKGROUND);
 		auto map = properties.get_child(NAME_LEVELSETTINGS_MAPLAYER);
@@ -134,7 +164,7 @@ static void loadLevel(LoadingSpecs& specs) {
 //		auto bgTexture_sp = resMgr.getTexture(bgFilename);
 		auto mlTexture_sp = resMgr.getTexture(FS_DIR_MAPS + mlFilename);
 
-		auto yTiles = specs.mLevelData.get<int>("height");
+		auto yTiles = levelData.get<int>("height");
 
 		auto yLength = yTiles * Y_STEP;
 
@@ -144,15 +174,14 @@ static void loadLevel(LoadingSpecs& specs) {
 		const float Y_OFFSET = -17.f;
 		auto mlOffset = sf::Vector2f((cosf(22.5f) * yLength) + X_OFFSET, Y_OFFSET); 
 
-
-		specs.mLoadedLevel->setMapTexture(mlTexture_sp, mlOffset);
+		subLevel_sp->setMapTexture(mlTexture_sp, mlOffset);
 //		mLoadedLevel->setBackgroundTexture(bgTexture_sp, sf::Vector2f(0, 0));
 	}
 
 	
 	{
 		//check tilesets, to map gids to objectnames
-		auto tilesets = specs.mLevelData.get_child("tilesets");
+		auto tilesets = levelData.get_child("tilesets");
 		for(auto it = tilesets.begin(), end = tilesets.end(); it != end; ++it) {
 			//look for first gid in tileset
 			auto& tileset = it->second;
@@ -182,7 +211,7 @@ static void loadLevel(LoadingSpecs& specs) {
 	}
 
 	{
-		auto& layers = specs.mLevelData.get_child("layers");
+		auto& layers = levelData.get_child("layers");
 
 		for(auto it = layers.begin(), end = layers.end(); it != end; ++it) {
 			auto& layer = it->second;
@@ -211,13 +240,13 @@ static void loadLevel(LoadingSpecs& specs) {
 					auto y = object.get<int>("y");
 					auto position = sf::Vector2f(x * X_STEP / 32, y * Y_STEP / 32);
 
-					objFact.callCallback(objectType, specs.mLoadedLevel, position, object);
+					objFact.callCallback(objectType, subLevel_sp.get(), position, object);
 				}
 			}
 			else {
 				//a tile layer
 				auto& data = layer.get_child("data");
-				auto width = specs.mLevelData.get<int>("width");
+				auto width = levelData.get<int>("width");
 				auto index = 0;
 				//tiles doesn't have any properties
 				auto emptyPt = boost::property_tree::ptree();
@@ -239,13 +268,9 @@ static void loadLevel(LoadingSpecs& specs) {
 					auto y = index / width;
 					auto position = sf::Vector2f(x * X_STEP, y * Y_STEP);
 
-					objFact.callCallback(objectType, specs.mLoadedLevel, position, emptyPt);
+					objFact.callCallback(objectType, subLevel_sp.get(), position, emptyPt);
 				}
 			}
 		}
 	}
-		//Lock the mutex so that no other thread may access the mRunning-bool
-	specs.mMutex->lock();
-	*specs.mRunning = false;
-	specs.mMutex->unlock();
 }

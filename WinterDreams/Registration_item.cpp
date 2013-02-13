@@ -1,7 +1,7 @@
 #include "RegistrationCommonHeaders.h"
 #include "Item.h"
 
-static void regCallback(GameState* state, const sf::Vector2f& position, const boost::property_tree::ptree& pt) {
+static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, const boost::property_tree::ptree& pt) {
 		//Read the ptree for info whether it should be enabled or not
 	auto startEnabled = !pt.get<bool>("startdisabled", false);
 		//Create a rect to position the item
@@ -10,7 +10,7 @@ static void regCallback(GameState* state, const sf::Vector2f& position, const bo
 		//inventory when the item's picked up)
 	sf::FloatRect rect( position.x, position.y, X_STEP, -Y_STEP);
 	auto item = std::shared_ptr<Item>( new Item(rect, itemName, startEnabled) );
-	state->addGraphicalEntity( item );
+	subLevel_p->addGraphicalEntity( item );
 }
 
 static ObjectTypeRegistration reg("item", regCallback);
