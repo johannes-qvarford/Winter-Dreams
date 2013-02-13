@@ -2,9 +2,9 @@
 
 Inventory::Inventory() {}
 
-unsigned short Inventory::hasItem(std::string item){
-    std::map<std::string, unsigned short>::iterator it;
-    it=mInventoryMap.find(item);
+unsigned short Inventory::hasItem(std::string item) const{
+
+    auto it = mInventoryMap.find(item);
     if (it!=mInventoryMap.end()){
         return it->second;
     } else {

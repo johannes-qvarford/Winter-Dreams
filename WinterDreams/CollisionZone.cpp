@@ -7,20 +7,16 @@ CollisionZone::CollisionZone(bool startsEnabled, sf::Rect<float> HitBox, bool on
 {
 }
 
-void CollisionZone::onCollision(PhysicalEntity* pe, const sf::Rect<float>& intersection){
+void CollisionZone::onCollision(PhysicalEntity* pe_p, const sf::Rect<float>& intersection){
 	if (mOnce == true){
-		setAlive(false);
+		setEnabled(false);
 	}
 }
 
-void CollisionZone::update(GameState* gameState){
+void CollisionZone::update(SubLevel* subLevel){
 
 }
 
 sf::Rect<float>& CollisionZone::getHitBox(){
 	return mHitBox;
-}
-
-sf::Vector2i CollisionZone::getDirection(){
-	return sf::Vector2i(1, 0);
 }

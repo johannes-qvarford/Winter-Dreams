@@ -43,10 +43,11 @@ SolidZone::SolidZone(sf::Rect<float> HitBox, bool startsEnabled):
 }
 
 void SolidZone::onCollision(PhysicalEntity* pe, const sf::Rect<float>& intersection){
-	CollisionZone::onCollision(pe, intersection);
-
+	
 	if (getEnabled() == false)
 		return;
+	
+	CollisionZone::onCollision(pe, intersection);
 
 	Player* pl = dynamic_cast<Player*>(pe);
 	if(pl == nullptr)

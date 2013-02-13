@@ -9,13 +9,11 @@ public:
 
 	CollisionZone(bool startsEnabled, sf::Rect<float> HitBox, bool onceCollisionCheck);
 
-	void onCollision(PhysicalEntity* pe, const sf::Rect<float>& intersection);
+	void onCollision(PhysicalEntity* pe_p, const sf::Rect<float>& intersection);
 
-	void update(GameState* gameState);
+	void update(SubLevel* subLevel_p);
 
 	sf::Rect<float>& getHitBox();
-
-	sf::Vector2i getDirection();
 protected:
 
 	sf::Rect<float> mHitBox;

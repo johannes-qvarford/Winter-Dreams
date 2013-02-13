@@ -35,7 +35,7 @@ public:
 	// /Updates the widows view to match the camera.
 	// /Should be called once per update. 
 	////////////////////////////////////////////////////////////
-	void update(GameState* gameState_p);
+	void update(SubLevel* subLevel_p);
 	////////////////////////////////////////////////////////////
 	// /Locks the camera on a physical entity. The camera can then.
 	// /be instructed to follow that entity.

@@ -3,7 +3,7 @@
 
 #include "CollisionZone.h"
 
-class GameState;
+class SubLevel;
 
 ///////////////////////////////////////////////
 // /Trigger zones are entities with a set collision box.
@@ -15,13 +15,13 @@ public:
 	// /Create a TriggerZone, that can trigger once or several times, only at a certain lightlevel.
 	// /If triggering only once, onExitName is ignored.
 	///////////////////////////////////////////////
-	TriggerZone(const sf::FloatRect& hitBox, const std::string& onEnterName, const std::string& onExitName, int lightLevel, bool triggerOnce, bool startEnabled); 
+	TriggerZone(const sf::FloatRect& hitBox, const std::list<std::string>& onEnterNames, const std::list<std::string>& onExitNames, int lightLevel, bool triggerOnce, bool startEnabled); 
 	
 	///////////////////////////////////////////////
 	// /swap exit entities enabled state when a player
 	// /hasn't touched the zone in a few frames.
 	///////////////////////////////////////////////
-	void update(GameState* state);
+	void update(SubLevel* state);
 
 	///////////////////////////////////////////////
 	// /draw the trigger zone in debug mode.
@@ -36,7 +36,7 @@ public:
 
 private:
 
-	GameState* mGameState;
+	SubLevel* mSubLevel_p;
 
 	int mUpdatesSinceLastTouch;
 
@@ -44,9 +44,9 @@ private:
 
 	int mLightLevel;
 
-	std::string mEnterName;
+	std::list<std::string> mEnterNames;
 
-	std::string mExitName;
+	std::list<std::string> mExitNames;
 };
 
 #endif

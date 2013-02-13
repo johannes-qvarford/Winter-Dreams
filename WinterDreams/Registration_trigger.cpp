@@ -3,7 +3,7 @@
 
 #include "GameToScreen.h"
 
-static void regCallback(GameState* state, const sf::Vector2f& position, const boost::property_tree::ptree& pt) {
+static void regCallback(SubLevel* subLevel, const sf::Vector2f& position, const boost::property_tree::ptree& pt) {
 	auto adjustedWidth = pt.get<int>("width") * (X_STEP / 32);
 	auto adjustedHeight = pt.get<int>("height") * (Y_STEP / 32);
 	
@@ -13,12 +13,17 @@ static void regCallback(GameState* state, const sf::Vector2f& position, const bo
 	
 	auto startdisabled = properties.get<bool>("startdisabled", true);
 	auto once = properties.get<bool>("once", false);
-	auto entertrigger = properties.get<std::string>("entertrigger","");
-	auto exittrigger = properties.get<std::string>("exittrigger","");
+	auto& entertrigger = properties.get<std::string>("entertrigger","");
+	auto& exittrigger = properties.get<std::string>("exittrigger","");
 	auto minlightlevel = properties.get<int>("minlightlevel", 0);
 
-	state->addCollisionZone(std::shared_ptr<CollisionZone>(
-		new TriggerZone(box, entertrigger, exittrigger, minlightlevel, once, !startdisabled)));
+	std::list<std::string> enterTriggerList;
+	std::list<std::string> exitTriggerList;
+	splitString(entertrigger, &enterTriggerList);
+	splitString(exittrigger, &exitTriggerList);
+
+	subLevel->addCollisionZone(std::shared_ptr<CollisionZone>(
+		new TriggerZone(box, enterTriggerList, exitTriggerList, minlightlevel, once, !startdisabled)));
 }
 
 static ObjectTypeRegistration reg("trigger", regCallback);

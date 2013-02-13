@@ -32,7 +32,7 @@ public:
 // /lägre om man är utanför maxvoymradien men innanför maxlängdradien, loopa ljudet/låten
 // /om den ska det.
 ////////////////////////////////////////////////////////////////////////
-	void update(GameState* gameState);
+	void update(SubLevel* subLevel_p);
 
 
 	void drawSelf();

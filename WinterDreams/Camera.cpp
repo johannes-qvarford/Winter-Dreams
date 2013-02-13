@@ -39,7 +39,7 @@ Camera::Camera( std::shared_ptr<PhysicalEntity> entity ) :
 
 Camera::~Camera(void) {}
 
-void Camera::update(GameState* gameState_p){
+void Camera::update(SubLevel* subLevel_p){
 		//Get a reference to the render window
 	auto& window = *WindowManager::get().getWindow();
 		//If the camera is locked on an entity, update the cameras 

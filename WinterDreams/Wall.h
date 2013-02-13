@@ -37,7 +37,7 @@ public:
 	/*
 	//	Update the Wall(by default, do nothing).
 	*/
-	void update(GameState* gameState, int milliseconds);
+	void update(SubLevel* subLevel, int milliseconds);
 
 	/*
 	//	Draw self(by default, do nothing, if debugging, draw square)

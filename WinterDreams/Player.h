@@ -42,7 +42,7 @@ public:
 	// /each time update is called. Used by GameState to perform a
 	// /series of actions each update-frame.
 	//////////////////////////////////////////////////////
-	void update(GameState* gameState_p);
+	void update(SubLevel* subLevel_p);
 	//////////////////////////////////////////////////////
 	// /Defines how the avatar is drawn onto the window.
 	//////////////////////////////////////////////////////
@@ -127,12 +127,12 @@ public:
 
 private:
 	// /Updates the players movement
-	void updateMovement(GameState* gameState_p);
+	void updateMovement(SubLevel* subLevel_p);
 	// /Updates the players animations
-	void updateAnimations(GameState* gameState_p);
+	void updateAnimations(SubLevel* subLevel_p);
 	// /Updates the players actions.
 	// /This includes swinging with pickaxe and such
-	void updateActions(GameState* gameState_p);
+	void updateActions(SubLevel* subLevel_p);
 
 	Animation*						 mCurrentAnimation_p; //The avatar's current animation
 	std::map<std::string, Animation> mAnimationMap;		//The avatar's animation map
@@ -148,5 +148,4 @@ private:
 	//No copies
 	Player& operator=( const Player& player );
 };
-
 #endif

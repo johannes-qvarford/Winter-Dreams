@@ -1,7 +1,7 @@
 #ifndef INCLUDED_OBJECTFACTORY
 #define INCLUDED_OBJECTFACTORY
 
-class GameState;
+class SubLevel;
 
 #include <boost/property_tree/ptree_fwd.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -16,7 +16,7 @@ class GameState;
 class ObjectFactory {
 public:
 
-	typedef void (*Callback)(GameState*, const sf::Vector2f& position, const boost::property_tree::ptree& pt);
+	typedef void (*Callback)(SubLevel*, const sf::Vector2f& position, const boost::property_tree::ptree& pt);
 
 	//////////////////////////////////////////////////////////
 	// /Get the singleton.
@@ -32,7 +32,7 @@ public:
 	// /Call a callback function based on the object type.
 	// /If the type haven't been registred before, do nothing.
 	//////////////////////////////////////////////////////////
-	void callCallback(const std::string& objectTypename, GameState* state, const sf::Vector2f& position, const boost::property_tree::ptree& pt);
+	void callCallback(const std::string& objectTypename, SubLevel* subLevel_p, const sf::Vector2f& position, const boost::property_tree::ptree& pt);
 
 private:
 	//////////////////////////////////////////////////////////

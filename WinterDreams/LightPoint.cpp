@@ -66,7 +66,7 @@ void LightPoint::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::Flo
 	player_p->adjustCurrentLightLevel(adjustLightLevel);
 }
 
-void LightPoint::update(GameState* state) {
+void LightPoint::update(SubLevel* subLevel_p) {
 	//do nothing
 }
 
