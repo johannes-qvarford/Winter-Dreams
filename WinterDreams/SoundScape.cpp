@@ -93,8 +93,6 @@ void SoundScape::update(GameState* gameState){
 	float maxRange = (X_STEP * 100/(mRangeDecay + 0.0000001)) + fullVolumeRadius;
 	float volumeModifier;
 
-	
-
 
 //////////////////////////////////////////////////////////////////////
 // /beroende på vad soundTypen är så ska volymen vara olika från vad användaren 
@@ -124,6 +122,8 @@ void SoundScape::update(GameState* gameState){
 //  maxRange - distance är för att få hur stort talet är
 //  och / maxRange - fullVolumeRadius är för att få det till 0,nått
 //////////////////////////////////////////////////////////////////////
+	
+	
 	if (distance < fullVolumeRadius){
 		volume = mVolume * volumeModifier;
 	}
