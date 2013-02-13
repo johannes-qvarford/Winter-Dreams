@@ -1,7 +1,7 @@
 #ifndef INCLUDED_INVENTORY
 #define INCLUDED_INVENTORY
 
-#include <map>
+#include <list>
 #include <string>
 
 class Inventory{
@@ -17,14 +17,32 @@ public:
 	/////////////////////////////////////////////////////////
     // /Adds a number of item to the inventory.
     /////////////////////////////////////////////////////////
-	void giveItem(std::string item, unsigned short number);
+	void giveItem(std::string item, unsigned short);
     /////////////////////////////////////////////////////////
 	// /Removes a number of item to the inventory.
     // /If the item hasn't been mapped, does nothing.
     /////////////////////////////////////////////////////////
-	void takeItem(std::string item, unsigned short number);
+	void takeItem(std::string item, unsigned short);
+	/////////////////////////////////////////////////////////
+	// /Equips the next item among the equipable items currently
+	// /in the players inventory
+    /////////////////////////////////////////////////////////
+	void equipNext();
+	/////////////////////////////////////////////////////////
+	// /Equips the previous item among the equipable items 
+	// /currently in the players inventory
+    /////////////////////////////////////////////////////////
+	void equipPrevious();
+	/////////////////////////////////////////////////////////
+	// Returns the name of the item currently
+	// equiped. 
+	// If there is no item equiped, returns ""
+	/////////////////////////////////////////////////////////
+	std::string getCurrentEquip() const;
+
 private:
-	std::map<std::string, unsigned short> mInventoryMap;
+	std::list<std::string> mInventoryList;
+	std::list<std::string>::iterator mCurrentItem;
 };
 
 #endif

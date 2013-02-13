@@ -37,7 +37,7 @@ private:
 	std::weak_ptr<Player>			 mPlayer_wp;			//A pointer to the player
 	Animation*						 mBoxAnimation_p;		//Animates the inventory box
 	std::map<std::string, Animation> mAnimationMap;			//Holds all the different animations for the inventory
-	
+	std::list<sf::Sprite>			 mItemSpriteList;
 	void updateUI();
 
 	//No copies

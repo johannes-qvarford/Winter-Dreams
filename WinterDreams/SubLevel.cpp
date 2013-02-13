@@ -186,6 +186,12 @@ void SubLevel::render() {
 		pxt-=0.1f;
 	}
 
+			//draw script effects directly on screen
+	for(auto it = mScripts.begin(), end = mScripts.end(); it != end; ++it) {
+		auto script_sp = *it;
+		script_sp->draw();
+	}
+
 	renderWindow.display();
 
 }

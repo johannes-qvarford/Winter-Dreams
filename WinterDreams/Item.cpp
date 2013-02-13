@@ -16,14 +16,14 @@ public:
 	std::list<AnimationSpecs> mAnimSpecs;
 
 private:
-	ItemSpecs();							//Singleton-pattern
+	ItemSpecs();						//Singleton-pattern
 	ItemSpecs(const ItemSpecs& p);		//No copies
 	ItemSpecs& operator=(ItemSpecs& p);	//No copies
 };
 ////////////////////////////////////////////////////////////////////////////////
 ItemSpecs::ItemSpecs() {
 	auto& obj = PropertyManager::get().getObjectSettings();
-	auto& item = obj.get_child( "objects.player.itemdisplay" );
+	auto& item = obj.get_child( "objects.items" );
 	
 	AnimationSpecs::parse( item, mAnimSpecs);
 }
