@@ -3,9 +3,9 @@
 
 static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, const boost::property_tree::ptree& pt) {
 		//Read the ptree for info whether it should be enabled or not
-	auto startEnabled = !pt.get<bool>("startdisabled", false);
+	auto startEnabled = !pt.get<bool>("properties.startdisabled", false);
 		//Create a rect to position the item
-	auto itemName = pt.get<std::string>("itemname");
+	auto itemName = pt.get<std::string>("properties.variety");
 		//Get the items name (an item with this name will be added to the players
 		//inventory when the item's picked up)
 	sf::FloatRect rect( position.x, position.y, X_STEP, -Y_STEP);

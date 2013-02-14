@@ -43,8 +43,8 @@
 		},
 		"npc" : {
 			"startdisabled": false,
-			"speed" : 1.0,
-			"tolerance" : 0.01,
+			"speed" : 4.0,
+			"tolerance" : 4.0,
 			"animations" : {
 				"placeholder": {
 					"spritewidth": "64",
@@ -53,6 +53,33 @@
 					"xorigin": "0",
 					"numberofsprites": "3",
 					"framespersprite": "10",
+					"filename": "placeholder.png"
+				}
+			}
+		},
+		"light" : {
+			"animations" : {
+				"placeholder": {
+					"spritewidth": "64",
+					"spriteheight": "64",
+					"yorigin": "48",
+					"xorigin": "0",
+					"numberofsprites": "1",
+					"framespersprite": "100",
+					"filename": "placeholder.png"
+				}
+			}
+		},
+		"crystal" : {
+			"hp":5,
+			"animations" : {
+				"placeholder": {
+					"spritewidth": "64",
+					"spriteheight": "64",
+					"yorigin": "48",
+					"xorigin": "0",
+					"numberofsprites": "1",
+					"framespersprite": "100",
 					"filename": "placeholder.png"
 				}
 			}

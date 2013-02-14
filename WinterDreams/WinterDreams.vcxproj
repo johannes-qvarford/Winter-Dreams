@@ -16,7 +16,6 @@
     <ClCompile Include="CollisionZone.cpp" />
     <ClCompile Include="DamageHitBox.cpp" />
     <ClCompile Include="FileStructure.cpp" />
-    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Crystal.cpp" />
     <ClCompile Include="InventoryDisplay.cpp" />
     <ClCompile Include="LevelState.cpp" />
@@ -34,12 +33,14 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="PropertyManager.cpp" />
+    <ClCompile Include="Registration_ai_path.cpp" />
     <ClCompile Include="Registration_collision128x64.cpp" />
     <ClCompile Include="Registration_collision256x128.cpp" />
     <ClCompile Include="Registration_collision64x32.cpp" />
     <ClCompile Include="Registration_crystal.cpp" />
     <ClCompile Include="Registration_light.cpp" />
     <ClCompile Include="Registration_item.cpp" />
+    <ClCompile Include="Registration_npc.cpp" />
     <ClCompile Include="Registration_player.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Registration_soundscape.cpp" />
@@ -171,7 +172,6 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Entity.h" />
-    <ClInclude Include="GameState.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="LoadingState.h" />
     <ClInclude Include="MenuState.h" />

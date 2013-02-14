@@ -1,6 +1,5 @@
 #include "LightPoint.h"
 
-#include "GameState.h"
 #include "GameToScreen.h"
 #include "Player.h"
 #include "PropertyManager.h"

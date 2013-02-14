@@ -13,7 +13,7 @@
 inline void splitString(const std::string& str, std::list<std::string>* strList_p) {
 	std::stringstream ss(str);
 	std::string temp;
-	while(std::getline(ss, temp)) {
+	while(std::getline(ss, temp, ',')) {
 		strList_p->push_back(temp);
 	}
 }

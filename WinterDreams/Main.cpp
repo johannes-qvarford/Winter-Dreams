@@ -12,6 +12,11 @@
 #include <SFML/Audio/Sound.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
 
+
+//////////
+#include "GameToScreen.h"
+#include <SFML/System/Vector2.hpp>
+
 int main()
 {
 	try {

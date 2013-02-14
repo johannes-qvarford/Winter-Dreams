@@ -61,9 +61,6 @@
     <ClCompile Include="ParticleSystem.cpp">
       <Filter>Sources\Particle</Filter>
     </ClCompile>
-    <ClCompile Include="GameState.cpp">
-      <Filter>Sources\State</Filter>
-    </ClCompile>
     <ClCompile Include="LoadingState.cpp">
       <Filter>Sources\State</Filter>
     </ClCompile>
@@ -127,6 +124,12 @@
     <ClCompile Include="LevelPortal.cpp">
       <Filter>Sources\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="Registration_ai_path.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_npc.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameToScreen.h">
@@ -178,9 +181,6 @@
       <Filter>Includes\Manager</Filter>
     </ClInclude>
     <ClInclude Include="State.h">
-      <Filter>Includes\State</Filter>
-    </ClInclude>
-    <ClInclude Include="GameState.h">
       <Filter>Includes\State</Filter>
     </ClInclude>
     <ClInclude Include="LoadingState.h">
@@ -251,7 +251,7 @@
     </ClInclude>
     <ClInclude Include="SubLevel.h">
       <Filter>Includes\State</Filter>
-	</ClInclude>  
+    </ClInclude>
     <ClInclude Include="LevelPortal.h">
       <Filter>Includes\Entity</Filter>
     </ClInclude>
