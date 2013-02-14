@@ -5,6 +5,7 @@
 #include "WindowManager.h"
 #include "PropertyManager.h"
 #include "FileStructure.h"
+#include "LevelState.h"
 ////////////////////////////////////////////////////////////////////////////////
 class InvDispSpecs{
 public:	
@@ -16,9 +17,10 @@ public:
 	
 	int mXPos, mYPos, mIconsAppart;
 
-	std::list<AnimationSpecs> mAnimSpecList;
-	std::map<std::string, int> mIconIndices;
-
+	std::list<AnimationSpecs>	mAnimSpecList;	//List of animation specs
+	std::list<std::string>		mAuxIconList;	//List of icons of tempItems and the itemBox
+	std::map<std::string, int>	mEquipIconIndices; //List of icons of equipItems.
+	
 private:
 	InvDispSpecs();							//Singleton-pattern
 	InvDispSpecs(const InvDispSpecs& p);		//No copies
@@ -27,7 +29,7 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 InvDispSpecs::InvDispSpecs() {
 	auto& obj = PropertyManager::get().getObjectSettings();
-	auto& itemdisp = obj.get_child( "objects.player.itemdisplay" );
+	auto& itemdisp = obj.get_child( "objects.items" );
 		//Get the constants out of the ptree
 	mXPos = itemdisp.get<int>("xfromleft");
 	mYPos = itemdisp.get<int>("yfromtop");
@@ -41,13 +43,15 @@ InvDispSpecs::InvDispSpecs() {
 	for( auto iter = anims.begin(), end = anims.end(); iter != end; ++iter) {
 		std::string s = iter->first;
 		int index = iter->second.get<int>("iconindex", -1);
-			//If the animation didn't have an index (i.e. was the itembox), continue
+			//If the animation didn't have an index, add it to the auxIcon list
 		if(index < 0 )
-			continue;
+			mAuxIconList.push_back(s);
 			//Else, insert the pair
 		std::pair<std::string, int> pair(s, index);
-		mIconIndices.insert( pair );
+		mEquipIconIndices.insert( pair );
 	}
+		//Sort the auxList
+	mAuxIconList.sort();
 }
 ////////////////////////////////////////////////////////////////////////////////
 InvDispSpecs& InvDispSpecs::get() { 
@@ -63,10 +67,10 @@ InventoryDisplay::InventoryDisplay(std::weak_ptr<Player> player) :
 		//get a copy to the windows size
 	auto winSize = WindowManager::get().getRenderWindow()->getSize();
 	auto& specs = InvDispSpecs::get();
-		//assign the center of the display box
-	mXPos = specs.mXPos;
-	mYPos = specs.mYPos;
 		//get a reference to the scriptspecs
+	
+	initPos = sf::Vector2f( float(specs.mXPos), float(specs.mYPos) );
+
 	auto& p = InvDispSpecs::get();
 	for( auto iter = p.mAnimSpecList.begin(), end = p.mAnimSpecList.end(); iter != end; ++iter){
 		auto w =	iter->mWidth;
@@ -83,8 +87,6 @@ InventoryDisplay::InventoryDisplay(std::weak_ptr<Player> player) :
 	}
 
 	mBoxAnimation_p = &mAnimationMap.find("itembox")->second;
-	auto& win = *WindowManager::get().getRenderWindow();
-	auto& pos = win.getView().getCenter();
 
 }
 
@@ -97,24 +99,8 @@ void InventoryDisplay::draw() const{
 	auto& rendState = *WindowManager::get().getStates();
 
 	if( !mPlayer_wp.expired() ) {
-		auto player = mPlayer_wp.lock();
-		auto inventory = player->getInventory();
-
-		int nrOfItems = 0;
-			//Iterate over all possible items and ask it the player has any of them in it's inventory
-		for( auto iter = mAnimationMap.begin(), end = mAnimationMap.end(); iter != end; ++iter) {		
-				//Check if the player has the item in it's inventory
-			if( inventory.hasItem( iter->first ) > 0 ) {
-				++nrOfItems;
-
-				auto& sprite = iter->second.getCurrentSprite();
-				window.draw( sprite, rendState);
-			}
-		}
-			//If the player had at least one item, draw the itembox
-		if( nrOfItems > 0 ){
-			auto& sprite = mBoxAnimation_p->getCurrentSprite();
-			window.draw( sprite, rendState );
+		for( auto it = mItemSpriteList.begin(), end = mItemSpriteList.end(); it != end; ++it){
+			window.draw( *it , rendState );		
 		}
 	}
 }
@@ -124,30 +110,129 @@ void InventoryDisplay::update(SubLevel* subLevel_p){
 }
 
 void InventoryDisplay::updateUI() {
+		/////////////////////////////////////////////////////////
+		//Clear the sprite list
+		/////////////////////////////////////////////////////////
+	mItemSpriteList.clear();
+
+	auto& player = *mPlayer_wp.lock();
+	auto& inventory =  player.getInventory();
+
 	auto& spec = InvDispSpecs::get();
 	auto& win = *WindowManager::get().getRenderWindow();
 	auto& centPos = win.getView().getCenter();
+		/////////////////////////////////////////////////////////
 		//The vector describing the top left corner of the screen
+		/////////////////////////////////////////////////////////
 	auto centDif = sf::Vector2f( static_cast<float>(win.getSize().x / 2), static_cast<float>(win.getSize().y / 2));
+		/////////////////////////////////////////////////////////
 		//The vector describing the distance from the window boarder to the first item
-	auto cornDif = sf::Vector2f( static_cast<float>(mXPos), static_cast<float>(mYPos) );
-		//The vector for the first icon
-	auto firstIconPos = centPos -	 centDif +	cornDif;
-		
+		/////////////////////////////////////////////////////////
+	auto cornDif = initPos;
+		/////////////////////////////////////////////////////////
+		//The vector for the first icon (this one is invisible)
+		/////////////////////////////////////////////////////////
+	auto firstIconPos = centPos - centDif +	cornDif;
+		/////////////////////////////////////////////////////////
+		//Assign the equipment items positions
+		/////////////////////////////////////////////////////////
 	for( auto iter =  mAnimationMap.begin(), end = mAnimationMap.end(); iter != end; ++iter) {
-		auto name = iter->first;
-		if( name == "itembox" )
+		auto& name = iter->first;
+			/////////////////////////////////////////////////////////
+			//If the named item doesn't exist in the mEquipIconIndices map
+			// continue
+			/////////////////////////////////////////////////////////
+		if( spec.mEquipIconIndices.find(name) == spec.mEquipIconIndices.end() )
 			continue;
+			/////////////////////////////////////////////////////////
+			//If the named item doesn't exist in the players inventory
+			// continue
+			/////////////////////////////////////////////////////////
+		if( !inventory.hasItem( name ) )
+			continue;
+
+			/////////////////////////////////////////////////////////
 			//Get the icons index
-		auto index = spec.mIconIndices.find(name)->second;
+			/////////////////////////////////////////////////////////
+		auto& index = spec.mEquipIconIndices.find(name)->second;
+			/////////////////////////////////////////////////////////
 			//Calculate it's offest from the first icon
+			/////////////////////////////////////////////////////////
 		auto offset = sf::Vector2f(static_cast<float>(spec.mIconsAppart * index), 0 );
+			/////////////////////////////////////////////////////////
 			//Assign it's position
+			/////////////////////////////////////////////////////////
 		iter->second.setPosition(firstIconPos + offset);
+			/////////////////////////////////////////////////////////
+			//Add the sprite to the list
+			/////////////////////////////////////////////////////////
+		mItemSpriteList.push_back( iter->second.getCurrentSprite() );
 	}
-	////Ask what item the player has equipped right now
-	//auto index = spec.get().mIconIndices.find( /*CurrentItemName*/  );
-	auto offset = sf::Vector2f(static_cast<float>(spec.mIconsAppart * /*index*/ 0), 0 );
-	mBoxAnimation_p->setPosition( firstIconPos + offset );
-	///////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////
+		//Assign the aux icons positions
+		/////////////////////////////////////////////////////////
+	{
+		int index = 1;
+		std::list<std::string> temp;
+		auto& auxList = spec.mAuxIconList;
+			/////////////////////////////////////////////////////////
+			//Iterate over the list of auxiliry items and check if the player has an
+			// item of the type indicated by iter.
+			//If it does, add that item to the temporary list named auxItems.
+			/////////////////////////////////////////////////////////
+		for( auto iter = auxList.begin(), end = auxList.end(); iter != end; ++iter ){
+			auto item = *iter;
+			auto amount =  player.getInventory().hasItem( item );
+			if( amount > 0 ){
+				while( amount != 0 ){
+				temp.push_back( item );
+				--amount;
+				}
+			}
+		}	
+			/////////////////////////////////////////////////////////
+			//Sort temp list
+			/////////////////////////////////////////////////////////
+		temp.sort();
+			/////////////////////////////////////////////////////////
+			//Iterate over temp and calculate each items position.
+			//Insert the different items sprites into the spritelist
+			//which will be drawn.
+			/////////////////////////////////////////////////////////
+		for( auto iter = temp.begin(), end = temp.end(); iter != end; ++iter){
+			auto offset = sf::Vector2f(0, static_cast<float>(spec.mIconsAppart * index) );
+				/////////////////////////////////////////////////////////
+				//Draw the box indicating which item is equipped
+				/////////////////////////////////////////////////////////
+			mAnimationMap.find(*iter)->second.setPosition(firstIconPos + offset);
+				/////////////////////////////////////////////////////////
+				//Add the item's sprite to the list, then increase the idex
+				/////////////////////////////////////////////////////////
+			mItemSpriteList.push_back( mAnimationMap.find(*iter)->second.getCurrentSprite() );
+			++index;
+		}
+	}
+		/////////////////////////////////////////////////////////
+		//Calculate position for the box indicating which item is equipped
+		/////////////////////////////////////////////////////////
+	{
+		auto currentItem = mPlayer_wp.lock().get()->getInventory().getCurrentEquip();
+		int index = 0;
+			/////////////////////////////////////////////////////////
+			// if the current item is equipable (if it isn't, no item
+			// is equipped).
+			/////////////////////////////////////////////////////////
+		if( currentItem != "" ){
+			index = spec.get().mEquipIconIndices.find( currentItem )->second;
+		}
+		else{
+			index = -5;
+		}
+		auto offset = sf::Vector2f(static_cast<float>(spec.mIconsAppart * index), 0 );
+		mBoxAnimation_p->setPosition( firstIconPos + offset );
+			/////////////////////////////////////////////////////////
+			//Add the box's sprite to the list
+			/////////////////////////////////////////////////////////
+		mItemSpriteList.push_back( mBoxAnimation_p->getCurrentSprite() );
+	}
 }

@@ -168,53 +168,7 @@
 					"framespersprite": "9",				
 					"filename": "spritesheet_zeles_left.png"
 				}
-			},
-			"itemdisplay": {
-				"xfromleft": "50",
-				"yfromtop": "50",
-				"iconsappart": "100",
-				"animations": {
-					"itembox": {				
-						"spritewidth": "90",
-						"spriteheight": "90",
-						"yorigin": "45",
-						"xorigin": "45",
-						"numberofsprites": "1",
-						"framespersprite": "100",
-						"filename": "itembox.png"
-					},
-					"pickaxe": {
-						"iconindex": "0",
-						"spritewidth": "85",
-						"spriteheight": "85",
-						"yorigin": "42",
-						"xorigin": "42",
-						"numberofsprites": "1",
-						"framespersprite": "100",
-						"filename": "pickaxe.png"
-					},
-					"wheel": {
-						"iconindex": "1",
-						"spritewidth": "85",
-						"spriteheight": "85",
-						"yorigin": "42",
-						"xorigin": "42",
-						"numberofsprites": "1",
-						"framespersprite": "100",
-						"filename": "wheel.png"
-					},
-					"shoes": {
-						"iconindex": "2",
-						"spritewidth": "85",
-						"spriteheight": "85",
-						"yorigin": "42",
-						"xorigin": "42",
-						"numberofsprites": "1",
-						"framespersprite": "100",
-						"filename": "shoes.png"
-					}
-				}
-			}	
+			}
 		},
 		
 		"statue": {
@@ -224,9 +178,84 @@
 					
 				}
 			}
+		},
+		
+		"items": {
+			"xfromleft": "50",
+			"yfromtop": "50",
+			"iconsappart": "100",
+			"animations": {
+				"itembox": {				
+					"spritewidth": "90",
+					"spriteheight": "90",
+					"yorigin": "45",
+					"xorigin": "45",
+					"numberofsprites": "1",
+					"framespersprite": "100",
+					"filename": "itembox.png"
+				},
+				"pickaxe": {
+					"iconindex": "1",
+					"spritewidth": "85",
+					"spriteheight": "85",
+					"yorigin": "42",
+					"xorigin": "42",
+					"numberofsprites": "1",
+					"framespersprite": "100",
+					"filename": "pickaxe.png"
+				},
+				"wheel": {
+					"iconindex": "2",
+					"spritewidth": "85",
+					"spriteheight": "85",
+					"yorigin": "42",
+					"xorigin": "42",
+					"numberofsprites": "1",
+					"framespersprite": "100",
+					"filename": "wheel.png"
+				},
+				"shoes": {
+					"iconindex": "3",
+					"spritewidth": "85",
+					"spriteheight": "85",
+					"yorigin": "42",
+					"xorigin": "42",
+					"numberofsprites": "1",
+					"framespersprite": "100",
+					"filename": "shoes.png"
+				},
+				"orb1": {				
+					"spritewidth": "85",
+					"spriteheight": "85",
+					"yorigin": "45",
+					"xorigin": "45",
+					"numberofsprites": "1",
+					"framespersprite": "100",
+					"filename": "orb1.png"
+				},
+				"orb2": {				
+					"spritewidth": "85",
+					"spriteheight": "85",
+					"yorigin": "45",
+					"xorigin": "45",
+					"numberofsprites": "1",
+					"framespersprite": "100",
+					"filename": "orb2.png"
+				},
+				"orb3": {				
+					"spritewidth": "85",
+					"spriteheight": "85",
+					"yorigin": "45",
+					"xorigin": "45",
+					"numberofsprites": "1",
+					"framespersprite": "100",
+					"filename": "orb3.png"
+				}
+			}
 		}
 	},
 	"ids": {
 		
 	}
+	
 }
