@@ -17,6 +17,7 @@
     <ClCompile Include="DamageHitBox.cpp" />
     <ClCompile Include="FileStructure.cpp" />
     <ClCompile Include="Crystal.cpp" />
+    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="InventoryDisplay.cpp" />
     <ClCompile Include="LevelState.cpp" />
     <ClCompile Include="LevelPortal.cpp" />
@@ -66,6 +67,7 @@
     <ClInclude Include="GameToScreen.h" />
     <ClInclude Include="Crystal.h" />
     <ClInclude Include="GraphicalEntity.h" />
+    <ClInclude Include="InputManager.h" />
     <ClInclude Include="LevelState.h" />
     <ClInclude Include="LevelPortal.h" />
     <ClInclude Include="LightPoint.h" />

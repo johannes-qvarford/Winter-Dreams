@@ -130,6 +130,9 @@
     <ClCompile Include="Registration_npc.cpp">
       <Filter>Sources\Registration</Filter>
     </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Sources\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameToScreen.h">
@@ -254,6 +257,9 @@
     </ClInclude>
     <ClInclude Include="LevelPortal.h">
       <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Includes\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

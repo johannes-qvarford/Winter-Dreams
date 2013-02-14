@@ -183,31 +183,41 @@ void SubLevel::render() {
 
 	//display
 	
-	static float pxt=1;
+	static float br=1;
+	static float maxDis=0.25;
 	static float lightPosx=0.5;
 	static float lightPosy=0.5;
 	static sf::Shader* shader = new sf::Shader;
-	shader->loadFromFile(FS_DIR_SHADERS + "Darkness.frag", sf::Shader::Fragment);
+	static bool init = false;
+	if(!init)
+		shader->loadFromFile(FS_DIR_SHADERS + "Darkness.frag", sf::Shader::Fragment);
+	init = true;
+
 	window.display();
 
-	shader->setParameter("lightPosx[0]",0.5);
-	shader->setParameter("lightPosy[0]",0.5);
+	shader->setParameter("lightPosx[0]",0.5f);
+	shader->setParameter("lightPosy[0]",0.5f);
 
 	sf::Sprite renderTextureSprite(window.getTexture());
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 		shader->setParameter("lightPosx[1]", float(sf::Mouse::getPosition(renderWindow).x)/float(renderWindow.getSize().x));
 		shader->setParameter("lightPosy[1]", 1-float(sf::Mouse::getPosition(renderWindow).y)/float(renderWindow.getSize().y));
-		shader->setParameter("pixel_threshold",pxt);
+		shader->setParameter("brightness",br);
+		shader->setParameter("maxDis",maxDis);
 		renderWindow.draw(renderTextureSprite, shader);
 	} else {
 		renderWindow.draw(renderTextureSprite);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
-		pxt+=0.1f;
+		br+=0.1f;
 	} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)){
-		pxt-=0.1f;
+		br-=0.1f;
 	}
-
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)){
+		maxDis+=0.01f;
+	} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)){
+		maxDis-=0.01f;
+	}
 			//draw script effects directly on screen
 	for(auto it = mScripts.begin(), end = mScripts.end(); it != end; ++it) {
 		auto script_sp = *it;
