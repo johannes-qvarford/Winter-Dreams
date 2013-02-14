@@ -42,6 +42,7 @@ Item::Item(sf::FloatRect position, std::string itemName, bool startEnabled) :
 {
 	auto& animSpecs = ItemSpecs::get().mAnimSpecs;
 
+	mAnimation = nullptr;
 	for( auto iter = animSpecs.begin(), end = animSpecs.end(); iter != end; ++iter) {
 		if( iter->mAnimName != mItemName )
 			continue;
