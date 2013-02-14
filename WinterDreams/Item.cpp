@@ -55,7 +55,7 @@ Item::Item(sf::FloatRect position, std::string itemName, bool startEnabled) :
 		auto file = iter->mFileName;
 		auto name = iter->mAnimName;
 
-		mAnimation = new Animation(FS_DIR_OBJECTANIMATIONS +"itemdisplay/"+ file , w, h, nos, fps, xO, yO);
+		mAnimation = new Animation(FS_DIR_OBJECTANIMATIONS +"item/"+ file , w, h, nos, fps, xO, yO);
 	}
 }
 

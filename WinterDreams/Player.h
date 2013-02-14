@@ -143,6 +143,7 @@ private:
 	Inventory						 mInventory;		//The avatar's inventory
 	sf::Vector2i					 mDirection;		//The avatar's direction
 	int								 mActionCooldown;	//Regulates the avatar's action cooldowns
+	bool							 mIsActionActive;	//Keeps track of whether an action is active or not
 	//No copies
 	Player::Player( const Player& player );
 	//No copies

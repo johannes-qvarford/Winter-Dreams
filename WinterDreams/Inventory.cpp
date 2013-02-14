@@ -31,6 +31,9 @@ void Inventory::giveItem(std::string item, unsigned short){
 		// list
 		/////////////////////////////////////////
 	mInventoryList.push_back( item );
+	
+	if( getCurrentEquip() == "")
+		equipNext();
 }
 
 void Inventory::takeItem(std::string item, unsigned short){
@@ -88,48 +91,15 @@ void Inventory::equipNext() {
 	} while(tempIter != mCurrentItem);
 }
 
-void Inventory::equipPrevious() {
-	using namespace std;
-		/////////////////////////////////////////
-		// If there is no items in the inventory,
-		// end the function
-		/////////////////////////////////////////
-	if( mInventoryList.size() == 0 )
-		return;
-
-	list<string>::reverse_iterator tempIter(mCurrentItem);
-		/////////////////////////////////////////
-		// Iterate over the inventory list and search
-		// for the next item which has an iconindex
-		// (i.e can be equipped) then assign current
-		// item to the found item.
-		/////////////////////////////////////////
-	do{
-		if(tempIter == mInventoryList.rend() )
-			tempIter = mInventoryList.rbegin();
-		
-		else
-			++tempIter;
-		
-		if( tempIter != mInventoryList.rend() ){
-			auto id = ITEMS_PTREE.get<int>(*tempIter + ".iconindex", 0);
-			if( id > 0 ){
-				//mCurrentItem = (tempIter+1).base();
-				++tempIter;
-				mCurrentItem = tempIter.base();
-				--tempIter;
-			}
-		}
-		
-	} while( --(tempIter.base()) != mCurrentItem );
-}
-
 std::string Inventory::getCurrentEquip() const{
 		/////////////////////////////////////////
 		// If mCurrentItem == mInventoryList.end(),
 		//  return ""
+		// Else if
+		//	mCurrentItem.iconindex == 0
+		//	return ""
 		// Else
 		//  return *mCurrentItem
 		/////////////////////////////////////////
-	return (mCurrentItem == mInventoryList.end() ) ? "" : *mCurrentItem;
+	return (mCurrentItem == mInventoryList.end() ) ? "" : (ITEMS_PTREE.get<int>(*mCurrentItem + ".iconindex", 0) == 0) ? "" : *mCurrentItem;
 }
