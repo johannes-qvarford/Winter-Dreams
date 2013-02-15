@@ -170,8 +170,8 @@ static void loadSubLevel(const std::string& subLevelName, LevelState* levelState
 
 		//need these offsets, don't know why
 		//may need to change when switching level.
-		const float X_OFFSET = -45.f;
-		const float Y_OFFSET = -17.f;
+		/*const float X_OFFSET = -0.f;*/		const float X_OFFSET = -45.f;	
+		/*const float Y_OFFSET = -0.f;*/		const float Y_OFFSET = -17.f;
 		auto mlOffset = sf::Vector2f((cosf(22.5f) * yLength) + X_OFFSET, Y_OFFSET); 
 
 		subLevel_sp->setMapTexture(mlTexture_sp, mlOffset);

@@ -43,6 +43,7 @@
     <ClCompile Include="Registration_collision256x128.cpp" />
     <ClCompile Include="Registration_collision64x32.cpp" />
     <ClCompile Include="Registration_crystal.cpp" />
+    <ClCompile Include="Registration_levelportal.cpp" />
     <ClCompile Include="Registration_light.cpp" />
     <ClCompile Include="Registration_item.cpp" />
     <ClCompile Include="Registration_npc.cpp" />

@@ -107,7 +107,7 @@
                  "name":"gp_lvl_1_1_portal_1",
                  "properties":
                     {
-                     "levelname":"lvl_1_2",
+                     "levelname":"lvl_1_2v03_again",
                      "targetportal":"gp_lvl_1_2_portal_1"
                     },
                  "type":"levelportal",
@@ -383,7 +383,7 @@
     {
      "background":"bkg_1_1.png",
      "level":"lvl_1_1",
-     "map":"map_1_1.png"
+     "map":"map_1_1_v0.png"
     },
  "tileheight":32,
  "tilesets":[

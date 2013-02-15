@@ -143,6 +143,9 @@
       <Filter>Sources\Entity</Filter>
     </ClCompile>
     <ClCompile Include="Registration_collider.cpp">
+	      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_levelportal.cpp">
       <Filter>Sources\Registration</Filter>
     </ClCompile>
   </ItemGroup>

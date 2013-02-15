@@ -28,25 +28,32 @@ private:
 };
 ////////////////////////////////////////////////////////////////////////////////
 InvDispSpecs::InvDispSpecs() {
-	auto& obj = PropertyManager::get().getObjectSettings();
-	auto& itemdisp = obj.get_child( "objects.items" );
+	auto& obj = PropertyManager::get().getGeneralSettings();
+	auto& itemdisp = obj.get_child( "itemdisplay" );
 		//Get the constants out of the ptree
 	mXPos = itemdisp.get<int>("xfromleft");
 	mYPos = itemdisp.get<int>("yfromtop");
 	mIconsAppart = itemdisp.get<int>("iconsappart");
 		//Parse the specs for the animations into the AnimationSpecsList
 	AnimationSpecs::parse( itemdisp, mAnimSpecList );
-
+		/////////////////////////////////////////////////
 		//Iterate over the animations to get each icons index.
 		//This will be used to decide how they will be ordered
+		/////////////////////////////////////////////////
 	auto& anims = itemdisp.get_child("animations");
 	for( auto iter = anims.begin(), end = anims.end(); iter != end; ++iter) {
 		std::string s = iter->first;
 		int index = iter->second.get<int>("iconindex", -1);
+			/////////////////////////////////////////////////
 			//If the animation didn't have an index, add it to the auxIcon list
-		if(index < 0 )
+			/////////////////////////////////////////////////
+		if(index <= 0 ){
 			mAuxIconList.push_back(s);
+			continue;
+		}
+			/////////////////////////////////////////////////
 			//Else, insert the pair
+			/////////////////////////////////////////////////
 		std::pair<std::string, int> pair(s, index);
 		mEquipIconIndices.insert( pair );
 	}

@@ -47,6 +47,7 @@ PlayerSpecs& PlayerSpecs::get() {
 Player::Player(sf::FloatRect initialPosition, int lightLevel, bool startEnabled) :
 	GraphicalEntity( startEnabled ),
 	mActionCooldown( 0 ),
+	mIsActionActive( false),
 	mInventory (Inventory() ),
 	mMoveSpeed( PlayerSpecs::get().mMoveSpeed ),
 	mMovementMode(NORMAL),
@@ -58,25 +59,19 @@ Player::Player(sf::FloatRect initialPosition, int lightLevel, bool startEnabled)
 	//construct the animation map
 	Animation::fromListToMap(p.mAnimSpecList, FS_DIR_OBJECTANIMATIONS + "player/", &mAnimationMap);
 	mCurrentAnimation_p = &mAnimationMap.begin()->second;
-
-	mInventory.giveItem("pickaxe", 1);
-	mInventory.giveItem("wheel", 1);
-	mInventory.giveItem("shoes", 1);
-	mInventory.giveItem("orb1", 1);
-	mInventory.giveItem("orb2", 1);
-	mInventory.giveItem("orb3", 1);
-	mInventory.giveItem("orb1", 1);
+	
 }
 
 Player::~Player() {}
 
 void Player::update(SubLevel* subLevel_p){
+	if( getEnabled() ){
+		updateMovement(subLevel_p);
 
-	updateMovement(subLevel_p);
+		updateActions(subLevel_p);
+	}
 
 	updateAnimations(subLevel_p);
-
-	updateActions(subLevel_p);
 }
 
 void Player::drawSelf(){
@@ -161,17 +156,17 @@ void Player::updateMovement(SubLevel* subLevel_p) {
 void Player::updateAnimations(SubLevel* subLevel_p) {
 	/////////////////////////////////////////////////////////////////
 	if( mDirection.x >= 1) {
-		if( mDirection.y == 1 )
+		if( mDirection.y >= 1 )
 			mCurrentAnimation_p = &mAnimationMap.find("front")->second;
-		if( mDirection.y == -1 )
+		if( mDirection.y <= -1 )
 			mCurrentAnimation_p = &mAnimationMap.find("right")->second;
 		if( mDirection.y == 0 )
 			mCurrentAnimation_p =  &mAnimationMap.find("frontright")->second;
 	}
 	if( mDirection.x <= -1) {
-		if( mDirection.y == 1 )
+		if( mDirection.y >= 1 )
 			mCurrentAnimation_p = &mAnimationMap.find("left")->second;
-		if( mDirection.y == -1 )
+		if( mDirection.y <= -1 )
 			mCurrentAnimation_p = &mAnimationMap.find("back")->second;
 		if( mDirection.y == 0 )
 			mCurrentAnimation_p = &mAnimationMap.find("backleft")->second;
@@ -190,22 +185,18 @@ void Player::updateAnimations(SubLevel* subLevel_p) {
 }
 
 void Player::updateActions(SubLevel* subLevel_p) {
-	--mActionCooldown;
+	if( mActionCooldown > 0 )
+		--mActionCooldown;
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && mActionCooldown <= 0) {
-		auto rect = mHitBox;
-		rect.left += mHitBox.width;
-		rect.top += mHitBox.height;
-		subLevel_p->addGraphicalEntity(std::shared_ptr<DamageHitBox>( new DamageHitBox(rect, 2, DamageHitBox::PICKAXE ) ) );
-		mActionCooldown = 60;
+	if( mActionCooldown == 1 && mIsActionActive ){
+		mActionCooldown = 2;
+		mIsActionActive = false;
+	}
+	else if( InputManager::get().isSelectDown() && mActionCooldown <= 0 ){
+		mInventory.equipNext();
+		mActionCooldown = 5;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && mActionCooldown <= 0) {
-		auto rect = mHitBox;
-		rect.left += 40;
-		rect.top += 40;
-		subLevel_p->addGraphicalEntity(std::shared_ptr<Crystal>( new Crystal(rect, true) ) );
-
-		mActionCooldown = 60;
-	}
+	if( InputManager::get().isSelectDown() || InputManager::get().isStartDown() )
+		mIsActionActive = true;
 }
