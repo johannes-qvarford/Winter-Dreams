@@ -1,4 +1,15 @@
 {
+	"occluders": 
+	{
+		"bridge":
+		{
+			"filename" : "bridge.png",
+			"xorigin" : 12,
+			"yorigin" : 20
+		}
+	}
+
+
 	"defaultanimations": {
 		"small": {
 			"defaultwidth": 64,
