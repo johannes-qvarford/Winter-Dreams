@@ -32,10 +32,17 @@ public:
 	//////////////////////////////////////////////////////////////
 	void onCollision(PhysicalEntity* pe, const sf::Rect<float>& intersection);
 
+	void drawSelf();
+
 private:
 	LevelState* mLevel;
 	std::string mTargetLevel;
 	std::string mTargetPortal;
+
+	//No copies
+	LevelPortal(const LevelPortal& lp);
+	//No copies
+	LevelPortal& operator=(const LevelPortal& lp);
 };
 
 #endif

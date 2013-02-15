@@ -24,7 +24,7 @@
                  "name":"gp_lvl_1_2_portal_1",
                  "properties":
                     {
-                     "levelname":"lvl_1_1",
+                     "levelname":"lvl_1_1v05",
                      "targetportal":"gp_lvl_1_1_portal_1"
                     },
                  "type":"levelportal",

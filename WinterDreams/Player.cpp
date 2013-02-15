@@ -65,12 +65,13 @@ Player::Player(sf::FloatRect initialPosition, int lightLevel, bool startEnabled)
 Player::~Player() {}
 
 void Player::update(SubLevel* subLevel_p){
+	if( getEnabled() ){
+		updateMovement(subLevel_p);
 
-	updateMovement(subLevel_p);
+		updateActions(subLevel_p);
+	}
 
 	updateAnimations(subLevel_p);
-
-	updateActions(subLevel_p);
 }
 
 void Player::drawSelf(){

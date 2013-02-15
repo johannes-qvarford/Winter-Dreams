@@ -133,6 +133,9 @@
     <ClCompile Include="InputManager.cpp">
       <Filter>Sources\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="Registration_levelportal.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameToScreen.h">

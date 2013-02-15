@@ -142,6 +142,7 @@ private:
 	float							 mMoveSpeed;		//The avatar's movespeed
 	Inventory						 mInventory;		//The avatar's inventory
 	sf::Vector2i					 mDirection;		//The avatar's direction
+	sf::Vector2i					 mFacingDir;		//
 	int								 mActionCooldown;	//Regulates the avatar's action cooldowns
 	bool							 mIsActionActive;	//Keeps track of whether an action is active or not
 	//No copies

@@ -4,6 +4,10 @@
 #include "LevelState.h"
 #include "GameToScreen.h"
 #include "SubLevel.h"
+#ifdef _DEBUG
+#include "WindowManager.h"
+#endif
+
 
 LevelPortal::LevelPortal(sf::FloatRect position, SubLevel* level, const std::string& targetLevel, const std::string& targetPortal, bool startEnabled, bool enabledOnce) :
 	CollisionZone( startEnabled, position, enabledOnce ),
@@ -35,13 +39,14 @@ void LevelPortal::onCollision(PhysicalEntity* pe, const sf::Rect<float>& interse
 			auto nextPortal_p = static_cast<LevelPortal*>(temp_sp.get() );
 				//////////////////////////////////////////////////////////////
 				// /Get the position of the targetPortal
-				//////////////////////////////////////////////////////////////
-			newPos = sf::Vector2f(nextPortal_p->getHitBox().left, nextPortal_p->getHitBox().top );
-				//////////////////////////////////////////////////////////////
+				// /
 				// /Adjust the position so that the player does not spawn
 				// /directly into a new portal and is teleported back
 				//////////////////////////////////////////////////////////////
-			newPos.y += Y_STEP;
+			auto& rect = nextPortal_p->getHitBox();
+			auto tilesWide = static_cast<int>(rect.width / X_STEP * 2) -1;
+
+			newPos = sf::Vector2f( rect.left + X_STEP * tilesWide, rect.top);
 		}
 			//////////////////////////////////////////////////////////////
 			// /Switch sublevel to the target level.
@@ -51,7 +56,28 @@ void LevelPortal::onCollision(PhysicalEntity* pe, const sf::Rect<float>& interse
 			//////////////////////////////////////////////////////////////
 		mLevel->switchSubLevel( mTargetLevel );
 		player.setPosition( newPos );
-		camera.snapToPosition( newPos );
+		camera.snapToPosition( GAME_TO_SCREEN * newPos );
 		camera.lockCamera();
 	}
+}
+
+void LevelPortal::drawSelf() {
+#ifdef _DEBUG
+
+	sf::Vertex vertices[] =
+	{
+		sf::Vertex(sf::Vector2f(mHitBox.left, mHitBox.top), sf::Color::Red, sf::Vector2f( 0,  0)),
+		sf::Vertex(sf::Vector2f(mHitBox.left, mHitBox.top + mHitBox.height), sf::Color::Red, sf::Vector2f( 0, 10)),
+		sf::Vertex(sf::Vector2f(mHitBox.left + mHitBox.width, mHitBox.top + mHitBox.height), sf::Color::Red, sf::Vector2f(10, 10)),
+		sf::Vertex(sf::Vector2f(mHitBox.left + mHitBox.width, mHitBox.top), sf::Color::Red, sf::Vector2f(10,  0))
+	};
+
+	auto& window = *WindowManager::get().getWindow();
+	auto states = *WindowManager::get().getStates();
+
+	//translate to screen coordinates
+	states.transform *= GAME_TO_SCREEN;
+
+	window.draw(vertices, 4, sf::LinesStrip, states);
+#endif
 }

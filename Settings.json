@@ -55,32 +55,41 @@
 				"framespersprite": "100",
 				"filename": "shoes.png"
 			},
-			"orb1": {				
+			"orb_orange": {				
 				"spritewidth": "85",
 				"spriteheight": "85",
 				"yorigin": "45",
 				"xorigin": "45",
 				"numberofsprites": "1",
 				"framespersprite": "100",
-				"filename": "orb1.png"
+				"filename": "orb_orange.png"
 			},
-			"orb2": {				
+			"orb_purple": {				
 				"spritewidth": "85",
 				"spriteheight": "85",
 				"yorigin": "45",
 				"xorigin": "45",
 				"numberofsprites": "1",
 				"framespersprite": "100",
-				"filename": "orb2.png"
+				"filename": "orb_purple.png"
 			},
-			"orb3": {				
+			"orb_red": {				
 				"spritewidth": "85",
 				"spriteheight": "85",
 				"yorigin": "45",
 				"xorigin": "45",
 				"numberofsprites": "1",
 				"framespersprite": "100",
-				"filename": "orb3.png"
+				"filename": "orb_red.png"
+			},
+			"orb_blue": {				
+				"spritewidth": "85",
+				"spriteheight": "85",
+				"yorigin": "45",
+				"xorigin": "45",
+				"numberofsprites": "1",
+				"framespersprite": "100",
+				"filename": "orb_blue.png"
 			}
 		}	
 	}		

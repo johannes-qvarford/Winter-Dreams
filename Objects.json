@@ -85,7 +85,7 @@
 			}
 		},
 		"player": {
-			"walkspeed": 2,
+			"walkspeed": 1.5,
 			"animations": {
 				"placeholder": {				
 					"spritewidth": "64",
@@ -212,32 +212,41 @@
 					"framespersprite": "100",
 					"filename": "shoes.png"
 				},
-				"orb1": {				
-					"spritewidth": "85",
-					"spriteheight": "85",
-					"yorigin": "45",
-					"xorigin": "45",
+				"orb_red": {				
+					"spritewidth": "32",
+					"spriteheight": "32",
+					"yorigin": "32",
+					"xorigin": "0",
 					"numberofsprites": "1",
 					"framespersprite": "100",
-					"filename": "orb1.png"
+					"filename": "orb_red.png"
 				},
-				"orb2": {				
-					"spritewidth": "85",
-					"spriteheight": "85",
-					"yorigin": "45",
-					"xorigin": "45",
+				"orb_purple": {				
+					"spritewidth": "32",
+					"spriteheight": "32",
+					"yorigin": "32",
+					"xorigin": "0",
 					"numberofsprites": "1",
 					"framespersprite": "100",
-					"filename": "orb2.png"
+					"filename": "orb_purple.png"
 				},
-				"orb3": {				
-					"spritewidth": "85",
-					"spriteheight": "85",
-					"yorigin": "45",
-					"xorigin": "45",
+				"orb_orange": {				
+					"spritewidth": "32",
+					"spriteheight": "32",
+					"yorigin": "32",
+					"xorigin": "0",
 					"numberofsprites": "1",
 					"framespersprite": "100",
-					"filename": "orb3.png"
+					"filename": "orb_orange.png"
+				},
+				"orb_blue": {				
+					"spritewidth": "32",
+					"spriteheight": "32",
+					"yorigin": "32",
+					"xorigin": "0",
+					"numberofsprites": "1",
+					"framespersprite": "100",
+					"filename": "orb_blue.png"
 				}
 			}
 		}
