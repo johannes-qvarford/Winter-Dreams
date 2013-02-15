@@ -133,6 +133,18 @@
     <ClCompile Include="InputManager.cpp">
       <Filter>Sources\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="Queue.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="QueueItem.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="OccludedEntity.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_collider.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameToScreen.h">
@@ -260,6 +272,15 @@
     </ClInclude>
     <ClInclude Include="InputManager.h">
       <Filter>Includes\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Queue.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="QueueItem.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="OccludedEntity.h">
+      <Filter>Includes\Entity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
