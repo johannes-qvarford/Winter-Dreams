@@ -1,5 +1,13 @@
 {
-	
+	"occluder": {
+		"sprite": {
+			"placeholder":{
+				"yorigin": 0,
+				"xorigin": 0,
+				"filename": "placeholder.png"
+			}
+		}
+	},
 	"defaultanimations": {
 		"small": {
 			"defaultwidth": 64,
