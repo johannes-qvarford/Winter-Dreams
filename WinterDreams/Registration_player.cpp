@@ -15,7 +15,6 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	level_p->setPlayer(std::static_pointer_cast<Player>(player));
 	level_p->setCamera(std::static_pointer_cast<Camera>(camera));
 	level_p->setInventoryDisplay(std::static_pointer_cast<InventoryDisplay>(display));
-
 //	auto& name = pt.get<std::string>("name","");
 //	if(name != "")
 //		subLevel_p->mapEntityToName(name, std::weak_ptr<Entity>(std::static_pointer_cast<Entity>(player)));

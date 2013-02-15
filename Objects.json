@@ -182,7 +182,7 @@
 					"numberofsprites": "7",
 					"framespersprite": "9",				
 					"filename": "spritesheet_zeles_left.png"
-				}		
+				}
 			}
 		},
 		
@@ -264,8 +264,24 @@
 					"filename": "orb_blue.png"
 				}
 			}
+		},
+		
+		"hitbox": {
+			"lifetime": "18",
+			"animations": {
+				"pickaxe": {
+					"spritewidth": "64",
+					"spriteheight": "64",
+					"yorigin": "48",
+					"xorigin": "0",
+					"numberofsprites": "3",
+					"framespersprite": "8",			
+					"filename": "placeholder.png"
+				}
+			}
 		}
 	},
+	
 	"ids": {
 		
 	}

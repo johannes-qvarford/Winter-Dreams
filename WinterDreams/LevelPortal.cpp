@@ -28,7 +28,7 @@ void LevelPortal::onCollision(PhysicalEntity* pe, const sf::Rect<float>& interse
 		//////////////////////////////////////////////////////////////
 		// /Checks if the entity collided with it of type player.
 		//////////////////////////////////////////////////////////////
-	if( static_cast<Player*>(pe)){
+	if( dynamic_cast<Player*>(pe)){
 		auto& player = *mLevel->getPlayer();
 		auto& camera = *mLevel->getCamera();
 

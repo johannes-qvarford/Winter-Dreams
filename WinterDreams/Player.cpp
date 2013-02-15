@@ -13,6 +13,9 @@
 #include <cmath>
 #include <iostream>
 
+static void addHitBox( SubLevel* subLevel_p, Player& player, int dmgAmount, std::string type);
+static int convert( int value );
+
 class PlayerSpecs{
 public:	
 	////////////////////////////////////////////////////////////////////////////
@@ -52,6 +55,8 @@ Player::Player(sf::FloatRect initialPosition, int lightLevel, bool startEnabled)
 	mMoveSpeed( PlayerSpecs::get().mMoveSpeed ),
 	mMovementMode(NORMAL),
 	mLightLevel( lightLevel ),
+	mDirection( 0,0),
+	mFacingDir( 1,1),
 	mHitBox( initialPosition.left, initialPosition.top, X_STEP , -Y_STEP ) //All hitbox heights are now inverted, ask Johannes.
 {
 	using namespace std;
@@ -65,14 +70,40 @@ Player::Player(sf::FloatRect initialPosition, int lightLevel, bool startEnabled)
 Player::~Player() {}
 
 void Player::update(SubLevel* subLevel_p){
-	mLightLevel = 10;
+
+	/////////////////////////////////////////////////////////
+	// If the player is enabled, perform a series of 
+	// functions. Otherwize, only update the players animation
+	/////////////////////////////////////////////////////////
 	if( getEnabled() ){
 		updateMovement(subLevel_p);
+			/////////////////////////////////////////////////////////
+			// If any component of the movement direction is greater then 1,
+			// we will assign the facingDirection to the same values and
+			// moving direction.
+			//
+			// If all components of the movement direction is 0, the 
+			// player did not move and is hence facing the same direction
+			// as the previous frame.
+			/////////////////////////////////////////////////////////
+		if( mDirection.x != 0 || mDirection.y != 0){
+			assert( mDirection.x != 0 || mDirection.y != 0 ); //ASSERT!
+			int x = 0;
+			int y = 0;
+			if (mDirection.x != 0)
+				x = convert( mDirection.x );
+			if (mDirection.y != 0)
+				y = convert( mDirection.y );
 
+			mFacingDir = sf::Vector2i( x, y );
+			assert( x != 0 || y != 0 ); //ASSERT!
+		}
+
+		assignMoveAnimations(subLevel_p);
 		updateActions(subLevel_p);
 	}
 
-	updateAnimations(subLevel_p);
+	updateCurrentAnimation();
 }
 
 void Player::drawSelf(){
@@ -151,53 +182,95 @@ void Player::updateMovement(SubLevel* subLevel_p) {
 	stick *= static_cast<float>(mMoveSpeed);
 		//Adjust the avatars position by tempDir
 	adjustPosition( stick );
-	mDirection=sf::Vector2i(static_cast<int>(stick.x),static_cast<int>(stick.y));
+	if( stick.x > 0 ||stick.y > 0)
+		mDirection=sf::Vector2i(static_cast<int>(stick.x),static_cast<int>(stick.y));
+	else
+		mDirection=sf::Vector2i(static_cast<int>(stick.x*2),static_cast<int>(stick.y*2));
 }
 
-void Player::updateAnimations(SubLevel* subLevel_p) {
+void Player::assignMoveAnimations(SubLevel* subLevel_p) {
 	/////////////////////////////////////////////////////////////////
-	if( mDirection.x >= 1) {
-		if( mDirection.y >= 1 )
+	if( mDirection.x > 0) {
+		if( mDirection.y > 0 )
 			mCurrentAnimation_p = &mAnimationMap.find("front")->second;
-		if( mDirection.y <= -1 )
+		if( mDirection.y < 0 )
 			mCurrentAnimation_p = &mAnimationMap.find("right")->second;
 		if( mDirection.y == 0 )
 			mCurrentAnimation_p =  &mAnimationMap.find("frontright")->second;
 	}
-	if( mDirection.x <= -1) {
-		if( mDirection.y >= 1 )
+	if( mDirection.x < 0) {
+		if( mDirection.y > 0 )
 			mCurrentAnimation_p = &mAnimationMap.find("left")->second;
-		if( mDirection.y <= -1 )
+		if( mDirection.y < 0 )
 			mCurrentAnimation_p = &mAnimationMap.find("back")->second;
 		if( mDirection.y == 0 )
 			mCurrentAnimation_p = &mAnimationMap.find("backleft")->second;
 	}
 	if( mDirection.x == 0 ) {
-		if( mDirection.y >= 1 )
+		if( mDirection.y > 0 )
 			mCurrentAnimation_p = &mAnimationMap.find("frontleft")->second;
-		if( mDirection.y <= -1 )
+		if( mDirection.y < 0 )
 			mCurrentAnimation_p = &mAnimationMap.find("backright")->second;
 		if( mDirection.y == 0 )
 				//If the character did not move, idle.
 			mCurrentAnimation_p->resetAnimation();
 	}
-
-	mCurrentAnimation_p->updateAnimation();
 }
 
-void Player::updateActions(SubLevel* subLevel_p) {
-	if( mActionCooldown > 0 )
-		--mActionCooldown;
 
-	if( mActionCooldown == 1 && mIsActionActive ){
-		mActionCooldown = 2;
-		mIsActionActive = false;
-	}
-	else if( InputManager::get().isSelectDown() && mActionCooldown <= 0 ){
+void Player::updateActions(SubLevel* subLevel_p) {
+	mActionCooldown--;
+
+
+	if( InputManager::get().isSelectDown() && mActionCooldown <= 0 ){
 		mInventory.equipNext();
 		mActionCooldown = 5;
 	}
 
-	if( InputManager::get().isSelectDown() || InputManager::get().isStartDown() )
-		mIsActionActive = true;
+	if( InputManager::get().isADown() && mInventory.getCurrentEquip() == "pickaxe" ){
+		addHitBox( subLevel_p, *this, 2, mInventory.getCurrentEquip() );
+		mActionCooldown = 20;
+	}
+}
+
+void Player::updateCurrentAnimation() {
+	
+	mCurrentAnimation_p->updateAnimation();
+
+}
+
+void Player::setFacingDirection(sf::Vector2i dir){
+	if( mDirection.x > 0 || mDirection.y > 0)
+		mFacingDir = dir;
+}
+
+sf::Vector2i Player::getFacingDirection() const {
+	return mFacingDir;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+static void addHitBox( SubLevel* subLevel_p, Player& player, int dmgAmount, std::string type) {
+	auto& hitBox = player.getHitBox();
+	auto& faceDir = player.getFacingDirection();
+
+	auto x = hitBox.left;
+	auto y = hitBox.top;
+	auto width = hitBox.width;
+	auto height = hitBox.height;		
+
+	auto newPosX = x + (width*faceDir.x )/2;
+	auto newPosY = y + (-height*faceDir.y )/2;
+	
+	sf::FloatRect rect( newPosX, newPosY, width, height);
+
+	std::shared_ptr<GraphicalEntity> dmgHitBox( new DamageHitBox(rect, 2, type) );
+
+	subLevel_p->addGraphicalEntity( dmgHitBox );
+}
+
+static int convert( int value) {
+	return (value > 0) ? 1 : (value < 0) ? -1 : 0;
 }

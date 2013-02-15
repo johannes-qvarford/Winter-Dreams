@@ -30,7 +30,7 @@ void Inventory::giveItem(std::string item, unsigned short){
 		// Add the argument item to the inventory
 		// list
 		/////////////////////////////////////////
-	mInventoryList.push_back( item );
+	mInventoryList.push_front( item );
 	
 	if( getCurrentEquip() == "")
 		equipNext();

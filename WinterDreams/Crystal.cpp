@@ -104,7 +104,7 @@ void Crystal::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::FloatR
 	if( dynamic_cast<DamageHitBox*>( entityCollidedWith_p ) ) {
 		auto dmgHitBox = dynamic_cast<DamageHitBox*>( entityCollidedWith_p );
 		
-		if( dmgHitBox->getDamageType() == DamageHitBox::PICKAXE ) {
+		if( dmgHitBox->getDamageType() == "pickaxe" ) {
 				//Reduce crytal's HP by DamageHitBox's damage then set the hitbox to !enabled
 			adjustHealth(dmgHitBox->getDamageAmount() * -1);
 			dmgHitBox->setEnabled( false );
