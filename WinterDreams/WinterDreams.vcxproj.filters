@@ -143,9 +143,18 @@
       <Filter>Sources\Entity</Filter>
     </ClCompile>
     <ClCompile Include="Registration_collider.cpp">
-	      <Filter>Sources\Registration</Filter>
+      <Filter>Sources\Registration</Filter>
     </ClCompile>
     <ClCompile Include="Registration_levelportal.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_occluder.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_queue.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_queueitem.cpp">
       <Filter>Sources\Registration</Filter>
     </ClCompile>
   </ItemGroup>

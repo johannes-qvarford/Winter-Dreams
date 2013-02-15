@@ -47,8 +47,11 @@
     <ClCompile Include="Registration_light.cpp" />
     <ClCompile Include="Registration_item.cpp" />
     <ClCompile Include="Registration_npc.cpp" />
+    <ClCompile Include="Registration_occluder.cpp" />
     <ClCompile Include="Registration_player.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Registration_queue.cpp" />
+    <ClCompile Include="Registration_queueitem.cpp" />
     <ClCompile Include="Registration_soundscape.cpp" />
     <ClCompile Include="Registration_trigger.cpp" />
     <ClCompile Include="SolidZone.cpp" />

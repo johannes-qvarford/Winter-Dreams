@@ -65,6 +65,7 @@ Player::Player(sf::FloatRect initialPosition, int lightLevel, bool startEnabled)
 Player::~Player() {}
 
 void Player::update(SubLevel* subLevel_p){
+	mLightLevel = 10;
 	if( getEnabled() ){
 		updateMovement(subLevel_p);
 

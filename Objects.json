@@ -1,15 +1,19 @@
 {
-	"occluders": 
-	{
-		"bridge":
-		{
-			"filename" : "bridge.png",
-			"xorigin" : 12,
-			"yorigin" : 20
+	"occluder": {
+		"sprite": {
+			"placeholder":{
+				"yorigin": 0,
+				"xorigin": 0,
+				"filename": "placeholder.png"
+			},
+			"bridge":{
+				"yorigin": 0,
+				"xorigin": 0,
+				"filename": "bridge.png"
+			}
 		}
-	}
-
-
+	},
+	
 	"defaultanimations": {
 		"small": {
 			"defaultwidth": 64,
@@ -96,7 +100,7 @@
 			}
 		},
 		"player": {
-			"walkspeed": 1.5,
+			"walkspeed": 5.5,
 			"animations": {
 				"placeholder": {				
 					"spritewidth": "64",
