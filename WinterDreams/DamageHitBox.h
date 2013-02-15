@@ -26,7 +26,7 @@ public:
 	// /The member variable mLifeTime (in the definition) describes it's life time
 	// /----SHOULD ADD ITSELF TO THE ENTITY VECTOR----
     ///////////////////////////////////////////////
-	DamageHitBox(const sf::Rect<float>& hitBox, unsigned int damage, DamageType type);
+	DamageHitBox(const sf::Rect<float>& hitBox, unsigned int damage, std::string damageType);
 	~DamageHitBox();
     ///////////////////////////////////////////////
     // /Returns the rectal hitbox
@@ -47,7 +47,7 @@ public:
 	///////////////////////////////////////////////
 	// /Get the damage hitbox's damage type.
 	///////////////////////////////////////////////
-	DamageType getDamageType() const;
+	std::string getDamageType() const;
 	///////////////////////////////////////////////
 	// /Get the damage hitbox's damage amount.
 	///////////////////////////////////////////////
@@ -56,14 +56,12 @@ public:
 	sf::Vector2i getDirection() { return sf::Vector2i(0,0); }
 
 private:
-	unsigned int				mDamage;
-	sf::Rect<float>				mHitBox;
-	int							mLifeTime;
-	DamageType					mDamageType;
-	std::shared_ptr<sf::Sound>	mSound;
-#ifndef SHIPPING
-	Animation mAnimation;
-#endif
+	Animation*						mCurrentAnimation_p; //The current animation
+	unsigned int					mDamage;
+	sf::Rect<float>					mHitBox;
+	int								mLifeTime;
+	std::string						mDamageType;
+	std::shared_ptr<sf::Sound>		mSound;
 
 };
 #endif

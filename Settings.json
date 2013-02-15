@@ -6,8 +6,8 @@
 	{
 		"lvl_1":
 		{
-			"first_sublevel_name" : "lvl_1_1v05.json",
-			"sublevels": ["lvl_1_1v05.json", "lvl_1_2v03_again.json"]
+			"first_sublevel_name" : "lvl_1_1.json",
+			"sublevels": ["lvl_1_1.json", "lvl_1_2.json"]
 		}
 	},
 	

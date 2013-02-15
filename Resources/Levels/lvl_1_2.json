@@ -24,7 +24,7 @@
                  "name":"gp_lvl_1_2_portal_1",
                  "properties":
                     {
-                     "levelname":"lvl_1_1v05",
+                     "levelname":"lvl_1_1",
                      "targetportal":"gp_lvl_1_1_portal_1"
                     },
                  "type":"levelportal",
@@ -238,7 +238,8 @@
                  "properties":
                     {
                      "entity":"gp_bridge_1_col,gp_bridge_5_col,gp_red_trigger",
-                     "queue":"gp_queue_1"
+                     "queue":"gp_queue_1",
+                     "startDisabled":"true"
                     },
                  "type":"queueitem",
                  "visible":true,
@@ -252,7 +253,8 @@
                  "properties":
                     {
                      "entity":"gp_bridge_4_col,gp_bridge_6_col,gp_bridge_7_col,gp_bridge_9_col,gp_blue_trigger",
-                     "queue":"gp_queue_1"
+                     "queue":"gp_queue_1",
+                     "startDisabled":"true"
                     },
                  "type":"queueitem",
                  "visible":true,
@@ -266,7 +268,8 @@
                  "properties":
                     {
                      "entity":"gp_bridge_1_col,gp_bridge_3_col,gp_bridge_4_col,gp_bridge_8_col,gp_orange_trigger",
-                     "queue":"gp_queue_1"
+                     "queue":"gp_queue_1",
+                     "startDisabled":"true"
                     },
                  "type":"queueitem",
                  "visible":true,
@@ -280,7 +283,8 @@
                  "properties":
                     {
                      "entity":"gp_bridge_1_col,gp_bridge_2_col,gp_bridge_4_col,gp_purple_trigger",
-                     "queue":"gp_queue_1"
+                     "queue":"gp_queue_1",
+                     "startDisabled":"true"
                     },
                  "type":"queueitem",
                  "visible":true,
@@ -335,6 +339,22 @@
                  "width":96,
                  "x":864,
                  "y":288
+                }, 
+                {
+                 "height":128,
+                 "name":"gp_portal_1_trigger",
+                 "properties":
+                    {
+                     "exittrigger":"gp_lvl_1_2_portal_1",
+                     "once":"false",
+                     "startDisabled":"false",
+                     "triggeraction":"enable"
+                    },
+                 "type":"trigger",
+                 "visible":true,
+                 "width":128,
+                 "x":1408,
+                 "y":1120
                 }],
          "opacity":1,
          "type":"objectgroup",
