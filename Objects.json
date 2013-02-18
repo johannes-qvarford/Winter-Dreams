@@ -5,9 +5,15 @@
 				"yorigin": 0,
 				"xorigin": 0,
 				"filename": "placeholder.png"
+			},
+			"bridge":{
+				"yorigin": 0,
+				"xorigin": 0,
+				"filename": "bridge.png"
 			}
 		}
 	},
+	
 	"defaultanimations": {
 		"small": {
 			"defaultwidth": 64,
@@ -94,7 +100,7 @@
 			}
 		},
 		"player": {
-			"walkspeed": "10.5",
+			"walkspeed": 5.5,
 			"animations": {
 				"placeholder": {				
 					"spritewidth": "64",

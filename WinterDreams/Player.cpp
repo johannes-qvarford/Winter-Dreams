@@ -70,10 +70,11 @@ Player::Player(sf::FloatRect initialPosition, int lightLevel, bool startEnabled)
 Player::~Player() {}
 
 void Player::update(SubLevel* subLevel_p){
-		/////////////////////////////////////////////////////////
-		// If the player is enabled, perform a series of 
-		// functions. Otherwize, only update the players animation
-		/////////////////////////////////////////////////////////
+
+	/////////////////////////////////////////////////////////
+	// If the player is enabled, perform a series of 
+	// functions. Otherwize, only update the players animation
+	/////////////////////////////////////////////////////////
 	if( getEnabled() ){
 		updateMovement(subLevel_p);
 			/////////////////////////////////////////////////////////

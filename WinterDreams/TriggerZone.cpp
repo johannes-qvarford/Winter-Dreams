@@ -13,13 +13,14 @@
 //to mean that the player has left the zone.
 static const int EXIT_FRAMES = 2;
 
-TriggerZone::TriggerZone(const sf::FloatRect& hitBox, const std::list<std::string>& onEnterNames, const std::list<std::string>& onExitNames, int lightLevel, bool triggerOnce, bool startEnabled):
+TriggerZone::TriggerZone(const sf::FloatRect& hitBox, const std::list<std::string>& onEnterNames, const std::list<std::string>& onExitNames, std::list<std::string> requiredItems, int lightLevel, bool triggerOnce, bool startEnabled):
 	CollisionZone(startEnabled, hitBox, triggerOnce),
 	mUpdatesSinceLastTouch(EXIT_FRAMES + 1),
 	mInZone(false),
 	mLightLevel(lightLevel),
 	mEnterNames(onEnterNames),
 	mExitNames(onExitNames),
+	mRequiredItems(requiredItems),
 	mSubLevel_p(NULL)
 {
 }
@@ -65,7 +66,7 @@ void TriggerZone::drawSelf() {
 		sf::Vertex(sf::Vector2f(mHitBox.left, mHitBox.top), sf::Color::Red, sf::Vector2f( 0,  0)),
 		sf::Vertex(sf::Vector2f(mHitBox.left, mHitBox.top + mHitBox.height), sf::Color::Red, sf::Vector2f( 0, 10)),
 		sf::Vertex(sf::Vector2f(mHitBox.left + mHitBox.width, mHitBox.top + mHitBox.height), sf::Color::Red, sf::Vector2f(10, 10)),
-		sf::Vertex(sf::Vector2f(mHitBox.left + mHitBox.width, mHitBox.top), sf::Color::Red, sf::Vector2f(10,  0))
+		sf::Vertex(sf::Vector2f(mHitBox.left + mHitBox.width, mHitBox.top), sf::Color::Red, sf::Vector2f(10,  0)),
 	};
 
 	auto& window = *WindowManager::get().getWindow();
@@ -74,17 +75,25 @@ void TriggerZone::drawSelf() {
 	//translate to screen coordinates
 	states.transform *= GAME_TO_SCREEN;
 
-	window.draw(vertices, 4, sf::LinesStrip, states);
+	window.draw(vertices, 4, sf::Quads, states);
 #endif
 }
 
 void TriggerZone::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::Rect<float>& intersection) {
 	
 	//only collide with players with a high enough light level.
+	
 	auto player_p = dynamic_cast<Player*>(entityCollidedWith_p);
 	if(player_p == nullptr || player_p->getCurrentLightLevel() < mLightLevel)
 		return;
 
+	//only collide if the player has certain items.
+	for(auto it = mRequiredItems.begin(), end = mRequiredItems.end(); it != end; ++it) {
+		auto& inventory = player_p->getInventory();
+		auto& itemName = *it;
+		if(inventory.hasItem(itemName) == 0)
+			return;
+	}
 
 	//if the player isn't in the zone yet,
 	//then the player has entered the zone

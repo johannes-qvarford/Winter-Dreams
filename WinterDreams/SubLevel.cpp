@@ -1,4 +1,7 @@
 #include "SubLevel.h"
+#include "LevelState.h"
+#include "Player.h"
+#include "Camera.h"
 
 #include "Script.h"
 #include "GraphicalEntity.h"
@@ -195,8 +198,25 @@ void SubLevel::render() {
 
 	window.display();
 
-	shader->setParameter("lightPosx[0]",0.5f);
-	shader->setParameter("lightPosy[0]",0.5f);
+	//auto& p_sp = mLevelState_p->getPlayer();
+	//auto& pHitBox = p_sp->getHitBox();
+	//auto pPosition = GAME_TO_SCREEN * sf::Vector2f(pHitBox.left, pHitBox.top);
+
+	//auto& c_sp = mLevelState_p->getCamera();
+	//auto& cPosition = c_sp->getPosition();
+	//
+	//auto winSize = window.getSize();
+
+	//auto position = sf::Vector2f(winSize.x / 2.f, winSize.y / 2.f) + (pPosition - cPosition);
+
+	//position.x /= winSize.x;
+	//position.y /= winSize.y;
+
+	//shader->setParameter("lightPosx[0]",position.x);
+	//shader->setParameter("lightPosy[0]",position.y);
+
+	shader->setParameter("lightPosx[0]",0.5);
+	shader->setParameter("lightPosy[0]",0.5);
 
 	sf::Sprite renderTextureSprite(window.getTexture());
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {

@@ -4,6 +4,8 @@
 #include "FileStructure.h"
 #include <SFML\Audio.hpp>
 #include "PropertyManager.h"
+#include "GameToScreen.h"
+
 
 class HitBoxSpecs{
 public:	
