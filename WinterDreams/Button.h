@@ -1,0 +1,55 @@
+#ifndef INCLUDED_BUTTON
+#define INCLUDED_BUTTON
+
+#include "Widget.h"
+#include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/Text.hpp>
+#include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics/Texture.hpp>
+#include <memory>
+
+////////////////////////////////////////////////////////////
+// /A button is a graphical rectangle with text, 
+// /that will pop the current state when its activated.
+////////////////////////////////////////////////////////////
+class Button : public Widget {
+public:
+
+	////////////////////////////////////////////////////////////
+	// /Create a button with a texture, at a certain position
+	// /with some text.
+	////////////////////////////////////////////////////////////
+	Button(const sf::Vector2f& initialPosition, std::shared_ptr<sf::Texture> texture_sp, const sf::Text& text, std::shared_ptr<sf::Font> font_sp);
+
+	////////////////////////////////////////////////////////////
+	// /Pop the state of the state manager if key == KEY_A.
+	////////////////////////////////////////////////////////////
+	void activate(sf::Keyboard::Key key);
+
+	////////////////////////////////////////////////////////////
+	// /Do nothing.
+	////////////////////////////////////////////////////////////
+	void update(MenuState* state_p);
+
+	////////////////////////////////////////////////////////////
+	// /Get the bounds of the button.
+	////////////////////////////////////////////////////////////
+	const sf::FloatRect& getBounds() const;
+
+	////////////////////////////////////////////////////////////
+	// /Get the bounds of the button.
+	////////////////////////////////////////////////////////////
+	sf::FloatRect* getBounds();
+
+private:
+
+	std::shared_ptr<sf::Texture> mTexture_sp;
+	
+	sf::FloatRect mBounds;
+
+	sf::Text mText;
+
+	std:shared_ptr<sf::Font> mFont_sp;
+};
+
+#endif

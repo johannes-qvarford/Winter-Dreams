@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationSpecs.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CollisionZone.h" />
     <ClInclude Include="CutsceneTriggerZone.h" />
@@ -80,6 +81,7 @@
     <ClInclude Include="LevelPortal.h" />
     <ClInclude Include="LightPoint.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="ListFrame.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="InventoryDisplay.h" />
     <ClInclude Include="ObjectFactory.h" />
@@ -101,6 +103,7 @@
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="SubLevel.h" />
     <ClInclude Include="TriggerZone.h" />
+    <ClInclude Include="Widget.h" />
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -167,7 +170,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>PLACE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SHIPPING;PLACE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)..\SFML\include\;$(SolutionDir)..\boost-svn\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PrecompiledHeader.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)..\..\Obj\$(Configuration)\PCH.pch</PrecompiledHeaderOutputFile>

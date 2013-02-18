@@ -23,7 +23,7 @@ void OccludedEntity::setAlpha(float alpha){
 
 void OccludedEntity::drawSelf(){
 	auto renTex = WindowManager::get().getWindow();
-//	auto& states = *WindowManager::get().getStates();
+	auto& states = *WindowManager::get().getStates();
 
 	mShader->setParameter("Alpha",mAlpha / 100.f);
 	sf::Sprite spr = mAnimation.getCurrentSprite();
@@ -38,7 +38,7 @@ void OccludedEntity::drawSelf(){
 	};
 
 	auto& window = *WindowManager::get().getWindow();
-	auto& states = *WindowManager::get().getStates();
+//	auto& states = *WindowManager::get().getStates();
 
 	//translate to screen coordinates
 	states.transform *= GAME_TO_SCREEN;

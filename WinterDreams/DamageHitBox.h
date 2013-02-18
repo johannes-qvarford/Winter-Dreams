@@ -5,13 +5,10 @@
 #include <memory>
 #include "GraphicalEntity.h"
 
-	#ifndef SHIPPING
 #include "Animation.h"
 #include "WindowManager.h"
 #include "ResourceManager.h"
 #include "GameToScreen.h"
-	#endif
-
 
 namespace sf{
 	class Sound;

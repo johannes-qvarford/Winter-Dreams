@@ -294,6 +294,15 @@
     <ClInclude Include="OccludedEntity.h">
       <Filter>Includes\Entity</Filter>
     </ClInclude>
+    <ClInclude Include="Widget.h">
+      <Filter>Includes\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Includes\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ListFrame.h">
+      <Filter>Includes\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">
@@ -337,6 +346,9 @@
     </Filter>
     <Filter Include="Includes\Entity\Animations">
       <UniqueIdentifier>{ae6ff58e-b217-4db2-8a2f-61c869eb2045}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Includes\UI">
+      <UniqueIdentifier>{83257350-06f9-4b5e-a994-124948c583b0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
