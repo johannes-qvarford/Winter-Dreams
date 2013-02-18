@@ -58,7 +58,7 @@
 			}
 		},
 		"player": {
-			"walkspeed": 2,
+			"walkspeed": 1.5,
 			"animations": {
 				"placeholder": {				
 					"spritewidth": "64",

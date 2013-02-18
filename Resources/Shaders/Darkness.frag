@@ -9,7 +9,7 @@ void main()
 	vec4 col = texture2D(texture,gl_TexCoord[0].xy);
 
 	float lightValue = 0.0;
-	for (int i = 0; i<2; ++i){
+	for (int i = 0; i<1; ++i){
 		vec2 distVec = gl_TexCoord[0]-vec2(lightPosx[i],lightPosy[i]);
 		float distance = (distVec.x*distVec.x + distVec.y * distVec.y);
 		lightValue+=0.1/(distance+0.1);

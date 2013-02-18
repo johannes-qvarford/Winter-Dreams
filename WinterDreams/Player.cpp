@@ -182,6 +182,14 @@ void Player::updateMovement(SubLevel* subLevel_p) {
 }
 
 void Player::updateAnimations(SubLevel* subLevel_p) {
+	static std::vector<std::pair<sf::Vector2f, std::string> > animations;
+	static bool init = false;
+
+	if(!init) {
+		animations.push_back(std::pair<sf::Vector2f, std::string>());
+	}
+	init = true;
+
 	/////////////////////////////////////////////////////////////////
 	if( mDirection.x >= 1) {
 		if( mDirection.y == 1 )
@@ -189,7 +197,7 @@ void Player::updateAnimations(SubLevel* subLevel_p) {
 		if( mDirection.y == -1 )
 			mCurrentAnimation_p = &mAnimationMap.find("right")->second;
 		if( mDirection.y == 0 )
-			mCurrentAnimation_p =  &mAnimationMap.find("frontright")->second;
+			mCurrentAnimation_p = &mAnimationMap.find("frontright")->second;
 	}
 	if( mDirection.x <= -1) {
 		if( mDirection.y == 1 )

@@ -1,5 +1,8 @@
 #include "SubLevel.h"
 
+#include "Player.h"
+#include "LevelState.h"
+
 #include "Script.h"
 #include "GraphicalEntity.h"
 #include "CollisionZone.h"
@@ -160,12 +163,20 @@ void SubLevel::render() {
 #endif
 
 	//display
-	
+	static bool test = false;
+	static int RemainingLight;
+	if (!test)
+		RemainingLight = 10;
+	test = true;
 	static float pxt=1;
 	static float lightPosx=0.5;
 	static float lightPosy=0.5;
 	static sf::Shader* shader = new sf::Shader;
-	shader->loadFromFile(FS_DIR_SHADERS + "Darkness.frag", sf::Shader::Fragment);
+	static bool init = false;
+	if(!init)
+		shader->loadFromFile(FS_DIR_SHADERS + "Darkness.frag", sf::Shader::Fragment);
+	init = true;
+
 	window.display();
 
 	shader->setParameter("lightPosx[0]",0.5);
@@ -180,11 +191,19 @@ void SubLevel::render() {
 	} else {
 		renderWindow.draw(renderTextureSprite);
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
-		pxt+=0.1f;
-	} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)){
-		pxt-=0.1f;
+
+
+	auto level = getLevel();
+	//auto RemainingLight = level->getPlayer()->getCurrentLightLevel();
+	
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && RemainingLight != 10){
+		RemainingLight += 1;
+
+	} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F) && RemainingLight != 1){
+		RemainingLight -= 1;
 	}
+
+	pxt = (10/RemainingLight);
 
 	renderWindow.display();
 
