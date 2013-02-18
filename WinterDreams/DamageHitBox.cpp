@@ -47,6 +47,7 @@ DamageHitBox::DamageHitBox(const sf::Rect<float>& hitBox, unsigned int damage, s
 	mDamage( damage ),
 	mDamageType( damageType ),
 	mLifeTime(10),
+	mQueDisable( false ),
 	mCurrentAnimation_p( nullptr )
 { 
 	auto& list = HitBoxSpecs::get().mAnimSpecList;
@@ -79,12 +80,12 @@ DamageHitBox::~DamageHitBox() {
 sf::FloatRect& DamageHitBox::getHitBox() {
 	return mHitBox;
 }
-	///////////////////////////////////////////////
-	// /Counts down the hitbox life time. The hit box is set
-	// /to inactive when it reaches 0.
-	///////////////////////////////////////////////
+
 void DamageHitBox::update(SubLevel* subLevel_p){
 	mCurrentAnimation_p->updateAnimation();
+
+	if( mQueDisable )
+		setEnabled(false);
 
 	if( mCurrentAnimation_p->endOfAnimation() )
 		setAlive( false );
@@ -107,4 +108,8 @@ int DamageHitBox::getDamageAmount() const {
 
 std::string DamageHitBox::getDamageType() const {
 	return mDamageType;
+}
+
+void DamageHitBox::disableNextFrame() {
+	mQueDisable = true;
 }
