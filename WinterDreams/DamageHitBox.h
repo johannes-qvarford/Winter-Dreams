@@ -52,6 +52,12 @@ public:
 	// /Get the damage hitbox's damage amount.
 	///////////////////////////////////////////////
 	int getDamageAmount() const;
+	///////////////////////////////////////////////
+	// /Disables the hitbox next frame. This is
+	// /used if the hitbox should be able to effect
+	// /several entitys the same frame.
+	///////////////////////////////////////////////
+	void disableNextFrame();
 
 	sf::Vector2i getDirection() { return sf::Vector2i(0,0); }
 
@@ -63,5 +69,6 @@ private:
 	std::string						mDamageType;
 	std::shared_ptr<sf::Sound>		mSound;
 
+	bool							mQueDisable;
 };
 #endif

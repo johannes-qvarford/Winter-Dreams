@@ -13,7 +13,7 @@
 #include <cmath>
 #include <iostream>
 
-static void addHitBox( SubLevel* subLevel_p, Player& player, int dmgAmount, std::string type);
+static void addHitBox( SubLevel* subLevel_p, Player* player, int dmgAmount, const std::string& type);
 static int convert( int value );
 
 class PlayerSpecs{
@@ -218,17 +218,20 @@ void Player::assignMoveAnimations(SubLevel* subLevel_p) {
 
 
 void Player::updateActions(SubLevel* subLevel_p) {
-	mActionCooldown--;
-
+	if( mActionCooldown > 0 ){
+		mActionCooldown--;
+	}
 
 	if( InputManager::get().isSelectDown() && mActionCooldown <= 0 ){
 		mInventory.equipNext();
 		mActionCooldown = 5;
 	}
 
-	if( InputManager::get().isADown() && mInventory.getCurrentEquip() == "pickaxe" ){
-		addHitBox( subLevel_p, *this, 2, mInventory.getCurrentEquip() );
-		mActionCooldown = 20;
+	if( InputManager::get().isADown()  && mActionCooldown <= 0 ){
+		if( mInventory.getCurrentEquip() == "pickaxe" ){
+			addHitBox( subLevel_p, this, 1, mInventory.getCurrentEquip() );
+			mActionCooldown = 20;
+		}
 	}
 }
 
@@ -251,9 +254,9 @@ sf::Vector2i Player::getFacingDirection() const {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static void addHitBox( SubLevel* subLevel_p, Player& player, int dmgAmount, std::string type) {
-	auto& hitBox = player.getHitBox();
-	auto& faceDir = player.getFacingDirection();
+static void addHitBox( SubLevel* subLevel_p, Player* player, int dmgAmount, const std::string& type) {
+	auto& hitBox = player->getHitBox();
+	auto& faceDir = player->getFacingDirection();
 
 	auto x = hitBox.left;
 	auto y = hitBox.top;
@@ -265,7 +268,7 @@ static void addHitBox( SubLevel* subLevel_p, Player& player, int dmgAmount, std:
 	
 	sf::FloatRect rect( newPosX, newPosY, width, height);
 
-	std::shared_ptr<GraphicalEntity> dmgHitBox( new DamageHitBox(rect, 2, type) );
+	std::shared_ptr<GraphicalEntity> dmgHitBox( new DamageHitBox(rect, dmgAmount, type) );
 
 	subLevel_p->addGraphicalEntity( dmgHitBox );
 }

@@ -82,7 +82,7 @@
 		"crystal" : {
 			"hp":5,
 			"animations" : {
-				"placeholder": {
+				"solid1": {
 					"spritewidth": "64",
 					"spriteheight": "64",
 					"yorigin": "48",
