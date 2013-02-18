@@ -160,9 +160,11 @@ static void loadSubLevel(const std::string& subLevelName, LevelState* levelState
 		auto map = properties.get_child(NAME_LEVELSETTINGS_MAPLAYER);
 		properties.get_value<std::string>();
 		auto& mlFilename = properties.get<std::string>(NAME_LEVELSETTINGS_MAPLAYER);
+		auto& bkFilename = properties.get<std::string>("background");
 		
 //		auto bgTexture_sp = resMgr.getTexture(bgFilename);
 		auto mlTexture_sp = resMgr.getTexture(FS_DIR_MAPS + mlFilename);
+		auto bkTexture_sp = resMgr.getTexture(FS_DIR_BACKGROUNDS + bkFilename);
 
 		auto yTiles = levelData.get<int>("height");
 
@@ -172,9 +174,10 @@ static void loadSubLevel(const std::string& subLevelName, LevelState* levelState
 		//may need to change when switching level.
 		/*const float X_OFFSET = -0.f;*/		const float X_OFFSET = -45.f;	
 		/*const float Y_OFFSET = -0.f;*/		const float Y_OFFSET = -17.f;
-		auto mlOffset = sf::Vector2f((cosf(22.5f) * yLength) + X_OFFSET, Y_OFFSET); 
+		auto mlOffset = sf::Vector2f((cosf(22.5f) * yLength) + X_OFFSET, Y_OFFSET);
 
 		subLevel_sp->setMapTexture(mlTexture_sp, mlOffset);
+		subLevel_sp->setBackgroundTexture(bkTexture_sp, sf::Vector2f(0,0));
 //		mLoadedLevel->setBackgroundTexture(bgTexture_sp, sf::Vector2f(0, 0));
 	}
 

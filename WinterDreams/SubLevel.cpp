@@ -117,6 +117,14 @@ void SubLevel::render() {
 	//clear window for drawing, and reset transformation matrix.
 	window.clear();
 	renderStates.transform = sf::Transform::Identity;
+	
+	//draw background
+	{
+		auto camPos = mLevelState_p->getCamera()->getPosition();
+		auto bkg = sf::Sprite(*mBackgroundTexture.first);
+		bkg.setPosition(camPos.x*0.5-window.getSize().x/2, camPos.y*0.5-window.getSize().y/2);
+		window.draw(bkg);
+	}
 
 	//draw map
 	{
