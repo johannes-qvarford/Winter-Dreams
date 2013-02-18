@@ -5,6 +5,7 @@
 #include "FileStructure.h"
 #include "GameToScreen.h"
 #include "WindowManager.h"
+#include "Player.h"
 
 #include <limits>
 
@@ -40,6 +41,8 @@ NPCSpecs::NPCSpecs()
 {
 	auto prop = PropertyManager::get().getObjectSettings();
 	auto npcTree = prop.get_child("objects.npc");
+	mSpeed = npcTree.get<float>("speed");
+	mTolerance = npcTree.get<float>("tolerance");
 	AnimationSpecs::parse(npcTree, mAnimSpecList);
 }
 
@@ -61,7 +64,6 @@ NPC::NPC(const std::string& pathName, const sf::FloatRect& initialPosition, bool
 }
 
 void NPC::update(SubLevel* subLevel_p) {
-	
 	
 	//are we still looking for the path?
 	if(mFoundPath == false) {
@@ -101,6 +103,7 @@ void NPC::update(SubLevel* subLevel_p) {
 	}
 	//move 
 	else {
+
 		//convert part of hitbox to a vector for easier calculations
 		auto position = sf::Vector2f(mHitBox.left, mHitBox.top);
 		
@@ -146,16 +149,19 @@ void NPC::drawSelf() {
 	auto& window = *mgr.getWindow();
 	auto& states = *mgr.getStates();
 
-//draw path
-#ifdef _DEBUG
-	std::vector<sf::Vertex> vertices;
-
-	for(auto it = mPath_p->begin(), end = mPath_p->end(); it != end; ++it) {
-		vertices.push_back(sf::Vertex(*it, sf::Color::Blue));
-	}
-	window.draw(vertices.data(), vertices.size(), sf::LinesStrip, states);
-#endif
-
 	window.draw(sprite, states);
 
+}
+
+sf::FloatRect& NPC::getHitBox() {
+	return mHitBox;
+}
+
+void NPC::onCollision(PhysicalEntity * pe_p, const sf::FloatRect& intersection) {
+	auto player_p = dynamic_cast<Player*>(pe_p);
+	if(player_p == nullptr)
+		return;
+
+	if(player_p->getCurrentLightLevel() > 1)
+		player_p->adjustCurrentLightLevel(-1);
 }

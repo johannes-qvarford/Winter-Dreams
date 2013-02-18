@@ -61,9 +61,6 @@
     <ClCompile Include="ParticleSystem.cpp">
       <Filter>Sources\Particle</Filter>
     </ClCompile>
-    <ClCompile Include="GameState.cpp">
-      <Filter>Sources\State</Filter>
-    </ClCompile>
     <ClCompile Include="LoadingState.cpp">
       <Filter>Sources\State</Filter>
     </ClCompile>
@@ -127,6 +124,39 @@
     <ClCompile Include="LevelPortal.cpp">
       <Filter>Sources\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="Registration_ai_path.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_npc.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Sources\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Queue.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="QueueItem.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="OccludedEntity.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_collider.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_levelportal.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_occluder.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_queue.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_queueitem.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameToScreen.h">
@@ -178,9 +208,6 @@
       <Filter>Includes\Manager</Filter>
     </ClInclude>
     <ClInclude Include="State.h">
-      <Filter>Includes\State</Filter>
-    </ClInclude>
-    <ClInclude Include="GameState.h">
       <Filter>Includes\State</Filter>
     </ClInclude>
     <ClInclude Include="LoadingState.h">
@@ -251,9 +278,30 @@
     </ClInclude>
     <ClInclude Include="SubLevel.h">
       <Filter>Includes\State</Filter>
-	</ClInclude>  
+    </ClInclude>
     <ClInclude Include="LevelPortal.h">
       <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Includes\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Queue.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="QueueItem.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="OccludedEntity.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Widget.h">
+      <Filter>Includes\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Includes\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ListFrame.h">
+      <Filter>Includes\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -298,6 +346,9 @@
     </Filter>
     <Filter Include="Includes\Entity\Animations">
       <UniqueIdentifier>{ae6ff58e-b217-4db2-8a2f-61c869eb2045}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Includes\UI">
+      <UniqueIdentifier>{83257350-06f9-4b5e-a994-124948c583b0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

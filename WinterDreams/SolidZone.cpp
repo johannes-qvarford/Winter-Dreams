@@ -23,12 +23,12 @@ SolidZone::SolidZone(sf::Rect<float> HitBox, bool startsEnabled):
 	static auto mTexture2 = ResourceManager::get().getTexture(FS_DIR_OBJECTANIMATIONS + SolidZone_IMAGE_FILENAME_2);
 	static auto mTexture3 = ResourceManager::get().getTexture(FS_DIR_OBJECTANIMATIONS + SolidZone_IMAGE_FILENAME_3);
 	
-	if(hitBox.width < STEP + 1) {
+	if(abs(hitBox.width - STEP) < 1 && abs(hitBox.height - (-STEP)) < 1) {
 		mSprite.setOrigin(0, 32);
 		mSprite.setTexture(*mTexture1.get() );
 		mSprite.setTextureRect(sf::IntRect(0, 0, 64, 48));
 	}
-	else if(hitBox.width < (STEP * 2) + 1) {
+	else if(abs(hitBox.width - STEP * 2) < 1 && abs(hitBox.height - (-STEP * 2) < 1)) {
 		mSprite.setOrigin(0, 48);		
 		mSprite.setTexture(*mTexture2.get() );
 		mSprite.setTextureRect(sf::IntRect(0, 0, 128, 80));
@@ -126,7 +126,26 @@ void SolidZone::drawSelf(){
 
 
 	#ifdef DEBUG_SOLIDZONE
+	
 	auto window_p = WindowManager::get().getWindow();
-	window_p->draw(mSprite);
+	if(!getEnabled())
+		return;
+
+	sf::Vertex vertices[] =
+	{
+		sf::Vertex(sf::Vector2f(mHitBox.left, mHitBox.top), sf::Color::Blue, sf::Vector2f( 0,  0)),
+		sf::Vertex(sf::Vector2f(mHitBox.left, mHitBox.top + mHitBox.height), sf::Color::Blue, sf::Vector2f( 0, 10)),
+		sf::Vertex(sf::Vector2f(mHitBox.left + mHitBox.width, mHitBox.top + mHitBox.height), sf::Color::Blue, sf::Vector2f(10, 10)),
+		sf::Vertex(sf::Vector2f(mHitBox.left + mHitBox.width, mHitBox.top), sf::Color::Blue, sf::Vector2f(10,  0))
+	};
+	
+	auto& window = *WindowManager::get().getWindow();
+	auto states = *WindowManager::get().getStates();
+
+	//translate to screen coordinates
+	states.transform *= GAME_TO_SCREEN;
+
+	window.draw(vertices, 4, sf::Quads, states);
+	//	window_p->draw(mSprite);
 #endif
 }

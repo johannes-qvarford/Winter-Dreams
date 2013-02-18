@@ -16,8 +16,8 @@
     <ClCompile Include="CollisionZone.cpp" />
     <ClCompile Include="DamageHitBox.cpp" />
     <ClCompile Include="FileStructure.cpp" />
-    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Crystal.cpp" />
+    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="InventoryDisplay.cpp" />
     <ClCompile Include="LevelState.cpp" />
     <ClCompile Include="LevelPortal.cpp" />
@@ -27,6 +27,7 @@
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="ObjectFactory.cpp" />
     <ClCompile Include="ObjectTypeRegistration.cpp" />
+    <ClCompile Include="OccludedEntity.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="PrecompiledHeader.cpp">
@@ -34,14 +35,23 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="PropertyManager.cpp" />
+    <ClCompile Include="Queue.cpp" />
+    <ClCompile Include="QueueItem.cpp" />
+    <ClCompile Include="Registration_ai_path.cpp" />
+    <ClCompile Include="Registration_collider.cpp" />
     <ClCompile Include="Registration_collision128x64.cpp" />
     <ClCompile Include="Registration_collision256x128.cpp" />
     <ClCompile Include="Registration_collision64x32.cpp" />
     <ClCompile Include="Registration_crystal.cpp" />
+    <ClCompile Include="Registration_levelportal.cpp" />
     <ClCompile Include="Registration_light.cpp" />
     <ClCompile Include="Registration_item.cpp" />
+    <ClCompile Include="Registration_npc.cpp" />
+    <ClCompile Include="Registration_occluder.cpp" />
     <ClCompile Include="Registration_player.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Registration_queue.cpp" />
+    <ClCompile Include="Registration_queueitem.cpp" />
     <ClCompile Include="Registration_soundscape.cpp" />
     <ClCompile Include="Registration_trigger.cpp" />
     <ClCompile Include="SolidZone.cpp" />
@@ -57,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationSpecs.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CollisionZone.h" />
     <ClInclude Include="CutsceneTriggerZone.h" />
@@ -65,20 +76,25 @@
     <ClInclude Include="GameToScreen.h" />
     <ClInclude Include="Crystal.h" />
     <ClInclude Include="GraphicalEntity.h" />
+    <ClInclude Include="InputManager.h" />
     <ClInclude Include="LevelState.h" />
     <ClInclude Include="LevelPortal.h" />
     <ClInclude Include="LightPoint.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="ListFrame.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="InventoryDisplay.h" />
     <ClInclude Include="ObjectFactory.h" />
     <ClInclude Include="ObjectTypeRegistration.h" />
+    <ClInclude Include="OccludedEntity.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="PhysicalEntity.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PrecompiledHeader.h" />
     <ClInclude Include="PropertyManager.h" />
+    <ClInclude Include="Queue.h" />
+    <ClInclude Include="QueueItem.h" />
     <ClInclude Include="RegistrationCommonHeaders.h" />
     <ClInclude Include="Script.h" />
     <ClInclude Include="SolidZone.h" />
@@ -87,6 +103,7 @@
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="SubLevel.h" />
     <ClInclude Include="TriggerZone.h" />
+    <ClInclude Include="Widget.h" />
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -153,7 +170,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>PLACE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SHIPPING;PLACE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)..\SFML\include\;$(SolutionDir)..\boost-svn\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PrecompiledHeader.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)..\..\Obj\$(Configuration)\PCH.pch</PrecompiledHeaderOutputFile>
@@ -171,7 +188,6 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Entity.h" />
-    <ClInclude Include="GameState.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="LoadingState.h" />
     <ClInclude Include="MenuState.h" />

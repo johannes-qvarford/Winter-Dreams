@@ -121,18 +121,36 @@ public:
 	//////////////////////////////////////////////////////
 	void setMovementMode(MovementMode movementMode);
 	//////////////////////////////////////////////////////
-	// /Returns the avatars direction
+	// /Returns the avatars current movement direction
 	//////////////////////////////////////////////////////
 	sf::Vector2i getDirection();
-
+	//////////////////////////////////////////////////////
+	// /Returns the avatars current movement direction
+	//////////////////////////////////////////////////////
+	sf::Vector2i getFacingDirection() const;
+	//////////////////////////////////////////////////////
+	// /Assign the avatar a direction to face. 
+	// /
+	// /This directin will select which facing direction
+	// /the avatar is given. Will ignore if (0,0) is passed
+	// /
+	// /				!IMPORTANT NOTICE!
+	// / The direction is in world coordinates. This means
+	// /that if (1,0) is passed, this will be interpreted
+	// /as "front right". Straight forward is (1,1), right is
+	// /(1,-1)
+	//////////////////////////////////////////////////////
+	void setFacingDirection(sf::Vector2i dir);
 private:
 	// /Updates the players movement
 	void updateMovement(SubLevel* subLevel_p);
-	// /Updates the players animations
-	void updateAnimations(SubLevel* subLevel_p);
+	// /Assigns the avatar an appropriate movement animation
+	void assignMoveAnimations(SubLevel* subLevel_p);
 	// /Updates the players actions.
 	// /This includes swinging with pickaxe and such
 	void updateActions(SubLevel* subLevel_p);
+	// /Updates the players animations
+	void updateCurrentAnimation();
 
 	Animation*						 mCurrentAnimation_p; //The avatar's current animation
 	std::map<std::string, Animation> mAnimationMap;		//The avatar's animation map
@@ -141,8 +159,10 @@ private:
 	MovementMode					 mMovementMode;		//The avatar's current movementMode
 	float							 mMoveSpeed;		//The avatar's movespeed
 	Inventory						 mInventory;		//The avatar's inventory
-	sf::Vector2i					 mDirection;		//The avatar's direction
+	sf::Vector2i					 mDirection;		//The avatar's current movement direction
+	sf::Vector2i					 mFacingDir;		//Holds the direction the avatar is facing. 
 	int								 mActionCooldown;	//Regulates the avatar's action cooldowns
+	bool							 mIsActionActive;	//Keeps track of whether an action is active or not
 	//No copies
 	Player::Player( const Player& player );
 	//No copies

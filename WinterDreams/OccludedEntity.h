@@ -1,18 +1,32 @@
 #ifndef INCLUDED_OCCLUDEDENTITY
 #define INCLUDED_OCCLUDEDENTITY
 #include "GraphicalEntity.h"
-#include "WindowManager.h"
-#include "ResourceManager.h"
+#include "Animation.h"
 
 class OccludedEntity : public GraphicalEntity {
-	OccludedEntity( bool startEnabled=true );
+public:
+	OccludedEntity(const sf::FloatRect& initialPosition, const Animation& animation, bool startEnabled);
+	
 	~OccludedEntity();
+	
+	void update(SubLevel* subLevel_p){};
+
+	void onCollision(PhysicalEntity * pe_p,const sf::FloatRect& intersection){}
+
 	void setAlpha(float alpha);
+	
 	void drawSelf();
+
+	sf::FloatRect& getHitBox();
 private:
+
 	float mAlpha;
+
 	std::shared_ptr<sf::Shader> mShader;
-	sf::Texture mTexture;
+
+	Animation mAnimation;
+
+	sf::FloatRect mHitBox;
 };
 
 #endif

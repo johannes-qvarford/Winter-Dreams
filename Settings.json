@@ -6,8 +6,91 @@
 	{
 		"lvl_1":
 		{
-			"first_sublevel_name" : "lvl_1_1v02.json",
-			"sublevels": ["lvl_1_1v02.json"]
+			"first_sublevel_name" : "lvl_1_1v06.json",
+			"sublevels": ["lvl_1_1v06.json", "lvl_1_2v04.json"]
 		}
-	}
+	},
+	
+	"itemdisplay": {
+		"xfromleft": "50",
+		"yfromtop": "50",
+		"iconsappart": "100",
+		"animations": {
+			"itembox": {				
+				"spritewidth": "94",
+				"spriteheight": "94",
+				"yorigin": "47",
+				"xorigin": "47",
+				"numberofsprites": "1",
+				"framespersprite": "100",
+				"filename": "itembox.png"
+			},
+			"pickaxe": {
+				"iconindex": "1",
+				"spritewidth": "85",
+				"spriteheight": "85",
+				"yorigin": "42",
+				"xorigin": "42",
+				"numberofsprites": "1",
+				"framespersprite": "100",
+				"filename": "pickaxe.png"
+			},
+			"wheel": {
+				"iconindex": "2",
+				"spritewidth": "85",
+				"spriteheight": "85",
+				"yorigin": "42",
+				"xorigin": "42",
+				"numberofsprites": "1",
+				"framespersprite": "100",
+				"filename": "wheel.png"
+			},
+			"shoes": {
+				"iconindex": "3",
+				"spritewidth": "85",
+				"spriteheight": "85",
+				"yorigin": "42",
+				"xorigin": "42",
+				"numberofsprites": "1",
+				"framespersprite": "100",
+				"filename": "shoes.png"
+			},
+			"orb_orange": {				
+				"spritewidth": "85",
+				"spriteheight": "85",
+				"yorigin": "45",
+				"xorigin": "45",
+				"numberofsprites": "1",
+				"framespersprite": "100",
+				"filename": "orb_orange.png"
+			},
+			"orb_purple": {				
+				"spritewidth": "85",
+				"spriteheight": "85",
+				"yorigin": "45",
+				"xorigin": "45",
+				"numberofsprites": "1",
+				"framespersprite": "100",
+				"filename": "orb_purple.png"
+			},
+			"orb_red": {				
+				"spritewidth": "85",
+				"spriteheight": "85",
+				"yorigin": "45",
+				"xorigin": "45",
+				"numberofsprites": "1",
+				"framespersprite": "100",
+				"filename": "orb_red.png"
+			},
+			"orb_blue": {				
+				"spritewidth": "85",
+				"spriteheight": "85",
+				"yorigin": "45",
+				"xorigin": "45",
+				"numberofsprites": "1",
+				"framespersprite": "100",
+				"filename": "orb_blue.png"
+			}
+		}	
+	}		
 }

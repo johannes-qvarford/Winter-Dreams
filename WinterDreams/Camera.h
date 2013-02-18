@@ -69,6 +69,8 @@ public:
 	////////////////////////////////////////////////////////////
 	void lockCamera()	{ if( !mLockedEntity.expired() ) mLockedCamera = true;	 }
 
+	const sf::Vector2f& getPosition() { return mCameraPosition; }
+
 	void draw() const;
 private:
 	std::weak_ptr<PhysicalEntity>	mLockedEntity;  // A pointer to the locked entity. Will be NULL if no entity is locked.

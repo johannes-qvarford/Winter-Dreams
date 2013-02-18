@@ -13,7 +13,7 @@
 // /When it collides with the player, it lowers
 // /her light level.
 //////////////////////////////////////////////////////
-class NPC : GraphicalEntity {
+class NPC : public GraphicalEntity {
 public:
 
 	//////////////////////////////////////////////////////
@@ -33,6 +33,10 @@ public:
 	// /Draw the NPC.
 	//////////////////////////////////////////////////////
 	void drawSelf();
+
+	void onCollision(PhysicalEntity * pe_p, const sf::FloatRect& intersection);
+
+	sf::FloatRect& getHitBox();
 
 private:
 

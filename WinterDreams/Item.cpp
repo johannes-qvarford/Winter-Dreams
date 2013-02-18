@@ -16,14 +16,14 @@ public:
 	std::list<AnimationSpecs> mAnimSpecs;
 
 private:
-	ItemSpecs();							//Singleton-pattern
+	ItemSpecs();						//Singleton-pattern
 	ItemSpecs(const ItemSpecs& p);		//No copies
 	ItemSpecs& operator=(ItemSpecs& p);	//No copies
 };
 ////////////////////////////////////////////////////////////////////////////////
 ItemSpecs::ItemSpecs() {
 	auto& obj = PropertyManager::get().getObjectSettings();
-	auto& item = obj.get_child( "objects.player.itemdisplay" );
+	auto& item = obj.get_child( "objects.items" );
 	
 	AnimationSpecs::parse( item, mAnimSpecs);
 }
@@ -42,6 +42,7 @@ Item::Item(sf::FloatRect position, std::string itemName, bool startEnabled) :
 {
 	auto& animSpecs = ItemSpecs::get().mAnimSpecs;
 
+	mAnimation = nullptr;
 	for( auto iter = animSpecs.begin(), end = animSpecs.end(); iter != end; ++iter) {
 		if( iter->mAnimName != mItemName )
 			continue;
@@ -55,7 +56,7 @@ Item::Item(sf::FloatRect position, std::string itemName, bool startEnabled) :
 		auto file = iter->mFileName;
 		auto name = iter->mAnimName;
 
-		mAnimation = new Animation(FS_DIR_OBJECTANIMATIONS +"itemdisplay/"+ file , w, h, nos, fps, xO, yO);
+		mAnimation = new Animation(FS_DIR_OBJECTANIMATIONS +"item/"+ file , w, h, nos, fps, xO, yO);
 	}
 }
 
@@ -79,9 +80,9 @@ sf::FloatRect& Item::getHitBox()  {
 void Item::update(SubLevel* subLevel_p) { /* Do nothing */ } 
 
 void Item::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::Rect<float>& intersection) {
-	if( static_cast<Player*>( entityCollidedWith_p ) ){
+	if( dynamic_cast<Player*>( entityCollidedWith_p ) ){
 			//If the item collided with an entity of player type, add the item to the players inventory
-		auto player = static_cast<Player*>( entityCollidedWith_p );
+		auto player = dynamic_cast<Player*>( entityCollidedWith_p );
 		player->changeInventory()->giveItem(mItemName, 1);
 			//Set the item to dead, so the item is removed.
 		setAlive( false );

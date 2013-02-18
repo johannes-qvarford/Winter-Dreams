@@ -1,4 +1,19 @@
 {
+	"occluder": {
+		"sprite": {
+			"placeholder":{
+				"yorigin": 0,
+				"xorigin": 0,
+				"filename": "placeholder.png"
+			},
+			"bridge":{
+				"yorigin": 0,
+				"xorigin": 0,
+				"filename": "bridge.png"
+			}
+		}
+	},
+	
 	"defaultanimations": {
 		"small": {
 			"defaultwidth": 64,
@@ -43,8 +58,8 @@
 		},
 		"npc" : {
 			"startdisabled": false,
-			"speed" : 1.0,
-			"tolerance" : 0.01,
+			"speed" : 4.0,
+			"tolerance" : 4.0,
 			"animations" : {
 				"placeholder": {
 					"spritewidth": "64",
@@ -57,8 +72,35 @@
 				}
 			}
 		},
+		"light" : {
+			"animations" : {
+				"placeholder": {
+					"spritewidth": "64",
+					"spriteheight": "64",
+					"yorigin": "48",
+					"xorigin": "0",
+					"numberofsprites": "1",
+					"framespersprite": "100",
+					"filename": "placeholder.png"
+				}
+			}
+		},
+		"crystal" : {
+			"hp":5,
+			"animations" : {
+				"solid1": {
+					"spritewidth": "64",
+					"spriteheight": "64",
+					"yorigin": "48",
+					"xorigin": "0",
+					"numberofsprites": "1",
+					"framespersprite": "100",
+					"filename": "placeholder.png"
+				}
+			}
+		},
 		"player": {
-			"walkspeed": 1.5,
+			"walkspeed": 5.5,
 			"animations": {
 				"placeholder": {				
 					"spritewidth": "64",
@@ -141,80 +183,7 @@
 					"framespersprite": "9",				
 					"filename": "spritesheet_zeles_left.png"
 				}
-			},
-			"itemdisplay": {
-				"xfromleft": "50",
-				"yfromtop": "50",
-				"iconsappart": "100",
-				"animations": {
-					"itembox": {				
-						"spritewidth": "90",
-						"spriteheight": "90",
-						"yorigin": "45",
-						"xorigin": "45",
-						"numberofsprites": "1",
-						"framespersprite": "100",
-						"filename": "itembox.png"
-					},
-					"pickaxe": {
-						"iconindex": "1",
-						"spritewidth": "85",
-						"spriteheight": "85",
-						"yorigin": "42",
-						"xorigin": "42",
-						"numberofsprites": "1",
-						"framespersprite": "100",
-						"filename": "pickaxe.png"
-					},
-					"wheel": {
-						"iconindex": "2",
-						"spritewidth": "85",
-						"spriteheight": "85",
-						"yorigin": "42",
-						"xorigin": "42",
-						"numberofsprites": "1",
-						"framespersprite": "100",
-						"filename": "wheel.png"
-					},
-					"shoes": {
-						"iconindex": "3",
-						"spritewidth": "85",
-						"spriteheight": "85",
-						"yorigin": "42",
-						"xorigin": "42",
-						"numberofsprites": "1",
-						"framespersprite": "100",
-						"filename": "shoes.png"
-					},
-					"orb1": {				
-						"spritewidth": "85",
-						"spriteheight": "85",
-						"yorigin": "45",
-						"xorigin": "45",
-						"numberofsprites": "1",
-						"framespersprite": "100",
-						"filename": "orb1.png"
-					},
-					"orb2": {				
-						"spritewidth": "85",
-						"spriteheight": "85",
-						"yorigin": "45",
-						"xorigin": "45",
-						"numberofsprites": "1",
-						"framespersprite": "100",
-						"filename": "orb2.png"
-					},
-					"orb3": {				
-						"spritewidth": "85",
-						"spriteheight": "85",
-						"yorigin": "45",
-						"xorigin": "45",
-						"numberofsprites": "1",
-						"framespersprite": "100",
-						"filename": "orb3.png"
-					}
-				}
-			}	
+			}
 		},
 		
 		"statue": {
@@ -224,9 +193,97 @@
 					
 				}
 			}
+		},
+		
+		"items": {
+			"animations": {
+				"pickaxe": {
+					"iconindex": "1",
+					"spritewidth": "64",
+					"spriteheight": "64",
+					"yorigin": "32",
+					"xorigin": "0",
+					"numberofsprites": "1",
+					"framespersprite": "100",
+					"filename": "pickaxe.png"
+				},
+				"wheel": {
+					"iconindex": "2",
+					"spritewidth": "85",
+					"spriteheight": "85",
+					"yorigin": "42",
+					"xorigin": "42",
+					"numberofsprites": "1",
+					"framespersprite": "100",
+					"filename": "wheel.png"
+				},
+				"shoes": {
+					"iconindex": "3",
+					"spritewidth": "85",
+					"spriteheight": "85",
+					"yorigin": "42",
+					"xorigin": "42",
+					"numberofsprites": "1",
+					"framespersprite": "100",
+					"filename": "shoes.png"
+				},
+				"orb_red": {				
+					"spritewidth": "32",
+					"spriteheight": "32",
+					"yorigin": "32",
+					"xorigin": "0",
+					"numberofsprites": "1",
+					"framespersprite": "100",
+					"filename": "orb_red.png"
+				},
+				"orb_purple": {				
+					"spritewidth": "32",
+					"spriteheight": "32",
+					"yorigin": "32",
+					"xorigin": "0",
+					"numberofsprites": "1",
+					"framespersprite": "100",
+					"filename": "orb_purple.png"
+				},
+				"orb_orange": {				
+					"spritewidth": "32",
+					"spriteheight": "32",
+					"yorigin": "32",
+					"xorigin": "0",
+					"numberofsprites": "1",
+					"framespersprite": "100",
+					"filename": "orb_orange.png"
+				},
+				"orb_blue": {				
+					"spritewidth": "32",
+					"spriteheight": "32",
+					"yorigin": "32",
+					"xorigin": "0",
+					"numberofsprites": "1",
+					"framespersprite": "100",
+					"filename": "orb_blue.png"
+				}
+			}
+		},
+		
+		"hitbox": {
+			"lifetime": "18",
+			"animations": {
+				"pickaxe": {
+					"spritewidth": "64",
+					"spriteheight": "64",
+					"yorigin": "48",
+					"xorigin": "0",
+					"numberofsprites": "3",
+					"framespersprite": "8",			
+					"filename": "placeholder.png"
+				}
+			}
 		}
 	},
+	
 	"ids": {
 		
 	}
+	
 }

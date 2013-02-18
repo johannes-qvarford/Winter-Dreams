@@ -37,10 +37,11 @@ CrystalSpecs& CrystalSpecs::get() {
 }
 ////////////////////////////////////////////////////////////////////////////////
 
-Crystal::Crystal( const sf::FloatRect& position, bool startEnabled ) : 
+Crystal::Crystal( const sf::FloatRect& position, bool startEnabled, std::string imgVersion) : 
 	GraphicalEntity( startEnabled ),
+	mVersion( imgVersion ),
 	mSolidZone( new SolidZone( position, startEnabled ) ),
-	mHP		( 6 )
+	mHP		( 3 )
 
 {
 	using namespace std;
@@ -58,7 +59,7 @@ Crystal::Crystal( const sf::FloatRect& position, bool startEnabled ) :
 		Animation anim(FS_DIR_OBJECTANIMATIONS +"crystal/"+ file , w, h, nos, fps, xO, yO);
 		mAnimationMap.insert( pair<string, Animation>( name , anim ) );
 	}
-	mCurrentAnimation = &mAnimationMap.find("placeholder")->second; //INSERT INITIAL CRYSTAL IMG HERE
+	mCurrentAnimation = &mAnimationMap.find("solid" + mVersion)->second; //INSERT INITIAL CRYSTAL IMG HERE
 		//Get a reference to the crystal's solidzone's hitbox
 	auto& box = mSolidZone->getHitBox();
 		//Create a positionvector from the solidzone's hitbox
@@ -76,6 +77,8 @@ Crystal::Crystal( const sf::FloatRect& position, bool startEnabled ) :
 Crystal::~Crystal() { }
 
 void Crystal::update(SubLevel* subLevel_p) {
+
+	updateAnimation();
 
 	if( mHP <= 0 )
 		setAlive( false );
@@ -104,10 +107,19 @@ void Crystal::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::FloatR
 	if( dynamic_cast<DamageHitBox*>( entityCollidedWith_p ) ) {
 		auto dmgHitBox = dynamic_cast<DamageHitBox*>( entityCollidedWith_p );
 		
-		if( dmgHitBox->getDamageType() == DamageHitBox::PICKAXE ) {
+		if( dmgHitBox->getDamageType() == "pickaxe" ) {
 				//Reduce crytal's HP by DamageHitBox's damage then set the hitbox to !enabled
 			adjustHealth(dmgHitBox->getDamageAmount() * -1);
-			dmgHitBox->setEnabled( false );
+			dmgHitBox->disableNextFrame();
 		}
 	}
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Crystal::updateAnimation(){
+
+
 }

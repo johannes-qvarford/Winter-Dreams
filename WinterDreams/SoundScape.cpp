@@ -89,7 +89,7 @@ void SoundScape::update(SubLevel* subLevel_p){
 	float volume;
 	float fullVolumeRadius = X_STEP * mInnerRadius;
 	float distance = sqrt(playerToSoundVector.x * playerToSoundVector.x + playerToSoundVector.y * playerToSoundVector.y);
-	float maxRange = (X_STEP * 100/(mRangeDecay + 0.0000001)) + fullVolumeRadius;
+	float maxRange = (X_STEP * 100/(mRangeDecay + 0.0000001f)) + fullVolumeRadius;
 	float volumeModifier;
 
 
@@ -100,16 +100,16 @@ void SoundScape::update(SubLevel* subLevel_p){
 // /OSV. volumeModifier delas med 100 för att få ett decimaltal som man kan gångra med mVolume senare
 //////////////////////////////////////////////////////////////////////
 	if (mSoundType == "narrator"){
-		volumeModifier = PropertyManager::get().getUserSettings()->get<int>("narratorVolume");
-		volumeModifier = volumeModifier/100;
+		volumeModifier = float(PropertyManager::get().getUserSettings()->get<int>("narratorVolume") );
+		volumeModifier = float(volumeModifier/100 );
 	}
 	else if (mSoundType == "sound"){
-		volumeModifier = PropertyManager::get().getUserSettings()->get<int>("soundVolume");
-		volumeModifier = volumeModifier/100;
+		volumeModifier = float(PropertyManager::get().getUserSettings()->get<int>("soundVolume") );
+		volumeModifier = float(volumeModifier/100 );
 	}
 	else {
-		volumeModifier = PropertyManager::get().getUserSettings()->get<int>("musicVolume");
-		volumeModifier = volumeModifier/100;
+		volumeModifier = float(PropertyManager::get().getUserSettings()->get<int>("musicVolume") );
+		volumeModifier = float(volumeModifier/100 );
 	}
 
 
@@ -151,7 +151,7 @@ void SoundScape::drawSelf(){
 		position.x += i;
 
 		sf::Vertex vertex[] = {sf::Vertex(position, sf::Color::Yellow)};
-		window.draw(vertex, 1, sf::PrimitiveType::Points, states);
+		window.draw(vertex, 1, sf::Points, states);
 
 	}
 }

@@ -1,4 +1,7 @@
 #include "SubLevel.h"
+#include "LevelState.h"
+#include "Player.h"
+#include "Camera.h"
 
 #include "Player.h"
 #include "LevelState.h"
@@ -14,6 +17,7 @@
 #include <algorithm>
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/VertexArray.hpp>
 #include <cmath>
 #include <iostream>
 
@@ -123,14 +127,14 @@ void SubLevel::render() {
 		sprite.setPosition(mMapTexture.second);
 		window.draw(sprite);
 	}
-	
+
 #ifdef DEBUG_SOLIDZONE
 
 	std::list<std::shared_ptr<PhysicalEntity> > L;
 	auto& view = WindowManager::get().getWindow()->getView();
 	auto center = view.getCenter();
 	auto size = view.getSize();
-	auto viewRect = sf::FloatRect(center.x - size.x*0.6, center.y - size.y*0.6, size.x*1.2, size.y*1.2) ;
+	auto viewRect = sf::FloatRect(center.x - size.x*0.6f, center.y - size.y*0.6f, size.x*1.2f, size.y*1.2f) ;
 
 	for( auto it = mGraphicalEntities.begin(), end = mGraphicalEntities.end(); it != end; ++it){
 		auto aRect = GAME_TO_SCREEN.transformRect( (*it)->getHitBox() );
@@ -150,6 +154,27 @@ void SubLevel::render() {
 		(*a)->drawSelf();
 	}
 	std::cout << "["<<L.size() <<"]"<<" ";
+
+
+	//"push" new matrix
+	auto oldMatrix = renderStates.transform;
+//	renderStates.transform = GAME_TO_SCREEN;
+
+	//draw paths
+	for(auto it = mNameToAiPath.begin(), end = mNameToAiPath.end(); it != end; ++it) {
+		auto& path = it->second;
+		
+		//put path in a vertex array, draw points as a linestrip.
+		sf::VertexArray arr(sf::LinesStrip, path.size());
+
+		for(size_t i = 0, size = path.size();i < size; ++i) {
+			arr[i] = GAME_TO_SCREEN * path[i];
+		}
+		window.draw(arr, renderStates);
+	}
+
+	//"pop" new matrix
+	renderStates.transform = oldMatrix;
 #else
 
 	//sort them in drawing order.
@@ -163,12 +188,18 @@ void SubLevel::render() {
 #endif
 
 	//display
+
 	static bool test = false;
 	static int RemainingLight;
 	if (!test)
 		RemainingLight = 10;
 	test = true;
 	static float pxt=1;
+
+	
+	static float br=1;
+	static float maxDis=0.25;
+
 	static float lightPosx=0.5;
 	static float lightPosy=0.5;
 	static sf::Shader* shader = new sf::Shader;
@@ -179,6 +210,23 @@ void SubLevel::render() {
 
 	window.display();
 
+	//auto& p_sp = mLevelState_p->getPlayer();
+	//auto& pHitBox = p_sp->getHitBox();
+	//auto pPosition = GAME_TO_SCREEN * sf::Vector2f(pHitBox.left, pHitBox.top);
+
+	//auto& c_sp = mLevelState_p->getCamera();
+	//auto& cPosition = c_sp->getPosition();
+	//
+	//auto winSize = window.getSize();
+
+	//auto position = sf::Vector2f(winSize.x / 2.f, winSize.y / 2.f) + (pPosition - cPosition);
+
+	//position.x /= winSize.x;
+	//position.y /= winSize.y;
+
+	//shader->setParameter("lightPosx[0]",position.x);
+	//shader->setParameter("lightPosy[0]",position.y);
+
 	shader->setParameter("lightPosx[0]",0.5);
 	shader->setParameter("lightPosy[0]",0.5);
 
@@ -186,24 +234,42 @@ void SubLevel::render() {
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 		shader->setParameter("lightPosx[1]", float(sf::Mouse::getPosition(renderWindow).x)/float(renderWindow.getSize().x));
 		shader->setParameter("lightPosy[1]", 1-float(sf::Mouse::getPosition(renderWindow).y)/float(renderWindow.getSize().y));
-		shader->setParameter("pixel_threshold",pxt);
+		shader->setParameter("brightness",br);
+		shader->setParameter("maxDis",maxDis);
 		renderWindow.draw(renderTextureSprite, shader);
 	} else {
 		renderWindow.draw(renderTextureSprite);
 	}
 
 
+
 	auto level = getLevel();
 	//auto RemainingLight = level->getPlayer()->getCurrentLightLevel();
 	
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && RemainingLight != 10){
+	/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && RemainingLight != 10){
 		RemainingLight += 1;
 
 	} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F) && RemainingLight != 1){
-		RemainingLight -= 1;
+		RemainingLight -= 1;*/
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
+		br+=0.1f;
+	} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)){
+		br-=0.1f;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)){
+		maxDis+=0.01f;
+	} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)){
+		maxDis-=0.01f;
+	}
+			//draw script effects directly on screen
+	for(auto it = mScripts.begin(), end = mScripts.end(); it != end; ++it) {
+		auto script_sp = *it;
+		script_sp->draw();
+
 	}
 
-	pxt = (10/RemainingLight);
+	//pxt = (10/RemainingLight);
 
 	renderWindow.display();
 
