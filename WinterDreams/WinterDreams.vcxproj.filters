@@ -157,6 +157,9 @@
     <ClCompile Include="Registration_queueitem.cpp">
       <Filter>Sources\Registration</Filter>
     </ClCompile>
+    <ClCompile Include="Network.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameToScreen.h">
@@ -302,6 +305,9 @@
     </ClInclude>
     <ClInclude Include="ListFrame.h">
       <Filter>Includes\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Network.h">
+      <Filter>Includes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

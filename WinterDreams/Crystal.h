@@ -18,7 +18,7 @@ public:
 	// /The FloatRect's left will represent the Crystal's X.
 	// /The FloatRect's width and height sets bounds for it's hitbox
 	//////////////////////////////////////////////////////
-	Crystal(const sf::FloatRect& position, bool startEnabled = true, std::string imgVersion = "1");
+	Crystal(const sf::FloatRect& position, bool startEnabled = true, int imgVersion = 1);
 	//////////////////////////////////////////////////////
 	// /No dynamicly allocated member variables
 	//////////////////////////////////////////////////////
@@ -59,8 +59,7 @@ private:
 	Animation*					mCurrentAnimation;	//The crystal's animation
 	int							mHP;				//The crystal's HP
 	std::shared_ptr<SolidZone>	mSolidZone;			//The crystal's collision zone
-	std::string					mVersion;
-
+	int							mVersion;
 	//No copies
 	Crystal(const Crystal& crystal);
 	//No copies
