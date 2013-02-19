@@ -162,7 +162,7 @@
     </ClCompile>
     <ClCompile Include="StartGameButton.cpp">
       <Filter>Sources\Entity</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="Network.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -312,13 +312,11 @@
     <ClInclude Include="ListFrame.h">
       <Filter>Includes\UI</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="StartGameButton.h">
       <Filter>Includes\UI</Filter>
-=======
+    </ClInclude>
     <ClInclude Include="Network.h">
       <Filter>Includes</Filter>
->>>>>>> f02e71839af7f763b1a20dce72e903012500b8c4
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -370,8 +368,5 @@
     <Filter Include="Sources\UI">
       <UniqueIdentifier>{16903d04-a72b-4dfa-9f05-6a8555b6d39f}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
 </Project>
