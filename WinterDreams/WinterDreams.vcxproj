@@ -25,6 +25,7 @@
     <ClCompile Include="LightPoint.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="LoadingState.cpp" />
+    <ClCompile Include="Network.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="ObjectFactory.cpp" />
     <ClCompile Include="ObjectTypeRegistration.cpp" />
@@ -84,6 +85,7 @@
     <ClInclude Include="LightPoint.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="ListFrame.h" />
+    <ClInclude Include="Network.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="InventoryDisplay.h" />
     <ClInclude Include="ObjectFactory.h" />
@@ -163,7 +165,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)..\..\Lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-audio-d.lib;sfml-graphics-d.lib;sfml-system-d.lib;sfml-window-d.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-audio-d.lib;sfml-graphics-d.lib;sfml-system-d.lib;sfml-window-d.lib;sfml-network-d.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

@@ -4,6 +4,7 @@
 #include "DamageHitBox.h"
 #include "FileStructure.h"
 #include "PropertyManager.h"
+#include <string>
 
 class CrystalSpecs{
 public:	
@@ -14,7 +15,7 @@ public:
 	static CrystalSpecs& get();
 
 
-	float mHealth;
+	int mHealth;
 	std::list<AnimationSpecs> mAnimSpecList;
 
 private:
@@ -26,7 +27,7 @@ private:
 CrystalSpecs::CrystalSpecs() {
 	auto& obj = PropertyManager::get().getObjectSettings();
 	auto& crystal = obj.get_child( "objects.crystal" );
-	mHealth = crystal.get<float>( "hp" );
+	mHealth = crystal.get<int>( "hp" );
 	
 	AnimationSpecs::parse( crystal, mAnimSpecList );
 }
@@ -37,12 +38,16 @@ CrystalSpecs& CrystalSpecs::get() {
 }
 ////////////////////////////////////////////////////////////////////////////////
 
-Crystal::Crystal( const sf::FloatRect& position, bool startEnabled ) : 
+Crystal::Crystal( const sf::FloatRect& position, bool startEnabled, int imgVersion) : 
 	GraphicalEntity( startEnabled ),
 	mSolidZone( new SolidZone( position, startEnabled ) ),
-	mHP		( 6 )
+	mVersion ( imgVersion ),
+	mHP		( CrystalSpecs::get().mHealth )
 
-{
+{	
+
+	assert( mVersion == 1 || mVersion == 2 || mVersion == 3 );
+
 	using namespace std;
 	auto& p = CrystalSpecs::get();
 	for( auto iter = p.mAnimSpecList.begin(), end = p.mAnimSpecList.end(); iter != end; ++iter){
@@ -58,7 +63,11 @@ Crystal::Crystal( const sf::FloatRect& position, bool startEnabled ) :
 		Animation anim(FS_DIR_OBJECTANIMATIONS +"crystal/"+ file , w, h, nos, fps, xO, yO);
 		mAnimationMap.insert( pair<string, Animation>( name , anim ) );
 	}
-	mCurrentAnimation = &mAnimationMap.find("placeholder")->second; //INSERT INITIAL CRYSTAL IMG HERE
+	char VERSION[] = "solid0";
+
+	VERSION[5] += rand()%3 + 1;
+
+	mCurrentAnimation = &mAnimationMap.find( std::string(VERSION) )->second; //INSERT INITIAL CRYSTAL IMG HERE
 		//Get a reference to the crystal's solidzone's hitbox
 	auto& box = mSolidZone->getHitBox();
 		//Create a positionvector from the solidzone's hitbox
@@ -76,6 +85,8 @@ Crystal::Crystal( const sf::FloatRect& position, bool startEnabled ) :
 Crystal::~Crystal() { }
 
 void Crystal::update(SubLevel* subLevel_p) {
+
+	updateAnimation();
 
 	if( mHP <= 0 )
 		setAlive( false );
@@ -107,7 +118,21 @@ void Crystal::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::FloatR
 		if( dmgHitBox->getDamageType() == "pickaxe" ) {
 				//Reduce crytal's HP by DamageHitBox's damage then set the hitbox to !enabled
 			adjustHealth(dmgHitBox->getDamageAmount() * -1);
-			dmgHitBox->setEnabled( false );
+			dmgHitBox->disableNextFrame();
 		}
 	}
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Crystal::updateAnimation(){
+
+	if( mHP >= 3)
+	{}
+	else if (mHP == 2)
+		mCurrentAnimation = &mAnimationMap.find( "broken" )->second;
+	else
+		mCurrentAnimation = &mAnimationMap.find( "destroyed" )->second;
 }

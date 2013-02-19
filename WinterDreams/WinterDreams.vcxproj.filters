@@ -162,6 +162,9 @@
     </ClCompile>
     <ClCompile Include="StartGameButton.cpp">
       <Filter>Sources\Entity</Filter>
+	</ClCompile>
+    <ClCompile Include="Network.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -309,8 +312,13 @@
     <ClInclude Include="ListFrame.h">
       <Filter>Includes\UI</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="StartGameButton.h">
       <Filter>Includes\UI</Filter>
+=======
+    <ClInclude Include="Network.h">
+      <Filter>Includes</Filter>
+>>>>>>> f02e71839af7f763b1a20dce72e903012500b8c4
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
