@@ -38,6 +38,19 @@ public:
 	////////////////////////////////////////////////////////////
 	void resizeTexture(unsigned int x, unsigned int y);
 
+	////////////////////////////////////////////////////////////
+	// /Resets the counter for light IDs
+	////////////////////////////////////////////////////////////
+	void resetLightIDs();
+
+	////////////////////////////////////////////////////////////
+	// /Returns the lowest avalible light ID. Every time this 
+	// /function is called, the returned ID is concidered used
+	// /and will not be availbile again untill resetLightIDs is
+	// /called.
+	////////////////////////////////////////////////////////////
+	unsigned int getNextLightID();
+
 private:
 
 	WindowManager();
@@ -45,6 +58,8 @@ private:
 	WindowManager(const WindowManager&);//no copy
 	
 	WindowManager& operator=(const WindowManager&);//no copy
+
+	int mNextLightID;
 
 	sf::RenderTexture* mTexture_p;
 	sf::RenderWindow* mWindow_p;

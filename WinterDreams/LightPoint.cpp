@@ -2,6 +2,7 @@
 
 #include "GameToScreen.h"
 #include "Player.h"
+#include "SubLevel.h"
 #include "PropertyManager.h"
 #include "WindowManager.h"
 #include "FileStructure.h"
@@ -66,6 +67,8 @@ void LightPoint::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::Flo
 }
 
 void LightPoint::update(SubLevel* subLevel_p) {
+	addLightSource( subLevel_p );
+
 	//do nothing
 }
 
@@ -84,4 +87,14 @@ void LightPoint::drawSelf() {
 
 sf::FloatRect& LightPoint::getHitBox() {
 	return mHitBox;
+}
+
+void LightPoint::addLightSource(SubLevel* subLevel_p){
+	auto ID = WindowManager::get().getNextLightID();
+
+	auto pos = sf::Vector2f(mHitBox.left, mHitBox.top );;
+	pos.x += mHitBox.width/2.f;
+	pos.y += mHitBox.height/2.f;
+
+	subLevel_p->setLightPoint( ID, pos, 1.25, float(mLightLevel/20.f) );
 }

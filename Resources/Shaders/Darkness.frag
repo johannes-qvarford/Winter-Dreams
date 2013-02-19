@@ -1,5 +1,5 @@
 
-#define NUM_LIGHTS 8
+#define NUM_LIGHTS 10
 
 varying out vec4 colorOut;
 uniform sampler2D texture;
@@ -26,7 +26,7 @@ void main()
 		lightValue += curValue;
 		//lightValue = max(curValue, lightValue);
 	}
-	
-	lightValue = clamp(lightValue, 0.1, 1);
+
+	lightValue = clamp(lightValue, 0.02, 1);
 	colorOut = vec4(col.rgb * lightValue, 1.0);
 }	
