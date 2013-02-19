@@ -198,25 +198,28 @@ void SubLevel::render() {
 
 	window.display();
 
-	//auto& p_sp = mLevelState_p->getPlayer();
-	//auto& pHitBox = p_sp->getHitBox();
-	//auto pPosition = GAME_TO_SCREEN * sf::Vector2f(pHitBox.left, pHitBox.top);
+	auto& p_sp = mLevelState_p->getPlayer();
+	auto& pHitBox = p_sp->getHitBox();
+	auto pPosition = GAME_TO_SCREEN * 
+		sf::Vector2f(pHitBox.left + (pHitBox.width / 2.f), pHitBox.top + (pHitBox.height / 2.f));
 
-	//auto& c_sp = mLevelState_p->getCamera();
-	//auto& cPosition = c_sp->getPosition();
-	//
-	//auto winSize = window.getSize();
+	auto& c_sp = mLevelState_p->getCamera();
+	auto& cPosition = c_sp->getPosition();
+	
+	auto winSize = window.getSize();
 
-	//auto position = sf::Vector2f(winSize.x / 2.f, winSize.y / 2.f) + (pPosition - cPosition);
+	auto position = sf::Vector2f(winSize.x / 2.f, winSize.y / 2.f) + (pPosition - cPosition);
 
-	//position.x /= winSize.x;
-	//position.y /= winSize.y;
+	position.x /= winSize.x;
+	position.y /= winSize.y;
 
-	//shader->setParameter("lightPosx[0]",position.x);
-	//shader->setParameter("lightPosy[0]",position.y);
+	position.y = 1.0f - position.y;
 
-	shader->setParameter("lightPosx[0]",0.5);
-	shader->setParameter("lightPosy[0]",0.5);
+	shader->setParameter("lightPosx[0]",position.x);
+	shader->setParameter("lightPosy[0]",position.y);
+
+	//shader->setParameter("lightPosx[0]",0.5);
+	//shader->setParameter("lightPosy[0]",0.5);
 
 	sf::Sprite renderTextureSprite(window.getTexture());
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
@@ -244,7 +247,8 @@ void SubLevel::render() {
 		script_sp->draw();
 	}
 
-	renderWindow.display();
+//This is statemanagers job now
+//	renderWindow.display();
 
 }
 

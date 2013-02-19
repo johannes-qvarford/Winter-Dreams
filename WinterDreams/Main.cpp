@@ -20,13 +20,10 @@
 int main()
 {
 	try {
-		//create the first LevelState, and put it on top of the stack.
-		auto levelState_p = new LevelState();
-		StateManager::get().pushState(levelState_p);
 
-		//add LoadingState to the top of the stack, filling the first level state with information.
+		//add LoadingState to the top of the stack.
 		auto firstLevelname = PropertyManager::get().getGeneralSettings().get<std::string>("first_level_name");
-		auto loadState_p = new LoadingState(firstLevelname, levelState_p);
+		auto loadState_p = new LoadingState(firstLevelname);
 		StateManager::get().pushState(loadState_p);
 
 		//run the game.

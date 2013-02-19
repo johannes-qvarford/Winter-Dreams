@@ -23,7 +23,7 @@ void LevelPortal::onCollision(PhysicalEntity* pe, const sf::Rect<float>& interse
 		// /If targetPortal is "", the portal is a one-way portal. Hence
 		// /it shouldn't affect anything on collision
 		//////////////////////////////////////////////////////////////
-	if(mTargetPortal == "")
+	if(mTargetPortal == "" || getEnabled() == false)
 		return;
 		//////////////////////////////////////////////////////////////
 		// /Checks if the entity collided with it of type player.
@@ -44,7 +44,9 @@ void LevelPortal::onCollision(PhysicalEntity* pe, const sf::Rect<float>& interse
 				// /directly into a new portal and is teleported back
 				//////////////////////////////////////////////////////////////
 			auto& rect = nextPortal_p->getHitBox();
-			auto tilesWide = static_cast<int>(rect.width / X_STEP * 2) -1;
+			auto tilesWide = static_cast<int>(rect.width / X_STEP) -1;
+
+			nextPortal_p->swapEnabled();
 
 			newPos = sf::Vector2f( rect.left + X_STEP * tilesWide, rect.top);
 		}

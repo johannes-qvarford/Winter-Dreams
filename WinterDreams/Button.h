@@ -22,14 +22,19 @@ public:
 	Button(const sf::Vector2f& initialPosition, std::shared_ptr<sf::Texture> texture_sp, const sf::Text& text, std::shared_ptr<sf::Font> font_sp);
 
 	////////////////////////////////////////////////////////////
-	// /Pop the state of the state manager if key == KEY_A.
+	// /Do something graphical, like displaying a pressed button.
 	////////////////////////////////////////////////////////////
-	void activate(sf::Keyboard::Key key);
+	void activate();
 
 	////////////////////////////////////////////////////////////
 	// /Do nothing.
 	////////////////////////////////////////////////////////////
 	void update(MenuState* state_p);
+
+	////////////////////////////////////////////////////////////
+	// /Change text color, (we might change to another texture in the future).
+	////////////////////////////////////////////////////////////
+	void onHover(bool doHover);
 
 	////////////////////////////////////////////////////////////
 	// /Get the bounds of the button.
@@ -40,6 +45,11 @@ public:
 	// /Get the bounds of the button.
 	////////////////////////////////////////////////////////////
 	sf::FloatRect* getBounds();
+	
+	////////////////////////////////////////////////////////////
+	// /Draw a box with text in it.
+	////////////////////////////////////////////////////////////
+	void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates()) const;
 
 private:
 
@@ -49,7 +59,7 @@ private:
 
 	sf::Text mText;
 
-	std:shared_ptr<sf::Font> mFont_sp;
+	std::shared_ptr<sf::Font> mFont_sp;
 };
 
 #endif

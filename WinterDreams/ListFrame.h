@@ -16,7 +16,12 @@ public:
 	// /Create a list frame at a position, that traverses a list
 	// /of widgets.
 	////////////////////////////////////////////////////////////
-	ListFrame(const sf::Vector2f& initialPosition, const std::list<std::shared_ptr> listOfWidgets);
+	ListFrame(const sf::Vector2f& initialPosition, const std::list<std::shared_ptr<Widget> > widgets);
+
+	////////////////////////////////////////////////////////////
+	// /Is always active, cannot be activated.
+	////////////////////////////////////////////////////////////
+	void activate();
 
 	////////////////////////////////////////////////////////////
 	// /Do nothing.
@@ -32,12 +37,20 @@ public:
 	////////////////////////////////////////////////////////////
 	// /Get the graphical bounds of the frame.
 	////////////////////////////////////////////////////////////
-	const sf::FloatRect& getBounds();
+	const sf::FloatRect& getBounds() const;
 
 	////////////////////////////////////////////////////////////
 	// /Get the graphical bounds of the frame.
 	////////////////////////////////////////////////////////////
 	sf::FloatRect* getBounds();
+
+private:
+
+	sf::FloatRect mBounds;
+
+	std::list<std::shared_ptr<Widget> > mWidgets;
+
+	std::list<std::shared_ptr<Widget> >::iterator mCurrentWidget;
 };
 
 #endif

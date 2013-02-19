@@ -33,7 +33,7 @@ struct LoadingSpecs{
 		mMutex_p( mutex_p ),
 		mRunning_p( running_p )
 		{ } 
-	
+
 	LevelState* mLoadedLevel_p;	//Pointer to the gamestate into which the level is to be loaded
 	sf::Mutex* mMutex_p;			//Keeps track so that several threads does not access the same memory
 	bool* mRunning_p;				//Keeps track of whether the thread is running
@@ -47,10 +47,11 @@ struct LoadingSpecs{
 static void loadSubLevel(const std::string& subLevelName, LevelState* levelState_p);
 static void loadLevel(LoadingSpecs& specs);
 
-LoadingState::LoadingState(std::string levelName, LevelState* levelState_p):
-	mLoadingSpecs_p(new LoadingSpecs(levelName, levelState_p, &mMutex, &mRunning)),
+LoadingState::LoadingState(std::string levelName):
+	mLoadingSpecs_p(new LoadingSpecs(levelName, new LevelState(), &mMutex, &mRunning)),
 	mThread( loadLevel, *mLoadingSpecs_p),
 	mRunning( true ),
+	mDone(false),
 	mLoadingScreenTexture( ResourceManager::get().getTexture(FS_DIR_LOADINGSCREEN + "loadingscreen.png") ),
 	mLoadingIconTexture( ResourceManager::get().getTexture(FS_DIR_LOADINGSCREEN + "loadingicon.png") )
 {
@@ -75,6 +76,18 @@ LoadingState::~LoadingState() {
 
 void LoadingState::update() {
 	mLoadingIcon.rotate(-5);
+	
+	mMutex.lock();
+	if( mRunning == false && mDone == false) {
+		mDone = true;
+		//fadeout, pop top, push level, and fadein.
+		auto& mgr = StateManager::get();
+		mgr.freezeState();
+		mgr.popState();
+		mgr.pushState(mLoadingSpecs_p->mLoadedLevel_p);
+		mgr.unfreezeState();
+	}
+	mMutex.unlock();
 }
 
 void LoadingState::render() {
@@ -84,12 +97,8 @@ void LoadingState::render() {
 	rendWin.draw( mLoadingScreen, rendState );
 	rendWin.draw( mLoadingIcon, rendState );
 
-	rendWin.display();
+//	rendWin.display();
 
-	mMutex.lock();
-	if( mRunning == false)		
-		StateManager::get().popState();
-	mMutex.unlock();
 
 }
 
