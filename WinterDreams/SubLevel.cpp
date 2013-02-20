@@ -8,6 +8,7 @@
 #include "CollisionZone.h"
 
 #include "WindowManager.h"
+#include "ResourceManager.h"
 #include "GameToScreen.h"
 #include "FileStructure.h"
 
@@ -33,7 +34,8 @@ SubLevel::SubLevel(LevelState* levelState_p):
 	mGraphicalEntities(),
 	mScripts(),
 	mMapTexture(),
-	mBackgroundTexture()
+	mBackgroundTexture(),
+	mLightCircleShader( ResourceManager::get().getShader( FS_DIR_SHADERS + "darkness.frag" ) )
 {
 }
 
@@ -114,15 +116,19 @@ void SubLevel::render() {
 	auto& renderWindow = *WindowManager::get().getRenderWindow();
 	auto& renderStates = *WindowManager::get().getStates();
 	
-	//clear window for drawing, and reset transformation matrix.
-	window.clear();
 	renderStates.transform = sf::Transform::Identity;
 	
 	//draw background
 	{
-		auto camPos = mLevelState_p->getCamera()->getPosition();
-		auto bkg = sf::Sprite(*mBackgroundTexture.first);
-		bkg.setPosition(camPos.x*0.5-window.getSize().x/2, camPos.y*0.5-window.getSize().y/2);
+		auto& camPos = mLevelState_p->getCamera()->getPosition();
+		auto& mapPos = mMapTexture.second + sf::Vector2f(mMapTexture.first->getSize() /unsigned int(2) );
+
+		auto offset = camPos - mapPos;
+
+		sf::Sprite bkg(*mBackgroundTexture.first);
+		bkg.setOrigin( sf::Vector2f( mBackgroundTexture.first->getSize() /unsigned int(2) ) );
+		bkg.setPosition( mapPos + offset*0.85f );		
+
 		window.draw(bkg);
 	}
 
@@ -185,75 +191,53 @@ void SubLevel::render() {
 	//sort them in drawing order.
 	mGraphicalEntities.sort(smallerPosition);
 	
+	//Calculate a viewrect, which will be used for view culling
+	auto& view = WindowManager::get().getWindow()->getView();
+	auto center = view.getCenter();
+	auto size = view.getSize();
+	auto viewRect = sf::FloatRect(center.x - size.x*0.6f, center.y - size.y*0.6f, size.x*1.2f, size.y*1.2f) ;
+
 	for(auto it = mGraphicalEntities.begin(), end = mGraphicalEntities.end(); it != end; ++it) {
-		auto graphical_sp = *it;
-	graphical_sp->drawSelf();
+		auto transformedRect = GAME_TO_SCREEN.transformRect( (*it)->getHitBox() );
+		if( viewRect.intersects( transformedRect ) ){	
+			auto graphical_sp = *it;
+			graphical_sp->drawSelf();
+		}
 	}
 
 #endif
 
 	//display
-	
-	static float br=1;
-	static float maxDis=0.25;
-	static float lightPosx=0.5;
-	static float lightPosy=0.5;
-	static sf::Shader* shader = new sf::Shader;
-	static bool init = false;
-	if(!init)
-		shader->loadFromFile(FS_DIR_SHADERS + "Darkness.frag", sf::Shader::Fragment);
-	init = true;
 
 	window.display();
 
-	//auto& p_sp = mLevelState_p->getPlayer();
-	//auto& pHitBox = p_sp->getHitBox();
-	//auto pPosition = GAME_TO_SCREEN * sf::Vector2f(pHitBox.left, pHitBox.top);
-
-	//auto& c_sp = mLevelState_p->getCamera();
-	//auto& cPosition = c_sp->getPosition();
-	//
-	//auto winSize = window.getSize();
-
-	//auto position = sf::Vector2f(winSize.x / 2.f, winSize.y / 2.f) + (pPosition - cPosition);
-
-	//position.x /= winSize.x;
-	//position.y /= winSize.y;
-
-	//shader->setParameter("lightPosx[0]",position.x);
-	//shader->setParameter("lightPosy[0]",position.y);
-
-	shader->setParameter("lightPosx[0]",0.5);
-	shader->setParameter("lightPosy[0]",0.5);
-
 	sf::Sprite renderTextureSprite(window.getTexture());
+
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		shader->setParameter("lightPosx[1]", float(sf::Mouse::getPosition(renderWindow).x)/float(renderWindow.getSize().x));
-		shader->setParameter("lightPosy[1]", 1-float(sf::Mouse::getPosition(renderWindow).y)/float(renderWindow.getSize().y));
-		shader->setParameter("brightness",br);
-		shader->setParameter("maxDis",maxDis);
-		renderWindow.draw(renderTextureSprite, shader);
+		renderWindow.draw(renderTextureSprite, mLightCircleShader.get() );
+
 	} else {
 		renderWindow.draw(renderTextureSprite);
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
-		br+=0.1f;
-	} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)){
-		br-=0.1f;
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)){
-		maxDis+=0.01f;
-	} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)){
-		maxDis-=0.01f;
-	}
-			//draw script effects directly on screen
+
 	for(auto it = mScripts.begin(), end = mScripts.end(); it != end; ++it) {
 		auto script_sp = *it;
 		script_sp->draw();
 	}
 
-	renderWindow.display();
+//This is statemanagers job now
+//	renderWindow.display();
 
+	for( int i = 0; i < 10; ++i) {
+		char brightness[] = "brightness[0]";
+		char maxDis[] = "maxDis[0]";
+
+		brightness[11] += i;
+		maxDis[7] += i;
+		
+		mLightCircleShader->setParameter( brightness, 0 );
+		mLightCircleShader->setParameter( maxDis, 0 );
+	}
 }
 
 void SubLevel::deleteInactives() {
@@ -328,6 +312,11 @@ static bool smallerPosition(std::shared_ptr<PhysicalEntity> lhs_p, std::shared_p
 	auto& lhsBox = lhs_p->getHitBox();
 	auto& rhsBox = rhs_p->getHitBox();
 
+	//if( lhs_p->getLayer() > rhs_p->getLayer() )
+	//	return true;
+	//else if( lhs_p->getLayer() < rhs_p->getLayer() )
+	//	return false;
+
 	auto lhsIsoDepth = lhsBox.left + lhsBox.top + (lhsBox.width + lhsBox.height) / 2;
 	auto rhsIsoDepth = rhsBox.left + rhsBox.top + (rhsBox.width + rhsBox.height) / 2;
 
@@ -372,4 +361,31 @@ static void handleCollision(PhysicalEntity* lhs_p, PhysicalEntity* rhs_p) {
 	if(lhsDummy.intersects(rhsDummy, intersection)) {
 		lhs_p->onCollision(rhs_p, intersection);
 	}
+}
+
+void SubLevel::setLightPoint(const int& lightID, const sf::Vector2f& position, const float& brightness, const float& maxDis){
+	auto pos = GAME_TO_SCREEN * position;
+
+	char posX[] = "lightPosx[0]";
+	char posY[] = "lightPosy[0]";
+	char bright[] = "brightness[0]";
+	char dist[] = "maxDis[0]";
+
+	posX[10] += lightID;
+	posY[10] += lightID;
+	bright[11] += lightID;
+	dist[7] += lightID;
+
+	auto viewPos = getLevel()->getCamera()->getPosition();
+	auto viewSize = WindowManager::get().getRenderWindow()->getView().getSize();
+	viewPos.x -= viewSize.x / 2;
+	viewPos.y -= viewSize.y / 2;
+
+	auto x = (pos.x - viewPos.x) / viewSize.x;
+	auto y = 1 -((pos.y - viewPos.y) / viewSize.y);
+
+	mLightCircleShader->setParameter( posX, x );
+	mLightCircleShader->setParameter( posY, y );
+	mLightCircleShader->setParameter( bright, brightness );
+	mLightCircleShader->setParameter( dist, maxDis );
 }

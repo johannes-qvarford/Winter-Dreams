@@ -98,6 +98,17 @@ public:
 	////////////////////////////////////////////////////////////
 	const std::vector<sf::Vector2f>& getAiPath(const std::string& name);
 
+	////////////////////////////////////////////////////////////
+	// /Adds a light to the light spot shader. 
+	// /
+	// /The lightID tells the shader which light to manipulate.
+	// /xPos is the lightsource's x-position, in world coordinates.
+	// /yPos is the lightsource's y-position, in world coordinates.
+	// /brightness regulates the circle that is fully lit.
+	// /maxDis regulates the total circle size
+	////////////////////////////////////////////////////////////
+	void setLightPoint(const int& lightID,  const sf::Vector2f& position, const float& brightness, const float& maxDis);
+
 private:
 
 	
@@ -139,6 +150,8 @@ private:
 	PositionedTexture mBackgroundTexture;
 
 	sf::View mView;
+
+	std::shared_ptr<sf::Shader> mLightCircleShader;
 
 	////////////////////////////////////////////////////////////
 	// /No copying.

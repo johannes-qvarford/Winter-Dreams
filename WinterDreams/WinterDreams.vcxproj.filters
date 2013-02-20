@@ -157,8 +157,20 @@
     <ClCompile Include="Registration_queueitem.cpp">
       <Filter>Sources\Registration</Filter>
     </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Sources\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="StartGameButton.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
     <ClCompile Include="Network.cpp">
       <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuState.cpp">
+      <Filter>Sources\State</Filter>
+    </ClCompile>
+    <ClCompile Include="ListFrame.cpp">
+      <Filter>Sources\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -306,6 +318,9 @@
     <ClInclude Include="ListFrame.h">
       <Filter>Includes\UI</Filter>
     </ClInclude>
+    <ClInclude Include="StartGameButton.h">
+      <Filter>Includes\UI</Filter>
+    </ClInclude>
     <ClInclude Include="Network.h">
       <Filter>Includes</Filter>
     </ClInclude>
@@ -355,6 +370,9 @@
     </Filter>
     <Filter Include="Includes\UI">
       <UniqueIdentifier>{83257350-06f9-4b5e-a994-124948c583b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\UI">
+      <UniqueIdentifier>{16903d04-a72b-4dfa-9f05-6a8555b6d39f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

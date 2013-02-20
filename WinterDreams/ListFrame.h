@@ -2,6 +2,8 @@
 #define INCLUDED_LISTFRAME
 
 #include "Widget.h"
+#include <vector>
+#include <memory>
 
 ////////////////////////////////////////////////////////////
 // /A frame that moves over a list of Widgets when the user
@@ -14,9 +16,14 @@ public:
 
 	////////////////////////////////////////////////////////////
 	// /Create a list frame at a position, that traverses a list
-	// /of widgets.
+	// /of widgets. The list is from top to bottom, graphically.
 	////////////////////////////////////////////////////////////
-	ListFrame(const sf::Vector2f& initialPosition, const std::list<std::shared_ptr> listOfWidgets);
+	ListFrame(const std::vector<std::shared_ptr<Widget> >& widgets);
+
+	////////////////////////////////////////////////////////////
+	// /Is always active, cannot be activated.
+	////////////////////////////////////////////////////////////
+	void activate();
 
 	////////////////////////////////////////////////////////////
 	// /Do nothing.
@@ -30,14 +37,27 @@ public:
 	void update(MenuState* state_p);
 
 	////////////////////////////////////////////////////////////
+	// /draw a frame in debug mode.
+	////////////////////////////////////////////////////////////
+	void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates()) const;
+
+	////////////////////////////////////////////////////////////
 	// /Get the graphical bounds of the frame.
 	////////////////////////////////////////////////////////////
-	const sf::FloatRect& getBounds();
+	const sf::FloatRect& getBounds() const;
 
 	////////////////////////////////////////////////////////////
 	// /Get the graphical bounds of the frame.
 	////////////////////////////////////////////////////////////
 	sf::FloatRect* getBounds();
+
+private:
+
+	sf::FloatRect mBounds;
+
+	std::vector<std::shared_ptr<Widget> > mWidgets;
+
+	int mCurrentWidget;
 };
 
 #endif
