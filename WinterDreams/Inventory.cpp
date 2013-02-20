@@ -81,7 +81,7 @@ void Inventory::equipNext() {
 		
 		else
 			++tempIter;
-		
+
 		if( tempIter != mInventoryList.end() ){
 			auto id = ITEMS_PTREE.get<int>(*tempIter + ".iconindex", 0);
 			if( id > 0 )

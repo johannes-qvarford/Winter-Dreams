@@ -76,6 +76,8 @@ void Player::update(SubLevel* subLevel_p){
 	// functions. Otherwize, only update the players animation
 	/////////////////////////////////////////////////////////
 	if( getEnabled() ){
+		addLightSource(subLevel_p);
+
 		updateMovement(subLevel_p);
 			/////////////////////////////////////////////////////////
 			// If any component of the movement direction is greater then 1,
@@ -113,7 +115,6 @@ void Player::drawSelf(){
 	sprite.setPosition( GAME_TO_SCREEN * getPosition() );
 		//Draw the sprite
 	WindowManager::get().getWindow()->draw( sprite ,*WindowManager::get().getStates() );
-
 }
 
 sf::FloatRect& Player::getHitBox(){
@@ -249,6 +250,16 @@ void Player::setFacingDirection(sf::Vector2i dir){
 
 sf::Vector2i Player::getFacingDirection() const {
 	return mFacingDir;
+}
+
+void Player::addLightSource(SubLevel* subLevel_p){
+	auto ID = WindowManager::get().getNextLightID();
+
+	auto pos = getPosition();
+	pos.x += mHitBox.width/2.f;
+	pos.y += mHitBox.height/2.f;
+
+	subLevel_p->setLightPoint( ID, pos, 1.25, float(mLightLevel/10.f) );
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////

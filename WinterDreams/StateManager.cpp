@@ -85,6 +85,8 @@ void StateManager::run() {
 
 		//try to catch up, by doing a maximun of MAX_FRAMESKIP updates.
 		while(GetTickCount.getElapsedTime() > next_game_tick && loops < MAX_FRAMESKIP ) { 
+			WindowManager::get().resetLightIDs();
+
 			next_game_tick += sf::Time( sf::microseconds(advances) );
 			++loops;
 
