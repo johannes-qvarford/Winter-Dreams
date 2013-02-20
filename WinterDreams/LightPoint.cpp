@@ -9,25 +9,42 @@
 
 class LightPointSpecs{
 public:
-
 	static LightPointSpecs& get(){ static LightPointSpecs sSpecs; return sSpecs; }
-
 	const std::list<AnimationSpecs>& getAnimSpecList(){ return mAnimSpecList; }
+	
+	std::map< int, float > mLightToDistance;
+	float mBrightness;
 
 private:
 
 	std::list<AnimationSpecs> mAnimSpecList;
 
-	LightPointSpecs() {  
-		auto& obj = PropertyManager::get().getObjectSettings();
-		auto& player = obj.get_child( "objects.light" );
-		AnimationSpecs::parse( player, mAnimSpecList );
-	};
-
+	LightPointSpecs();
 	LightPointSpecs(const LightPointSpecs&);//no copy
-
 	LightPointSpecs& operator=(const LightPointSpecs&);//no copy
 };
+
+LightPointSpecs::LightPointSpecs(){
+	
+	auto& obj = PropertyManager::get().getObjectSettings();
+	auto& light = obj.get_child( "objects.light" );
+	AnimationSpecs::parse( light, mAnimSpecList );
+	mBrightness = light.get<float>("brightness");
+
+	auto& lightsize = light.get_child("lightsize");
+	for(auto it = lightsize.begin(), end = lightsize.end(); it != end; ++it){
+			//Iterate over the childe tree and extract the data
+		auto& firstName = it->first;
+		auto secondValue = std::stof( it->second.data() );
+		auto firstValue = std::stoi(firstName);
+			//Store the data in the ligt to distance-map
+		mLightToDistance.insert( std::pair<int, float>(firstValue, secondValue) );
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////
 
 LightPoint::LightPoint(const sf::FloatRect& initialPosition, int lightLevel, bool once, bool startEnabled):
 	GraphicalEntity(startEnabled),
@@ -96,5 +113,7 @@ void LightPoint::addLightSource(SubLevel* subLevel_p){
 	pos.x += mHitBox.width/2.f;
 	pos.y += mHitBox.height/2.f;
 
-	subLevel_p->setLightPoint( ID, pos, 1.25, float(mLightLevel/20.f) );
+	auto dist = LightPointSpecs::get().mLightToDistance.find( mLightLevel )->second;
+
+	subLevel_p->setLightPoint( ID, pos, 1.0, dist );
 }
