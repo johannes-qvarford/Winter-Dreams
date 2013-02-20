@@ -27,6 +27,6 @@ void main()
 		//lightValue = max(curValue, lightValue);
 	}
 
-	lightValue = clamp(lightValue, 0.02, 1);
+	lightValue = clamp(lightValue, 0.03, 1);
 	colorOut = vec4(col.rgb * lightValue, 1.0);
 }	
