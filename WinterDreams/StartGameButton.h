@@ -4,16 +4,21 @@
 #include "Button.h"
 
 class StartGameButton : public Button {
+public:
 	////////////////////////////////////////////////////////////
 	// /Create a start game button.
 	////////////////////////////////////////////////////////////
-	StartGameButton(const sf::Vector2f& initialPosition, std::shared_ptr<sf::Font> font_sp, const sf::Text& text);
+	StartGameButton(const sf::Vector2f& initialPosition);
 
 	////////////////////////////////////////////////////////////
 	// /Does the following:
 	// /fadeout, pop state, push loading state, fadein.
 	////////////////////////////////////////////////////////////
 	void activate();
+
+private:
+
+	bool mUpdated;
 };
 
 #endif

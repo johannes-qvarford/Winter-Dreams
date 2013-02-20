@@ -76,6 +76,11 @@ private:
 	void darkenWindow(float alpha);
 
 	////////////////////////////////////////////////////////////
+	// /Prepare the window for drawing.
+	////////////////////////////////////////////////////////////
+	void prepareWindow();
+
+	////////////////////////////////////////////////////////////
 	// /An Action that can be performed by the manager.
 	// /if action.mTag == PUSH then action.mData.mState_p is defined
 	// /else then action.mData.mNull is defined

@@ -24,7 +24,9 @@
     <ClCompile Include="LevelPortal.cpp" />
     <ClCompile Include="LightPoint.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ListFrame.cpp" />
     <ClCompile Include="LoadingState.cpp" />
+    <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="Network.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="ObjectFactory.cpp" />
@@ -187,7 +189,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)..\..\Lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;sfml-network.lib;sfml-system.lib;sfml-audio.lib;sfml-graphics.lib;sfml-window.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-network.lib;sfml-system.lib;sfml-audio.lib;sfml-graphics.lib;sfml-window.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -19,7 +19,7 @@ public:
 	// /Create a button with a texture, at a certain position
 	// /with some text.
 	////////////////////////////////////////////////////////////
-	Button(const sf::Vector2f& initialPosition, std::shared_ptr<sf::Texture> texture_sp, const sf::Text& text, std::shared_ptr<sf::Font> font_sp);
+	Button(const sf::Vector2f& initialPosition, const std::string& text, const std::string& buttonFilename, const std::string& fontFilename, int characterSize);
 
 	////////////////////////////////////////////////////////////
 	// /Do something graphical, like displaying a pressed button.

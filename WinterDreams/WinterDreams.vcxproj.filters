@@ -166,6 +166,12 @@
     <ClCompile Include="Network.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="MenuState.cpp">
+      <Filter>Sources\State</Filter>
+    </ClCompile>
+    <ClCompile Include="ListFrame.cpp">
+      <Filter>Sources\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameToScreen.h">

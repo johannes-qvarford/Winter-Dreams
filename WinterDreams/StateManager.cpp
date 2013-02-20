@@ -182,6 +182,11 @@ void StateManager::darkenWindow(float alpha) {
 	window.display();
 }
 
+void StateManager::prepareWindow() {
+	auto& window = *WindowManager::get().getRenderWindow();
+	window.clear();
+}
+
 void StateManager::updateNormal() {
 	//process queue until going into fade mode
 	while(mStateOfManager == NORMAL && mActions.empty() == false) {
@@ -218,8 +223,8 @@ void StateManager::updateNormal() {
 	}
 
 	mStates.top()->update();
+	prepareWindow();
 	mStates.top()->render();
-	//does it work? if not, comment out.
 	darkenWindow(0.f);
 	return;
 }
@@ -231,6 +236,7 @@ void StateManager::updateFadingIn() {
 		mStateOfManager = NORMAL;
 
 	mStates.top()->update();
+	prepareWindow();
 	mStates.top()->render();
 	darkenWindow(mAlpha);
 	return;
@@ -243,6 +249,7 @@ void StateManager::updateFadingOut() {
 		mStateOfManager = NORMAL;
 
 	mStates.top()->update();
+	prepareWindow();
 	mStates.top()->render();
 	darkenWindow(mAlpha);
 	return;
