@@ -131,7 +131,7 @@ void InventoryDisplay::updateUI() {
 		/////////////////////////////////////////////////////////
 		//The vector describing the top left corner of the screen
 		/////////////////////////////////////////////////////////
-	auto centDif = sf::Vector2f( static_cast<float>(win.getSize().x / 2), static_cast<float>(win.getSize().y / 2));
+	auto centDif = sf::Vector2f( static_cast<float>(WindowManager::MAX_WIDTH / 2), static_cast<float>(WindowManager::MAX_HEIGHT / 2));
 		/////////////////////////////////////////////////////////
 		//The vector describing the distance from the window boarder to the first item
 		/////////////////////////////////////////////////////////

@@ -5,13 +5,22 @@
 
 static const int LIGHT_ID_MAX = 10;
 
+int WindowManager::MAX_HEIGHT = 1080;
+int WindowManager::MAX_WIDTH = 1920;
+
+#ifdef SHIPPING
+const unsigned int WINDOW_STYLE = sf::Style::Fullscreen;
+#else
+const unsigned int WINDOW_STYLE = sf::Style::Titlebar | sf::Style::Close;
+#endif
+
 WindowManager::WindowManager() :
-	mWindow_p( new sf::RenderWindow(sf::VideoMode(800,600), "Winter Dreams") ),
+mWindow_p( new sf::RenderWindow(sf::VideoMode(WindowManager::MAX_WIDTH, WindowManager::MAX_HEIGHT), "Winter Dreams", WINDOW_STYLE) ),
 	mTexture_p( new sf::RenderTexture()),
 	mRenderStates_p(new sf::RenderStates()),
 	mNextLightID( 0 )
 {
-	mTexture_p->create(800, 600);
+	mTexture_p->create(WindowManager::MAX_WIDTH, WindowManager::MAX_HEIGHT);
 	mWindow_p->setVerticalSyncEnabled( true );
 }
 	//Returns the static instance of WindowManager
@@ -34,9 +43,9 @@ sf::RenderStates* WindowManager::getStates(){
 }
 
 void WindowManager::resizeTexture(unsigned int x, unsigned int y){
-	mTexture_p->create(x,y);
-	sf::View view(sf::FloatRect(0, 0, static_cast<float>(x), static_cast<float>(y) ) );
-	mWindow_p->setView(view);
+//	mTexture_p->create(x,y);
+//	sf::View view(sf::FloatRect(0, 0, static_cast<float>(x), static_cast<float>(y) ) );
+//	mWindow_p->setView(view);
 }
 
 void WindowManager::resetLightIDs(){

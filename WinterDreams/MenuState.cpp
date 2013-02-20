@@ -22,6 +22,7 @@ MenuState* MenuState::makeMainMenuState() {
 
 	auto widgets = std::vector<std::shared_ptr<Widget> >();
 	widgets.push_back(start_sp);
+	
 	//create a list frame
 	auto listFrame_sp = std::make_shared<ListFrame>(widgets);
 

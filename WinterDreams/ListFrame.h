@@ -53,9 +53,13 @@ public:
 
 private:
 
+	void resizeFrame();
+
 	sf::FloatRect mBounds;
 
 	std::vector<std::shared_ptr<Widget> > mWidgets;
+
+	int mCooldownFrames;
 
 	int mCurrentWidget;
 };

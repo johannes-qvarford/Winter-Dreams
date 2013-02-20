@@ -15,6 +15,9 @@
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/optional/optional.hpp>
 
+#include <SFML/Window/Keyboard.hpp>
+#include <iostream>
+
 #include "Player.h"
 #include "InventoryDisplay.h"
 #include "Camera.h"
@@ -55,17 +58,6 @@ LoadingState::LoadingState(std::string levelName):
 	mLoadingScreenTexture( ResourceManager::get().getTexture(FS_DIR_LOADINGSCREEN + "loadingscreen.png") ),
 	mLoadingIconTexture( ResourceManager::get().getTexture(FS_DIR_LOADINGSCREEN + "loadingicon.png") )
 {
-	auto& win = *WindowManager::get().getRenderWindow();
-	auto& size = win.getSize();
-
-	mLoadingScreen.setTexture( *mLoadingScreenTexture );
-	mLoadingScreen.setScale(1.f , 1.f );
-
-	mLoadingIcon.setTexture( *mLoadingIconTexture );
-	mLoadingIcon.setPosition( float(size.x) - size.x*0.15f , float(size.y) - size.y*0.15f );
-	mLoadingIcon.setOrigin( 55, 55 );
-	mLoadingIcon.setScale(1.f , 1.f );	
-
 	mThread.launch();
 }
 
@@ -77,6 +69,34 @@ LoadingState::~LoadingState() {
 void LoadingState::update() {
 	mLoadingIcon.rotate(-5);
 	
+	//if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+	//	mLoadingIcon.setPosition(mLoadingIcon.getPosition() - sf::Vector2f(-3, 0));
+	//}
+	//if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+	//	mLoadingIcon.setPosition(mLoadingIcon.getPosition() - sf::Vector2f(3, 0));
+	//}
+	//if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+	//	mLoadingIcon.setPosition(mLoadingIcon.getPosition() - sf::Vector2f(0, 3));
+	//}
+	//if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+	//	mLoadingIcon.setPosition(mLoadingIcon.getPosition() - sf::Vector2f(0, -3));
+	//}
+
+	//std::cout << mLoadingIcon.getPosition().x << " " << mLoadingIcon.getPosition().y << std::endl;
+
+	auto& win = *WindowManager::get().getRenderWindow();
+
+	auto size = sf::Vector2f(float(WindowManager::MAX_WIDTH), float(WindowManager::MAX_HEIGHT));
+
+	mLoadingScreen.setTexture( *mLoadingScreenTexture );
+	mLoadingScreen.setScale(1.f , 1.f );
+
+	mLoadingIcon.setTexture( *mLoadingIconTexture );
+	mLoadingIcon.setPosition( size.x * 0.85f , size.y * 0.85f );
+	mLoadingIcon.setPosition( size.x - 100, size.y - 100);
+	mLoadingIcon.setOrigin( 55, 55 );
+	mLoadingIcon.setScale(1.f , 1.f );	
+
 	mMutex.lock();
 	if( mRunning == false && mDone == false) {
 		mDone = true;
@@ -91,21 +111,28 @@ void LoadingState::update() {
 }
 
 void LoadingState::render() {
-	auto& rendWin = *WindowManager::get().getRenderWindow();
+	auto& window = *WindowManager::get().getWindow();
+	auto& renderWindow = *WindowManager::get().getRenderWindow();
 	auto& rendState = *WindowManager::get().getStates();
 
-	rendWin.draw( mLoadingScreen, rendState );
-	rendWin.draw( mLoadingIcon, rendState );
+//	window.clear();
+	renderWindow.draw( mLoadingScreen, rendState );
+	renderWindow.draw( mLoadingIcon, rendState );
+//	renderWindow.display();
+
+//	sf::Sprite renderTextureSprite(window.getTexture());
+
+//	renderWindow.draw(renderTextureSprite);
 
 //	rendWin.display();
 
 
 }
 
-template<typename T>
-T forward(const T& t){ return t; }
-
 static void loadLevel(LoadingSpecs& specs) {
+	
+
+	
 	//look in settings for which sublevels to load.
 	auto& settings = PropertyManager::get().getGeneralSettings();
 	auto& levels = settings.get_child("levels");
@@ -118,12 +145,17 @@ static void loadLevel(LoadingSpecs& specs) {
 		auto& subLevelName = entry.get_value<std::string>();
 		loadSubLevel(subLevelName, specs.mLoadedLevel_p);
 	}
+
+
+
 	specs.mLoadedLevel_p->switchSubLevel(level.get<std::string>("first_sublevel_name"));
 
 	//now, add player, camera, and inventory display to sub levels.
 	std::shared_ptr<Player> player_sp = specs.mLoadedLevel_p->getPlayer();
 	std::shared_ptr<Camera> camera_sp = specs.mLoadedLevel_p->getCamera();
 	std::shared_ptr<InventoryDisplay> display_sp = specs.mLoadedLevel_p->getInventoryDisplay();
+
+
 
 	for(auto it = sublevels.begin(), end = sublevels.end(); it != end; ++it) {
 		//iterate over all sublevels.

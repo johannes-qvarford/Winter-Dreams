@@ -31,7 +31,8 @@ static bool pollEvents() {
 				return false;
 				break;
 			case sf::Event::Resized:
-				WindowManager::get().resizeTexture(ev.size.width, ev.size.height);
+//				WindowManager::get().resizeTexture(ev.size.width, ev.size.height);
+
 				break;
 			default:
 				break;
@@ -59,6 +60,7 @@ StateManager::~StateManager() {
 }
 
 void StateManager::run() {
+		
 	const int FRAMES_PER_SECOND = 62;
 	const unsigned long advances = 1000000 / FRAMES_PER_SECOND;
 	/*
@@ -79,7 +81,24 @@ void StateManager::run() {
 
 	while(true)
 	{	
-			
+		
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+			auto& window = *WindowManager::get().getRenderWindow();
+			static bool swap = false;
+			unsigned int style;
+			if(swap)
+				style = sf::Style::Titlebar | sf::Style::Close;
+			else
+				style = sf::Style::Fullscreen;
+			swap = !swap;
+
+			window.create(sf::VideoMode(WindowManager::MAX_WIDTH, WindowManager::MAX_HEIGHT), "Winter Dreams", style); 
+		}
+
+
+
+
+
 		if(pollEvents() == false)
 			return;
 
@@ -155,12 +174,13 @@ void StateManager::updateFrame() {
 }
 
 void StateManager::darkenWindow(float alpha) {
+	
 	auto& window = *WindowManager::get().getRenderWindow();
 	auto& states = *WindowManager::get().getStates();
 
 	//draw a black rectangle
-	static const float WIDTH = 10000;
-	static const float HEIGHT = 10000;
+	static const float WIDTH = WindowManager::MAX_WIDTH;
+	static const float HEIGHT = WindowManager::MAX_HEIGHT;
 	
 	//turn float alpha to int8 alpha
 	auto intAlpha = sf::Uint8();
@@ -181,6 +201,7 @@ void StateManager::darkenWindow(float alpha) {
 	auto newStates = states;
 	newStates.blendMode = sf::BlendAlpha;
 	window.draw(vertices, 4, sf::Quads, newStates);
+	
 	window.display();
 }
 
@@ -241,6 +262,7 @@ void StateManager::updateFadingIn() {
 	prepareWindow();
 	mStates.top()->render();
 	darkenWindow(mAlpha);
+//	darkenWindow(0.f);
 	return;
 }
 
@@ -254,5 +276,6 @@ void StateManager::updateFadingOut() {
 	prepareWindow();
 	mStates.top()->render();
 	darkenWindow(mAlpha);
+//	darkenWindow(0.f);
 	return;
 }

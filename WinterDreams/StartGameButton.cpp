@@ -5,6 +5,7 @@
 #include "LoadingState.h"
 #include "PropertyManager.h"
 #include "StateManager.h"
+#include "InputManager.h"
 
 static const char * const BOX_FILENAME = "placeholder_box.png"; 
 static const char * const FONT_FILENAME = "arial.ttf";
@@ -18,7 +19,8 @@ StartGameButton::StartGameButton(const sf::Vector2f& initialPosition):
 
 void StartGameButton::activate() {
 	
-	if(mUpdated == false) {
+
+	if(mUpdated == false && InputManager::get().isADown()) {
 		mUpdated = true;
 		Button::activate();
 
