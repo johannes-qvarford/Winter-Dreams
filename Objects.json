@@ -6,10 +6,45 @@
 				"xorigin": 0,
 				"filename": "placeholder.png"
 			},
-			"bridge":{
+			"Bridge_MiddleDown":{
 				"yorigin": 0,
 				"xorigin": 0,
-				"filename": "bridge.png"
+				"filename": "bridgeMiddleDown.png"
+			},
+			"Bridge_MiddleLeft":{
+				"yorigin": 0,
+				"xorigin": 0,
+				"filename": "bridgeMiddleLeft.png"
+			},
+			"Bridge_MiddleRight":{
+				"yorigin": 0,
+				"xorigin": 0,
+				"filename": "bridgeMiddleRight.png"
+			},
+			"Bridge_MiddleTop":{
+				"yorigin": 0,
+				"xorigin": 0,
+				"filename": "bridgeMiddleTop.png"
+			},
+			"Bridge_OuterBottomRight":{
+				"yorigin": 0,
+				"xorigin": 0,
+				"filename": "bridgeOuterBottomRight.png"
+			},
+			"Bridge_OuterLeft":{
+				"yorigin": 0,
+				"xorigin": 0,
+				"filename": "bridgeOuterLeft.png"
+			},
+			"Bridge_OuterRight":{
+				"yorigin": 0,
+				"xorigin": 0,
+				"filename": "bridgeOuterRight.png"
+			},
+			"Bridge_OuterTop":{
+				"yorigin": 0,
+				"xorigin": 0,
+				"filename": "bridgeOuterTop.png"
 			}
 		}
 	},
