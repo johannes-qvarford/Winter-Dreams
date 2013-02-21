@@ -20,6 +20,7 @@
     <ClCompile Include="Crystal.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="InventoryDisplay.cpp" />
+    <ClCompile Include="LevelSplash.cpp" />
     <ClCompile Include="LevelState.cpp" />
     <ClCompile Include="LevelPortal.cpp" />
     <ClCompile Include="LightPoint.cpp" />
@@ -82,6 +83,7 @@
     <ClInclude Include="Crystal.h" />
     <ClInclude Include="GraphicalEntity.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="LevelSplash.h" />
     <ClInclude Include="LevelState.h" />
     <ClInclude Include="LevelPortal.h" />
     <ClInclude Include="LightPoint.h" />

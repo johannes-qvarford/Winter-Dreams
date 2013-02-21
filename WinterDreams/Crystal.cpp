@@ -42,8 +42,8 @@ Crystal::Crystal( const sf::FloatRect& position, bool startEnabled, int imgVersi
 	GraphicalEntity( startEnabled ),
 	mSolidZone( new SolidZone( position, startEnabled ) ),
 	mVersion ( imgVersion ),
-	mHP		( CrystalSpecs::get().mHealth )
-
+	mHP		( CrystalSpecs::get().mHealth ),
+	mSoundBuffer( ResourceManager::get().getSoundBuffer( FS_DIR_SOUNDS + "pickaxe_ice.wav" ) )
 {	
 
 	assert( mVersion == 1 || mVersion == 2 || mVersion == 3 );
@@ -108,17 +108,22 @@ sf::FloatRect& Crystal::getHitBox() {
 }
 
 void Crystal::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::FloatRect& intersection) {
+	static sf::Sound sound(*mSoundBuffer);
 		//First do the standard Solid Zone collisions
 	mSolidZone->onCollision( entityCollidedWith_p, intersection );
 
 		//Then, if crystal collided with a DamageHitBox
-	if( dynamic_cast<DamageHitBox*>( entityCollidedWith_p ) ) {
+	if( dynamic_cast<DamageHitBox*>( entityCollidedWith_p ) && entityCollidedWith_p->getEnabled() ) {
 		auto dmgHitBox = dynamic_cast<DamageHitBox*>( entityCollidedWith_p );
 		
 		if( dmgHitBox->getDamageType() == "pickaxe" ) {
 				//Reduce crytal's HP by DamageHitBox's damage then set the hitbox to !enabled
 			adjustHealth(dmgHitBox->getDamageAmount() * -1);
 			dmgHitBox->disableNextFrame();
+
+			auto status = sound.getStatus();
+			if( status != sf::Sound::Playing )
+				sound.play();
 		}
 	}
 }

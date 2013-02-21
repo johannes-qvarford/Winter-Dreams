@@ -10,7 +10,9 @@ InputManager::InputManager():
 	KEY_A(sf::Keyboard::X),
 	KEY_B(sf::Keyboard::Z),
 	KEY_START(sf::Keyboard::Return),
-	KEY_SELECT(sf::Keyboard::Space){
+	KEY_SELECT(sf::Keyboard::Space),
+	mIsUnlocked( true )	
+{
 }
 
 sf::Vector2f InputManager::getStick(){
@@ -31,23 +33,23 @@ sf::Vector2f InputManager::getStick(){
 	if( abs(length) > 0 ){
 		stick = sf::Vector2f(stick.x/length, stick.y/length);
 	}
-	return stick;
+	return mIsUnlocked ? stick : sf::Vector2f(0,0);
 }
 
 bool InputManager::isADown(){
-	return (sf::Keyboard::isKeyPressed(KEY_A));
+	return mIsUnlocked ? (sf::Keyboard::isKeyPressed(KEY_A)) : false;
 }
 
 bool InputManager::isBDown(){
-	return (sf::Keyboard::isKeyPressed(KEY_B));
+	return mIsUnlocked ? (sf::Keyboard::isKeyPressed(KEY_B)) : false;
 }
 
 bool InputManager::isStartDown(){
-	return (sf::Keyboard::isKeyPressed(KEY_START));
+	return mIsUnlocked ? (sf::Keyboard::isKeyPressed(KEY_START)) : false;
 }
 
 bool InputManager::isSelectDown(){
-	return (sf::Keyboard::isKeyPressed(KEY_SELECT));
+	return mIsUnlocked ? (sf::Keyboard::isKeyPressed(KEY_SELECT)) : false;
 }
 
 void InputManager::setKeyBinding(std::string binding, sf::Keyboard::Key key){
@@ -55,4 +57,12 @@ void InputManager::setKeyBinding(std::string binding, sf::Keyboard::Key key){
 	else if (binding == "KEY_B") {KEY_B = key;}
 	else if (binding == "KEY_START") {KEY_START = key;}
 	else if (binding == "KEY_SELECT") {KEY_SELECT = key;}
+}
+
+void InputManager::lockInput() {
+	mIsUnlocked = false;
+}
+
+void InputManager::unlockInput() {
+	mIsUnlocked = true;
 }

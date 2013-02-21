@@ -251,7 +251,7 @@ void Player::updateActions(SubLevel* subLevel_p) {
 	if( InputManager::get().isADown()  && mActionCooldown <= 0 ){
 		if( mInventory.getCurrentEquip() == "pickaxe" ){
 			addHitBox( subLevel_p, this, 1, mInventory.getCurrentEquip() );
-			mActionCooldown = 20;
+			mActionCooldown = 40;
 		}
 	}
 }

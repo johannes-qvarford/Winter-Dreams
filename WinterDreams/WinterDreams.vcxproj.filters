@@ -172,6 +172,9 @@
     <ClCompile Include="ListFrame.cpp">
       <Filter>Sources\UI</Filter>
     </ClCompile>
+    <ClCompile Include="LevelSplash.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameToScreen.h">
@@ -323,6 +326,9 @@
     </ClInclude>
     <ClInclude Include="Network.h">
       <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelSplash.h">
+      <Filter>Includes\Entity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
