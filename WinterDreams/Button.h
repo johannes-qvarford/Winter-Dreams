@@ -51,7 +51,7 @@ public:
 	////////////////////////////////////////////////////////////
 	void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates()) const;
 
-private:
+protected:
 
 	std::shared_ptr<sf::Texture> mTexture_sp;
 	

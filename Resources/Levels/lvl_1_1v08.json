@@ -48,6 +48,18 @@
          "height":104,
          "name":"Objects",
          "objects":[
+		         {
+                 "name":"levelsplash",
+                 "properties":
+                    {
+					 "lifetime": "5.0",
+					 "fadeouttime": "2.0",
+					 "fadeintime": "1.5",
+                     "splashimgfile": "red.jpg"
+                    },
+                 "type":"levelsplash",
+                 "visible":true
+                },
                 {
                  "height":32,
                  "name":"player",

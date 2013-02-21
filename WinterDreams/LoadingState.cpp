@@ -68,21 +68,6 @@ LoadingState::~LoadingState() {
 
 void LoadingState::update() {
 	mLoadingIcon.rotate(-5);
-	
-	//if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-	//	mLoadingIcon.setPosition(mLoadingIcon.getPosition() - sf::Vector2f(-3, 0));
-	//}
-	//if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-	//	mLoadingIcon.setPosition(mLoadingIcon.getPosition() - sf::Vector2f(3, 0));
-	//}
-	//if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-	//	mLoadingIcon.setPosition(mLoadingIcon.getPosition() - sf::Vector2f(0, 3));
-	//}
-	//if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-	//	mLoadingIcon.setPosition(mLoadingIcon.getPosition() - sf::Vector2f(0, -3));
-	//}
-
-	//std::cout << mLoadingIcon.getPosition().x << " " << mLoadingIcon.getPosition().y << std::endl;
 
 	auto& win = *WindowManager::get().getRenderWindow();
 
@@ -281,8 +266,8 @@ static void loadSubLevel(const std::string& subLevelName, LevelState* levelState
 
 
 					//an objects position is (x,y) * 32 / STEP in gamecoordinates
-					auto x = object.get<int>("x");
-					auto y = object.get<int>("y");
+					auto x = object.get<int>("x", 0);
+					auto y = object.get<int>("y", 0);
 					auto position = sf::Vector2f(x * X_STEP / 32, y * Y_STEP / 32);
 
 					objFact.callCallback(objectType, subLevel_sp.get(), position, object);

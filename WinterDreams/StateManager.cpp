@@ -88,6 +88,7 @@ void StateManager::run() {
 	int loops = 0;
 
 	//time per frame.
+
 	frameTime.restart();
 
 	while(true)
