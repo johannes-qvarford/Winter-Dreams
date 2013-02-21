@@ -39,11 +39,7 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	
 	//does it have a name?
 	if(name != "")
-<<<<<<< HEAD
 		subLevel_p->mapEntityToName( name , occluded_sp);
-=======
-		subLevel_p->mapEntityToName(name, occluded_sp);
->>>>>>> f3b93fe777fd8b51f95b60b8b661e9912cc54bfe
 
 	subLevel_p->addGraphicalEntity(occluded_sp);
 }

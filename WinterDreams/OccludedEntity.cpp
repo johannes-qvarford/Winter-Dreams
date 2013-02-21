@@ -5,9 +5,10 @@
 #include "ResourceManager.h"
 #include "GameToScreen.h"
 
-OccludedEntity::OccludedEntity(const sf::FloatRect& initialPosition, const Animation& animation, bool startEnabled) :
+OccludedEntity::OccludedEntity(const sf::FloatRect& initialPosition, const Animation& animation, int layer, bool startEnabled) :
 	GraphicalEntity ( startEnabled ),
 	mAlpha(1.0f),
+	mLayer(layer),
 	mShader(ResourceManager::get().getShader(FS_DIR_SHADERS + "Blend.frag")),
 	mAnimation(animation),
 	mHitBox(initialPosition)
@@ -56,4 +57,8 @@ void OccludedEntity::drawSelf(){
 
 sf::FloatRect& OccludedEntity::getHitBox() {
 	return mHitBox;
+}
+
+int OccludedEntity::getLayer() {
+	return mLayer;
 }

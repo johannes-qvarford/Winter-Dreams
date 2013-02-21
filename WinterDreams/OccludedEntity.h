@@ -5,7 +5,7 @@
 
 class OccludedEntity : public GraphicalEntity {
 public:
-	OccludedEntity(const sf::FloatRect& initialPosition, const Animation& animation, bool startEnabled);
+	OccludedEntity(const sf::FloatRect& initialPosition, const Animation& animation, int layer, bool startEnabled);
 	
 	~OccludedEntity();
 	
@@ -18,7 +18,12 @@ public:
 	void drawSelf();
 
 	sf::FloatRect& getHitBox();
+
+	//not checking this in SubLevel yet.
+	int getLayer();
 private:
+	
+	int mLayer;
 
 	float mAlpha;
 
