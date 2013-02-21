@@ -92,7 +92,7 @@ void Camera::update(SubLevel* subLevel_p){
 //	auto winSizeF = sf::Vector2f( static_cast<float>(winSizeU.x), static_cast<float>(winSizeU.y) );
 	
 	//testing scaling
-	auto winSizeF = sf::Vector2f(WindowManager::MAX_WIDTH, WindowManager::MAX_HEIGHT);
+	auto winSizeF = sf::Vector2f(float(VIEW_WIDTH), float(VIEW_HEIGHT));
 	
 	//Calculate the view position by substracting half the screen width
 		//and screen height from the cameras current position

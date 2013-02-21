@@ -13,9 +13,10 @@
 	},
 	
 	"itemdisplay": {
-		"xfromleft": "50",
-		"yfromtop": "50",
-		"iconsappart": "100",
+		"xfromleft": "0.0285",
+		"yfromtop": "0.0435",
+		"xiconoffset": "0.054",
+		"yiconoffset": "0.098",
 		"animations": {
 			"itembox": {				
 				"spritewidth": "94",

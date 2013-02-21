@@ -15,7 +15,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////
 	static InvDispSpecs& get();
 	
-	int mXPos, mYPos, mIconsAppart;
+	float mXPos, mYPos, mXIconOffset, mYIconOffset;
 
 	std::list<AnimationSpecs>	mAnimSpecList;	//List of animation specs
 	std::list<std::string>		mAuxIconList;	//List of icons of tempItems and the itemBox
@@ -31,9 +31,11 @@ InvDispSpecs::InvDispSpecs() {
 	auto& obj = PropertyManager::get().getGeneralSettings();
 	auto& itemdisp = obj.get_child( "itemdisplay" );
 		//Get the constants out of the ptree
-	mXPos = itemdisp.get<int>("xfromleft");
-	mYPos = itemdisp.get<int>("yfromtop");
-	mIconsAppart = itemdisp.get<int>("iconsappart");
+	mXPos = itemdisp.get<float>("xfromleft");
+	mYPos = itemdisp.get<float>("yfromtop");
+	mXIconOffset = itemdisp.get<float>("xiconoffset");
+	mYIconOffset = itemdisp.get<float>("yiconoffset");
+
 		//Parse the specs for the animations into the AnimationSpecsList
 	AnimationSpecs::parse( itemdisp, mAnimSpecList );
 		/////////////////////////////////////////////////
@@ -107,7 +109,17 @@ void InventoryDisplay::draw() const{
 
 	if( !mPlayer_wp.expired() ) {
 		for( auto it = mItemSpriteList.begin(), end = mItemSpriteList.end(); it != end; ++it){
-			window.draw( *it , rendState );		
+			auto sprite = *it;
+			auto size = window.getSize();
+			//we need to change from normalized coordiantes, to screen coordinates.
+			sprite.setPosition(sprite.getPosition().x * window.getSize().x, sprite.getPosition().y * window.getSize().y);
+			auto vec = sf::Vector2f(float(window.getSize().x) / 1920, float(window.getSize().y) / 1080);
+			sprite.setScale(vec);
+			//sprite.setScale(window.getSize().x / 1920, window.getSize().y / 1080);
+			//			
+//			sprite.setScale(0.1, 0.1);
+			//auto pos = sprite.getPosition();
+			window.draw( sprite , rendState );		
 		}
 	}
 }
@@ -127,11 +139,11 @@ void InventoryDisplay::updateUI() {
 
 	auto& spec = InvDispSpecs::get();
 	auto& win = *WindowManager::get().getRenderWindow();
-	auto& centPos = win.getView().getCenter();
+	auto& centPos = sf::Vector2f(0, 0);
 		/////////////////////////////////////////////////////////
 		//The vector describing the top left corner of the screen
 		/////////////////////////////////////////////////////////
-	auto centDif = sf::Vector2f( static_cast<float>(WindowManager::MAX_WIDTH / 2), static_cast<float>(WindowManager::MAX_HEIGHT / 2));
+	auto centDif = sf::Vector2f(0.0, 0.0);
 		/////////////////////////////////////////////////////////
 		//The vector describing the distance from the window boarder to the first item
 		/////////////////////////////////////////////////////////
@@ -165,7 +177,7 @@ void InventoryDisplay::updateUI() {
 			/////////////////////////////////////////////////////////
 			//Calculate it's offest from the first icon
 			/////////////////////////////////////////////////////////
-		auto offset = sf::Vector2f(static_cast<float>(spec.mIconsAppart * index), 0 );
+		auto offset = sf::Vector2f(static_cast<float>(spec.mXIconOffset * index), 0 );
 			/////////////////////////////////////////////////////////
 			//Assign it's position
 			/////////////////////////////////////////////////////////
@@ -207,7 +219,7 @@ void InventoryDisplay::updateUI() {
 			//which will be drawn.
 			/////////////////////////////////////////////////////////
 		for( auto iter = temp.begin(), end = temp.end(); iter != end; ++iter){
-			auto offset = sf::Vector2f(0, static_cast<float>(spec.mIconsAppart * index) );
+			auto offset = sf::Vector2f(0, static_cast<float>(spec.mYIconOffset * index) );
 				/////////////////////////////////////////////////////////
 				//Draw the box indicating which item is equipped
 				/////////////////////////////////////////////////////////
@@ -235,7 +247,7 @@ void InventoryDisplay::updateUI() {
 		else{
 			index = -5;
 		}
-		auto offset = sf::Vector2f(static_cast<float>(spec.mIconsAppart * index), 0 );
+		auto offset = sf::Vector2f(static_cast<float>(spec.mXIconOffset * index), 0 );
 		mBoxAnimation_p->setPosition( firstIconPos + offset );
 			/////////////////////////////////////////////////////////
 			//Add the box's sprite to the list

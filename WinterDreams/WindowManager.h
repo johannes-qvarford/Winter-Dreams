@@ -7,20 +7,37 @@ namespace sf {
 	class RenderTexture;
 };
 
+static const int VIEW_WIDTH = 1920;
+static const int VIEW_HEIGHT = 1080;
+
 ////////////////////////////////////////////////////////////
 // /WindowManager is a singleton of the only window in the game.
 ////////////////////////////////////////////////////////////
 class WindowManager {
 public:
 
-	static int MAX_HEIGHT;
-
-	static int MAX_WIDTH;
-
 	////////////////////////////////////////////////////////////
 	// /Get the singleton.
 	////////////////////////////////////////////////////////////
 	static WindowManager& get();
+
+	////////////////////////////////////////////////////////////
+	// /check that the correct video mode is used, if user has changed
+	// /desktop video mode.
+	////////////////////////////////////////////////////////////
+	void update();
+
+	////////////////////////////////////////////////////////////
+	// /Set the video mode height and width.
+	// /Check to make sure that the current desktop mode can support it.
+	// /Use the best possible if not.
+	////////////////////////////////////////////////////////////
+	void setVideoMode(int width, int height, int style);
+
+	////////////////////////////////////////////////////////////
+	// /Set video mode to fullscreen or not.
+	////////////////////////////////////////////////////////////
+	void setFullscreenMode(bool fullscreen);
 
 	////////////////////////////////////////////////////////////
 	// /Get the texture for drawing.
@@ -38,11 +55,6 @@ public:
 	sf::RenderStates* getStates();
 
 	////////////////////////////////////////////////////////////
-	// /Resize the texture
-	////////////////////////////////////////////////////////////
-	void resizeTexture(unsigned int x, unsigned int y);
-
-	////////////////////////////////////////////////////////////
 	// /Resets the counter for light IDs
 	////////////////////////////////////////////////////////////
 	void resetLightIDs();
@@ -57,6 +69,8 @@ public:
 
 private:
 
+	void onDesktopModeChanged();
+
 	WindowManager();
 	
 	WindowManager(const WindowManager&);//no copy
@@ -65,9 +79,13 @@ private:
 
 	int mNextLightID;
 
-	sf::RenderTexture* mTexture_p;
-	sf::RenderWindow* mWindow_p;
-	sf::RenderStates* mRenderStates_p;
+	bool mFullscreen;
+	sf::VideoMode mMode;
+	sf::VideoMode mLastDesktopMode;
+
+	sf::RenderTexture mTexture;
+	sf::RenderWindow mWindow;
+	sf::RenderStates mRenderStates;
 };
 
 #endif

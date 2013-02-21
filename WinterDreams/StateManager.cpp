@@ -60,7 +60,18 @@ StateManager::~StateManager() {
 }
 
 void StateManager::run() {
-		
+	
+
+	std::vector<sf::VideoMode> modes = sf::VideoMode::getFullscreenModes();
+	 for (std::size_t i = 0; i < modes.size(); ++i)
+	 {
+		 sf::VideoMode mode = modes[i];
+		 std::cout << "Mode #" << i << ": "
+				   << mode.width << "x" << mode.height << " - "
+				   << mode.bitsPerPixel << " bpp" << std::endl;
+	 }
+
+
 	const int FRAMES_PER_SECOND = 62;
 	const unsigned long advances = 1000000 / FRAMES_PER_SECOND;
 	/*
@@ -81,23 +92,14 @@ void StateManager::run() {
 
 	while(true)
 	{	
-		
+		auto& windowManager = WindowManager::get();
+
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-			auto& window = *WindowManager::get().getRenderWindow();
-			static bool swap = false;
-			unsigned int style;
-			if(swap)
-				style = sf::Style::Titlebar | sf::Style::Close;
-			else
-				style = sf::Style::Fullscreen;
-			swap = !swap;
-
-			window.create(sf::VideoMode(WindowManager::MAX_WIDTH, WindowManager::MAX_HEIGHT), "Winter Dreams", style); 
+			windowManager.setFullscreenMode(false);
 		}
-
-
-
-
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
+			windowManager.setFullscreenMode(true);
+		}
 
 		if(pollEvents() == false)
 			return;
@@ -179,9 +181,7 @@ void StateManager::darkenWindow(float alpha) {
 	auto& states = *WindowManager::get().getStates();
 
 	//draw a black rectangle
-	static const float WIDTH = WindowManager::MAX_WIDTH;
-	static const float HEIGHT = WindowManager::MAX_HEIGHT;
-	
+
 	//turn float alpha to int8 alpha
 	auto intAlpha = sf::Uint8();
 	if(alpha > 1.0)
@@ -193,9 +193,9 @@ void StateManager::darkenWindow(float alpha) {
 
 	sf::Vertex vertices[] = {
 		sf::Vertex(sf::Vector2f(0, 0), sf::Color(1, 1, 1, intAlpha)),
-		sf::Vertex(sf::Vector2f(0, HEIGHT), sf::Color(1, 1, 1, intAlpha)),
-		sf::Vertex(sf::Vector2f(WIDTH, HEIGHT), sf::Color(1, 1, 1, intAlpha)),
-		sf::Vertex(sf::Vector2f(WIDTH, 0), sf::Color(1, 1, 1, intAlpha))
+		sf::Vertex(sf::Vector2f(0, VIEW_HEIGHT), sf::Color(1, 1, 1, intAlpha)),
+		sf::Vertex(sf::Vector2f(VIEW_WIDTH, VIEW_HEIGHT), sf::Color(1, 1, 1, intAlpha)),
+		sf::Vertex(sf::Vector2f(VIEW_WIDTH, 0), sf::Color(1, 1, 1, intAlpha))
 	};
 
 	auto newStates = states;

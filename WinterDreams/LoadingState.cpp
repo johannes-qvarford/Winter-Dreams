@@ -86,16 +86,17 @@ void LoadingState::update() {
 
 	auto& win = *WindowManager::get().getRenderWindow();
 
-	auto size = sf::Vector2f(float(WindowManager::MAX_WIDTH), float(WindowManager::MAX_HEIGHT));
+	auto size = sf::Vector2f(win.getSize().x, win.getSize().y);
+//	auto size = sf::Vector2f(float(WindowManager::get().MAX_WIDTH), float(WindowManager::get().MAX_HEIGHT));
 
 	mLoadingScreen.setTexture( *mLoadingScreenTexture );
-	mLoadingScreen.setScale(1.f , 1.f );
+	mLoadingScreen.setScale(float(win.getSize().x) / 1280, float(win.getSize().y) / 720);
 
 	mLoadingIcon.setTexture( *mLoadingIconTexture );
 	mLoadingIcon.setPosition( size.x * 0.85f , size.y * 0.85f );
 	mLoadingIcon.setPosition( size.x - 100, size.y - 100);
 	mLoadingIcon.setOrigin( 55, 55 );
-	mLoadingIcon.setScale(1.f , 1.f );	
+	mLoadingIcon.setScale(float(win.getSize().x) / 1280, float(win.getSize().y) / 720 );	
 
 	mMutex.lock();
 	if( mRunning == false && mDone == false) {

@@ -36,7 +36,7 @@ void Button::update(MenuState* state_p) {
 	auto tempBounds = mBounds;
 
 	//always in center
-	mBounds.left = (winSize.x / 2) - texSize.x / 2;
+	mBounds.left = (float(winSize.x) / 2) - (float(texSize.x) / 2);
 	mText.setPosition(mBounds.left + (mBounds.width / 2), mText.getPosition().y);
 }
 
