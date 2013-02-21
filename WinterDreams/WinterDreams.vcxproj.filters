@@ -160,9 +160,6 @@
     <ClCompile Include="Button.cpp">
       <Filter>Sources\UI</Filter>
     </ClCompile>
-    <ClCompile Include="StartGameButton.cpp">
-      <Filter>Sources\Entity</Filter>
-    </ClCompile>
     <ClCompile Include="Network.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -174,6 +171,15 @@
     </ClCompile>
     <ClCompile Include="LevelSplash.cpp">
       <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_levelsplash.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="QRDisplay.cpp">
+      <Filter>Sources\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="StartGameButton.cpp">
+      <Filter>Sources\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -329,6 +335,9 @@
     </ClInclude>
     <ClInclude Include="LevelSplash.h">
       <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="QRDisplay.h">
+      <Filter>Includes\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

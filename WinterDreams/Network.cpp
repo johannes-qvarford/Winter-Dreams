@@ -9,7 +9,7 @@ sf::Http::Response getResponse(){
 	sf::Http::Request request;
 
 	request.setMethod(sf::Http::Request::Get);	// Sets the HTTP Method to GET
-	request.setUri("newsession/API_KEY");		// An URI is the part of an URL beyond the domain
+	request.setUri("newsession/5adb77354af04740968d647e6c8a77d20ce2c476");		// An URI is the part of an URL beyond the domain
 
 	http.setHost("http://ukontroll.com/");		// The rest of the URL.
 	return http.sendRequest(request);

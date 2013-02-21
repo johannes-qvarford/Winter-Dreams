@@ -15,15 +15,13 @@
 
 
 
-LevelSplash::LevelSplash(const std::string& splashFileName, const int lifeTime, const int fadeoutTime, const int fadeinTime, bool startEnabled) : 
-	Script( startEnabled ),
+LevelSplash::LevelSplash(const std::string& splashFileName, const float lifeTime, const float fadeoutTime) : 
+	Script( true ),
 	mLifeTime( lifeTime ),
 	mAlpha( 0.f ),
-	mFadeInTime( fadeinTime ),
-	mFadeInTimeCurrent( 0 ),
 	mFadeOutTime( fadeoutTime ),
 	mFadeOutTimeCurrent( 0 ),
-	mLevelSplashTexture( ResourceManager::get().getTexture( FS_DIR_LOADINGSCREEN + "LevelSplash/" + splashFileName ) ),
+	mLevelSplashTexture( ResourceManager::get().getTexture( FS_DIR_BACKGROUNDS + "LevelSplash/" + splashFileName ) ),
 	mLevelSplash( *mLevelSplashTexture ),
 	mBlendShader( ResourceManager::get().getShader( FS_DIR_SHADERS + "Blend.frag" ) )
 {
@@ -35,25 +33,20 @@ LevelSplash::~LevelSplash()
 
 
 void LevelSplash::update(SubLevel* subLevel_p) {
-	auto& cam = subLevel_p->getLevel()->getCamera();
+	auto cam = subLevel_p->getLevel()->getCamera();
 	
 	mLevelSplash.setOrigin( sf::Vector2f( mLevelSplashTexture->getSize() / unsigned(2) ) );
 	mLevelSplash.setPosition( cam->getPosition() );
 
-
-	if( mFadeInTime != mFadeInTimeCurrent ){
-		++mFadeInTimeCurrent;
-		mAlpha = mFadeInTimeCurrent / mFadeInTime;
-	}
-	else if( mLifeTime > 0 ){
+	if( mLifeTime > 0 ){
 		--mLifeTime;
 	}
-	else if( mFadeOutTime != mFadeInTimeCurrent){
-		++mFadeOutTime;
+	else if( mFadeOutTimeCurrent < mFadeOutTime){
+		++mFadeOutTimeCurrent;
 		mAlpha = mFadeOutTimeCurrent / mFadeOutTime;
 	}
 	else {
-		setAlive( false );
+		//setAlive( false );
 		InputManager::get().unlockInput();
 	}
 }

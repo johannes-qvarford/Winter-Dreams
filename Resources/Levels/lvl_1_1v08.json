@@ -52,10 +52,10 @@
                  "name":"levelsplash",
                  "properties":
                     {
-					 "lifetime": "300",
-					 "fadeouttime": "120",
-					 "fadeintime": "120",
-                     "splashimgfile": "lvl_splash_1_1.png"
+					 "lifetime": "5.0",
+					 "fadeouttime": "2.0",
+					 "fadeintime": "1.5",
+                     "splashimgfile": "red.jpg"
                     },
                  "type":"levelsplash",
                  "visible":true

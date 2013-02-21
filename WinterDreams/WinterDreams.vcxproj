@@ -40,6 +40,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="PropertyManager.cpp" />
+    <ClCompile Include="QRDisplay.cpp" />
     <ClCompile Include="Queue.cpp" />
     <ClCompile Include="QueueItem.cpp" />
     <ClCompile Include="Registration_ai_path.cpp" />
@@ -49,6 +50,7 @@
     <ClCompile Include="Registration_collision64x32.cpp" />
     <ClCompile Include="Registration_crystal.cpp" />
     <ClCompile Include="Registration_levelportal.cpp" />
+    <ClCompile Include="Registration_levelsplash.cpp" />
     <ClCompile Include="Registration_light.cpp" />
     <ClCompile Include="Registration_item.cpp" />
     <ClCompile Include="Registration_npc.cpp" />
@@ -101,6 +103,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PrecompiledHeader.h" />
     <ClInclude Include="PropertyManager.h" />
+    <ClInclude Include="QRDisplay.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="QueueItem.h" />
     <ClInclude Include="RegistrationCommonHeaders.h" />

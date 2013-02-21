@@ -15,6 +15,7 @@ Button::Button(const sf::Vector2f& initialPosition, const std::string& text, con
 	mText.setString(text);
 	mText.setFont(*mFont_sp);
 	mText.setCharacterSize(20);
+	mText.setColor( sf::Color::Blue );
 
 	mBounds.width = float(mTexture_sp->getSize().x);
 	mBounds.height = float(mTexture_sp->getSize().y);
@@ -42,7 +43,7 @@ void Button::update(MenuState* state_p) {
 
 void Button::onHover(bool doHover) {
 	//red or yellow
-	auto color = (doHover ? sf::Color(255, 0, 0) : sf::Color(255, 255, 0));
+	auto color = (doHover ? sf::Color(255, 0, 0) : sf::Color::Blue);
 	mText.setColor(color);
 }
 

@@ -20,7 +20,7 @@ public:
 	//
 	// /Lastly, it needs a level name to know which splash to load
 	////////////////////////////////////////////////////////////
-	LevelSplash(const std::string& splashFileName, const int lifeTime, const int fadeoutTime, const int fadeinTime, bool startEnabled = true);
+	LevelSplash(const std::string& splashFileName, const float lifeTime, const float fadeoutTime);
 	////////////////////////////////////////////////////////////
 	// /Destructor
 	////////////////////////////////////////////////////////////
@@ -47,8 +47,6 @@ private:
 
 	float						 mAlpha;
 
-	unsigned int				 mFadeInTime;
-	unsigned int				 mFadeInTimeCurrent;
 	unsigned int				 mFadeOutTime;
 	unsigned int				 mFadeOutTimeCurrent;
 };
