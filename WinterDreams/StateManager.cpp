@@ -77,6 +77,7 @@ void StateManager::run() {
 	int loops = 0;
 
 	//time per frame.
+
 	frameTime.restart();
 
 	while(true)
@@ -94,10 +95,6 @@ void StateManager::run() {
 
 			window.create(sf::VideoMode(WindowManager::MAX_WIDTH, WindowManager::MAX_HEIGHT), "Winter Dreams", style); 
 		}
-
-
-
-
 
 		if(pollEvents() == false)
 			return;

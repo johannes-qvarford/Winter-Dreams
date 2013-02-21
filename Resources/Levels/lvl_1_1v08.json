@@ -48,6 +48,18 @@
          "height":104,
          "name":"Objects",
          "objects":[
+		         {
+                 "name":"levelsplash",
+                 "properties":
+                    {
+					 "lifetime": "300",
+					 "fadeouttime": "120",
+					 #fadeintime": "120",
+                     "splashimgfile": "lvl_splash_1_1.png",
+                    },
+                 "type":"levelsplash",
+                 "visible":true,
+                },
                 {
                  "height":32,
                  "name":"player",

@@ -68,21 +68,6 @@ LoadingState::~LoadingState() {
 
 void LoadingState::update() {
 	mLoadingIcon.rotate(-5);
-	
-	//if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-	//	mLoadingIcon.setPosition(mLoadingIcon.getPosition() - sf::Vector2f(-3, 0));
-	//}
-	//if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-	//	mLoadingIcon.setPosition(mLoadingIcon.getPosition() - sf::Vector2f(3, 0));
-	//}
-	//if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-	//	mLoadingIcon.setPosition(mLoadingIcon.getPosition() - sf::Vector2f(0, 3));
-	//}
-	//if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-	//	mLoadingIcon.setPosition(mLoadingIcon.getPosition() - sf::Vector2f(0, -3));
-	//}
-
-	//std::cout << mLoadingIcon.getPosition().x << " " << mLoadingIcon.getPosition().y << std::endl;
 
 	auto& win = *WindowManager::get().getRenderWindow();
 
