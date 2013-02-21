@@ -265,8 +265,8 @@ static void loadSubLevel(const std::string& subLevelName, LevelState* levelState
 
 
 					//an objects position is (x,y) * 32 / STEP in gamecoordinates
-					auto x = object.get<int>("x");
-					auto y = object.get<int>("y");
+					auto x = object.get<int>("x", 0);
+					auto y = object.get<int>("y", 0);
 					auto position = sf::Vector2f(x * X_STEP / 32, y * Y_STEP / 32);
 
 					objFact.callCallback(objectType, subLevel_sp.get(), position, object);

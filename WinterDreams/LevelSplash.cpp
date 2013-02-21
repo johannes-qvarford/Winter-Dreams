@@ -33,7 +33,6 @@ LevelSplash::LevelSplash(const std::string& splashFileName, const int lifeTime, 
 LevelSplash::~LevelSplash()
 {}
 
-void LevelSplash::draw() const {}
 
 void LevelSplash::update(SubLevel* subLevel_p) {
 	auto& cam = subLevel_p->getLevel()->getCamera();
