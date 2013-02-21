@@ -26,7 +26,9 @@ public:
 
 
 	float mMoveSpeed;
+	float mBrightness;
 	std::list<AnimationSpecs> mAnimSpecList;
+	std::map< int, float > mLightToDistance;
 
 private:
 	PlayerSpecs();							//Singleton-pattern
@@ -38,8 +40,19 @@ PlayerSpecs::PlayerSpecs() {
 	auto& obj = PropertyManager::get().getObjectSettings();
 	auto& player = obj.get_child( "objects.player" );
 	mMoveSpeed = player.get<float>( "walkspeed" );
+	mBrightness = player.get<float>("brightness");
 	
 	AnimationSpecs::parse( player, mAnimSpecList );
+
+	auto& lightsize = player.get_child("lightsize");
+	for(auto it = lightsize.begin(), end = lightsize.end(); it != end; ++it){
+			//Iterate over the childe tree and extract the data
+		auto& firstName = it->first;
+		auto secondValue = std::stof( it->second.data() );
+		auto firstValue = std::stoi(firstName);
+			//Store the data in the ligt to distance-map
+		mLightToDistance.insert( std::pair<int, float>(firstValue, secondValue) );
+	}
 }
 ////////////////////////////////////////////////////////////////////////////////
 PlayerSpecs& PlayerSpecs::get() { 
@@ -61,7 +74,7 @@ Player::Player(sf::FloatRect initialPosition, int lightLevel, bool startEnabled)
 {
 	using namespace std;
 	auto& p = PlayerSpecs::get();
-	//construct the animation map
+		//construct the animation map
 	Animation::fromListToMap(p.mAnimSpecList, FS_DIR_OBJECTANIMATIONS + "player/", &mAnimationMap);
 	mCurrentAnimation_p = &mAnimationMap.begin()->second;
 	
@@ -76,6 +89,8 @@ void Player::update(SubLevel* subLevel_p){
 	// functions. Otherwize, only update the players animation
 	/////////////////////////////////////////////////////////
 	if( getEnabled() ){
+		addLightSource(subLevel_p);
+
 		updateMovement(subLevel_p);
 			/////////////////////////////////////////////////////////
 			// If any component of the movement direction is greater then 1,
@@ -113,7 +128,6 @@ void Player::drawSelf(){
 	sprite.setPosition( GAME_TO_SCREEN * getPosition() );
 		//Draw the sprite
 	WindowManager::get().getWindow()->draw( sprite ,*WindowManager::get().getStates() );
-
 }
 
 sf::FloatRect& Player::getHitBox(){
@@ -142,11 +156,18 @@ int Player::getCurrentLightLevel() const{
 }
 
 void Player::setCurrentLightLevel(const int lightLevel){
-	mLightLevel=lightLevel;
+	mLightLevel = lightLevel;
+
+	if( mLightLevel < 1)
+		mLightLevel = 1;
+	if( mLightLevel > 10 )
+		mLightLevel = 10;
 }
 
 void Player::adjustCurrentLightLevel(const int lightLevelAdjustment){
-	mLightLevel+=lightLevelAdjustment;
+	auto i = mLightLevel;
+	i += lightLevelAdjustment;
+	setCurrentLightLevel( i );
 }
 
 const Inventory& Player::getInventory() const{
@@ -211,9 +232,8 @@ void Player::assignMoveAnimations(SubLevel* subLevel_p) {
 			mCurrentAnimation_p = &mAnimationMap.find("frontleft")->second;
 		if( mDirection.y < 0 )
 			mCurrentAnimation_p = &mAnimationMap.find("backright")->second;
-		if( mDirection.y == 0 )
-				//If the character did not move, idle.
-			mCurrentAnimation_p->resetAnimation();
+		if( mDirection.y == 0 )				
+			mCurrentAnimation_p->resetAnimation(); //If the character did not move, idle.
 	}
 }
 
@@ -231,15 +251,13 @@ void Player::updateActions(SubLevel* subLevel_p) {
 	if( InputManager::get().isADown()  && mActionCooldown <= 0 ){
 		if( mInventory.getCurrentEquip() == "pickaxe" ){
 			addHitBox( subLevel_p, this, 1, mInventory.getCurrentEquip() );
-			mActionCooldown = 20;
+			mActionCooldown = 40;
 		}
 	}
 }
 
-void Player::updateCurrentAnimation() {
-	
+void Player::updateCurrentAnimation() {	
 	mCurrentAnimation_p->updateAnimation();
-
 }
 
 void Player::setFacingDirection(sf::Vector2i dir){
@@ -249,6 +267,19 @@ void Player::setFacingDirection(sf::Vector2i dir){
 
 sf::Vector2i Player::getFacingDirection() const {
 	return mFacingDir;
+}
+
+void Player::addLightSource(SubLevel* subLevel_p){
+	auto ID = WindowManager::get().getNextLightID();
+
+	auto pos = getPosition();
+	pos.x += mHitBox.width/2.f;
+	pos.y += mHitBox.height/2.f;
+
+	auto& brightness = PlayerSpecs::get().mBrightness;
+	auto& distance = PlayerSpecs::get().mLightToDistance.find( mLightLevel )->second;
+
+	subLevel_p->setLightPoint( ID, pos, brightness, distance );
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////

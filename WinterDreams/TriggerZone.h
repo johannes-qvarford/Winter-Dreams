@@ -15,7 +15,7 @@ public:
 	// /Create a TriggerZone, that can trigger once or several times, only at a certain lightlevel, only when the player has certain items.
 	// /If triggering only once, onExitName is ignored.
 	///////////////////////////////////////////////
-	TriggerZone(const sf::FloatRect& hitBox, const std::list<std::string>& onEnterNames, const std::list<std::string>& onExitNames, std::list<std::string> requiredItems, int lightLevel, bool triggerOnce, bool startEnabled); 
+	TriggerZone(const sf::FloatRect& hitBox, const std::list<std::string>& onEnterNames, const std::list<std::string>& onExitNames, std::list<std::string> requiredItems, int lightLevel, SubLevel* subLevel_p, bool triggerOnce, bool startEnabled); 
 	
 	///////////////////////////////////////////////
 	// /swap exit entities enabled state when a player

@@ -151,6 +151,8 @@ private:
 	void updateActions(SubLevel* subLevel_p);
 	// /Updates the players animations
 	void updateCurrentAnimation();
+	// /Sends information to subLevel about the players lightcircle
+	void addLightSource(SubLevel* subLevel_p);
 
 	Animation*						 mCurrentAnimation_p; //The avatar's current animation
 	std::map<std::string, Animation> mAnimationMap;		//The avatar's animation map

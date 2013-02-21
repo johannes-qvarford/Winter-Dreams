@@ -13,7 +13,7 @@
 //to mean that the player has left the zone.
 static const int EXIT_FRAMES = 2;
 
-TriggerZone::TriggerZone(const sf::FloatRect& hitBox, const std::list<std::string>& onEnterNames, const std::list<std::string>& onExitNames, std::list<std::string> requiredItems, int lightLevel, bool triggerOnce, bool startEnabled):
+TriggerZone::TriggerZone(const sf::FloatRect& hitBox, const std::list<std::string>& onEnterNames, const std::list<std::string>& onExitNames, std::list<std::string> requiredItems, int lightLevel, SubLevel* subLevel_p, bool triggerOnce, bool startEnabled):
 	CollisionZone(startEnabled, hitBox, triggerOnce),
 	mUpdatesSinceLastTouch(EXIT_FRAMES + 1),
 	mInZone(false),
@@ -21,16 +21,13 @@ TriggerZone::TriggerZone(const sf::FloatRect& hitBox, const std::list<std::strin
 	mEnterNames(onEnterNames),
 	mExitNames(onExitNames),
 	mRequiredItems(requiredItems),
-	mSubLevel_p(NULL)
+	mSubLevel_p(subLevel_p)
 {
 }
 
 void TriggerZone::update(SubLevel* subLevel_p) {
 	mUpdatesSinceLastTouch++;
 	mUpdatesSinceLastTouch %= (EXIT_FRAMES + 2);
-
-	//we have found our sublevel
-	mSubLevel_p = subLevel_p;
 
 	//if there have been a few frames since last touch,
 	//and the player is in the zone,

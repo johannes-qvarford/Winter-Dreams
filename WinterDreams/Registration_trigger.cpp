@@ -31,7 +31,7 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	
 
 	auto triggerZone_sp = std::shared_ptr<CollisionZone>(
-		new TriggerZone(box, enterTriggerList, exitTriggerList, requiredItems, minlightlevel, once, !startdisabled));
+		new TriggerZone(box, enterTriggerList, exitTriggerList, requiredItems, minlightlevel, subLevel_p, once, !startdisabled));
 
 	if(name != "")
 		subLevel_p->mapEntityToName(name, triggerZone_sp);

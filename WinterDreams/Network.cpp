@@ -79,7 +79,7 @@ PacketContents getPacket(sf::TcpSocket* tcpSocket){
 	//Begin manipulating the hell out of it
 	const char* char_content = reinterpret_cast<const char*>(packet.getData());
 	std::string content;
-	for (int i=0; i<packet.getDataSize();++i){
+	for (size_t i=0; i<packet.getDataSize();++i){
 		if (char_content[i]!=';'){
 			content.push_back(char_content[i]);
 		} else {
@@ -106,15 +106,15 @@ PacketContents getPacket(sf::TcpSocket* tcpSocket){
 			case 3: {gyroX=stoi(buffer); break;}	 // These five are written to temps //
 			case 4: {gyroY=stoi(buffer); break;}	 //									//
 			case 5: {gyroZ=stoi(buffer); break;}	 /////////////////////////////////////
-			case 6: {packetContents.a=stoi(buffer); break;}
-			case 7: {packetContents.b=stoi(buffer); break;}
+			case 6: {packetContents.a=stoi(buffer) ? true : false; break;}
+			case 7: {packetContents.b=stoi(buffer) ? true : false; break;}
 			}
 			buffer="";
 			++packetpos;
 			++pos;
 		}
 	}while(subcontents!=";");
-	packetContents.joystick=sf::Vector2f(joystickX,joystickY);
-	packetContents.gyro=sf::Vector3f(gyroX,gyroY,gyroZ);
+	packetContents.joystick=sf::Vector2f(float(joystickX), float(joystickY));
+	packetContents.gyro=sf::Vector3f(float(gyroX), float(gyroY), float(gyroZ));
 	return packetContents;
 }

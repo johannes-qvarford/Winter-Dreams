@@ -19,13 +19,14 @@ namespace sf {
 ////////////////////////////////////////////////////////////
 class Widget : public sf::Drawable {
 public:
+	enum Key{ KEY_DOWN, KEY_UP, KEY_LEFT, KEY_RIGHT, KEY_A, KEY_B, KEY_START, KEY_SELECT };
 
 	////////////////////////////////////////////////////////////
-	// /"Activate" the widget as if a button was pressed. 
+	// /"Activate" the widget. 
 	// /Activating a button when pressing the KEY_A key could take
 	// /you to a sub menu for example.
 	////////////////////////////////////////////////////////////
-	virtual void activate(sf::Keyboard::Key key) = 0;
+	virtual void activate() = 0;
 
 	////////////////////////////////////////////////////////////
 	// /Method that is called when something hovers(or stops hovering) over the widget.

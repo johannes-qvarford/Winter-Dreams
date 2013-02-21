@@ -12,12 +12,12 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	auto& targetPortal = pt.get<std::string>("properties.targetportal", "");
 	auto& name = pt.get<std::string>("name", "");
 	sf::FloatRect rect( position.x, position.y, width, height );
-	std::shared_ptr<CollisionZone> portal( new LevelPortal(rect, subLevel_p, targetLevel, targetPortal, startEnabled, once) );
+	std::shared_ptr<CollisionZone> portal_p( new LevelPortal(rect, subLevel_p, targetLevel, targetPortal, startEnabled, once) );
 
-	subLevel_p->addCollisionZone( portal );
+	subLevel_p->addCollisionZone( portal_p );
 
 	if( name != "" )
-		subLevel_p->mapEntityToName( name, portal );
+		subLevel_p->mapEntityToName( name, portal_p );
 }
 
 static ObjectTypeRegistration reg("levelportal", regCallback);
