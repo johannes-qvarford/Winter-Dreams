@@ -24,7 +24,8 @@ public:
 	////////////////////////////////////////////////////////////////////////////
 	static PlayerSpecs& get();
 
-
+	int mInvulFrames;
+	float mBlinkFrameDistance;
 	float mMoveSpeed;
 	float mBrightness;
 	std::list<AnimationSpecs> mAnimSpecList;
@@ -39,6 +40,8 @@ private:
 PlayerSpecs::PlayerSpecs() {
 	auto& obj = PropertyManager::get().getObjectSettings();
 	auto& player = obj.get_child( "objects.player" );
+	mInvulFrames = player.get<int>( "invulnerabilityframes" );
+	mBlinkFrameDistance = player.get<float>( "blinkframedistance" );
 	mMoveSpeed = player.get<float>( "walkspeed" );
 	mBrightness = player.get<float>("brightness");
 	
@@ -70,7 +73,10 @@ Player::Player(sf::FloatRect initialPosition, int lightLevel, bool startEnabled)
 	mLightLevel( lightLevel ),
 	mDirection( 0,0),
 	mFacingDir( 1,1),
-	mHitBox( initialPosition.left, initialPosition.top, X_STEP , -Y_STEP ) //All hitbox heights are now inverted, ask Johannes.
+	mHitBox( initialPosition.left, initialPosition.top, X_STEP , -Y_STEP ), //All hitbox heights are now inverted, ask Johannes.
+	mFramesSinceLastBlink(0),
+	mFramesSinceLastHit(1000),
+	mIsInvisible(false)
 {
 	using namespace std;
 	auto& p = PlayerSpecs::get();
@@ -118,15 +124,22 @@ void Player::update(SubLevel* subLevel_p){
 		updateActions(subLevel_p);
 	}
 
+	updateInvulnerable();
 	updateCurrentAnimation();
 }
 
 void Player::drawSelf(){
-		//Get the current animation's sprite
+	auto& specs = PlayerSpecs::get();
+
+	//blink if your invulnerable(and it has been a certain number of frames since the last blink).
+	if(mIsInvisible)
+		return;
+	
+	//Get the current animation's sprite
 	auto& sprite = mCurrentAnimation_p->getCurrentSprite();
-		//Assign the sprite a position (in Screen Coordinates)
+	//Assign the sprite a position (in Screen Coordinates)
 	sprite.setPosition( GAME_TO_SCREEN * getPosition() );
-		//Draw the sprite
+	//Draw the sprite
 	WindowManager::get().getWindow()->draw( sprite ,*WindowManager::get().getStates() );
 }
 
@@ -256,7 +269,27 @@ void Player::updateActions(SubLevel* subLevel_p) {
 	}
 }
 
-void Player::updateCurrentAnimation() {	
+void Player::updateInvulnerable() {
+	
+	auto& specs = PlayerSpecs::get();
+	
+	//have we been hit recently, and is it time to blink?
+	if(isVulnerable() == false) {
+		++mFramesSinceLastBlink;
+		if(mFramesSinceLastBlink > specs.mBlinkFrameDistance) {
+			mFramesSinceLastBlink -= int(specs.mBlinkFrameDistance);
+			mIsInvisible = true;
+		}
+		else
+			mIsInvisible = false;
+	}
+	else
+		mIsInvisible = false;
+
+	++mFramesSinceLastHit;
+}
+
+void Player::updateCurrentAnimation() {
 	mCurrentAnimation_p->updateAnimation();
 }
 
@@ -280,6 +313,18 @@ void Player::addLightSource(SubLevel* subLevel_p){
 	auto& distance = PlayerSpecs::get().mLightToDistance.find( mLightLevel )->second;
 
 	subLevel_p->setLightPoint( ID, pos, brightness, distance );
+}
+
+bool Player::isVulnerable() const{
+	//has it passed enough time?
+	auto& specs = PlayerSpecs::get();
+	return mFramesSinceLastHit > specs.mInvulFrames;
+}
+
+void Player::setInvulnerable() {
+	//we're been hit!
+	mFramesSinceLastHit = 0;
+	mFramesSinceLastBlink = 0;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////

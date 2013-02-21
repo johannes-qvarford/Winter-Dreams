@@ -132,6 +132,8 @@ void SoundScape::update(SubLevel* subLevel_p){
 	else
 		volume = 0;
 
+
+
 	mSound.setVolume(volume);
 
 	mEnabledLastFrame = enabledThisFrame;

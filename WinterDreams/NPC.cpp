@@ -162,6 +162,8 @@ void NPC::onCollision(PhysicalEntity * pe_p, const sf::FloatRect& intersection) 
 	if(player_p == nullptr)
 		return;
 
-	if(player_p->getCurrentLightLevel() > 1)
+	if(player_p->getCurrentLightLevel() > 1 && player_p->isVulnerable()) {
 		player_p->adjustCurrentLightLevel(-1);
+		player_p->setInvulnerable();
+	}
 }
