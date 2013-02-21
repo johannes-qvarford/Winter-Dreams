@@ -324,6 +324,8 @@ static bool smallerPosition(std::shared_ptr<PhysicalEntity> lhs_p, std::shared_p
 }
 
 void SubLevel::checkCollisions(std::shared_ptr<GraphicalEntity> graphical_sp) {
+	if( sf::Keyboard::isKeyPressed( sf::Keyboard::C ) )
+		return;
 
 	for(auto it = mGraphicalEntities.begin(), end = mGraphicalEntities.end(); it != end; ++it) {
 		auto other_sp = *it;

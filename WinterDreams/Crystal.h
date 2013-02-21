@@ -59,6 +59,7 @@ private:
 	Animation*					mCurrentAnimation;	//The crystal's animation
 	int							mHP;				//The crystal's HP
 	std::shared_ptr<SolidZone>	mSolidZone;			//The crystal's collision zone
+	std::shared_ptr<sf::SoundBuffer> mSoundBuffer;  //The crystal's "smashed" sound
 	int							mVersion;
 	//No copies
 	Crystal(const Crystal& crystal);

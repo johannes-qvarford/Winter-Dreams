@@ -12,6 +12,7 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	auto& properties = pt.get_child("properties");
 	auto startdisabled = properties.get<bool>("startdisabled", false);
 	auto& spriteName = properties.get<std::string>("sprite");
+	auto layer = properties.get<int>("layer");
 	auto& name = pt.get<std::string>("name","");
 
 	auto width = pt.get<int>("width") / 32.f * X_STEP;
@@ -34,11 +35,15 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	Animation anim(FS_DIR_OBJECTANIMATIONS + "occluder/" + filename, temp_sp->getSize().x, temp_sp->getSize().y, 1, 100, xorigin, yorigin); 
 
 	auto occluded_sp = std::shared_ptr<OccludedEntity>(new OccludedEntity(
-		sf::FloatRect(correctedPosition, sf::Vector2f(width, height)), anim, !startdisabled));
+		sf::FloatRect(correctedPosition, sf::Vector2f(width, height)), anim, layer, !startdisabled));
 	
 	//does it have a name?
 	if(name != "")
+<<<<<<< HEAD
+		subLevel_p->mapEntityToName( name , occluded_sp);
+=======
 		subLevel_p->mapEntityToName(name, occluded_sp);
+>>>>>>> f3b93fe777fd8b51f95b60b8b661e9912cc54bfe
 
 	subLevel_p->addGraphicalEntity(occluded_sp);
 }
