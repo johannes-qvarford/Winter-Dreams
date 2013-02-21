@@ -13,6 +13,7 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	auto startdisabled = properties.get<bool>("startdisabled");
 	auto& spriteName = properties.get<std::string>("sprite");
 	auto& name = properties.get<std::string>("name","");
+	auto layer = properties.get<int>("layer");
 
 	auto width = pt.get<int>("width") / 32.f * X_STEP;
 	auto height = -pt.get<int>("height") / 32.f * Y_STEP;//need to negate height.
@@ -32,11 +33,11 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	Animation anim(filename, temp_sp->getSize().x, temp_sp->getSize().y, 1, 100, xorigin, yorigin); 
 
 	auto occluded_sp = std::shared_ptr<OccludedEntity>(new OccludedEntity(
-		sf::FloatRect(correctedPosition, sf::Vector2f(width, height)), anim, !startdisabled));
+		sf::FloatRect(correctedPosition, sf::Vector2f(width, height)), anim, layer, !startdisabled));
 	
 	//does it have a name?
 	if(name != "")
-		subLevel_p->addGraphicalEntity(occluded_sp);
+		subLevel_p->mapEntityToName( name , occluded_sp);
 
 	subLevel_p->addGraphicalEntity(occluded_sp);
 }
