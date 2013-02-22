@@ -20,7 +20,7 @@ public:
 	//
 	// /Lastly, it needs a level name to know which splash to load
 	////////////////////////////////////////////////////////////
-	LevelSplash(const std::string& splashFileName, const float lifeTime, const float fadeoutTime);
+	LevelSplash(const std::string& splashFileName, const int lifeTime, const int fadeoutTime);
 	////////////////////////////////////////////////////////////
 	// /Destructor
 	////////////////////////////////////////////////////////////

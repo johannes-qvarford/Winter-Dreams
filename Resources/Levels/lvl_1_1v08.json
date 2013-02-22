@@ -54,8 +54,7 @@
                     {
 					 "lifetime": "5.0",
 					 "fadeouttime": "2.0",
-					 "fadeintime": "1.5",
-                     "splashimgfile": "red.jpg"
+                     "splashimgfile": "splash.png"
                     },
                  "type":"levelsplash",
                  "visible":true

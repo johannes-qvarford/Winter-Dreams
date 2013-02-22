@@ -8,6 +8,7 @@
 #include "LevelState.h"
 #include "InputManager.h"
 #include "Camera.h"
+#include "GameToScreen.h"
 
 #include <SFML\Graphics\Sprite.hpp>
 #include <SFML\Graphics\Texture.hpp>
@@ -15,10 +16,10 @@
 
 
 
-LevelSplash::LevelSplash(const std::string& splashFileName, const float lifeTime, const float fadeoutTime) : 
+LevelSplash::LevelSplash(const std::string& splashFileName, const int lifeTime, const int fadeoutTime) : 
 	Script( true ),
 	mLifeTime( lifeTime ),
-	mAlpha( 0.f ),
+	mAlpha( 1.f ),
 	mFadeOutTime( fadeoutTime ),
 	mFadeOutTimeCurrent( 0 ),
 	mLevelSplashTexture( ResourceManager::get().getTexture( FS_DIR_BACKGROUNDS + "LevelSplash/" + splashFileName ) ),
@@ -33,29 +34,34 @@ LevelSplash::~LevelSplash()
 
 
 void LevelSplash::update(SubLevel* subLevel_p) {
-	auto cam = subLevel_p->getLevel()->getCamera();
-	
-	mLevelSplash.setOrigin( sf::Vector2f( mLevelSplashTexture->getSize() / unsigned(2) ) );
-	mLevelSplash.setPosition( cam->getPosition() );
+	auto& win = *WindowManager::get().getRenderWindow();
 
+	auto pos = sf::Vector2f( 0,0 );
+	mLevelSplash.setScale( static_cast<float>(win.getSize().x) / 1920.f, static_cast<float>(win.getSize().y) / 1080.f ) ; 
+
+//	mLevelSplash.setOrigin( mLevelSplashTexture->getSize().x / 2, mLevelSplashTexture->getSize().y / 2 );
+ 	mLevelSplash.setPosition(  pos );
+	
 	if( mLifeTime > 0 ){
 		--mLifeTime;
 	}
 	else if( mFadeOutTimeCurrent < mFadeOutTime){
 		++mFadeOutTimeCurrent;
-		mAlpha = mFadeOutTimeCurrent / mFadeOutTime;
+		mAlpha = 1.f - static_cast<float>(mFadeOutTimeCurrent) / static_cast<float>(mFadeOutTime);
 	}
 	else {
-		//setAlive( false );
+		setAlive( false );
 		InputManager::get().unlockInput();
 	}
 }
 
 void LevelSplash::draw() const{
-	auto& win = *WindowManager::get().getWindow();
+	auto& win = *WindowManager::get().getRenderWindow();
+	auto states = *WindowManager::get().getStates();
 
-
+	states.blendMode = sf::BlendAlpha;
+	states.shader = mBlendShader.get();
 	mBlendShader->setParameter( "alpha", mAlpha );
 
-	win.draw( mLevelSplash, mBlendShader.get() );
+	win.draw( mLevelSplash, states );
 }
