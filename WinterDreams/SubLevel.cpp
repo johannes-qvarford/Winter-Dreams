@@ -48,6 +48,28 @@ LevelState* SubLevel::getLevel() {
 
 void SubLevel::update() {
 
+	//static float i = 0;
+	//static float j = 0;
+
+	//std::cout << i << " " << j << std::endl;
+
+	//if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
+	//	mMapTexture.second.x += 0.1;
+	//	i += 0.1;
+	//}
+	//if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
+	//	mMapTexture.second.x -= 0.1;
+	//	i -= 0.1;
+	//}
+	//if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) {
+	//	mMapTexture.second.y += 0.1;
+	//	j += 0.1;
+	//}
+	//if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num4)) {
+	//	mMapTexture.second.y -= 0.1;
+	//	j -= 0.1;
+	//}
+
 	//update graphical entities.
 	for(auto it = mGraphicalEntities.begin(), end = mGraphicalEntities.end(); it != end; ++it) {
 		auto graphical_sp = *it;

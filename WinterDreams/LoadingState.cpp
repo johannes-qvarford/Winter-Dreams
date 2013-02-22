@@ -101,18 +101,8 @@ void LoadingState::render() {
 	auto& renderWindow = *WindowManager::get().getRenderWindow();
 	auto& rendState = *WindowManager::get().getStates();
 
-//	window.clear();
 	renderWindow.draw( mLoadingScreen, rendState );
 	renderWindow.draw( mLoadingIcon, rendState );
-//	renderWindow.display();
-
-//	sf::Sprite renderTextureSprite(window.getTexture());
-
-//	renderWindow.draw(renderTextureSprite);
-
-//	rendWin.display();
-
-
 }
 
 static void loadLevel(LoadingSpecs& specs) {
@@ -199,8 +189,8 @@ static void loadSubLevel(const std::string& subLevelName, LevelState* levelState
 
 		//need these offsets, don't know why
 		//may need to change when switching level.
-		/*const float X_OFFSET = -0.f;*/		const float X_OFFSET = -45.f;	
-		/*const float Y_OFFSET = -0.f;*/		const float Y_OFFSET = -17.f;
+		const float X_OFFSET = properties.get<float>("xmapoffset");	
+		const float Y_OFFSET = properties.get<float>("ymapoffset");
 		auto mlOffset = sf::Vector2f((cosf(22.5f) * yLength) + X_OFFSET, Y_OFFSET);
 
 		subLevel_sp->setMapTexture(mlTexture_sp, mlOffset);

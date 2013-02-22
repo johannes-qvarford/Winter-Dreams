@@ -52,8 +52,8 @@
                  "name":"levelsplash",
                  "properties":
                     {
-					 "lifetime": "5.0",
-					 "fadeouttime": "2.0",
+					 "lifetime": "0.0",
+					 "fadeouttime": "0.0",
 					 "fadeintime": "1.5",
                      "splashimgfile": "red.jpg"
                     },
@@ -567,7 +567,9 @@
     {
      "background":"bkg_1_1.png",
      "level":"lvl_1_1v08",
-     "map":"map_1_1.png"
+     "map":"map_1_1.png",
+	 "xmapoffset":-45,
+	 "ymapoffset":-17
     },
  "tileheight":32,
  "tilesets":[

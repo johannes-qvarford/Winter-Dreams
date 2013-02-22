@@ -5,9 +5,9 @@
 #include "ResourceManager.h"
 #include "GameToScreen.h"
 
-OccludedEntity::OccludedEntity(const sf::FloatRect& initialPosition, const Animation& animation, int layer, bool startEnabled) :
+OccludedEntity::OccludedEntity(const sf::FloatRect& initialPosition, const Animation& animation, float alpha, int layer, bool startEnabled) :
 	GraphicalEntity ( startEnabled ),
-	mAlpha(1.0f),
+	mAlpha(alpha),
 	mLayer(layer),
 	mShader(ResourceManager::get().getShader(FS_DIR_SHADERS + "Blend.frag")),
 	mAnimation(animation),
@@ -24,12 +24,41 @@ void OccludedEntity::setAlpha(float alpha){
 
 void OccludedEntity::drawSelf(){
 	auto renTex = WindowManager::get().getWindow();
-	auto& states = *WindowManager::get().getStates();
+	auto states = *WindowManager::get().getStates();
 
-	mShader->setParameter("Alpha",mAlpha / 100.f);
+	static float ol = 0;
+
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
+		ol += 0.01;
+	}
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
+		ol -= 0.01;
+	}
+
+	static float xoffset = 0;
+	static float yoffset = 0;
+
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) {
+		xoffset += 0.20;
+	}
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num4)) {
+		xoffset -= 0.20;
+	}
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num5)) {
+		yoffset += 0.20;
+	}
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num6)) {
+		yoffset -= 0.20;
+	}
+
+	std::cout << xoffset << " "  << yoffset << std::endl; 
+
+//	std::cout << ol << std::endl;
+	mShader->setParameter("alpha",ol);
+//	mShader->setParameter("alpha",mAlpha / 100.f);
 	sf::Sprite spr = mAnimation.getCurrentSprite();
 
-#ifdef _DEBUG
+#ifdef NEVER
 	sf::Vertex vertices[] =
 	{
 		sf::Vertex(sf::Vector2f(mHitBox.left, mHitBox.top), sf::Color::Green, sf::Vector2f( 0,  0)),
@@ -47,11 +76,21 @@ void OccludedEntity::drawSelf(){
 	window.draw(vertices, 4, sf::Quads, states);
 #else
 
-	if (getEnabled()){
-		renTex->draw(spr, states);
-	}else{
-		renTex->draw(spr, mShader.get());
-	}
+//	static auto texture_sp = ResourceManager::get().getTexture(FS_DIR_OBJECTANIMATIONS + "occluder/bridgeMiddleTop.png");
+//	spr.setTexture(*texture_sp);
+	auto pos = GAME_TO_SCREEN * sf::Vector2f(mHitBox.left + xoffset, mHitBox.top + yoffset);
+	spr.setPosition(pos);
+	
+	states.blendMode = sf::BlendAlpha;
+
+	if (getEnabled() == false)
+		states.shader = mShader.get();
+
+	renTex->draw(spr, states);
+
+	auto vertex = sf::Vertex(pos, sf::Color(0, 255, 0));
+	renTex->draw(&vertex, 1, sf::Points);
+
 #endif
 }
 

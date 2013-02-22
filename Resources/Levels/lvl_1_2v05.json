@@ -403,8 +403,9 @@
                  "properties":
                     {
                      "layer":"0",
-                     "occlusionlevel":"95",
-                     "sprite":"Bridge_MiddleDown"
+                     "occlusionlevel":"5",
+                     "sprite":"Bridge_MiddleDown",
+					 "startdisabled":true
                     },
                  "type":"occluder",
                  "visible":true,
@@ -419,8 +420,9 @@
                  "properties":
                     {
                      "layer":"0",
-                     "occlusionlevel":"95",
-                     "sprite":"Bridge_MiddleLeft"
+                     "occlusionlevel":"5",
+                     "sprite":"Bridge_MiddleLeft",
+					 "startdisabled":true
                     },
                  "type":"occluder",
                  "visible":true,
@@ -435,8 +437,9 @@
                  "properties":
                     {
                      "layer":"0",
-                     "occlusionlevel":"95",
-                     "sprite":"Bridge_MiddleRight"
+                     "occlusionlevel":"5",
+                     "sprite":"Bridge_MiddleRight",
+					 "startdisabled":true
                     },
                  "type":"occluder",
                  "visible":true,
@@ -451,8 +454,9 @@
                  "properties":
                     {
                      "layer":"0",
-                     "occlusionlevel":"95",
-                     "sprite":"Bridge_MiddleTop"
+                     "occlusionlevel":"5",
+                     "sprite":"Bridge_MiddleTop",
+					 "startdisabled":true
                     },
                  "type":"occluder",
                  "visible":true,
@@ -467,8 +471,9 @@
                  "properties":
                     {
                      "layer":"0",
-                     "occlusionlevel":"95",
-                     "sprite":"Bridge_OuterBottomRight"
+                     "occlusionlevel":"5",
+                     "sprite":"Bridge_OuterBottomRight",
+					 "startdisabled":true
                     },
                  "type":"occluder",
                  "visible":true,
@@ -483,8 +488,9 @@
                  "properties":
                     {
                      "layer":"0",
-                     "occlusionlevel":"95",
-                     "sprite":"Bridge_OuterBottomRight"
+                     "occlusionlevel":"5",
+                     "sprite":"Bridge_OuterBottomRight",
+					 "startdisabled":true
                     },
                  "type":"occluder",
                  "visible":true,
@@ -499,8 +505,9 @@
                  "properties":
                     {
                      "layer":"0",
-                     "occlusionlevel":"95",
-                     "sprite":"Bridge_OuterLeft"
+                     "occlusionlevel":"5",
+                     "sprite":"Bridge_OuterLeft",
+					 "startdisabled":true
                     },
                  "type":"occluder",
                  "visible":true,
@@ -515,8 +522,9 @@
                  "properties":
                     {
                      "layer":"0",
-                     "occlusionlevel":"95",
-                     "sprite":"Bridge_OuterRight"
+                     "occlusionlevel":"5",
+                     "sprite":"Bridge_OuterRight",
+					 "startdisabled":true
                     },
                  "type":"occluder",
                  "visible":true,
@@ -531,8 +539,9 @@
                  "properties":
                     {
                      "layer":"0",
-                     "occlusionlevel":"95",
-                     "sprite":"Bridge_OuterTop"
+                     "occlusionlevel":"5",
+                     "sprite":"Bridge_OuterTop",
+					 "startdisabled":true
                     },
                  "type":"occluder",
                  "visible":true,
@@ -567,7 +576,9 @@
     {
      "background":"bkg_1_2.png",
      "level":"lvl_1_2v05",
-     "map":"map_1_2.png"
+     "map":"map_1_2.png",
+	 "xmapoffset":-17,
+	 "ymapoffset":-16
     },
  "tileheight":32,
  "tilesets":[

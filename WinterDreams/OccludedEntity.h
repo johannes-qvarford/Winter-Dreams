@@ -5,7 +5,7 @@
 
 class OccludedEntity : public GraphicalEntity {
 public:
-	OccludedEntity(const sf::FloatRect& initialPosition, const Animation& animation, int layer, bool startEnabled);
+	OccludedEntity(const sf::FloatRect& initialPosition, const Animation& animation, float alpha, int layer, bool startEnabled);
 	
 	~OccludedEntity();
 	
