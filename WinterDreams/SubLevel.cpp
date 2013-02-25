@@ -258,7 +258,7 @@ void SubLevel::render() {
 		maxDis[7] += i;
 		
 		mLightCircleShader->setParameter( brightness, 0 );
-		mLightCircleShader->setParameter( maxDis, 0 );
+		mLightCircleShader->setParameter( maxDis, 1 );
 	}
 }
 
