@@ -141,6 +141,17 @@ public:
 	// /(1,-1)
 	//////////////////////////////////////////////////////
 	void setFacingDirection(sf::Vector2i dir);
+
+	//////////////////////////////////////////////////////
+	// /Returns whether or not the player can be damaged at the moment.
+	//////////////////////////////////////////////////////
+	bool isVulnerable() const;
+
+	//////////////////////////////////////////////////////
+	// /Make the Player invulnerable for some time.
+	//////////////////////////////////////////////////////
+	void setInvulnerable();
+
 private:
 	// /Updates the players movement
 	void updateMovement(SubLevel* subLevel_p);
@@ -151,6 +162,11 @@ private:
 	void updateActions(SubLevel* subLevel_p);
 	// /Updates the players animations
 	void updateCurrentAnimation();
+	// /Updates the players invulnerability state.
+	void updateInvulnerable();
+
+	// /Sends information to subLevel about the players lightcircle
+	void addLightSource(SubLevel* subLevel_p);
 
 	Animation*						 mCurrentAnimation_p; //The avatar's current animation
 	std::map<std::string, Animation> mAnimationMap;		//The avatar's animation map
@@ -163,6 +179,10 @@ private:
 	sf::Vector2i					 mFacingDir;		//Holds the direction the avatar is facing. 
 	int								 mActionCooldown;	//Regulates the avatar's action cooldowns
 	bool							 mIsActionActive;	//Keeps track of whether an action is active or not
+	float							 mFramesSinceLastBlink;
+	int								 mFramesSinceLastHit;
+	bool							 mIsInvisible;
+
 	//No copies
 	Player::Player( const Player& player );
 	//No copies

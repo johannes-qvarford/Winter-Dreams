@@ -1,15 +1,50 @@
 {
 	"occluder": {
-		"sprite": {
+		"animations": {
 			"placeholder":{
 				"yorigin": 0,
 				"xorigin": 0,
 				"filename": "placeholder.png"
 			},
-			"bridge":{
+			"Bridge_MiddleDown":{
 				"yorigin": 0,
 				"xorigin": 0,
-				"filename": "bridge.png"
+				"filename": "bridgeMiddleDown.png"
+			},
+			"Bridge_MiddleLeft":{
+				"yorigin": 0,
+				"xorigin": 0,
+				"filename": "bridgeMiddleLeft.png"
+			},
+			"Bridge_MiddleRight":{
+				"yorigin": 0,
+				"xorigin": 0,
+				"filename": "bridgeMiddleRight.png"
+			},
+			"Bridge_MiddleTop":{
+				"yorigin": 0,
+				"xorigin": 0,
+				"filename": "bridgeMiddleTop.png"
+			},
+			"Bridge_OuterBottomRight":{
+				"yorigin": 0,
+				"xorigin": 0,
+				"filename": "bridgeOuterBottomRight.png"
+			},
+			"Bridge_OuterLeft":{
+				"yorigin": 0,
+				"xorigin": 0,
+				"filename": "bridgeOuterLeft.png"
+			},
+			"Bridge_OuterRight":{
+				"yorigin": 0,
+				"xorigin": 0,
+				"filename": "bridgeOuterRight.png"
+			},
+			"Bridge_OuterTop":{
+				"yorigin": 0,
+				"xorigin": 0,
+				"filename": "bridgeOuterTop.png"
 			}
 		}
 	},
@@ -73,6 +108,8 @@
 			}
 		},
 		"light" : {
+			"brightness": "1.0",
+			
 			"animations" : {
 				"placeholder": {
 					"spritewidth": "64",
@@ -83,24 +120,88 @@
 					"framespersprite": "100",
 					"filename": "placeholder.png"
 				}
-			}
+			},
+			"lightsize": {
+				"1": "0.12",
+				"2": "0.16",
+				"3": "0.21",
+				"4": "0.27",
+				"5": "0.33",
+				"6": "0.40",
+				"7": "0.45",
+				"8": "0.50",
+				"9": "0.55",
+				"10": "0.60"
+			}			
 		},
 		"crystal" : {
-			"hp":5,
+			"hp":3,
 			"animations" : {
 				"solid1": {
 					"spritewidth": "64",
-					"spriteheight": "64",
-					"yorigin": "48",
+					"spriteheight": "95",
+					"yorigin": "79",
 					"xorigin": "0",
 					"numberofsprites": "1",
 					"framespersprite": "100",
-					"filename": "placeholder.png"
-				}
+					"filename": "crystalsolid2.png"
+				},
+				"solid2": {
+					"spritewidth": "64",
+					"spriteheight": "76",
+					"yorigin": "60",
+					"xorigin": "0",
+					"numberofsprites": "1",
+					"framespersprite": "100",
+					"filename": "crystalsolid3.png"
+				},
+				"solid3": {
+					"spritewidth": "64",
+					"spriteheight": "95",
+					"yorigin": "79",
+					"xorigin": "0",
+					"numberofsprites": "1",
+					"framespersprite": "100",
+					"filename": "crystalsolid4.png"
+				},
+				"broken": {
+					"spritewidth": "64",
+					"spriteheight": "69",
+					"yorigin": "53",
+					"xorigin": "0",
+					"numberofsprites": "1",
+					"framespersprite": "100",
+					"filename": "crystalbroken2.png"
+				},
+				"destroyed": {
+					"spritewidth": "64",
+					"spriteheight": "48",
+					"yorigin": "32",
+					"xorigin": "0",
+					"numberofsprites": "1",
+					"framespersprite": "100",
+					"filename": "crystaldestroyed2.png"
+				}				
 			}
 		},
 		"player": {
-			"walkspeed": 5.5,
+			"invulnerabilityframes": 40,
+			"blinkframedistance": 8,
+			"walkspeed": 22.5,
+			"lightsize": {
+				"1": "0.12",
+				"2": "0.16",
+				"3": "0.21",
+				"4": "0.27",
+				"5": "0.33",
+				"6": "0.40",
+				"7": "0.45",
+				"8": "0.50",
+				"9": "0.55",
+				"10": "0.60"
+			},
+			"brightness": "1.25",
+			
 			"animations": {
 				"placeholder": {				
 					"spritewidth": "64",

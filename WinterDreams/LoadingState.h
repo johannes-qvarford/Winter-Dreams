@@ -26,7 +26,7 @@ public:
 	// /LoadingState is more of an interface since the loading is done
 	// /by another class while LoadingState displays the loadingscreen.
 	////////////////////////////////////////////////////////////
-	LoadingState(std::string levelName, LevelState* level_p);
+	LoadingState(std::string levelName);
 
 	////////////////////////////////////////////////////////////
 	// /LoadingStates destructor DOES NOT delete mLoadedState.
@@ -51,6 +51,7 @@ private:
 	sf::Thread mThread;				//The thread that loads the level
 	sf::Mutex mMutex;				//A mutex for avoiding that different threads access the mRunning bool 
 	bool mRunning;					//Keeps track of whether the loading thread is finished or not	
+	bool mDone;						//Has already queued actions for StateManager, is waiting to be destroyed.
 
 	std::shared_ptr<sf::Texture> mLoadingScreenTexture;
 	std::shared_ptr<sf::Texture> mLoadingIconTexture;

@@ -15,6 +15,9 @@
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/optional/optional.hpp>
 
+#include <SFML/Window/Keyboard.hpp>
+#include <iostream>
+
 #include "Player.h"
 #include "InventoryDisplay.h"
 #include "Camera.h"
@@ -33,7 +36,7 @@ struct LoadingSpecs{
 		mMutex_p( mutex_p ),
 		mRunning_p( running_p )
 		{ } 
-	
+
 	LevelState* mLoadedLevel_p;	//Pointer to the gamestate into which the level is to be loaded
 	sf::Mutex* mMutex_p;			//Keeps track so that several threads does not access the same memory
 	bool* mRunning_p;				//Keeps track of whether the thread is running
@@ -47,24 +50,14 @@ struct LoadingSpecs{
 static void loadSubLevel(const std::string& subLevelName, LevelState* levelState_p);
 static void loadLevel(LoadingSpecs& specs);
 
-LoadingState::LoadingState(std::string levelName, LevelState* levelState_p):
-	mLoadingSpecs_p(new LoadingSpecs(levelName, levelState_p, &mMutex, &mRunning)),
+LoadingState::LoadingState(std::string levelName):
+	mLoadingSpecs_p(new LoadingSpecs(levelName, new LevelState(), &mMutex, &mRunning)),
 	mThread( loadLevel, *mLoadingSpecs_p),
 	mRunning( true ),
+	mDone(false),
 	mLoadingScreenTexture( ResourceManager::get().getTexture(FS_DIR_LOADINGSCREEN + "loadingscreen.png") ),
 	mLoadingIconTexture( ResourceManager::get().getTexture(FS_DIR_LOADINGSCREEN + "loadingicon.png") )
 {
-	auto& win = *WindowManager::get().getRenderWindow();
-	auto& size = win.getSize();
-
-	mLoadingScreen.setTexture( *mLoadingScreenTexture );
-	mLoadingScreen.setScale(1.f , 1.f );
-
-	mLoadingIcon.setTexture( *mLoadingIconTexture );
-	mLoadingIcon.setPosition( float(size.x) - size.x*0.15f , float(size.y) - size.y*0.15f );
-	mLoadingIcon.setOrigin( 55, 55 );
-	mLoadingIcon.setScale(1.f , 1.f );	
-
 	mThread.launch();
 }
 
@@ -75,28 +68,47 @@ LoadingState::~LoadingState() {
 
 void LoadingState::update() {
 	mLoadingIcon.rotate(-5);
+
+	auto& win = *WindowManager::get().getRenderWindow();
+
+	auto size = sf::Vector2f(win.getSize().x, win.getSize().y);
+//	auto size = sf::Vector2f(float(WindowManager::get().MAX_WIDTH), float(WindowManager::get().MAX_HEIGHT));
+
+	mLoadingScreen.setTexture( *mLoadingScreenTexture );
+	mLoadingScreen.setScale(float(win.getSize().x) / 1280, float(win.getSize().y) / 720);
+
+	mLoadingIcon.setTexture( *mLoadingIconTexture );
+	mLoadingIcon.setPosition( size.x * 0.85f , size.y * 0.85f );
+	mLoadingIcon.setPosition( size.x - 100, size.y - 100);
+	mLoadingIcon.setOrigin( 55, 55 );
+	mLoadingIcon.setScale(float(win.getSize().x) / 1280, float(win.getSize().y) / 720 );	
+
+	mMutex.lock();
+	if( mRunning == false && mDone == false) {
+		mDone = true;
+		//fadeout, pop top, push level, and fadein.
+		auto& mgr = StateManager::get();
+		mgr.freezeState();
+		mgr.popState();
+		mgr.pushState(mLoadingSpecs_p->mLoadedLevel_p);
+		mgr.unfreezeState();
+	}
+	mMutex.unlock();
 }
 
 void LoadingState::render() {
-	auto& rendWin = *WindowManager::get().getRenderWindow();
+	auto& window = *WindowManager::get().getWindow();
+	auto& renderWindow = *WindowManager::get().getRenderWindow();
 	auto& rendState = *WindowManager::get().getStates();
 
-	rendWin.draw( mLoadingScreen, rendState );
-	rendWin.draw( mLoadingIcon, rendState );
-
-	rendWin.display();
-
-	mMutex.lock();
-	if( mRunning == false)		
-		StateManager::get().popState();
-	mMutex.unlock();
-
+	renderWindow.draw( mLoadingScreen, rendState );
+	renderWindow.draw( mLoadingIcon, rendState );
 }
 
-template<typename T>
-T forward(const T& t){ return t; }
-
 static void loadLevel(LoadingSpecs& specs) {
+	
+
+	
 	//look in settings for which sublevels to load.
 	auto& settings = PropertyManager::get().getGeneralSettings();
 	auto& levels = settings.get_child("levels");
@@ -109,12 +121,17 @@ static void loadLevel(LoadingSpecs& specs) {
 		auto& subLevelName = entry.get_value<std::string>();
 		loadSubLevel(subLevelName, specs.mLoadedLevel_p);
 	}
+
+
+
 	specs.mLoadedLevel_p->switchSubLevel(level.get<std::string>("first_sublevel_name"));
 
 	//now, add player, camera, and inventory display to sub levels.
 	std::shared_ptr<Player> player_sp = specs.mLoadedLevel_p->getPlayer();
 	std::shared_ptr<Camera> camera_sp = specs.mLoadedLevel_p->getCamera();
 	std::shared_ptr<InventoryDisplay> display_sp = specs.mLoadedLevel_p->getInventoryDisplay();
+
+
 
 	for(auto it = sublevels.begin(), end = sublevels.end(); it != end; ++it) {
 		//iterate over all sublevels.
@@ -160,9 +177,11 @@ static void loadSubLevel(const std::string& subLevelName, LevelState* levelState
 		auto map = properties.get_child(NAME_LEVELSETTINGS_MAPLAYER);
 		properties.get_value<std::string>();
 		auto& mlFilename = properties.get<std::string>(NAME_LEVELSETTINGS_MAPLAYER);
+		auto& bkFilename = properties.get<std::string>("background");
 		
 //		auto bgTexture_sp = resMgr.getTexture(bgFilename);
 		auto mlTexture_sp = resMgr.getTexture(FS_DIR_MAPS + mlFilename);
+		auto bkTexture_sp = resMgr.getTexture(FS_DIR_BACKGROUNDS + bkFilename);
 
 		auto yTiles = levelData.get<int>("height");
 
@@ -170,11 +189,12 @@ static void loadSubLevel(const std::string& subLevelName, LevelState* levelState
 
 		//need these offsets, don't know why
 		//may need to change when switching level.
-		/*const float X_OFFSET = -0.f;*/		const float X_OFFSET = -45.f;	
-		/*const float Y_OFFSET = -0.f;*/		const float Y_OFFSET = -17.f;
-		auto mlOffset = sf::Vector2f((cosf(22.5f) * yLength) + X_OFFSET, Y_OFFSET); 
+		const float X_OFFSET = properties.get<float>("xmapoffset");	
+		const float Y_OFFSET = properties.get<float>("ymapoffset");
+		auto mlOffset = sf::Vector2f((cosf(22.5f) * yLength) + X_OFFSET, Y_OFFSET);
 
 		subLevel_sp->setMapTexture(mlTexture_sp, mlOffset);
+		subLevel_sp->setBackgroundTexture(bkTexture_sp, sf::Vector2f(0,0));
 //		mLoadedLevel->setBackgroundTexture(bgTexture_sp, sf::Vector2f(0, 0));
 	}
 
@@ -236,8 +256,8 @@ static void loadSubLevel(const std::string& subLevelName, LevelState* levelState
 
 
 					//an objects position is (x,y) * 32 / STEP in gamecoordinates
-					auto x = object.get<int>("x");
-					auto y = object.get<int>("y");
+					auto x = object.get<int>("x", 0);
+					auto y = object.get<int>("y", 0);
 					auto position = sf::Vector2f(x * X_STEP / 32, y * Y_STEP / 32);
 
 					objFact.callCallback(objectType, subLevel_sp.get(), position, object);

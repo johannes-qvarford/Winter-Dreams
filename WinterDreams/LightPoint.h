@@ -45,6 +45,8 @@ public:
 
 private:
 
+	void addLightSource(SubLevel* subLevel_p);
+
 	Animation* mCurrentAnimation_p;
 
 	std::map<std::string, Animation> mAnimationMap;

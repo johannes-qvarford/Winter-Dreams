@@ -2,31 +2,49 @@
 
 #include "GameToScreen.h"
 #include "Player.h"
+#include "SubLevel.h"
 #include "PropertyManager.h"
 #include "WindowManager.h"
 #include "FileStructure.h"
 
 class LightPointSpecs{
 public:
-
 	static LightPointSpecs& get(){ static LightPointSpecs sSpecs; return sSpecs; }
-
 	const std::list<AnimationSpecs>& getAnimSpecList(){ return mAnimSpecList; }
+	
+	std::map< int, float > mLightToDistance;
+	float mBrightness;
 
 private:
 
 	std::list<AnimationSpecs> mAnimSpecList;
 
-	LightPointSpecs() {  
-		auto& obj = PropertyManager::get().getObjectSettings();
-		auto& player = obj.get_child( "objects.light" );
-		AnimationSpecs::parse( player, mAnimSpecList );
-	};
-
+	LightPointSpecs();
 	LightPointSpecs(const LightPointSpecs&);//no copy
-
 	LightPointSpecs& operator=(const LightPointSpecs&);//no copy
 };
+
+LightPointSpecs::LightPointSpecs(){
+	
+	auto& obj = PropertyManager::get().getObjectSettings();
+	auto& light = obj.get_child( "objects.light" );
+	AnimationSpecs::parse( light, mAnimSpecList );
+	mBrightness = light.get<float>("brightness");
+
+	auto& lightsize = light.get_child("lightsize");
+	for(auto it = lightsize.begin(), end = lightsize.end(); it != end; ++it){
+			//Iterate over the childe tree and extract the data
+		auto& firstName = it->first;
+		auto secondValue = std::stof( it->second.data() );
+		auto firstValue = std::stoi(firstName);
+			//Store the data in the ligt to distance-map
+		mLightToDistance.insert( std::pair<int, float>(firstValue, secondValue) );
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////
 
 LightPoint::LightPoint(const sf::FloatRect& initialPosition, int lightLevel, bool once, bool startEnabled):
 	GraphicalEntity(startEnabled),
@@ -66,6 +84,8 @@ void LightPoint::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::Flo
 }
 
 void LightPoint::update(SubLevel* subLevel_p) {
+	addLightSource( subLevel_p );
+
 	//do nothing
 }
 
@@ -84,4 +104,16 @@ void LightPoint::drawSelf() {
 
 sf::FloatRect& LightPoint::getHitBox() {
 	return mHitBox;
+}
+
+void LightPoint::addLightSource(SubLevel* subLevel_p){
+	auto ID = WindowManager::get().getNextLightID();
+
+	auto pos = sf::Vector2f(mHitBox.left, mHitBox.top );;
+	pos.x += mHitBox.width/2.f;
+	pos.y += mHitBox.height/2.f;
+
+	auto dist = LightPointSpecs::get().mLightToDistance.find( mLightLevel )->second;
+
+	subLevel_p->setLightPoint( ID, pos, 1.0, dist );
 }

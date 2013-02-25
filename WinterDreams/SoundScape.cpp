@@ -139,6 +139,7 @@ float SoundScape::getVolume(SubLevel* subLevel_p){
 		mInitMusic = true;
 	}
 
+
 //////////////////////////////////////////////////////////////////////
 // /om ljudet/musiken inte ska fade:as skall det gå igenom till nästa ifsats
 //////////////////////////////////////////////////////////////////////
@@ -216,6 +217,7 @@ void SoundScape::update(SubLevel* subLevel_p){
 
 
 	
+
 	mSound.setVolume(volume);
 
 

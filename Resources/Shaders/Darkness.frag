@@ -1,12 +1,12 @@
 
-#define NUM_LIGHTS 2
+#define NUM_LIGHTS 10
 
 varying out vec4 colorOut;
 uniform sampler2D texture;
 uniform float lightPosx[NUM_LIGHTS];
 uniform float lightPosy[NUM_LIGHTS];
-uniform float maxDis;
-uniform float brightness;
+uniform float maxDis[NUM_LIGHTS];
+uniform float brightness[NUM_LIGHTS];
 
 void main()
 {
@@ -19,7 +19,7 @@ void main()
 	for (int i = 0; i < NUM_LIGHTS; ++i){
 		float dis = distance(gl_TexCoord[0].xy, vec2(lightPosx[i], lightPosy[i]));
 		
-		curValue = brightness*(maxDis - dis) / maxDis;
+		curValue = brightness[i]*(maxDis[i] - dis) / maxDis[i];
 		//curValue = max(curValue, 0);
 		curValue = clamp(curValue, 0, 1);
 		curValue *= curValue;
@@ -27,7 +27,7 @@ void main()
 		lightValue += curValue;
 		//lightValue = max(curValue, lightValue);
 	}
-	
-	lightValue = min(1, lightValue);
+
+	lightValue = clamp(lightValue, 0.03, 1);
 	colorOut = vec4(col.rgb * lightValue, 1.0);
 }	

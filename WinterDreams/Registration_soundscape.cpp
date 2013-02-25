@@ -9,7 +9,7 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	auto soundfile = properties.get<std::string>("soundfile");
 	auto volume = properties.get<float>("volume");
 	auto loop = properties.get<bool>("loop");
-	auto threeD = properties.get<bool>("threeD");
+	auto threeD = properties.get<bool>("sound3d");
 	auto fadein = properties.get<int>("fadein");
 	auto soundtype = properties.get<std::string>("soundtype");
 	auto name = pt.get<std::string>("name");

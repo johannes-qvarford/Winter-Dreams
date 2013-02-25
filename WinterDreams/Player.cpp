@@ -24,9 +24,12 @@ public:
 	////////////////////////////////////////////////////////////////////////////
 	static PlayerSpecs& get();
 
-
+	int mInvulFrames;
+	float mBlinkFrameDistance;
 	float mMoveSpeed;
+	float mBrightness;
 	std::list<AnimationSpecs> mAnimSpecList;
+	std::map< int, float > mLightToDistance;
 
 private:
 	PlayerSpecs();							//Singleton-pattern
@@ -37,9 +40,22 @@ private:
 PlayerSpecs::PlayerSpecs() {
 	auto& obj = PropertyManager::get().getObjectSettings();
 	auto& player = obj.get_child( "objects.player" );
+	mInvulFrames = player.get<int>( "invulnerabilityframes" );
+	mBlinkFrameDistance = player.get<float>( "blinkframedistance" );
 	mMoveSpeed = player.get<float>( "walkspeed" );
+	mBrightness = player.get<float>("brightness");
 	
 	AnimationSpecs::parse( player, mAnimSpecList );
+
+	auto& lightsize = player.get_child("lightsize");
+	for(auto it = lightsize.begin(), end = lightsize.end(); it != end; ++it){
+			//Iterate over the childe tree and extract the data
+		auto& firstName = it->first;
+		auto secondValue = std::stof( it->second.data() );
+		auto firstValue = std::stoi(firstName);
+			//Store the data in the ligt to distance-map
+		mLightToDistance.insert( std::pair<int, float>(firstValue, secondValue) );
+	}
 }
 ////////////////////////////////////////////////////////////////////////////////
 PlayerSpecs& PlayerSpecs::get() { 
@@ -57,11 +73,14 @@ Player::Player(sf::FloatRect initialPosition, int lightLevel, bool startEnabled)
 	mLightLevel( lightLevel ),
 	mDirection( 0,0),
 	mFacingDir( 1,1),
-	mHitBox( initialPosition.left, initialPosition.top, X_STEP , -Y_STEP ) //All hitbox heights are now inverted, ask Johannes.
+	mHitBox( initialPosition.left, initialPosition.top, X_STEP , -Y_STEP ), //All hitbox heights are now inverted, ask Johannes.
+	mFramesSinceLastBlink(0),
+	mFramesSinceLastHit(1000),
+	mIsInvisible(false)
 {
 	using namespace std;
 	auto& p = PlayerSpecs::get();
-	//construct the animation map
+		//construct the animation map
 	Animation::fromListToMap(p.mAnimSpecList, FS_DIR_OBJECTANIMATIONS + "player/", &mAnimationMap);
 	mCurrentAnimation_p = &mAnimationMap.begin()->second;
 	
@@ -76,6 +95,8 @@ void Player::update(SubLevel* subLevel_p){
 	// functions. Otherwize, only update the players animation
 	/////////////////////////////////////////////////////////
 	if( getEnabled() ){
+		addLightSource(subLevel_p);
+
 		updateMovement(subLevel_p);
 			/////////////////////////////////////////////////////////
 			// If any component of the movement direction is greater then 1,
@@ -103,17 +124,23 @@ void Player::update(SubLevel* subLevel_p){
 		updateActions(subLevel_p);
 	}
 
+	updateInvulnerable();
 	updateCurrentAnimation();
 }
 
 void Player::drawSelf(){
-		//Get the current animation's sprite
-	auto& sprite = mCurrentAnimation_p->getCurrentSprite();
-		//Assign the sprite a position (in Screen Coordinates)
-	sprite.setPosition( GAME_TO_SCREEN * getPosition() );
-		//Draw the sprite
-	WindowManager::get().getWindow()->draw( sprite ,*WindowManager::get().getStates() );
+	auto& specs = PlayerSpecs::get();
 
+	//blink if your invulnerable(and it has been a certain number of frames since the last blink).
+	if(mIsInvisible)
+		return;
+	
+	//Get the current animation's sprite
+	auto& sprite = mCurrentAnimation_p->getCurrentSprite();
+	//Assign the sprite a position (in Screen Coordinates)
+	sprite.setPosition( GAME_TO_SCREEN * getPosition() );
+	//Draw the sprite
+	WindowManager::get().getWindow()->draw( sprite ,*WindowManager::get().getStates() );
 }
 
 sf::FloatRect& Player::getHitBox(){
@@ -142,11 +169,18 @@ int Player::getCurrentLightLevel() const{
 }
 
 void Player::setCurrentLightLevel(const int lightLevel){
-	mLightLevel=lightLevel;
+	mLightLevel = lightLevel;
+
+	if( mLightLevel < 1)
+		mLightLevel = 1;
+	if( mLightLevel > 10 )
+		mLightLevel = 10;
 }
 
 void Player::adjustCurrentLightLevel(const int lightLevelAdjustment){
-	mLightLevel+=lightLevelAdjustment;
+	auto i = mLightLevel;
+	i += lightLevelAdjustment;
+	setCurrentLightLevel( i );
 }
 
 const Inventory& Player::getInventory() const{
@@ -225,9 +259,8 @@ void Player::assignMoveAnimations(SubLevel* subLevel_p) {
 			mCurrentAnimation_p = &mAnimationMap.find("frontleft")->second;
 		if( mDirection.y < 0 )
 			mCurrentAnimation_p = &mAnimationMap.find("backright")->second;
-		if( mDirection.y == 0 )
-				//If the character did not move, idle.
-			mCurrentAnimation_p->resetAnimation();
+		if( mDirection.y == 0 )				
+			mCurrentAnimation_p->resetAnimation(); //If the character did not move, idle.
 	}
 }
 
@@ -245,15 +278,33 @@ void Player::updateActions(SubLevel* subLevel_p) {
 	if( InputManager::get().isADown()  && mActionCooldown <= 0 ){
 		if( mInventory.getCurrentEquip() == "pickaxe" ){
 			addHitBox( subLevel_p, this, 1, mInventory.getCurrentEquip() );
-			mActionCooldown = 20;
+			mActionCooldown = 40;
 		}
 	}
 }
 
-void Player::updateCurrentAnimation() {
+void Player::updateInvulnerable() {
 	
-	mCurrentAnimation_p->updateAnimation();
+	auto& specs = PlayerSpecs::get();
+	
+	//have we been hit recently, and is it time to blink?
+	if(isVulnerable() == false) {
+		++mFramesSinceLastBlink;
+		if(mFramesSinceLastBlink > specs.mBlinkFrameDistance) {
+			mFramesSinceLastBlink -= int(specs.mBlinkFrameDistance);
+			mIsInvisible = true;
+		}
+		else
+			mIsInvisible = false;
+	}
+	else
+		mIsInvisible = false;
 
+	++mFramesSinceLastHit;
+}
+
+void Player::updateCurrentAnimation() {
+	mCurrentAnimation_p->updateAnimation();
 }
 
 void Player::setFacingDirection(sf::Vector2i dir){
@@ -263,6 +314,31 @@ void Player::setFacingDirection(sf::Vector2i dir){
 
 sf::Vector2i Player::getFacingDirection() const {
 	return mFacingDir;
+}
+
+void Player::addLightSource(SubLevel* subLevel_p){
+	auto ID = WindowManager::get().getNextLightID();
+
+	auto pos = getPosition();
+	pos.x += mHitBox.width/2.f;
+	pos.y += mHitBox.height/2.f;
+
+	auto& brightness = PlayerSpecs::get().mBrightness;
+	auto& distance = PlayerSpecs::get().mLightToDistance.find( mLightLevel )->second;
+
+	subLevel_p->setLightPoint( ID, pos, brightness, distance );
+}
+
+bool Player::isVulnerable() const{
+	//has it passed enough time?
+	auto& specs = PlayerSpecs::get();
+	return mFramesSinceLastHit > specs.mInvulFrames;
+}
+
+void Player::setInvulnerable() {
+	//we're been hit!
+	mFramesSinceLastHit = 0;
+	mFramesSinceLastBlink = 0;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
