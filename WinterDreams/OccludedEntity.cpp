@@ -79,8 +79,8 @@ void OccludedEntity::drawSelf(){
 
 //	static auto texture_sp = ResourceManager::get().getTexture(FS_DIR_OBJECTANIMATIONS + "occluder/bridgeMiddleTop.png");
 //	spr.setTexture(*texture_sp);
-	auto pos = GAME_TO_SCREEN * (sf::Vector2f(mHitBox.left + xoffset, mHitBox.top + yoffset));
-	pos += mOffset;
+	auto pos = GAME_TO_SCREEN * (sf::Vector2f(mHitBox.left, mHitBox.top));
+//	pos += mOffset += sf::Vector2f(xoffset, yoffset);
 	spr.setPosition(pos);
 	
 	states.blendMode = sf::BlendAlpha;
