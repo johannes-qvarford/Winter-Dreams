@@ -7,43 +7,43 @@
 				"filename": "placeholder.png"
 			},
 			"Bridge_MiddleDown":{
-				"yorigin": 0,
-				"xorigin": 0,
+				"yorigin": 165,
+				"xorigin": 82,
 				"filename": "bridgeMiddleDown.png"
 			},
 			"Bridge_MiddleLeft":{
-				"yorigin": 0,
-				"xorigin": 0,
+				"yorigin": 172,
+				"xorigin": 89,
 				"filename": "bridgeMiddleLeft.png"
 			},
 			"Bridge_MiddleRight":{
-				"yorigin": 0,
-				"xorigin": 0,
+				"yorigin": 164,
+				"xorigin": 83,
 				"filename": "bridgeMiddleRight.png"
 			},
 			"Bridge_MiddleTop":{
-				"yorigin": 0,
-				"xorigin": 0,
+				"yorigin": 165,
+				"xorigin": 88,
 				"filename": "bridgeMiddleTop.png"
 			},
 			"Bridge_OuterBottomRight":{
-				"yorigin": 0,
-				"xorigin": 0,
+				"yorigin": 136,
+				"xorigin": 66,
 				"filename": "bridgeOuterBottomRight.png"
 			},
 			"Bridge_OuterLeft":{
-				"yorigin": 0,
-				"xorigin": 0,
+				"yorigin": 137,
+				"xorigin": 69,
 				"filename": "bridgeOuterLeft.png"
 			},
 			"Bridge_OuterRight":{
-				"yorigin": 0,
-				"xorigin": 0,
+				"yorigin": 191,
+				"xorigin": 86,
 				"filename": "bridgeOuterRight.png"
 			},
 			"Bridge_OuterTop":{
-				"yorigin": 0,
-				"xorigin": 0,
+				"yorigin": 169,
+				"xorigin": 79,
 				"filename": "bridgeOuterTop.png"
 			}
 		}
