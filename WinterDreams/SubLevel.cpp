@@ -245,13 +245,15 @@ void SubLevel::render() {
 
 	auto level = getLevel();
 	//auto RemainingLight = level->getPlayer()->getCurrentLightLevel();
+
+	//auto RemainingLight = mLevelState_p->getPlayer()->getCurrentLightLevel();
 	
-	/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && RemainingLight != 10){
+	/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::E) && RemainingLight != 10){
 		RemainingLight += 1;
-
-	} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F) && RemainingLight != 1){
-		RemainingLight -= 1;*/
-
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::R) && RemainingLight != 1){
+		RemainingLight -= 1;
+	}*/
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
 		br+=0.1f;
 	} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)){
@@ -269,7 +271,6 @@ void SubLevel::render() {
 
 	}
 
-	//pxt = (10/RemainingLight);
 
 	renderWindow.display();
 

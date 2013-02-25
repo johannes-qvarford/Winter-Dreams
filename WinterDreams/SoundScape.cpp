@@ -10,7 +10,7 @@
 
 
 
-SoundScape::SoundScape(sf::Rect<float> collisionBox, float innerRadius, int rangeDecay, float volume, bool loop, std::string soundName, bool startsEnabled, std::string soundType):
+SoundScape::SoundScape(sf::Rect<float> collisionBox, float innerRadius, int rangeDecay, float volume, bool loop, std::string soundName, bool startsEnabled, std::string soundType, int fadeInTime, bool threeD):
 CollisionZone(startsEnabled, collisionBox, false),
 mBoolEntity(false),
 mInnerRadius(innerRadius),
@@ -18,10 +18,13 @@ mRangeDecay(rangeDecay),
 mVolume(volume),
 mLoop(loop),
 mSoundType(soundType),
+mFadeInTime(fadeInTime),
 mSoundName(soundName),
-mEnabledLastFrame(startsEnabled)
-
-
+mEnabledLastFrame(startsEnabled),
+mInitMusic(false),
+mTotalVolume(0),
+mClock(),
+mThreeD(threeD)
 {
 ////////////////////////////////////////////////////////////////////////
 // /FS_DIR_SOUNDS betyder: vart ligger filen, mSoundName betyder: vad heter filen
@@ -36,39 +39,13 @@ SoundScape::~SoundScape(){
 	mSound.stop();
 }
 
-//////////////////////////////////////////////////////////
-// /player ska bara hämtas en gång och får inte vara en weak pointer så därför görs den om till en shared pointer
-//////////////////////////////////////////////////////////
-void SoundScape::update(SubLevel* subLevel_p){
-	if (mBoolEntity == false){
-		auto player_sp = subLevel_p->getLevel()->getPlayer();
-		mPlayer_wp = player_sp;
-		if (getEnabled() == true){
-			mSound.play();
-		}
-		mBoolEntity = true;
-	}
 
-//////////////////////////////////////////////////////////////////
-// /när ljudet/låten stoppas så ska det inte längre vara aktiverat så att man kan aktivera de igen
-//////////////////////////////////////////////////////////////////
-	if (mEnabledLastFrame && mSound.getStatus() == sf::Sound::Stopped){
-		setEnabled(false);
-	}
-	auto enabledThisFrame = getEnabled();
-	
-//////////////////////////////////////////////////////////////////////
-// /för att ett ljud/låt ska börja att spela så behöver det gå från att inte vara aktiverad till att vara det
-//////////////////////////////////////////////////////////////////////
-	if (enabledThisFrame == true && mEnabledLastFrame == false){
-		mSound.play();
-	}
-//////////////////////////////////////////////////////////////////////
-// /Samma sak fast tvärtom
-//////////////////////////////////////////////////////////////////////
-	else if (enabledThisFrame == false && mEnabledLastFrame == true){
-		mSound.stop();
-	}
+
+
+
+float SoundScape::getVolume(SubLevel* subLevel_p){
+
+
 
 	std::shared_ptr<Player> player_sp(mPlayer_wp);
 
@@ -79,14 +56,13 @@ void SoundScape::update(SubLevel* subLevel_p){
 	sf::Vector2f playerHitBox(playerHitBox_r.left, playerHitBox_r.top);
 	sf::Vector2f playerToSoundVector(playerHitBox - soundScapeHitBox);
 
-
 //////////////////////////////////////////////////////////////////////
 // /fullVolumeRadius är den radie som volymen ska vara satt till max i
 // /distance är avståndet mellan ljudkällan och spelaren
 // /maxRange är den längsta längden som det kommer höras ljud från
 // /+ 0.0000001 är där för att mRangeDecay ska kunna vara 0 (bakgrundsmusik som är på hela banan)
 //////////////////////////////////////////////////////////////////////
-	float volume;
+
 	float fullVolumeRadius = X_STEP * mInnerRadius;
 	float distance = sqrt(playerToSoundVector.x * playerToSoundVector.x + playerToSoundVector.y * playerToSoundVector.y);
 	float maxRange = (X_STEP * 100/(mRangeDecay + 0.0000001f)) + fullVolumeRadius;
@@ -121,18 +97,127 @@ void SoundScape::update(SubLevel* subLevel_p){
 //  maxRange - distance är för att få hur stort talet är
 //  och / maxRange - fullVolumeRadius är för att få det till 0,nått
 //////////////////////////////////////////////////////////////////////
-	
-	
-	if (distance < fullVolumeRadius){
-		volume = mVolume * volumeModifier;
-	}
-	else if (distance <= maxRange && distance >= fullVolumeRadius){
-		volume = mVolume * volumeModifier * ((maxRange - distance) / (maxRange - fullVolumeRadius));
-	}
-	else
-		volume = 0;
 
+
+
+
+	sf::Time time = sf::milliseconds(0);
+	sf::Time volumeUpdateTime = sf::milliseconds(mFadeInTime/100);
+
+	
+//////////////////////////////////////////////////////////////////////
+// /Är det första gången en låt eller ett ljud startas så kan det vilja fade:as in
+//////////////////////////////////////////////////////////////////////
+	bool enabled = getEnabled();
+	if (mSoundType == "music" && mInitMusic == false && getEnabled()  && mFadeInTime != 0){
+		time = mClock.getElapsedTime();
+		mClock.restart();
+
+		if (mTotalVolume + 0.1 < mVolume * volumeModifier){
+			float vol = float(time.asMicroseconds()) / (mFadeInTime * 1000);
+			mTotalVolume +=  vol * (mVolume * volumeModifier);
+			if(mTotalVolume > mVolume * volumeModifier)
+				mTotalVolume = mVolume * volumeModifier;
+			
+		}
+
+		if (mTotalVolume >= mVolume * volumeModifier){
+			mInitMusic = true;
+		}
+	}
+
+
+
+
+	if (mSoundType == "sound" && mThreeD){
+		sf::Listener::setPosition(playerHitBox_r.left, playerHitBox_r.top, 0);
+		//sf::Listener::setGlobalVolume(mVolume * volumeModifier);
+
+		mSound.setPosition(soundScapeHitBox_r.left, soundScapeHitBox_r.top, -5);
+		mSound.setMinDistance(mInnerRadius);
+		mSound.setAttenuation(mRangeDecay);
+		mInitMusic = true;
+	}
+
+//////////////////////////////////////////////////////////////////////
+// /om ljudet/musiken inte ska fade:as skall det gå igenom till nästa ifsats
+//////////////////////////////////////////////////////////////////////
+	if (mFadeInTime == 0)
+		mInitMusic = true;
+
+
+//////////////////////////////////////////////////////////////////////
+// /om spelaren är innanför radien som volymen ska vara satt till max så ska ljudet vara max.
+// /Annar om spelaren är utanför radien där volymen ska vara satt till max men innanför
+//  längden som det ska komma någon volym ifrån så är volymen beroende av 
+//  maxVolymen gånger ett tal som ska bli 0,nått beroende på vart man står 
+//  maxRange - distance är för att få hur stort talet är
+//  och / maxRange - fullVolumeRadius är för att få det till 0,nått
+//////////////////////////////////////////////////////////////////////
+
+	if (mSoundType == "narrator" || mInitMusic == true || !mThreeD){
+		if (distance < fullVolumeRadius){
+			mTotalVolume = mVolume * volumeModifier;
+		}
+		else if (distance <= maxRange && distance >= fullVolumeRadius){
+			mTotalVolume = mVolume * volumeModifier * ((maxRange - distance) / (maxRange - fullVolumeRadius));
+		}
+		else
+			mTotalVolume = 0;
+	}
+
+	
+
+	float volume = mTotalVolume;
+
+	return volume;
+
+}
+
+
+
+
+void SoundScape::update(SubLevel* subLevel_p){
+	
+//////////////////////////////////////////////////////////
+// /player ska bara hämtas en gång och får inte vara en weak pointer så därför görs den om till en shared pointer
+//////////////////////////////////////////////////////////
+	if (mBoolEntity == false){
+		auto player_sp = subLevel_p->getLevel()->getPlayer();
+		mPlayer_wp = player_sp;
+		if (getEnabled() == true){
+			mSound.play();
+		}
+		mBoolEntity = true;
+	}
+//////////////////////////////////////////////////////////////////
+// /när ljudet/låten stoppas så ska det inte längre vara aktiverat så att man kan aktivera de igen
+//////////////////////////////////////////////////////////////////
+	if (mEnabledLastFrame && mSound.getStatus() == sf::Sound::Stopped){
+		setEnabled(false);
+	}
+	auto enabledThisFrame = getEnabled();
+	
+//////////////////////////////////////////////////////////////////////
+// /för att ett ljud/låt ska börja att spela så behöver det gå från att inte vara aktiverad till att vara det
+//////////////////////////////////////////////////////////////////////
+	if (enabledThisFrame == true && mEnabledLastFrame == false){
+		mClock.restart();
+		mSound.play();
+	}
+//////////////////////////////////////////////////////////////////////
+// /Samma sak fast tvärtom
+//////////////////////////////////////////////////////////////////////
+	else if (enabledThisFrame == false && mEnabledLastFrame == true){
+		mSound.stop();
+	}
+
+	float volume = getVolume(subLevel_p);
+
+
+	
 	mSound.setVolume(volume);
+
 
 	mEnabledLastFrame = enabledThisFrame;
 }

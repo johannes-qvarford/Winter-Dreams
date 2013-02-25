@@ -189,16 +189,17 @@ void Player::updateMovement(SubLevel* subLevel_p) {
 }
 
 
-void Player::updateAnimations(SubLevel* subLevel_p) {
+/*void Player::updateAnimations(SubLevel* subLevel_p) {
 	static std::vector<std::pair<sf::Vector2f, std::string> > animations;
 	static bool init = false;
 
-	/*if(!init) {
+	if(!init) {
 		animations.push_back(std::pair<sf::Vector2f, std::string>());
 	}
 	init = true;
-	*/
+	
 }
+*/
 
 void Player::assignMoveAnimations(SubLevel* subLevel_p) {
 
