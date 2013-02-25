@@ -11,8 +11,8 @@
 static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, const boost::property_tree::ptree& pt) {
 	auto& properties = pt.get_child("properties");
 	auto startdisabled = properties.get<bool>("startdisabled", false);
-	auto xoffset = properties.get<int>("xoffset",0);
-	auto yoffset = properties.get<int>("yoffset",0);
+	auto xoffset = properties.get<int>("xorigin",0);
+	auto yoffset = properties.get<int>("yorigin",0);
 
 	auto& spriteName = properties.get<std::string>("sprite");
 	auto layer = properties.get<int>("layer");
