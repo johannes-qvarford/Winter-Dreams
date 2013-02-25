@@ -62,11 +62,11 @@ sf::TcpSocket* openSocket(const sf::Http::Response& getResponse){
 	} else if (status == sf::Socket::Error){						// Something's off. Did the server kick you out?
 		std::cout << "u dun goofed nao" << std::endl;				// Something's wrong and the socket returned an error.
 	}
-
+	std::cout << "done" << std::endl;
 	sf::Packet packet;
 	std::string token = getResponseBody.substr(6,tokenLength);		// shoot a packet of login data to the server. I don't know why you'd do this.
 	std::string login = "admin|"+token;
-	socket->send(login.c_str(), login.size()+1);
+	socket->send(login.c_str(), login.size()/*+1*/);
 	return socket;
 }
 

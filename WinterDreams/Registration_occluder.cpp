@@ -11,6 +11,9 @@
 static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, const boost::property_tree::ptree& pt) {
 	auto& properties = pt.get_child("properties");
 	auto startdisabled = properties.get<bool>("startdisabled", false);
+	auto xoffset = properties.get<int>("xoffset",0);
+	auto yoffset = properties.get<int>("yoffset",0);
+
 	auto& spriteName = properties.get<std::string>("sprite");
 	auto layer = properties.get<int>("layer");
 	float occludisionlevel = properties.get<float>("occlusionlevel");
@@ -39,7 +42,7 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	Animation anim(FS_DIR_OBJECTANIMATIONS + "occluder/" + filename, temp_sp->getSize().x, temp_sp->getSize().y, 1, 100, xorigin, yorigin); 
 
 	auto occluded_sp = std::shared_ptr<OccludedEntity>(new OccludedEntity(
-		sf::FloatRect(correctedPosition, sf::Vector2f(X_STEP, -Y_STEP)), anim, occludisionlevel, layer, !startdisabled));
+		sf::FloatRect(correctedPosition, sf::Vector2f(X_STEP, -Y_STEP)), anim, sf::Vector2f(xoffset, yoffset), occludisionlevel, layer, !startdisabled));
 	
 	//does it have a name?
 	if(name != "")

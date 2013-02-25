@@ -5,13 +5,14 @@
 #include "ResourceManager.h"
 #include "GameToScreen.h"
 
-OccludedEntity::OccludedEntity(const sf::FloatRect& initialPosition, const Animation& animation, float alpha, int layer, bool startEnabled) :
+OccludedEntity::OccludedEntity(const sf::FloatRect& initialPosition, const Animation& animation, const sf::Vector2f& offset, float alpha, int layer, bool startEnabled) :
 	GraphicalEntity ( startEnabled ),
 	mAlpha(alpha),
 	mLayer(layer),
 	mShader(ResourceManager::get().getShader(FS_DIR_SHADERS + "Blend.frag")),
 	mAnimation(animation),
-	mHitBox(initialPosition)
+	mHitBox(initialPosition),
+	mOffset(offset)
 {
 }
 
@@ -78,7 +79,8 @@ void OccludedEntity::drawSelf(){
 
 //	static auto texture_sp = ResourceManager::get().getTexture(FS_DIR_OBJECTANIMATIONS + "occluder/bridgeMiddleTop.png");
 //	spr.setTexture(*texture_sp);
-	auto pos = GAME_TO_SCREEN * sf::Vector2f(mHitBox.left + xoffset, mHitBox.top + yoffset);
+	auto pos = GAME_TO_SCREEN * (sf::Vector2f(mHitBox.left + xoffset, mHitBox.top + yoffset));
+	pos += mOffset;
 	spr.setPosition(pos);
 	
 	states.blendMode = sf::BlendAlpha;
