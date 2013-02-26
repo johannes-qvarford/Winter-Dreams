@@ -65,7 +65,7 @@ Item::~Item() {
 }
 
 void Item::drawSelf() {
-	auto& sprite = mAnimation->getCurrentSprite();
+	auto sprite = mAnimation->getCurrentSprite();
 	sprite.setPosition(GAME_TO_SCREEN * sf::Vector2f( mHitBox.left, mHitBox.top ) );
 	
 	auto& window = *WindowManager::get().getWindow();

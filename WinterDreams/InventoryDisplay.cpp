@@ -139,7 +139,7 @@ void InventoryDisplay::updateUI() {
 
 	auto& spec = InvDispSpecs::get();
 	auto& win = *WindowManager::get().getRenderWindow();
-	auto& centPos = sf::Vector2f(0, 0);
+	auto centPos = sf::Vector2f(0, 0);
 		/////////////////////////////////////////////////////////
 		//The vector describing the top left corner of the screen
 		/////////////////////////////////////////////////////////

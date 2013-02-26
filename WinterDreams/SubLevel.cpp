@@ -3,6 +3,9 @@
 #include "Player.h"
 #include "Camera.h"
 
+#include "Player.h"
+#include "LevelState.h"
+
 #include "Script.h"
 #include "GraphicalEntity.h"
 #include "CollisionZone.h"
@@ -35,7 +38,7 @@ SubLevel::SubLevel(LevelState* levelState_p):
 	mScripts(),
 	mMapTexture(),
 	mBackgroundTexture(),
-	mLightCircleShader( ResourceManager::get().getShader( FS_DIR_SHADERS + "darkness.frag" ) )
+	mLightCircleShader( ResourceManager::get().getShader( FS_DIR_SHADERS + "Darkness.frag" ) )
 {
 }
 
@@ -143,12 +146,12 @@ void SubLevel::render() {
 	//draw background
 	{
 		auto& camPos = mLevelState_p->getCamera()->getPosition();
-		auto& mapPos = mMapTexture.second + sf::Vector2f(mMapTexture.first->getSize() /unsigned int(2) );
+		auto mapPos = mMapTexture.second + sf::Vector2f(mMapTexture.first->getSize() / static_cast<unsigned int>(2) );
 
 		auto offset = camPos - mapPos;
 
 		sf::Sprite bkg(*mBackgroundTexture.first);
-		bkg.setOrigin( sf::Vector2f( mBackgroundTexture.first->getSize() /unsigned int(2) ) );
+		bkg.setOrigin( sf::Vector2f( mBackgroundTexture.first->getSize() / static_cast<unsigned int>(2) ) );
 		bkg.setPosition( mapPos + offset*0.85f );		
 
 		window.draw(bkg);
@@ -231,6 +234,7 @@ void SubLevel::render() {
 
 	//display
 
+
 	window.display();
 
 	sf::Sprite renderTextureSprite(window.getTexture());
@@ -245,10 +249,13 @@ void SubLevel::render() {
 	for(auto it = mScripts.begin(), end = mScripts.end(); it != end; ++it) {
 		auto script_sp = *it;
 		script_sp->draw();
+
 	}
+
 
 //This is statemanagers job now
 //	renderWindow.display();
+
 
 	for( int i = 0; i < 10; ++i) {
 		char brightness[] = "brightness[0]";

@@ -32,6 +32,8 @@ private:
 	Animation mAnimation;
 
 	sf::FloatRect mHitBox;
+
+	sf::Vector2f mOffset;
 };
 
 #endif

@@ -1,12 +1,13 @@
 #ifndef INCLUDED_SOUNDSCAPE
 #define INCLUDED_SOUNDSCAPE
 
-#include "SFML\Graphics\Rect.hpp"
+#include "SFML/Graphics/Rect.hpp"
 #include "CollisionZone.h"
 #include "Player.h"
 
 class SoundScape : public CollisionZone {
 public:
+
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -19,7 +20,7 @@ public:
 // /startsEnabled behövs för att veta om ljudet ska köras direkt eller om det ska aktiveras först
 // /soundType är för att bestämma om soundscapen är en narrator, sound eller music 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-	SoundScape(sf::Rect<float> collisionBox, float innerRadius, int rangeDecay, float volume, bool loop, std::string soundName, bool startsEnabled, std::string soundType);
+	SoundScape(sf::Rect<float> collisionBox, float innerRadius, int rangeDecay, float volume, bool loop, std::string soundName, bool startsEnabled, std::string soundType, int fadeInTime, bool threeD);
 
 ////////////////////////////////////////////////////////////////////////
 // /stoppa ljudet/musiken
@@ -43,6 +44,11 @@ private:
 	int mRangeDecay;
 	float mVolume;
 	bool mLoop;
+	bool mInitMusic;
+	float mTotalVolume;
+	bool mThreeD;
+	sf::Clock mClock;
+	int mFadeInTime;
 	std::string mSoundType;
 	std::string mSoundName;
 	std::shared_ptr<sf::SoundBuffer> mBuffer;
@@ -50,6 +56,8 @@ private:
 	std::weak_ptr<Player> mPlayer_wp;
 	bool mEnabledLastFrame;
 	
+	
+	float getVolume(SubLevel* subLevel_p);
 
 };
 

@@ -12,8 +12,9 @@ void main()
 {
 	vec4 col = texture2D(texture,gl_TexCoord[0].xy);
 	float lightValue = 0.0;
+
 	float curValue = 0.0;
-	float a = 0.0;
+
 	
 	for (int i = 0; i < NUM_LIGHTS; ++i){
 		float dis = distance(gl_TexCoord[0].xy, vec2(lightPosx[i], lightPosy[i]));

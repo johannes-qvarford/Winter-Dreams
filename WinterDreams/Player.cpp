@@ -136,7 +136,7 @@ void Player::drawSelf(){
 		return;
 	
 	//Get the current animation's sprite
-	auto& sprite = mCurrentAnimation_p->getCurrentSprite();
+	auto sprite = mCurrentAnimation_p->getCurrentSprite();
 	//Assign the sprite a position (in Screen Coordinates)
 	sprite.setPosition( GAME_TO_SCREEN * getPosition() );
 	//Draw the sprite
@@ -222,7 +222,21 @@ void Player::updateMovement(SubLevel* subLevel_p) {
 		mDirection=sf::Vector2i(static_cast<int>(stick.x*2),static_cast<int>(stick.y*2));
 }
 
+
+/*void Player::updateAnimations(SubLevel* subLevel_p) {
+	static std::vector<std::pair<sf::Vector2f, std::string> > animations;
+	static bool init = false;
+
+	if(!init) {
+		animations.push_back(std::pair<sf::Vector2f, std::string>());
+	}
+	init = true;
+	
+}
+*/
+
 void Player::assignMoveAnimations(SubLevel* subLevel_p) {
+
 	/////////////////////////////////////////////////////////////////
 	if( mDirection.x > 0) {
 		if( mDirection.y > 0 )
@@ -230,7 +244,7 @@ void Player::assignMoveAnimations(SubLevel* subLevel_p) {
 		if( mDirection.y < 0 )
 			mCurrentAnimation_p = &mAnimationMap.find("right")->second;
 		if( mDirection.y == 0 )
-			mCurrentAnimation_p =  &mAnimationMap.find("frontright")->second;
+			mCurrentAnimation_p = &mAnimationMap.find("frontright")->second;
 	}
 	if( mDirection.x < 0) {
 		if( mDirection.y > 0 )
@@ -333,7 +347,7 @@ void Player::setInvulnerable() {
 
 static void addHitBox( SubLevel* subLevel_p, Player* player, int dmgAmount, const std::string& type) {
 	auto& hitBox = player->getHitBox();
-	auto& faceDir = player->getFacingDirection();
+	auto faceDir = player->getFacingDirection();
 
 	auto x = hitBox.left;
 	auto y = hitBox.top;

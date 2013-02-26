@@ -61,7 +61,64 @@
                  "width":32,
                  "x":224,
                  "y":2912
+                },
+				{
+                 "height":64,
+                 "name":"enter_main_cave_sound_trigger",
+                 "properties":
+                    {
+                     "entertrigger":"enter_main_cave_sound2",
+                     "once":"true"
+                    },
+                 "type":"trigger",
+                 "visible":true,
+                 "width":64,
+                 "x":484,
+                 "y":2805
                 }, 
+                {
+                 "height":32,
+                 "name":"enter_main_cave_sound2",
+                 "properties":
+                    {
+					 "innerradius":"50",
+                     "loop":"true",
+					 "soundtype": "sound",
+					 "startdisabled": "true",
+                     "rangedecay":"5",
+					 "fadein": 2000,
+					 "threeD": true,
+                     "soundfile":"MonoPickaxeIce.ogg",
+                     "volume":"100"
+                    },
+		 
+                 "type":"soundscape",
+                 "visible":true,
+                 "width":32,
+                 "x":224,
+                 "y":2912
+                }, 
+				{
+                 "height":32,
+                 "name":"enter_main_cave_sound",
+                 "properties":
+                    {
+                     "innerradius":"5",
+                     "loop":"true",
+					 "soundtype": "music",
+					 "startdisabled": "false",
+                     "rangedecay":"0",
+					 "fadein": 2000,
+					 "threeD": false,
+                     "soundfile":"Grottmusik.wav",
+                     "volume":"100"
+                    },
+                 "type":"soundscape",
+                 "visible":true,
+                 "width":32,
+                 "x":224,
+                 "y":2912
+                },
                 {
                  "height":32,
                  "name":"gp_pickaxe",
