@@ -12,10 +12,10 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	auto& properties = pt.get_child("properties");
 	auto startdisabled = properties.get<bool>("startdisabled", false);
 
-	auto& spriteName = properties.get<std::string>("sprite");
+	auto spriteName = properties.get<std::string>("sprite");
 	auto layer = properties.get<int>("layer");
 	float occludisionlevel = properties.get<float>("occlusionlevel");
-	auto& name = pt.get<std::string>("name","");
+	auto name = pt.get<std::string>("name","");
 
 	auto width = pt.get<int>("width") / 32.f * X_STEP;
 	auto height = -pt.get<int>("height") / 32.f * Y_STEP;//need to negate height.
@@ -28,7 +28,7 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	auto& animations = PropertyManager::get().getObjectSettings().get_child("occluder.animations");
 
 	auto& spriteTree = animations.get_child(spriteName);
-	std::string& filename = spriteTree.get<std::string>("filename");
+	std::string filename = spriteTree.get<std::string>("filename");
 	int xorigin = spriteTree.get<int>("xorigin");
 	int yorigin = spriteTree.get<int>("yorigin");
 	

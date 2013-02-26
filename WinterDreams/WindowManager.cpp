@@ -1,5 +1,5 @@
 #include "WindowManager.h"
-#include <SFML\Graphics\RenderWindow.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTexture.hpp>
 #include <boost/foreach.hpp>

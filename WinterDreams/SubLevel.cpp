@@ -38,7 +38,7 @@ SubLevel::SubLevel(LevelState* levelState_p):
 	mScripts(),
 	mMapTexture(),
 	mBackgroundTexture(),
-	mLightCircleShader( ResourceManager::get().getShader( FS_DIR_SHADERS + "darkness.frag" ) )
+	mLightCircleShader( ResourceManager::get().getShader( FS_DIR_SHADERS + "Darkness.frag" ) )
 {
 }
 
@@ -146,12 +146,12 @@ void SubLevel::render() {
 	//draw background
 	{
 		auto& camPos = mLevelState_p->getCamera()->getPosition();
-		auto& mapPos = mMapTexture.second + sf::Vector2f(mMapTexture.first->getSize() /unsigned int(2) );
+		auto mapPos = mMapTexture.second + sf::Vector2f(mMapTexture.first->getSize() / static_cast<unsigned int>(2) );
 
 		auto offset = camPos - mapPos;
 
 		sf::Sprite bkg(*mBackgroundTexture.first);
-		bkg.setOrigin( sf::Vector2f( mBackgroundTexture.first->getSize() /unsigned int(2) ) );
+		bkg.setOrigin( sf::Vector2f( mBackgroundTexture.first->getSize() / static_cast<unsigned int>(2) ) );
 		bkg.setPosition( mapPos + offset*0.85f );		
 
 		window.draw(bkg);

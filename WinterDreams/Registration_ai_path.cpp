@@ -3,7 +3,7 @@
 
 static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, const boost::property_tree::ptree& pt) {
 	auto& properties = pt.get_child("properties");
-	auto& name = pt.get<std::string>("name");
+	auto name = pt.get<std::string>("name");
 	auto& polyline = pt.get_child("polyline");
 
 	std::vector<sf::Vector2f> path;

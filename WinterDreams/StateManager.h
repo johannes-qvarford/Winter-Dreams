@@ -87,7 +87,7 @@ private:
 	////////////////////////////////////////////////////////////
 	struct Action { 
 		enum Tag { UNFREEZE, FREEZE, PUSH, POP };
-		union Data { State* mState_p; nullptr_t mNull; };
+		union Data { State* mState_p; std::nullptr_t mNull; };
 		
 		Tag mTag;
 		Data mData;

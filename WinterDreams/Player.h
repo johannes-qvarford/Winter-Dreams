@@ -2,9 +2,9 @@
 #define INCLUDED_PLAYER
 
 #include "GraphicalEntity.h"
-#include <SFML\Graphics.hpp>
-#include <SFML\System\Vector2.hpp>
-#include <SFML\Window\Keyboard.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/System/Vector2.hpp>
+#include <SFML/Window/Keyboard.hpp>
 #include "Inventory.h"
 #include "Animation.h"
 #include <map>
@@ -184,7 +184,7 @@ private:
 	bool							 mIsInvisible;
 
 	//No copies
-	Player::Player( const Player& player );
+	Player( const Player& player );
 	//No copies
 	Player& operator=( const Player& player );
 };

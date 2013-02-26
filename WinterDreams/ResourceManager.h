@@ -1,8 +1,8 @@
 #ifndef INCLUDED_RESOURCEMANAGER
 #define INCLUDED_RESOURCEMANAGER
 
-#include <SFML\Graphics.hpp>
-#include <SFML\Audio.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <memory>
 #include <map>
 #include <string>

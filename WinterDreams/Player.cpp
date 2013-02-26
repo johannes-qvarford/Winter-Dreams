@@ -136,7 +136,7 @@ void Player::drawSelf(){
 		return;
 	
 	//Get the current animation's sprite
-	auto& sprite = mCurrentAnimation_p->getCurrentSprite();
+	auto sprite = mCurrentAnimation_p->getCurrentSprite();
 	//Assign the sprite a position (in Screen Coordinates)
 	sprite.setPosition( GAME_TO_SCREEN * getPosition() );
 	//Draw the sprite
@@ -347,7 +347,7 @@ void Player::setInvulnerable() {
 
 static void addHitBox( SubLevel* subLevel_p, Player* player, int dmgAmount, const std::string& type) {
 	auto& hitBox = player->getHitBox();
-	auto& faceDir = player->getFacingDirection();
+	auto faceDir = player->getFacingDirection();
 
 	auto x = hitBox.left;
 	auto y = hitBox.top;

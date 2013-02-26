@@ -11,14 +11,18 @@
 #include <iostream>
 #include <memory>
 #include <cassert>
+#include <SFML/Window.hpp>
 
 int main()
 {
+	sf::RenderWindow window;
+	window.create(sf::VideoMode(600, 800), "Hello");
+
 	try {
 
 		auto& prop = PropertyManager::get();
 		auto& settings = prop.getGeneralSettings();
-		auto& level_or_menu = settings.get<std::string>("level_or_menu");
+		auto level_or_menu = settings.get<std::string>("level_or_menu");
 		//add LoadingState to the top of the stack.
 
 		if(level_or_menu == "level") {

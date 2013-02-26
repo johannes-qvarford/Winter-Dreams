@@ -4,10 +4,10 @@
 #include "State.h"
 
 #include <string>
-#include <SFML\System.hpp>
+#include <SFML/System.hpp>
 #include <boost/property_tree/ptree.hpp>
-#include <SFML\Graphics\Texture.hpp>
-#include <SFML\Graphics\Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 class SubLevel;
 class LevelState;

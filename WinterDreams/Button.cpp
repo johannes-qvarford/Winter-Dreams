@@ -31,8 +31,8 @@ void Button::activate() {
 void Button::update(MenuState* state_p) {
 	auto& mgr = WindowManager::get();
 	auto& window = *mgr.getRenderWindow();
-	auto& winSize = window.getSize();
-	auto& texSize = mTexture_sp->getSize();
+	auto winSize = window.getSize();
+	auto texSize = mTexture_sp->getSize();
 
 	auto tempBounds = mBounds;
 

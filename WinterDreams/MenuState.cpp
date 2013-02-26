@@ -60,7 +60,7 @@ void MenuState::update() {
 
 void MenuState::render() {
 	auto& window = *WindowManager::get().getRenderWindow();
-	auto& bgSprite = sf::Sprite();
+	auto bgSprite = sf::Sprite();
 	bgSprite.setTexture(*mBackground_sp);
 
 	window.draw(bgSprite);

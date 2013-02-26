@@ -23,6 +23,8 @@ const std::string FS_DIR_LOADINGSCREEN = "../Winter-Dreams/Resources/Images/Load
 
 #ifdef _MSC_VER
 extern const std::string FS_DIR_FONTS = "C:/Windows/Fonts/";
+#elif defined __GNUG__
+extern const std::string FS_DIR_FONTS = "/usr/share/fonts/truetype/msttcorefonts/";
 #else
 #error "No font directory set for this platform."
 #endif

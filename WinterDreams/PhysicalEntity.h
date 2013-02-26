@@ -2,7 +2,7 @@
 #define INCLUDED_PHYSICALENTITY
 
 #include "Entity.h"
-#include <SFML\Graphics\Rect.hpp>
+#include <SFML/Graphics/Rect.hpp>
 ////////////////////////////////////////////////////////////
 // /Abstract base class for physical objects
 // /and points in the system.

@@ -1,7 +1,7 @@
 #ifndef INCLUDED_SOUNDSCAPE
 #define INCLUDED_SOUNDSCAPE
 
-#include "SFML\Graphics\Rect.hpp"
+#include "SFML/Graphics/Rect.hpp"
 #include "CollisionZone.h"
 #include "Player.h"
 

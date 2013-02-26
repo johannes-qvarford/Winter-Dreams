@@ -6,7 +6,6 @@
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics/Vertex.hpp>
-#include <gl/GLU.h>
 
 #include <cmath>
 #include <cassert>
