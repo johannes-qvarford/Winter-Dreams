@@ -21,6 +21,8 @@ public:
 	////////////////////////////////////////////////////////////
 	virtual void onCollision(PhysicalEntity* entityCollidedWith_p, const sf::Rect<float>& intersection) = 0;
 
+	virtual int getLayer() {return 1;}
+
 	virtual void drawSelf() = 0;
 protected:
 	PhysicalEntity( bool startEnabled = true ) : Entity (startEnabled) { }

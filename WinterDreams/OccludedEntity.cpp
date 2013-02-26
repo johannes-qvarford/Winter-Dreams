@@ -8,6 +8,7 @@
 OccludedEntity::OccludedEntity(const sf::FloatRect& initialPosition, const Animation& animation, float alpha, int layer, bool startEnabled) :
 	GraphicalEntity ( startEnabled ),
 	mAlpha(alpha),
+	targetAlpha(alpha),
 	mLayer(layer),
 	mShader(ResourceManager::get().getShader(FS_DIR_SHADERS + "Blend.frag")),
 	mAnimation(animation),
@@ -19,20 +20,18 @@ OccludedEntity::~OccludedEntity(){
 }
 
 void OccludedEntity::setAlpha(float alpha){
-	mAlpha=alpha;
+	targetAlpha=alpha;
 }
 
 void OccludedEntity::drawSelf(){
 	auto renTex = WindowManager::get().getWindow();
 	auto states = *WindowManager::get().getStates();
 
-	static float ol = 0;
-
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
-		ol += 0.01;
+		targetAlpha = 1;
 	}
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
-		ol -= 0.01;
+		targetAlpha = 0.5;
 	}
 
 	static float xoffset = 0;
@@ -54,7 +53,9 @@ void OccludedEntity::drawSelf(){
 	//std::cout << xoffset << " "  << yoffset << std::endl; 
 
 //	std::cout << ol << std::endl;
-	mShader->setParameter("alpha",ol);
+	if (targetAlpha < mAlpha) { mAlpha-=0.02f; } 
+	if (targetAlpha > mAlpha) { mAlpha+=0.02f; }
+	mShader->setParameter("alpha",mAlpha);
 //	mShader->setParameter("alpha",mAlpha / 100.f);
 	sf::Sprite spr = mAnimation.getCurrentSprite();
 

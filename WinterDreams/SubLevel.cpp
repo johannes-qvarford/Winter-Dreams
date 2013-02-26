@@ -341,10 +341,10 @@ static bool smallerPosition(std::shared_ptr<PhysicalEntity> lhs_p, std::shared_p
 	auto& lhsBox = lhs_p->getHitBox();
 	auto& rhsBox = rhs_p->getHitBox();
 
-	//if( lhs_p->getLayer() > rhs_p->getLayer() )
-	//	return true;
-	//else if( lhs_p->getLayer() < rhs_p->getLayer() )
-	//	return false;
+	if( lhs_p->getLayer() < rhs_p->getLayer() )
+		return true;
+	else if( lhs_p->getLayer() > rhs_p->getLayer() )
+		return false;
 
 	auto lhsIsoDepth = lhsBox.left + lhsBox.top + (lhsBox.width + lhsBox.height) / 2;
 	auto rhsIsoDepth = rhsBox.left + rhsBox.top + (rhsBox.width + rhsBox.height) / 2;
