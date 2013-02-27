@@ -83,11 +83,16 @@ private:
 	////////////////////////////////////////////////////////////
 	// /An Action that can be performed by the manager.
 	// /if action.mTag == PUSH then action.mData.mState_p is defined
+	// /if action.mTag == UNFREEZE or action.mTag == FREEZE then Fade is defined.
 	// /else then action.mData.mNull is defined
 	////////////////////////////////////////////////////////////
 	struct Action { 
 		enum Tag { UNFREEZE, FREEZE, PUSH, POP };
-		union Data { State* mState_p; std::nullptr_t mNull; };
+		union Data { 
+			State* mState_p; 
+			std::nullptr_t mNull; 
+			struct Fade{ int mFrames; sf::Color mColor; };
+		};
 		
 		Tag mTag;
 		Data mData;

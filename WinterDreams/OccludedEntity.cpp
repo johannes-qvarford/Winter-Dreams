@@ -28,12 +28,10 @@ void OccludedEntity::drawSelf(){
 	auto states = *WindowManager::get().getStates();
 
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
-		mT
-argetAlpha = 1;
+		mTargetAlpha = 1;
 	}
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
-		mT
-argetAlpha = 0.5;
+		mTargetAlpha = 0.5;
 	}
 
 	static float xoffset = 0;
@@ -55,10 +53,8 @@ argetAlpha = 0.5;
 	//std::cout << xoffset << " "  << yoffset << std::endl; 
 
 //	std::cout << ol << std::endl;
-	if (mT
-argetAlpha < mAlpha) { mAlpha-=0.02f; } 
-	if (mT
-argetAlpha > mAlpha) { mAlpha+=0.02f; }
+	if (mTargetAlpha < mAlpha) { mAlpha-=0.02f; } 
+	if (mTargetAlpha > mAlpha) { mAlpha+=0.02f; }
 	mShader->setParameter("alpha",mAlpha);
 //	mShader->setParameter("alpha",mAlpha / 100.f);
 	sf::Sprite spr = mAnimation.getCurrentSprite();

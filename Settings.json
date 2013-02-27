@@ -12,6 +12,103 @@
 		}
 	},
 	
+	"ui": {
+		"general": {
+			"cursor" : {
+				"filename": "cursor.png",
+				"xoffsetfrombutton": -0.010,
+				"yoffsetfrombutton": 0
+			}
+		},
+		"mainmenu" : {
+			"frame": {
+				"filename":"frame.png",
+				"xoffset":0.0425,
+				"yoffset":0.355
+			},
+		
+			"bgfilename": "mainmenu.png",
+			"play": {
+				"filename":"play.png",
+				"xoffset":0.154,
+				"yoffset":0.500
+			},
+			"settings": {
+				"filename":"settings.png",
+				"xoffset":0.154,
+				"yoffset":0.600
+			},
+			"credits": {
+				"filename":"credits.png",
+				"xoffset":0.154,
+				"yoffset":0.700
+			},
+			"exit": {
+				"filename":"exit.png",
+				"xoffset":0.154,
+				"yoffset":0.800
+			}
+		},
+		"ingamemenu": {
+			"continue": {
+				"filename":"placeholder.png",
+				"xoffset":0,
+				"yoffset":0
+			},
+			"options": {
+				"filename":"placeholder.png",
+				"xoffset":0,
+				"yoffset":0
+			},
+			"mainmenu": {
+				"filename":"placeholder.png",
+				"xoffset":0,
+				"yoffset":0
+			}
+		},
+		"settings": {
+			"resolution": {
+				"resolutions": [
+					{"x":1920, "y":1080, "filename":"placeholder_resolution1920x1080.png"},
+					{"x":1680, "y":1050, "filename":"placeholder_resolution1680x1050.png"},
+					{"x":1366, "y":768, "filename":"placeholder_resolution1366x768.png"},
+					{"x":1280, "y":720, "filename":"placeholder_resolution1280x720.png"},
+					{"x":800, "y":600, "filename":"placeholder_resolution800x600.png"}
+				],
+				"xoffset":0,
+				"yoffset":0,
+				"filename":"placeholder.png"
+			},
+			"general": {
+				"slidericon": {
+					"xoffset":0,
+					"yoffset":0,
+					"filename": "placeholder_sliderleft.png"
+				},
+				"sliderline": {
+					"xoffset":0,
+					"yoffset":0,
+					"filename": "placeholder_sliderright.png"
+				}
+			},
+			"soundvolume": {
+				"filename": "placeholder_soundvolume.png",
+				"xoffset":0,
+				"yoffset":0
+			},
+			"musicvolume": {
+				"filename": "placeholder_musicvolume.png",
+				"xoffset":0,
+				"yoffset":0
+			},
+			"voicevolume": {
+				"filename": "placeholder_voicevolume.png",
+				"xoffset":0,
+				"yoffset":0
+			}
+		}
+	},
+	
 	"itemdisplay": {
 		"xfromleft": "0.0285",
 		"yfromtop": "0.0435",

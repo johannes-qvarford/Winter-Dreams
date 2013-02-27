@@ -1,5 +1,6 @@
 {
 	"narratorVolume" : "60",
 	"soundVolume" : "50",
-	"musicVolume" : "100"
+	"musicVolume" : "100",
+	"resolution": { "width":1920, "height":1080 }
 }

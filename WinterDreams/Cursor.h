@@ -1,5 +1,5 @@
-#ifndef INCLUDED_LISTFRAME
-#define INCLUDED_LISTFRAME
+#ifndef INCLUDED_CURSOR
+#define INCLUDED_CURSOR
 
 #include "Widget.h"
 #include <vector>
@@ -11,14 +11,14 @@
 // /when the user pushes a button except those two.
 // /It calls onHover for the widgets it traverses.
 ////////////////////////////////////////////////////////////
-class ListFrame : public Widget {
+class Cursor : public Widget {
 public:
 
 	////////////////////////////////////////////////////////////
 	// /Create a list frame at a position, that traverses a list
 	// /of widgets. The list is from top to bottom, graphically.
 	////////////////////////////////////////////////////////////
-	ListFrame(const std::vector<std::shared_ptr<Widget> >& widgets);
+	Cursor(const std::vector<std::shared_ptr<Widget> >& widgets);
 
 	////////////////////////////////////////////////////////////
 	// /Is always active, cannot be activated.
@@ -42,18 +42,24 @@ public:
 	void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates()) const;
 
 	////////////////////////////////////////////////////////////
-	// /Get the graphical bounds of the frame.
+	// /Get the graphical bounds of the cursor
 	////////////////////////////////////////////////////////////
 	const sf::FloatRect& getBounds() const;
 
 	////////////////////////////////////////////////////////////
-	// /Get the graphical bounds of the frame.
+	// /Get the graphical bounds of the cursor
 	////////////////////////////////////////////////////////////
-	sf::FloatRect* getBounds();
-
+	sf::FloatRect& getBounds();
+	
+	////////////////////////////////////////////////////////////
+	// /Set the bounds of the cursor (0 to 1).
+	////////////////////////////////////////////////////////////
+	virtual void setBounds(const sf::FloatRect& bounds);
 private:
 
 	void resizeFrame();
+
+	std::shared_ptr<sf::Texture> mTexture;
 
 	sf::FloatRect mBounds;
 

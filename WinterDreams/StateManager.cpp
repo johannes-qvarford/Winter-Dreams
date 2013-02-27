@@ -113,8 +113,8 @@ void StateManager::run() {
 
 			updateFrame();
 
-			std::cout << 1000 / (frameTime.getElapsedTime().asMilliseconds()+1)  <<" ";	//+1 to not get a "divided by zero" error
-			std::cout<< "[" <<frameTime.getElapsedTime().asMicroseconds() <<"]\t";
+//			std::cout << 1000 / (frameTime.getElapsedTime().asMilliseconds()+1)  <<" ";	//+1 to not get a "divided by zero" error
+//			std::cout<< "[" <<frameTime.getElapsedTime().asMicroseconds() <<"]\t";
 			
 			frameTime.restart();
 		}
@@ -245,9 +245,13 @@ void StateManager::updateNormal() {
 		return;
 	}
 
-	mStates.top()->update();
+	//we may have popped the last state!
+	if( mStates.empty() == false)
+		mStates.top()->update();
 	prepareWindow();
-	mStates.top()->render();
+	if( mStates.empty() == false)
+		mStates.top()->render();
+
 	darkenWindow(0.f);
 	return;
 }

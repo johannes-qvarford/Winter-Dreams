@@ -40,7 +40,7 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	Animation anim(FS_DIR_OBJECTANIMATIONS + "occluder/" + filename, temp_sp->getSize().x, temp_sp->getSize().y, 1, 100, xorigin, yorigin); 
 
 	auto occluded_sp = std::shared_ptr<OccludedEntity>(new OccludedEntity(
-		sf::FloatRect(correctedPosition, sf::Vector2f(X_STEP, -Y_STEP)), anim, occludisionlevel, layer, !startdisabled));
+		sf::FloatRect(correctedPosition, sf::Vector2f(X_STEP, -Y_STEP)), anim, occludisionlevel / 100.f, layer, !startdisabled));
 	
 	//does it have a name?
 	if(name != "")

@@ -1,45 +1,78 @@
 #include "MenuState.h"
-#include "StartGameButton.h"
+#include "PlayButton.h"
+#include "SettingsButton.h"
+#include "CreditsButton.h"
+#include "ExitButton.h"
+#include "Cursor.h"
+#include "QRDisplay.h"
+
 #include "ResourceManager.h"
 #include "FileStructure.h"
 #include "WindowManager.h"
-#include "ListFrame.h"
-#include "QRDisplay.h"
+#include "PropertyManager.h"
 
 #include <boost/foreach.hpp>
 #include <memory>
 
 #define foreach BOOST_FOREACH
 
+class MainMenuStateSpecs {
+public:
+
+	static MainMenuStateSpecs& get(){ static MainMenuStateSpecs sSpecs; return sSpecs; }
+
+	std::string mBgFilename;
+
+	std::string mFrameFilename;
+
+	float mFrameXOffset;
+
+	float mFrameYOffset;
+
+private:
+
+	MainMenuStateSpecs() {
+		auto& mms = PropertyManager::get().getGeneralSettings().get_child("ui.mainmenu");
+		mBgFilename = mms.get<std::string>("bgfilename");
+		mFrameFilename = mms.get<std::string>("frame.filename");
+		mFrameXOffset = mms.get<float>("frame.xoffset");
+		mFrameYOffset = mms.get<float>("frame.yoffset");
+	}
+};
+
+
 MenuState* MenuState::makeMainMenuState() {
 	auto& res = ResourceManager::get();
-	
+	auto& specs = MainMenuStateSpecs::get();
+
 	auto state_p = new MenuState();
 
 	auto widgets = std::vector<std::shared_ptr<Widget> >();
 	
-	//create a start button
-	auto start_position = sf::Vector2f(300, 550);
-	auto start_sp = std::make_shared<StartGameButton>(start_position);
-
-	widgets.push_back(start_sp);
+	//create buttons
+	auto play_sp = std::make_shared<PlayButton>();
+	auto settings_sp = std::make_shared<SettingsButton>();
+	auto credits_sp = std::make_shared<CreditsButton>();
+	auto exit_sp = std::make_shared<ExitButton>();
+	auto frame_sp = std::make_shared<Button>(sf::Vector2f(specs.mFrameXOffset, specs.mFrameYOffset), specs.mFrameFilename);
+	widgets.push_back(play_sp);
+	widgets.push_back(settings_sp);
+	widgets.push_back(credits_sp);
+	widgets.push_back(exit_sp);
 	
-	//create qr widget
-	auto qr_position = sf::Vector2f(0, 900);
-	auto qr_sp = std::make_shared<QRDisplay>(qr_position);
-
-	widgets.push_back(qr_sp);
-	
-	//create a list frame
-	auto listFrame_sp = std::make_shared<ListFrame>(widgets);
+	//create a cursor
+	auto cursor_sp = std::make_shared<Cursor>(widgets);
 
 	//add a background image.
-	auto bg_sp = res.getTexture(FS_DIR_UI + "main_menu.png");
+	auto bg_sp = res.getTexture(FS_DIR_UI + specs.mBgFilename);
 
+	state_p->addWidget(play_sp);
+	state_p->addWidget(settings_sp);
+	state_p->addWidget(credits_sp);
+	state_p->addWidget(exit_sp);
+	state_p->addWidget(frame_sp);
+	state_p->addWidget(cursor_sp);
 	state_p->setBackground(bg_sp);
-	state_p->addWidget(start_sp);
-	state_p->addWidget(listFrame_sp);
-	state_p->addWidget( qr_sp);
 
 	return state_p;
 }
@@ -60,11 +93,52 @@ void MenuState::update() {
 
 void MenuState::render() {
 	auto& window = *WindowManager::get().getRenderWindow();
-	auto bgSprite = sf::Sprite();
-	bgSprite.setTexture(*mBackground_sp);
 
+
+
+#ifdef DEBUG_MAINMENUSTATE
+	{
+		static bool b = false;
+		if(b == false)
+			WindowManager::get().setVideoMode(800, 600, sf::Style::Default);
+		b = true;
+
+		static Widget* curWidget = nullptr;
+
+		auto mp = sf::Mouse::getPosition(window);
+		auto normalPos = sf::Vector2f(float(mp.x) / window.getSize().x, float(mp.y) / window.getSize().y); 
+
+		//find a new widget
+		if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+
+			foreach(auto widget_sp, mWidgets) {
+				auto& box = widget_sp->getBounds();
+				if(box.contains(normalPos)) {
+					curWidget = widget_sp.get();
+				}
+			}
+		}
+
+		if(sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
+			curWidget = nullptr;
+		}
+
+		if(curWidget != nullptr) {
+			auto& box = curWidget->getBounds();
+			box.left = normalPos.x;
+			box.top = normalPos.y;
+			std::cout << normalPos.x << ' ' << normalPos.y << std::endl;
+		}
+	}
+
+
+#endif
+	auto bgSprite = sf::Sprite();
+	bgSprite.setScale(float(window.getSize().x) / 1920, float(window.getSize().y) / 1080);
+	bgSprite.setTexture(*mBackground_sp);
 	window.draw(bgSprite);
-	foreach(auto& widget_sp, mWidgets) {
+
+	foreach(auto widget_sp, mWidgets) {
 		window.draw(*widget_sp);
 	}
 }

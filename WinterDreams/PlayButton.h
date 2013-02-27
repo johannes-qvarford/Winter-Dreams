@@ -1,17 +1,20 @@
-#ifndef INCLUDED_STARTGAMEBUTTON
-#define INCLUDED_STARTGAMEBUTTON
+#ifndef INCLUDED_PLAYBUTTON
+#define INCLUDED_PLAYBUTTON
 
 #include "Button.h"
 
-class StartGameButton : public Button {
+////////////////////////////////////////////////////////////
+// /A play button is used to end the current state, and load a level. 
+////////////////////////////////////////////////////////////
+class PlayButton : public Button {
 public:
 	////////////////////////////////////////////////////////////
-	// /Create a start game button.
+	// /Create a play button.
 	////////////////////////////////////////////////////////////
-	StartGameButton(const sf::Vector2f& initialPosition);
+	PlayButton();
 
 	////////////////////////////////////////////////////////////
-	// /Does the following:
+	// /Do the following:
 	// /fadeout, pop state, push loading state, fadein.
 	////////////////////////////////////////////////////////////
 	void activate();
