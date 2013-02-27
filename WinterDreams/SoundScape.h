@@ -52,7 +52,7 @@ private:
 	std::string mSoundType;
 	std::string mSoundName;
 	std::shared_ptr<sf::SoundBuffer> mBuffer;
-	sf::Sound mSound;
+	std::shared_ptr<sf::Sound> mSound;
 	std::weak_ptr<Player> mPlayer_wp;
 	bool mEnabledLastFrame;
 	

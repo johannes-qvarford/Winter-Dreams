@@ -10,6 +10,7 @@ LevelState::LevelState():
 	mCamera_sp(),
 	mInventoryDisplay_sp()
 {
+
 }
 
 LevelState::~LevelState() {
@@ -63,4 +64,44 @@ std::shared_ptr<Camera> LevelState::getCamera() {
 
 std::shared_ptr<InventoryDisplay> LevelState::getInventoryDisplay() {
 	return mInventoryDisplay_sp;
+}
+
+void LevelState::registerSound(std::shared_ptr<sf::Sound> sound, SoundType type){
+
+	switch (type){
+	case SOUND:
+	case NARRATOR:
+		{
+			mRegSoundVecSound.push_back(sound);
+			break;
+		}
+
+	case MUSIC:
+		{
+			mRegSoundVecMusic.push_back(sound);
+			break;
+		}
+	}
+
+}
+
+void LevelState::onFreeze(){
+	for (int i = 0; i < mRegSoundVecSound.size(); i++){
+			mRegSoundVecSound[i]->pause();
+	}
+	for (int i = 0; i < mRegSoundVecMusic.size(); i++){
+			auto sound_sp = mRegSoundVecMusic[i];
+			sound_sp->setVolume(sound_sp->getVolume() * 0.5);
+	}
+}
+
+void LevelState::onUnfreeze(){
+
+	for (int i = 0; i < mRegSoundVecSound.size(); i++){
+			mRegSoundVecSound[i]->play();
+	}
+	for (int i = 0; i < mRegSoundVecMusic.size(); i++){
+			auto sound_sp = mRegSoundVecMusic[i];
+			sound_sp->setVolume(sound_sp->getVolume() * 2);
+	}
 }
