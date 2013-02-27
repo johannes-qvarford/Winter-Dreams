@@ -98,7 +98,7 @@ argetAlpha > mAlpha) { mAlpha+=0.02f; }
 
 	renTex->draw(spr, states);
 
-	auto vertex = sf::Vertex(pos, sf::Color(0, 255, 0));
+	auto vertex = sf::Vertex(pos, sf::Color(255, 0, 0));
 	renTex->draw(&vertex, 1, sf::Points);
 
 #endif

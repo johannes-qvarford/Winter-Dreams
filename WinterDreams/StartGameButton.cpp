@@ -32,7 +32,7 @@ void StartGameButton::activate() {
 		stateMgr.freezeState();
 		stateMgr.popState();
 		stateMgr.pushState(loadingState_p);
-		stateMgr.unfreezeState();
+		stateMgr.unfreezeState(10);
 
 		onHover(false);
 	}

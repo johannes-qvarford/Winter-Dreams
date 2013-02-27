@@ -1,5 +1,5 @@
 #include "StateManager.h"
-#include "MenuState.h"
+#include "VideoState.h"
 #include "LevelState.h"
 #include "LoadingState.h"
 #include "PropertyManager.h"
@@ -11,7 +11,6 @@
 #include <iostream>
 #include <memory>
 #include <cassert>
-#include <SFML/Window.hpp>
 
 int main()
 {
@@ -19,7 +18,7 @@ int main()
 
 		auto& prop = PropertyManager::get();
 		auto& settings = prop.getGeneralSettings();
-		auto level_or_menu = settings.get<std::string>("level_or_menu");
+		auto& level_or_menu = settings.get<std::string>("level_or_menu");
 		//add LoadingState to the top of the stack.
 
 		if(level_or_menu == "level") {
@@ -28,8 +27,9 @@ int main()
 			StateManager::get().pushState(loadState_p);
 		}
 		else if(level_or_menu == "menu") {
-			auto menuState_p = MenuState::makeMainMenuState();
-			StateManager::get().pushState(menuState_p);
+			auto videoState_p = new VideoState("loading_ogg_test.ogg");
+			StateManager::get().pushState(videoState_p);
+			StateManager::get().unfreezeState();
 		}
 		else {
 			assert(0);
