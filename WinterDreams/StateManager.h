@@ -36,7 +36,7 @@ public:
 	////////////////////////////////////////////////////////////
 	// /unfreeze the top state.
 	////////////////////////////////////////////////////////////
-	void unfreezeState();
+	void unfreezeState(int framesToFade = 100);
 
 	////////////////////////////////////////////////////////////
 	// /Pop and destroy the current State.
@@ -46,7 +46,7 @@ public:
 	////////////////////////////////////////////////////////////
 	// /freeze the top state.
 	////////////////////////////////////////////////////////////
-	void freezeState();
+	void freezeState(int framesToFade = 100);
 
 private:
 
@@ -87,10 +87,11 @@ private:
 	////////////////////////////////////////////////////////////
 	struct Action { 
 		enum Tag { UNFREEZE, FREEZE, PUSH, POP };
-		union Data { State* mState_p; std::nullptr_t mNull; };
+		union Data { State* mState_p; nullptr_t mNull; };
 		
 		Tag mTag;
 		Data mData;
+		int mFadeFrames;
 	};
 
 	enum StateOfManager { FADING_IN, FADING_OUT, NORMAL };
@@ -113,7 +114,8 @@ private:
 	
 	std::queue<Action> mActions;
 
-	float mAlpha;
+	int mFramesToFade;
+	int mCurrentFadeFrame;
 };
 
 /*

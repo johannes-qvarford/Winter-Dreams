@@ -25,7 +25,7 @@ private:
 };
 
 LightPointSpecs::LightPointSpecs(){
-	
+
 	auto& obj = PropertyManager::get().getObjectSettings();
 	auto& light = obj.get_child( "objects.light" );
 	AnimationSpecs::parse( light, mAnimSpecList );
