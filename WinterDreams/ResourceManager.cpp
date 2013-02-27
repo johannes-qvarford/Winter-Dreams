@@ -98,3 +98,20 @@ std::shared_ptr<sf::Shader> ResourceManager::getShader(const std::string &key){
 		return shdr;
 	}
 }
+
+std::shared_ptr<sftheora::Video> ResourceManager::getVideo(const std::string &key){
+	std::map<std::string, std::weak_ptr<sftheora::Video> >::iterator iter;
+	iter = mVideoMap.find(key);
+
+	if( iter != mVideoMap.end() && !iter->second.expired() ){
+		return iter->second.lock();
+	}
+	else{
+		std::shared_ptr<sftheora::Video> video (new sftheora::Video);
+		if (!video->load(mFilePath + key)){
+			assert(false);
+		}
+		mVideoMap.insert(std::pair<std::string, std::weak_ptr<sftheora::Video> >(key, video) );
+		return video;
+	}
+}

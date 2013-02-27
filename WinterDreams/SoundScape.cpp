@@ -30,13 +30,13 @@ mThreeD(threeD)
 // /FS_DIR_SOUNDS betyder: vart ligger filen, mSoundName betyder: vad heter filen
 ////////////////////////////////////////////////////////////////////////
 	mBuffer = ResourceManager::get().getSoundBuffer(FS_DIR_SOUNDS + mSoundName);
-	mSound.setBuffer(*mBuffer);
-	mSound.setLoop(loop);
-	mSound.setVolume(mVolume);
+	mSound->setBuffer(*mBuffer);
+	mSound->setLoop(loop);
+	mSound->setVolume(mVolume);
 }
 
 SoundScape::~SoundScape(){
-	mSound.stop();
+	mSound->stop();
 }
 
 
@@ -55,7 +55,7 @@ float SoundScape::getVolume(SubLevel* subLevel_p){
 	sf::Vector2f soundScapeHitBox(soundScapeHitBox_r.left, soundScapeHitBox_r.top);
 	sf::Vector2f playerHitBox(playerHitBox_r.left, playerHitBox_r.top);
 	sf::Vector2f playerToSoundVector(playerHitBox - soundScapeHitBox);
-
+	
 //////////////////////////////////////////////////////////////////////
 // /fullVolumeRadius är den radie som volymen ska vara satt till max i
 // /distance är avståndet mellan ljudkällan och spelaren
@@ -133,9 +133,9 @@ float SoundScape::getVolume(SubLevel* subLevel_p){
 		sf::Listener::setPosition(playerHitBox_r.left, playerHitBox_r.top, 0);
 		//sf::Listener::setGlobalVolume(mVolume * volumeModifier);
 
-		mSound.setPosition(soundScapeHitBox_r.left, soundScapeHitBox_r.top, -5);
-		mSound.setMinDistance(mInnerRadius);
-		mSound.setAttenuation(mRangeDecay);
+		mSound->setPosition(soundScapeHitBox_r.left, soundScapeHitBox_r.top, -5);
+		mSound->setMinDistance(mInnerRadius);
+		mSound->setAttenuation(mRangeDecay);
 		mInitMusic = true;
 	}
 
@@ -187,14 +187,14 @@ void SoundScape::update(SubLevel* subLevel_p){
 		auto player_sp = subLevel_p->getLevel()->getPlayer();
 		mPlayer_wp = player_sp;
 		if (getEnabled() == true){
-			mSound.play();
+			mSound->play();
 		}
 		mBoolEntity = true;
 	}
 //////////////////////////////////////////////////////////////////
 // /när ljudet/låten stoppas så ska det inte längre vara aktiverat så att man kan aktivera de igen
 //////////////////////////////////////////////////////////////////
-	if (mEnabledLastFrame && mSound.getStatus() == sf::Sound::Stopped){
+	if (mEnabledLastFrame && mSound->getStatus() == sf::Sound::Stopped){
 		setEnabled(false);
 	}
 	auto enabledThisFrame = getEnabled();
@@ -204,13 +204,13 @@ void SoundScape::update(SubLevel* subLevel_p){
 //////////////////////////////////////////////////////////////////////
 	if (enabledThisFrame == true && mEnabledLastFrame == false){
 		mClock.restart();
-		mSound.play();
+		mSound->play();
 	}
 //////////////////////////////////////////////////////////////////////
 // /Samma sak fast tvärtom
 //////////////////////////////////////////////////////////////////////
 	else if (enabledThisFrame == false && mEnabledLastFrame == true){
-		mSound.stop();
+		mSound->stop();
 	}
 
 	float volume = getVolume(subLevel_p);
@@ -218,7 +218,7 @@ void SoundScape::update(SubLevel* subLevel_p){
 
 	
 
-	mSound.setVolume(volume);
+	mSound->setVolume(volume);
 
 
 	mEnabledLastFrame = enabledThisFrame;

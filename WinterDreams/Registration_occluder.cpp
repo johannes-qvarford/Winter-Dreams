@@ -14,7 +14,18 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 
 	auto spriteName = properties.get<std::string>("sprite");
 	auto layer = properties.get<int>("layer");
-	float occludisionlevel = properties.get<float>("occlusionlevel");
+	
+	//enabled/disabledopatiy is not supported yet.
+	auto enabledopacity = properties.get<float>("enabledopacity",-1);
+	auto disabledopacity = properties.get<float>("disabledopacity",-1);
+	
+	if(enabledopacity < 0)
+		disabledopacity = 100;
+	if(disabledopacity < 0)
+		disabledopacity = properties.get<float>("occlusionlevel");
+	
+	
+	auto fadetime = properties.get<int>("fadetime");
 	auto name = pt.get<std::string>("name","");
 
 	auto width = pt.get<int>("width") / 32.f * X_STEP;
@@ -40,9 +51,10 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	Animation anim(FS_DIR_OBJECTANIMATIONS + "occluder/" + filename, temp_sp->getSize().x, temp_sp->getSize().y, 1, 100, xorigin, yorigin); 
 
 	auto occluded_sp = std::shared_ptr<OccludedEntity>(new OccludedEntity(
-		sf::FloatRect(correctedPosition, sf::Vector2f(X_STEP, -Y_STEP)), anim, occludisionlevel / 100.f, layer, !startdisabled));
+
+		sf::FloatRect(correctedPosition, sf::Vector2f(X_STEP, -Y_STEP)), anim, enabledopacity / 100, disabledopacity / 100, fadetime, layer, !startdisabled));
 	
-	//does it have a name?
+	//does it have a name? What's it called? Oh, %n? That's cute.
 	if(name != "")
 		subLevel_p->mapEntityToName( name , occluded_sp);
 

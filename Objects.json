@@ -101,7 +101,7 @@
 					"spriteheight": "64",
 					"yorigin": "48",
 					"xorigin": "0",
-					"numberofsprites": "3",
+					"numberofsprites": "1",
 					"framespersprite": "10",
 					"filename": "placeholder.png"
 				}
@@ -187,7 +187,7 @@
 		"player": {
 			"invulnerabilityframes": 40,
 			"blinkframedistance": 8,
-			"walkspeed": 22.5,
+			"walkspeed": 2.0,
 			"lightsize": {
 				"1": "0.12",
 				"2": "0.16",

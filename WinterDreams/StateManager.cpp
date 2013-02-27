@@ -48,7 +48,8 @@ StateManager::StateManager():
 	mStateOfManager(NORMAL),
 	mStates(),
 	mActions(),
-	mAlpha(0)
+	mFramesToFade(0),
+	mCurrentFadeFrame(0)
 {
 }
 
@@ -80,7 +81,7 @@ void StateManager::run() {
 	const unsigned int MAX_FRAMESKIP = 5;	
 	
 	//time from the start of the state manager creation, to the next game_tick.
-	sf::Time next_game_tick( sf::microseconds(0) );
+	sf::Time nextGameTick( sf::microseconds(0) );
 	
 	sf::Clock GetTickCount;
 	sf::Clock frameTime;
@@ -105,10 +106,10 @@ void StateManager::run() {
 			return;
 
 		//try to catch up, by doing a maximun of MAX_FRAMESKIP updates.
-		while(GetTickCount.getElapsedTime() > next_game_tick && loops < MAX_FRAMESKIP ) { 
+		while(GetTickCount.getElapsedTime() > nextGameTick && loops < MAX_FRAMESKIP ) { 
 			WindowManager::get().resetLightIDs();
 
-			next_game_tick += sf::Time( sf::microseconds(advances) );
+			nextGameTick += sf::Time( sf::microseconds(advances) );
 			++loops;
 
 			updateFrame();
@@ -121,7 +122,7 @@ void StateManager::run() {
 		
 		//if we performed the maximum number of frames to catch up, reset the clock. 
 		if(loops == MAX_FRAMESKIP){
-			next_game_tick = sf::microseconds(0);
+			nextGameTick = sf::microseconds(0);
 			GetTickCount.restart();
 		}
 		loops = 0;
@@ -132,13 +133,15 @@ void StateManager::pushState(State* state_p) {
 	Action action;
 	action.mTag = Action::PUSH;
 	action.mData.mState_p = state_p;
+	action.mFadeFrames = 0;
 	mActions.push(action);
 }
 
-void StateManager::unfreezeState() {
+void StateManager::unfreezeState(int framesToFade) {
 	Action action;
 	action.mTag = Action::UNFREEZE;
 	action.mData.mNull = nullptr;
+	action.mFadeFrames = framesToFade;
 	mActions.push(action);
 }
 
@@ -146,13 +149,15 @@ void StateManager::popState() {
 	Action action;
 	action.mTag = Action::POP;
 	action.mData.mNull = nullptr;
+	action.mFadeFrames = 0;
 	mActions.push(action);
 }
 
-void StateManager::freezeState() {
+void StateManager::freezeState(int framesToFade) {
 	Action action;
 	action.mTag = Action::FREEZE;
 	action.mData.mNull = nullptr;
+	action.mFadeFrames = framesToFade;
 	mActions.push(action);
 }
 
@@ -226,12 +231,14 @@ void StateManager::updateNormal() {
 			break;
 		case Action::FREEZE:
 			mStateOfManager = FADING_OUT;
-			mAlpha = 0.f;
+			mFramesToFade = action.mFadeFrames;
+			mCurrentFadeFrame = 0;
 			mStates.top()->onFreeze();
 			break;
 		case Action::UNFREEZE:
 			mStateOfManager = FADING_IN;
-			mAlpha = 1.f;
+			mFramesToFade = action.mFadeFrames;
+			mCurrentFadeFrame = action.mFadeFrames;
 			mStates.top()->onUnfreeze();
 			break;
 		default:
@@ -258,28 +265,30 @@ void StateManager::updateNormal() {
 
 void StateManager::updateFadingIn() {
 	//fade linearly, continue as usual after that.
-	mAlpha -= FADE_IN_SPEED;
-	if(mAlpha <= 0.f)
+	float alpha = static_cast<float>(mCurrentFadeFrame) / static_cast<float>(mFramesToFade);
+	--mCurrentFadeFrame;
+	if(alpha <= 0.f)
 		mStateOfManager = NORMAL;
 
 	mStates.top()->update();
 	prepareWindow();
 	mStates.top()->render();
-	darkenWindow(mAlpha);
+	darkenWindow(alpha);
 //	darkenWindow(0.f);
 	return;
 }
 
 void StateManager::updateFadingOut() {
 	//fade linearly, continue as usual after that.
-	mAlpha += FADE_OUT_SPEED;
-	if(mAlpha >= 1.f)
+	float alpha = static_cast<float>(mCurrentFadeFrame) / static_cast<float>(mFramesToFade);
+	++mCurrentFadeFrame;
+	if(alpha >= 1.f)
 		mStateOfManager = NORMAL;
 
 	mStates.top()->update();
 	prepareWindow();
 	mStates.top()->render();
-	darkenWindow(mAlpha);
+	darkenWindow(alpha);
 //	darkenWindow(0.f);
 	return;
 }

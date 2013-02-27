@@ -190,6 +190,9 @@
     <ClCompile Include="ExitButton.cpp">
       <Filter>Sources\UI</Filter>
     </ClCompile>
+    <ClCompile Include="VideoState.cpp">
+      <Filter>Sources\State</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameToScreen.h">
@@ -356,6 +359,9 @@
     </ClInclude>
     <ClInclude Include="ExitButton.h">
       <Filter>Includes\UI</Filter>
+	</ClInclude>
+    <ClInclude Include="VideoState.h">
+      <Filter>Includes\State</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

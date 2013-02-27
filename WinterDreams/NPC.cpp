@@ -109,7 +109,7 @@ void NPC::update(SubLevel* subLevel_p) {
 		
 		//get a vector to the point
 		auto posToPoint = (*mPath_p)[mNextPoint] - position;
-			
+
 		float distance;
 		{
 			auto x = posToPoint.x;

@@ -5,27 +5,26 @@
 
 class OccludedEntity : public GraphicalEntity {
 public:
-	OccludedEntity(const sf::FloatRect& initialPosition, const Animation& animation, float alpha, int layer, bool startEnabled);
+	OccludedEntity(const sf::FloatRect& initialPosition, const Animation& animation, float enabledOpacity, float disabledOpacity, int fadeTime, int layer, bool startEnabled);
 	
 	~OccludedEntity();
 	
 	void update(SubLevel* subLevel_p){};
 
 	void onCollision(PhysicalEntity * pe_p,const sf::FloatRect& intersection){}
-
-	void setAlpha(float alpha);
 	
 	void drawSelf();
 
 	sf::FloatRect& getHitBox();
 
-	//not checking this in SubLevel yet.
 	int getLayer();
 private:
 	
 	int mLayer;
 
-	float mAlpha, mTargetAlpha;
+	float mEnabledAlpha, mDisabledAlpha, mCurrentAlpha;
+
+	float mFadeTime;
 
 	std::shared_ptr<sf::Shader> mShader;
 
