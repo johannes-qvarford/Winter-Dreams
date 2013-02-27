@@ -25,7 +25,7 @@ private:
 	
 	int mLayer;
 
-	float mAlpha;
+	float mAlpha, mTargetAlpha;
 
 	std::shared_ptr<sf::Shader> mShader;
 
