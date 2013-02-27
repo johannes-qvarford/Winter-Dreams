@@ -5,6 +5,8 @@
 #include "ResourceManager.h"
 #include "GameToScreen.h"
 
+#include <algorithm>
+
 OccludedEntity::OccludedEntity(const sf::FloatRect& initialPosition, const Animation& animation, float enabledOpacity, float disabledOpacity, int fadeTime, int layer, bool startEnabled) :
 	GraphicalEntity ( startEnabled ),
 	mEnabledAlpha(enabledOpacity),
@@ -14,7 +16,7 @@ OccludedEntity::OccludedEntity(const sf::FloatRect& initialPosition, const Anima
 	mAnimation(animation),
 	mHitBox(initialPosition)
 {
-	if (getEnabled){
+	if (getEnabled()){
 		mCurrentAlpha=enabledOpacity;
 	} else {
 		mCurrentAlpha=disabledOpacity;
@@ -50,21 +52,21 @@ void OccludedEntity::drawSelf(){
 
 //	std::cout << ol << std::endl;
 	
-	if (getEnabled){
+	if (getEnabled()){
 		if (mCurrentAlpha < mEnabledAlpha){
 			mCurrentAlpha += mFadeTime;
-			mCurrentAlpha = min(mCurrentAlpa, mEnabledAlpha);
+			mCurrentAlpha = std::min(mCurrentAlpha, mEnabledAlpha);
 		} else if (mCurrentAlpha > mEnabledAlpha){
 			mCurrentAlpha -= mFadeTime;
-			mCurrentAlpha = max(mCurrentAlpha, mEnabledAlpha);
+			mCurrentAlpha = std::max(mCurrentAlpha, mEnabledAlpha);
 		}
 	} else {
 		if (mCurrentAlpha > mDisabledAlpha){
 			mCurrentAlpha -= mFadeTime;
-			mCurrentAlpha = max(mCurrentAlpa, mDisabledAlpha);
+			mCurrentAlpha = std::max(mCurrentAlpha, mDisabledAlpha);
 		} else if (mCurrentAlpha > mDisabledAlpha){
 			mCurrentAlpha += mFadeTime;
-			mCurrentAlpha = min(mCurrentAlpha, mDisabledAlpha);
+			mCurrentAlpha = std::min(mCurrentAlpha, mDisabledAlpha);
 		}
 	}
 
@@ -99,7 +101,6 @@ void OccludedEntity::drawSelf(){
 	
 	states.blendMode = sf::BlendAlpha;
 
-	mTargetAlpha=1.0f;
 	if (getEnabled() == false){
 		states.shader = mShader.get();
 	}
