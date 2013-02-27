@@ -5,36 +5,30 @@
 #include "ResourceManager.h"
 #include "GameToScreen.h"
 
-OccludedEntity::OccludedEntity(const sf::FloatRect& initialPosition, const Animation& animation, float alpha, int layer, bool startEnabled) :
+OccludedEntity::OccludedEntity(const sf::FloatRect& initialPosition, const Animation& animation, float enabledOpacity, float disabledOpacity, int fadeTime, int layer, bool startEnabled) :
 	GraphicalEntity ( startEnabled ),
-	mAlpha(alpha),
-	mTargetAlpha(alpha),
+	mEnabledAlpha(enabledOpacity),
+	mDisabledAlpha(disabledOpacity),
 	mLayer(layer),
 	mShader(ResourceManager::get().getShader(FS_DIR_SHADERS + "Blend.frag")),
 	mAnimation(animation),
 	mHitBox(initialPosition)
 {
+	if (getEnabled){
+		mCurrentAlpha=enabledOpacity;
+	} else {
+		mCurrentAlpha=disabledOpacity;
+	}
+
+	mFadeTime=static_cast<float>(60/fadeTime);
 }
 
 OccludedEntity::~OccludedEntity(){
 }
 
-void OccludedEntity::setAlpha(float alpha){
-	mTargetAlpha=alpha;
-}
-
 void OccludedEntity::drawSelf(){
 	auto renTex = WindowManager::get().getWindow();
 	auto states = *WindowManager::get().getStates();
-
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
-		mT
-argetAlpha = 1;
-	}
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
-		mT
-argetAlpha = 0.5;
-	}
 
 	static float xoffset = 0;
 	static float yoffset = 0;
@@ -55,11 +49,26 @@ argetAlpha = 0.5;
 	//std::cout << xoffset << " "  << yoffset << std::endl; 
 
 //	std::cout << ol << std::endl;
-	if (mT
-argetAlpha < mAlpha) { mAlpha-=0.02f; } 
-	if (mT
-argetAlpha > mAlpha) { mAlpha+=0.02f; }
-	mShader->setParameter("alpha",mAlpha);
+	
+	if (getEnabled){
+		if (mCurrentAlpha < mEnabledAlpha){
+			mCurrentAlpha += mFadeTime;
+			mCurrentAlpha = min(mCurrentAlpa, mEnabledAlpha);
+		} else if (mCurrentAlpha > mEnabledAlpha){
+			mCurrentAlpha -= mFadeTime;
+			mCurrentAlpha = max(mCurrentAlpha, mEnabledAlpha);
+		}
+	} else {
+		if (mCurrentAlpha > mDisabledAlpha){
+			mCurrentAlpha -= mFadeTime;
+			mCurrentAlpha = max(mCurrentAlpa, mDisabledAlpha);
+		} else if (mCurrentAlpha > mDisabledAlpha){
+			mCurrentAlpha += mFadeTime;
+			mCurrentAlpha = min(mCurrentAlpha, mDisabledAlpha);
+		}
+	}
+
+	mShader->setParameter("alpha",mCurrentAlpha);
 //	mShader->setParameter("alpha",mAlpha / 100.f);
 	sf::Sprite spr = mAnimation.getCurrentSprite();
 
@@ -93,7 +102,6 @@ argetAlpha > mAlpha) { mAlpha+=0.02f; }
 	mTargetAlpha=1.0f;
 	if (getEnabled() == false){
 		states.shader = mShader.get();
-		mTargetAlpha = 0.5f;
 	}
 
 	renTex->draw(spr, states);
