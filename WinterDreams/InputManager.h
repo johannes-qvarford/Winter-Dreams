@@ -1,7 +1,7 @@
 #ifndef INCLUDED_INPUTMANAGER
 #define INCLUDED_INPUTMANAGER
-#include <SFML\System\Vector2.hpp>
-#include <SFML\Window\Keyboard.hpp>
+#include <SFML/System/Vector2.hpp>
+#include <SFML/Window/Keyboard.hpp>
 #include <string>
 
 class InputManager{
@@ -48,8 +48,8 @@ public:
 private:
 	InputManager();
 	~InputManager(){};
-	InputManager(const InputManager& i){};
-	InputManager& operator = (const InputManager&){};
+	InputManager(const InputManager& i);
+	InputManager& operator = (const InputManager&);
 
 	sf::Keyboard::Key KEY_A, KEY_B, KEY_START, KEY_SELECT;
 	bool mIsUnlocked;

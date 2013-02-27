@@ -1,5 +1,5 @@
 #include "StateManager.h"
-#include "MenuState.h"
+#include "VideoState.h"
 #include "LevelState.h"
 #include "LoadingState.h"
 #include "PropertyManager.h"
@@ -27,8 +27,9 @@ int main()
 			StateManager::get().pushState(loadState_p);
 		}
 		else if(level_or_menu == "menu") {
-			auto menuState_p = MenuState::makeMainMenuState();
-			StateManager::get().pushState(menuState_p);
+			auto videoState_p = new VideoState("loading_ogg_test.ogg");
+			StateManager::get().pushState(videoState_p);
+			StateManager::get().unfreezeState();
 		}
 		else {
 			assert(0);

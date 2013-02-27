@@ -1,6 +1,6 @@
 #include "Inventory.h"
 #include "PropertyManager.h"
-#include <boost\property_tree\ptree.hpp>
+#include <boost/property_tree/ptree.hpp>
 
 static boost::property_tree::ptree ITEMS_PTREE;
 

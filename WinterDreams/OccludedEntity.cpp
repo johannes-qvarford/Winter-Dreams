@@ -5,56 +5,70 @@
 #include "ResourceManager.h"
 #include "GameToScreen.h"
 
-OccludedEntity::OccludedEntity(const sf::FloatRect& initialPosition, const Animation& animation, float alpha, int layer, bool startEnabled) :
+OccludedEntity::OccludedEntity(const sf::FloatRect& initialPosition, const Animation& animation, float enabledOpacity, float disabledOpacity, int fadeTime, int layer, bool startEnabled) :
 	GraphicalEntity ( startEnabled ),
-	mAlpha(alpha),
+	mEnabledAlpha(enabledOpacity),
+	mDisabledAlpha(disabledOpacity),
 	mLayer(layer),
 	mShader(ResourceManager::get().getShader(FS_DIR_SHADERS + "Blend.frag")),
 	mAnimation(animation),
 	mHitBox(initialPosition)
 {
+	if (getEnabled){
+		mCurrentAlpha=enabledOpacity;
+	} else {
+		mCurrentAlpha=disabledOpacity;
+	}
+
+	mFadeTime=static_cast<float>(60/fadeTime);
 }
 
 OccludedEntity::~OccludedEntity(){
-}
-
-void OccludedEntity::setAlpha(float alpha){
-	mAlpha=alpha;
 }
 
 void OccludedEntity::drawSelf(){
 	auto renTex = WindowManager::get().getWindow();
 	auto states = *WindowManager::get().getStates();
 
-	static float ol = 0;
-
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
-		ol += 0.01;
-	}
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
-		ol -= 0.01;
-	}
-
 	static float xoffset = 0;
 	static float yoffset = 0;
 
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) {
-		xoffset += 0.20;
-	}
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num4)) {
-		xoffset -= 0.20;
-	}
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num5)) {
-		yoffset += 0.20;
-	}
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num6)) {
-		yoffset -= 0.20;
-	}
+	//if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) {
+	//	xoffset += 0.20;
+	//}
+	//if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num4)) {
+	//	xoffset -= 0.20;
+	//}
+	//if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num5)) {
+	//	yoffset += 0.20;
+	//}
+	//if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num6)) {
+	//	yoffset -= 0.20;
+	//}
 
-	std::cout << xoffset << " "  << yoffset << std::endl; 
+	//std::cout << xoffset << " "  << yoffset << std::endl; 
 
 //	std::cout << ol << std::endl;
-	mShader->setParameter("alpha",ol);
+	
+	if (getEnabled){
+		if (mCurrentAlpha < mEnabledAlpha){
+			mCurrentAlpha += mFadeTime;
+			mCurrentAlpha = min(mCurrentAlpa, mEnabledAlpha);
+		} else if (mCurrentAlpha > mEnabledAlpha){
+			mCurrentAlpha -= mFadeTime;
+			mCurrentAlpha = max(mCurrentAlpha, mEnabledAlpha);
+		}
+	} else {
+		if (mCurrentAlpha > mDisabledAlpha){
+			mCurrentAlpha -= mFadeTime;
+			mCurrentAlpha = max(mCurrentAlpa, mDisabledAlpha);
+		} else if (mCurrentAlpha > mDisabledAlpha){
+			mCurrentAlpha += mFadeTime;
+			mCurrentAlpha = min(mCurrentAlpha, mDisabledAlpha);
+		}
+	}
+
+	mShader->setParameter("alpha",mCurrentAlpha);
 //	mShader->setParameter("alpha",mAlpha / 100.f);
 	sf::Sprite spr = mAnimation.getCurrentSprite();
 
@@ -78,17 +92,21 @@ void OccludedEntity::drawSelf(){
 
 //	static auto texture_sp = ResourceManager::get().getTexture(FS_DIR_OBJECTANIMATIONS + "occluder/bridgeMiddleTop.png");
 //	spr.setTexture(*texture_sp);
-	auto pos = GAME_TO_SCREEN * (sf::Vector2f(mHitBox.left + xoffset, mHitBox.top + yoffset));
+
+	auto pos = GAME_TO_SCREEN * sf::Vector2f(mHitBox.left, mHitBox.top);
+
 	spr.setPosition(pos);
 	
 	states.blendMode = sf::BlendAlpha;
 
-	if (getEnabled() == false)
+	mTargetAlpha=1.0f;
+	if (getEnabled() == false){
 		states.shader = mShader.get();
+	}
 
 	renTex->draw(spr, states);
 
-	auto vertex = sf::Vertex(pos, sf::Color(0, 255, 0));
+	auto vertex = sf::Vertex(pos, sf::Color(255, 0, 0));
 	renTex->draw(&vertex, 1, sf::Points);
 
 #endif

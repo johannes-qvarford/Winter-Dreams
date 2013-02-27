@@ -10,9 +10,9 @@
 #include "Camera.h"
 #include "GameToScreen.h"
 
-#include <SFML\Graphics\Sprite.hpp>
-#include <SFML\Graphics\Texture.hpp>
-#include <SFML\Window.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Window.hpp>
 
 
 

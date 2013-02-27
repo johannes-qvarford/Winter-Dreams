@@ -1,10 +1,10 @@
 #ifndef INCLUDED_PARTICLE
 #define INCLUDED_PARTICLE
 
-#include <SFML\System\Vector2.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <string>
 #include <memory>
-#include <SFML\Graphics\Texture.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
 class Particle{

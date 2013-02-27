@@ -118,7 +118,7 @@ static void loadLevel(LoadingSpecs& specs) {
 	for(auto it = sublevels.begin(), end = sublevels.end(); it != end; ++it) {
 		//load sublevels one at a time.
 		auto& entry = it->second;
-		auto& subLevelName = entry.get_value<std::string>();
+		auto subLevelName = entry.get_value<std::string>();
 		loadSubLevel(subLevelName, specs.mLoadedLevel_p);
 	}
 
@@ -136,8 +136,8 @@ static void loadLevel(LoadingSpecs& specs) {
 	for(auto it = sublevels.begin(), end = sublevels.end(); it != end; ++it) {
 		//iterate over all sublevels.
 		auto& entry = it->second;
-		auto& subLevelName = entry.get_value<std::string>();
-		auto& subLevel_sp = specs.mLoadedLevel_p->getSubLevel(subLevelName);
+		auto subLevelName = entry.get_value<std::string>();
+		auto subLevel_sp = specs.mLoadedLevel_p->getSubLevel(subLevelName);
 
 		//add them to the sublevel.
 		subLevel_sp->addGraphicalEntity(std::static_pointer_cast<GraphicalEntity>(player_sp));
@@ -161,7 +161,7 @@ static void loadSubLevel(const std::string& subLevelName, LevelState* levelState
 	auto tilesToObjects = std::map<int, std::string>();
 	
 	//read sublevel from json
-	auto& levelData = ptree();
+	auto levelData = ptree();
 	json_parser::read_json(FS_DIR_LEVELS + subLevelName, levelData);
 
 	//connect sublevel with level
@@ -176,8 +176,8 @@ static void loadSubLevel(const std::string& subLevelName, LevelState* levelState
 //		auto& bgFilename = level.get<std::string>(NAME_LEVELSETTINGS_BACKGROUND);
 		auto map = properties.get_child(NAME_LEVELSETTINGS_MAPLAYER);
 		properties.get_value<std::string>();
-		auto& mlFilename = properties.get<std::string>(NAME_LEVELSETTINGS_MAPLAYER);
-		auto& bkFilename = properties.get<std::string>("background");
+		auto mlFilename = properties.get<std::string>(NAME_LEVELSETTINGS_MAPLAYER);
+		auto bkFilename = properties.get<std::string>("background");
 		
 //		auto bgTexture_sp = resMgr.getTexture(bgFilename);
 		auto mlTexture_sp = resMgr.getTexture(FS_DIR_MAPS + mlFilename);
@@ -207,7 +207,7 @@ static void loadSubLevel(const std::string& subLevelName, LevelState* levelState
 			auto& tileset = it->second;
 			auto firstgid = tileset.get<int>("firstgid");
 			
-			auto& tileproperties_optional = tileset.get_child_optional("tileproperties");
+			auto tileproperties_optional = tileset.get_child_optional("tileproperties");
 			if(!tileproperties_optional)
 				continue;
 
@@ -235,12 +235,12 @@ static void loadSubLevel(const std::string& subLevelName, LevelState* levelState
 
 		for(auto it = layers.begin(), end = layers.end(); it != end; ++it) {
 			auto& layer = it->second;
-			auto& ignore = layer.get<std::string>("properties." + NAME_PROPERTIES_IGNORE,"");
+			auto ignore = layer.get<std::string>("properties." + NAME_PROPERTIES_IGNORE,"");
 
 			if(ignore == "true")
 				continue;
 
-			auto& type = layer.get<std::string>("type");
+			auto type = layer.get<std::string>("type");
 
 			if( type == "objectgroup") {
 				//an object layer

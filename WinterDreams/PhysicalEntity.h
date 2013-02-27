@@ -2,7 +2,7 @@
 #define INCLUDED_PHYSICALENTITY
 
 #include "Entity.h"
-#include <SFML\Graphics\Rect.hpp>
+#include <SFML/Graphics/Rect.hpp>
 ////////////////////////////////////////////////////////////
 // /Abstract base class for physical objects
 // /and points in the system.
@@ -20,6 +20,8 @@ public:
 	// /another physical entity.
 	////////////////////////////////////////////////////////////
 	virtual void onCollision(PhysicalEntity* entityCollidedWith_p, const sf::Rect<float>& intersection) = 0;
+
+	virtual int getLayer() {return 1;}
 
 	virtual void drawSelf() = 0;
 protected:

@@ -24,7 +24,7 @@ void StartGameButton::activate() {
 		mUpdated = true;
 		Button::activate();
 
-		auto& first_level_name = PropertyManager::get().getGeneralSettings().get<std::string>("first_level_name");
+		auto first_level_name = PropertyManager::get().getGeneralSettings().get<std::string>("first_level_name");
 
 		auto loadingState_p = new LoadingState(first_level_name);
 		auto& stateMgr = StateManager::get();
@@ -32,7 +32,7 @@ void StartGameButton::activate() {
 		stateMgr.freezeState();
 		stateMgr.popState();
 		stateMgr.pushState(loadingState_p);
-		stateMgr.unfreezeState();
+		stateMgr.unfreezeState(10);
 
 		onHover(false);
 	}

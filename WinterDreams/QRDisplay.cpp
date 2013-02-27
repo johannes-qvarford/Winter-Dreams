@@ -8,8 +8,8 @@
 #include "StateManager.h"
 #include "InputManager.h"
 #include "Network.h"
-#include <SFML\Graphics.hpp>
-#include <SFML\Network.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/Network.hpp>
 
 static const char * const BOX_FILENAME = "placeholder_box.png"; 
 static const char * const FONT_FILENAME = "arial.ttf";
