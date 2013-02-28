@@ -22,6 +22,7 @@
     <ClCompile Include="Crystal.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="InventoryDisplay.cpp" />
+    <ClCompile Include="LevelEnder.cpp" />
     <ClCompile Include="LevelSplash.cpp" />
     <ClCompile Include="LevelState.cpp" />
     <ClCompile Include="LevelPortal.cpp" />
@@ -32,6 +33,7 @@
     <ClCompile Include="LoadingState.cpp" />
     <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="LoadingVideoState.cpp" />
+    <ClCompile Include="Registration_levelend.cpp" />
     <ClCompile Include="VideoState.cpp" />
     <ClCompile Include="Network.cpp" />
     <ClCompile Include="NPC.cpp" />
@@ -93,13 +95,13 @@
     <ClInclude Include="Crystal.h" />
     <ClInclude Include="GraphicalEntity.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="LevelEnder.h" />
     <ClInclude Include="LevelSplash.h" />
     <ClInclude Include="LevelState.h" />
     <ClInclude Include="LevelPortal.h" />
     <ClInclude Include="LightPoint.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Cursor.h" />
-    <ClInclude Include="ListFrame.h" />
     <ClInclude Include="LoadingFunction.h" />
     <ClInclude Include="LoadingVideoState.h" />
     <ClInclude Include="VideoState.h" />

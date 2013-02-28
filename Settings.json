@@ -7,9 +7,20 @@
 	{
 		"lvl_1":
 		{
+			"intro_video": "loading_ogg_test.ogg",
 			"first_sublevel_name" : "lvl_1_1v08.json",
-			"sublevels": ["lvl_1_1v08.json", "lvl_1_2v05.json"]
+			"sublevels": ["lvl_1_1v08.json", "lvl_1_2v05.json"],
+			"next_level": "lvl_2"
+		},
+		
+		"lvl_2": 
+		{
+			"intro_video": "loading_ogg_test.ogg",
+			"first_sublevel_name" : "lvl_1_1v08.json",
+			"sublevels": ["lvl_1_1v08.json", "lvl_1_2v05.json"],
+			"next_level": "lvl_2"
 		}
+		
 	},
 	
 	"ui": {

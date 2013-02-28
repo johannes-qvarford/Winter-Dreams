@@ -1,6 +1,7 @@
 #include "LoadingVideoState.h"
 #include "LoadingFunction.h"
 #include "LevelState.h"
+#include "PropertyManager.h"
 #include "ResourceManager.h"
 #include "FileStructure.h"
 #include "InputManager.h"
@@ -12,9 +13,10 @@
 #include <SFML\Graphics\Texture.hpp>
 #include <cassert>
 
-LoadingVideoState::LoadingVideoState(const std::string& levelName, const std::string& videoFileName ) :
-	VideoState( videoFileName ),
-	mLoadingSpecs_p(new LoadingSpecs(levelName, new LevelState(), &mMutex, &mRunning)),
+LoadingVideoState::LoadingVideoState(const std::string& levelName) :
+VideoState(PropertyManager::get().getGeneralSettings().get<std::string>(
+		"levels." + levelName + ".intro_video")),
+	mLoadingSpecs_p(new LoadingSpecs(levelName, new LevelState(levelName), &mMutex, &mRunning)),
 	mThread( loadingFunc::loadLevel, *mLoadingSpecs_p),
 	mRunning( true ),
 	mDone(false),

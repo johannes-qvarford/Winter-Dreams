@@ -199,6 +199,12 @@
     <ClCompile Include="LoadingFunction.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="LevelEnder.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_levelend.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameToScreen.h">
@@ -375,7 +381,9 @@
     <ClInclude Include="LoadingFunction.h">
       <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="ListFrame.h" />
+    <ClInclude Include="LevelEnder.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">

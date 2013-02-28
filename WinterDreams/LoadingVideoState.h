@@ -20,7 +20,7 @@ public:
 	// /LoadingVideoState is more of an interface since the loading is done
 	// /by another thread while LoadingVideoState displays the loadingvideo.
 	////////////////////////////////////////////////////////////
-	LoadingVideoState(const std::string& levelName, const std::string& videoFileName );
+	LoadingVideoState(const std::string& levelName);
 
 	////////////////////////////////////////////////////////////
 	// /LoadingStates destructor DOES NOT delete mLoadedState.

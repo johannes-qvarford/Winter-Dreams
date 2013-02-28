@@ -3,12 +3,13 @@
 
 #include <cassert>
 
-LevelState::LevelState():
+LevelState::LevelState(const std::string& levelName):
 	mSubLevels(),
 	mCurrentSubLevel(),
 	mPlayer_sp(),
 	mCamera_sp(),
-	mInventoryDisplay_sp()
+	mInventoryDisplay_sp(),
+	mLevelName(levelName)
 {
 
 }
@@ -64,6 +65,10 @@ std::shared_ptr<Camera> LevelState::getCamera() {
 
 std::shared_ptr<InventoryDisplay> LevelState::getInventoryDisplay() {
 	return mInventoryDisplay_sp;
+}
+
+const std::string& LevelState::getLevelName() const {
+	return mLevelName;
 }
 
 void LevelState::registerSound(std::shared_ptr<sf::Sound> sound, SoundType type){
