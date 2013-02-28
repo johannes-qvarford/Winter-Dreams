@@ -30,7 +30,6 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="LoadingFunction.cpp" />
-    <ClCompile Include="LoadingState.cpp" />
     <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="LoadingVideoState.cpp" />
     <ClCompile Include="Registration_levelend.cpp" />
@@ -197,7 +196,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>SHIPPING;PLACE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLACE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)..\sfTheora-1.4\include\;$(SolutionDir)..\SFML\include\;$(SolutionDir)..\boost-svn\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PrecompiledHeader.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)..\..\Obj\$(Configuration)\PCH.pch</PrecompiledHeaderOutputFile>

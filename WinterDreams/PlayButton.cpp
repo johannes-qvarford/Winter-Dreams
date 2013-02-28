@@ -2,6 +2,7 @@
 #include "ResourceManager.h"
 #include "FileStructure.h"
 #include "StateManager.h"
+#include "LoadingVideoState.h"
 #include "LoadingState.h"
 #include "PropertyManager.h"
 #include "StateManager.h"
@@ -41,12 +42,12 @@ void PlayButton::activate() {
 
 		auto first_level_name = PropertyManager::get().getGeneralSettings().get<std::string>("first_level_name");
 
-		auto loadingState_p = new LoadingState(first_level_name);
+		auto loadingState_p = new LoadingVideoState(first_level_name);
 		auto& stateMgr = StateManager::get();
 
-		stateMgr.freezeState();
+		stateMgr.freezeState(0);
 		stateMgr.popState();
 		stateMgr.pushState(loadingState_p);
-		stateMgr.unfreezeState(10);
+		stateMgr.unfreezeState(0);
 	}
 }

@@ -61,9 +61,6 @@
     <ClCompile Include="ParticleSystem.cpp">
       <Filter>Sources\Particle</Filter>
     </ClCompile>
-    <ClCompile Include="LoadingState.cpp">
-      <Filter>Sources\State</Filter>
-    </ClCompile>
     <ClCompile Include="Registration_crystal.cpp">
       <Filter>Sources\Registration</Filter>
     </ClCompile>

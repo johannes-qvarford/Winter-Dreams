@@ -23,7 +23,16 @@ static const std::string NAME_PROPERTIES_IGNORE = "ignore";
 static const std::string NAME_LEVELSETTINGS_BACKGROUND = "background";
 static const std::string NAME_LEVELSETTINGS_MAPLAYER = "map";
 
-static void loadSubLevel(const std::string& subLevelName, LevelState* levelState_p);
+LoadingSpecs::LoadingSpecs(const LoadingSpecs& l):
+		mLoadedLevel_p( l.mLoadedLevel_p),
+		mLevelName( l.mLevelName ),
+		mRunMutex_p( l.mRunMutex_p ),
+		mResourceMutex_p( l.mResourceMutex_p ),
+		mRunning_p( l.mRunning_p )
+	{ 
+	}
+
+static void loadSubLevel(const std::string& subLevelName, LevelState* levelState_p, sf::Mutex* mutex);
 
 void loadingFunc::loadLevel(LoadingSpecs& specs) {
 	
@@ -39,7 +48,7 @@ void loadingFunc::loadLevel(LoadingSpecs& specs) {
 		//load sublevels one at a time.
 		auto& entry = it->second;
 		auto subLevelName = entry.get_value<std::string>();
-		loadSubLevel(subLevelName, specs.mLoadedLevel_p);
+		loadSubLevel(subLevelName, specs.mLoadedLevel_p, specs.mResourceMutex_p);
 	}
 
 
@@ -66,12 +75,12 @@ void loadingFunc::loadLevel(LoadingSpecs& specs) {
 	}
 
 	//we're done here!
-	specs.mMutex_p->lock();
+	specs.mRunMutex_p->lock();
 	*specs.mRunning_p = false;
-	specs.mMutex_p->unlock();
+	specs.mRunMutex_p->unlock();
 }
 
-static void loadSubLevel(const std::string& subLevelName, LevelState* levelState_p) {
+static void loadSubLevel(const std::string& subLevelName, LevelState* levelState_p, sf::Mutex* mutex) {
 	using namespace boost::property_tree;
 	
 	//get managers
@@ -100,8 +109,14 @@ static void loadSubLevel(const std::string& subLevelName, LevelState* levelState
 		auto bkFilename = properties.get<std::string>("background");
 		
 //		auto bgTexture_sp = resMgr.getTexture(bgFilename);
+		mutex->lock();		
+		std::cout<< "Done \n";
 		auto mlTexture_sp = resMgr.getTexture(FS_DIR_MAPS + mlFilename);
+		mutex->unlock();
+		mutex->lock();		
+		std::cout<< "Done \n";
 		auto bkTexture_sp = resMgr.getTexture(FS_DIR_BACKGROUNDS + bkFilename);
+		mutex->unlock();
 
 		auto yTiles = levelData.get<int>("height");
 
@@ -179,8 +194,9 @@ static void loadSubLevel(const std::string& subLevelName, LevelState* levelState
 					auto x = object.get<int>("x", 0);
 					auto y = object.get<int>("y", 0);
 					auto position = sf::Vector2f(x * X_STEP / 32, y * Y_STEP / 32);
-
+					mutex->lock();
 					objFact.callCallback(objectType, subLevel_sp.get(), position, object);
+					mutex->unlock();
 				}
 			}
 			else {
@@ -207,8 +223,9 @@ static void loadSubLevel(const std::string& subLevelName, LevelState* levelState
 					auto x = index % width;
 					auto y = index / width;
 					auto position = sf::Vector2f(x * X_STEP, y * Y_STEP);
-
+					mutex->lock();
 					objFact.callCallback(objectType, subLevel_sp.get(), position, emptyPt);
+					mutex->unlock();
 				}
 			}
 		}
