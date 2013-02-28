@@ -381,6 +381,9 @@
     <ClInclude Include="LevelEnder.h">
       <Filter>Includes\Entity</Filter>
     </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">

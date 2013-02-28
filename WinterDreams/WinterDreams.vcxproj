@@ -103,6 +103,7 @@
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="LoadingFunction.h" />
     <ClInclude Include="LoadingVideoState.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="VideoState.h" />
     <ClInclude Include="Network.h" />
     <ClInclude Include="NPC.h" />
