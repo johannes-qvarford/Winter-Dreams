@@ -32,6 +32,16 @@ void OccludedEntity::drawSelf(){
 	auto renTex = WindowManager::get().getWindow();
 	auto states = *WindowManager::get().getStates();
 
+<<<<<<< HEAD
+=======
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
+		mTargetAlpha = 1;
+	}
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
+		mTargetAlpha = 0.5;
+	}
+
+>>>>>>> LoadingVideoState
 	static float xoffset = 0;
 	static float yoffset = 0;
 
@@ -51,6 +61,26 @@ void OccludedEntity::drawSelf(){
 	//std::cout << xoffset << " "  << yoffset << std::endl; 
 
 //	std::cout << ol << std::endl;
+<<<<<<< HEAD
+=======
+	if (mTargetAlpha < mAlpha) { mAlpha-=0.02f; } 
+	if (mTargetAlpha > mAlpha) { mAlpha+=0.02f; }
+	mShader->setParameter("alpha",mAlpha);
+//	mShader->setParameter("alpha",mAlpha / 100.f);
+	sf::Sprite spr = mAnimation.getCurrentSprite();
+
+#ifdef NEVER
+	sf::Vertex vertices[] =
+	{
+		sf::Vertex(sf::Vector2f(mHitBox.left, mHitBox.top), sf::Color::Green, sf::Vector2f( 0,  0)),
+		sf::Vertex(sf::Vector2f(mHitBox.left, mHitBox.top + mHitBox.height), sf::Color::Green, sf::Vector2f( 0, 10)),
+		sf::Vertex(sf::Vector2f(mHitBox.left + mHitBox.width, mHitBox.top + mHitBox.height), sf::Color::Green, sf::Vector2f(10, 10)),
+		sf::Vertex(sf::Vector2f(mHitBox.left + mHitBox.width, mHitBox.top), sf::Color::Green, sf::Vector2f(10,  0)),
+	};
+
+	auto& window = *WindowManager::get().getWindow();
+//	auto& states = *WindowManager::get().getStates();
+>>>>>>> LoadingVideoState
 
 	if (getEnabled()){
 		if (mCurrentAlpha < mEnabledAlpha){

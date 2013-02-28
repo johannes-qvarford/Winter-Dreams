@@ -56,6 +56,10 @@ protected:
 	////////////////////////////////////////////////////////////
 	void reqestVideoEnd();
 
+	std::shared_ptr<sftheora::Video> mVideo;	//The states video
+	sf::Time mVidLenght;	//Keeps track of the video's lenght
+	sf::Clock mRunTime;		//Kepes track of how long time the video's been running	
+	sf::Clock mDeltaTime;	//Used to calculate how many frames the video should advance
 private:
 	////////////////////////////////////////////////////////////
 	// /Each subclass of video state may define their own 
@@ -65,12 +69,13 @@ private:
 	////////////////////////////////////////////////////////////
 	virtual void onVideoEnd();
 
-	std::shared_ptr<sftheora::Video> mVideo;	//The states video
 	bool mRequestPerformed;	//True if a VideoEnd request has been performed
 
-	sf::Time mVidLenght;	//Keeps track of the video's lenght
-	sf::Clock mRunTime;		//Kepes track of how long time the video's been running	
-	sf::Clock mDeltaTime;	//Used to calculate how many frames the video should advance
+
+///////////////// No copies ///////////////////////////////////
+/**/VideoState(const VideoState& v);			// No copies //
+/**/VideoState& operator=(const VideoState& v);	// No copies //
+///////////////// No copies ///////////////////////////////////
 };
 
 #endif

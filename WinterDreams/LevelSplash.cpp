@@ -22,11 +22,11 @@ LevelSplash::LevelSplash(const std::string& splashFileName, const int lifeTime, 
 	mAlpha( 1.f ),
 	mFadeOutTime( fadeoutTime ),
 	mFadeOutTimeCurrent( 0 ),
+	mFirstUpdate( true ),
 	mLevelSplashTexture( ResourceManager::get().getTexture( FS_DIR_BACKGROUNDS + "LevelSplash/" + splashFileName ) ),
 	mLevelSplash( *mLevelSplashTexture ),
 	mBlendShader( ResourceManager::get().getShader( FS_DIR_SHADERS + "Blend.frag" ) )
 {
-	InputManager::get().lockInput();
 }
 
 LevelSplash::~LevelSplash()
@@ -34,6 +34,11 @@ LevelSplash::~LevelSplash()
 
 
 void LevelSplash::update(SubLevel* subLevel_p) {
+	if( mFirstUpdate == true ){
+		InputManager::get().lockInput();
+		mFirstUpdate = false;
+	}
+
 	auto& win = *WindowManager::get().getRenderWindow();
 
 	auto pos = sf::Vector2f( 0,0 );
@@ -46,12 +51,12 @@ void LevelSplash::update(SubLevel* subLevel_p) {
 		--mLifeTime;
 	}
 	else if( mFadeOutTimeCurrent < mFadeOutTime){
+		InputManager::get().unlockInput();
 		++mFadeOutTimeCurrent;
 		mAlpha = 1.f - static_cast<float>(mFadeOutTimeCurrent) / static_cast<float>(mFadeOutTime);
 	}
 	else {
 		setAlive( false );
-		InputManager::get().unlockInput();
 	}
 }
 

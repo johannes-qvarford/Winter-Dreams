@@ -49,6 +49,8 @@ private:
 
 	unsigned int				 mFadeOutTime;
 	unsigned int				 mFadeOutTimeCurrent;
+
+	bool						 mFirstUpdate;
 };
 
 #endif

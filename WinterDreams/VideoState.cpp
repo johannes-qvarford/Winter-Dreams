@@ -22,6 +22,7 @@ VideoState::VideoState(const std::string& videoFileName) :
 		//Save the videos lenght
 	auto lenght = mVideo->getDuration();
 	mVidLenght += lenght;
+
 }
 
 VideoState::~VideoState() {}
@@ -35,7 +36,7 @@ void VideoState::update() {
 //////////////////////////////////////////////
 	mVideo->update( mDeltaTime.restart() );
 
-	if( mRunTime.getElapsedTime() + sf::seconds(2) > mVidLenght || InputManager::get().isStartDown() )
+	if( mVideo->isDone() || InputManager::get().isStartDown() )
 		reqestVideoEnd();
 }
 
@@ -45,27 +46,26 @@ void VideoState::render() {
 }
 
 void VideoState::onUnfreeze() {
+	mDeltaTime.restart();
 	mRunTime.restart();
 }
 //////////////////////////////   PROTECTED  ////////////////////////////////////////////////
 
 void VideoState::reqestVideoEnd() {
-	if(!mRequestPerformed)
+	if(!mRequestPerformed){
+		mRequestPerformed = true;
 		onVideoEnd();
+	}
 }
 
 //////////////////////////////   PRIVATE  //////////////////////////////////////////////////
 
 void VideoState::onVideoEnd() {
-	if( mRequestPerformed )
-		return;
 
 	auto& sm = StateManager::get();
 	sm.freezeState();
 	sm.popState();
 	sm.pushState( MenuState::makeMainMenuState() );
 	sm.unfreezeState();
-
-	mRequestPerformed = true;
 }
 
