@@ -18,7 +18,7 @@ public:
 	// /The FloatRect's left will represent the Crystal's X.
 	// /The FloatRect's width and height sets bounds for it's hitbox
 	//////////////////////////////////////////////////////
-	Crystal(const sf::FloatRect& position, bool startEnabled = true, int imgVersion = 1);
+	Crystal(const sf::FloatRect& position, bool startEnabled = true);
 	//////////////////////////////////////////////////////
 	// /No dynamicly allocated member variables
 	//////////////////////////////////////////////////////
