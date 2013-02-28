@@ -20,7 +20,7 @@ public:
 	// /If the targetPortal is left blank, the portal will only function as an
 	// /exit portal.
 	////////////////////////////////////////////////////////////////////////////
-	LevelPortal(sf::FloatRect position, SubLevel* level, const std::string& targetLevel, const std::string& targetPortal = "", bool startEnabled = true, bool enabledOnce = false);
+	LevelPortal(sf::FloatRect position, SubLevel* level, const std::string& targetLevel, const std::string& targetPortal, bool startEnabled, bool enabledOnce, sf::Vector2i direction);
 	
 	//////////////////////////////////////////////////////////////
 	// /A level portal does call delete on it's LevelState-pointer
@@ -34,8 +34,13 @@ public:
 
 	void drawSelf();
 
+	void update(SubLevel* subLevel_p);
+
 private:
-	LevelState* mLevel;
+	bool mIsWaiting;
+	sf::Vector2i mDirection;
+	int mWaitingFrames;
+	SubLevel* mSubLevel_p;
 	std::string mTargetLevel;
 	std::string mTargetPortal;
 

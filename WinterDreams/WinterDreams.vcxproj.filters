@@ -199,6 +199,9 @@
     <ClCompile Include="LoadingFunction.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="SubLevelFade.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameToScreen.h">
@@ -376,6 +379,9 @@
       <Filter>Includes</Filter>
     </ClInclude>
     <ClInclude Include="ListFrame.h" />
+    <ClInclude Include="SubLevelFade.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">

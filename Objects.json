@@ -187,7 +187,7 @@
 		"player": {
 			"invulnerabilityframes": 40,
 			"blinkframedistance": 8,
-			"walkspeed": 2.0,
+			"walkspeed": 20.0,
 			"lightsize": {
 				"1": "0.12",
 				"2": "0.16",
