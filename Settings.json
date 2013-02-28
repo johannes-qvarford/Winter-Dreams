@@ -32,6 +32,7 @@
 			}
 		},
 		"mainmenu" : {
+			"bgmmusic": "menu_theme.wav",
 			"frame": {
 				"filename":"frame.png",
 				"xoffset":0.0425,

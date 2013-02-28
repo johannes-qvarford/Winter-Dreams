@@ -54,12 +54,14 @@ private:
 	// /requestVideoEnd().
 	////////////////////////////////////////////////////////////
 	void onVideoEnd();
+	
+	sf::Mutex mRunMutex;			//A mutex for avoiding that different threads access the mRunning bool 
+	sf::Mutex mResoruceMutex;		//A mutex for avoiding destruction of the thread while it loads data
+	bool mRunning;					//Keeps track of whether the loading thread is finished or not	
+	bool mDone;						//Has already queued actions for StateManager, is waiting to be destroyed.
 
 	LoadingSpecs* mLoadingSpecs_p;	//A pointer to a controll-class responsible for the thread loading the level
 	sf::Thread mThread;				//The thread that loads the level
-	sf::Mutex mMutex;				//A mutex for avoiding that different threads access the mRunning bool 
-	bool mRunning;					//Keeps track of whether the loading thread is finished or not	
-	bool mDone;						//Has already queued actions for StateManager, is waiting to be destroyed.
 
 	std::shared_ptr<sf::Texture>	mIsLoadingIconTexture;
 	std::shared_ptr<sf::Texture>	mDoneLoadingIconTexture;
