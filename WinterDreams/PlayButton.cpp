@@ -45,9 +45,9 @@ void PlayButton::activate() {
 		auto loadingState_p = new LoadingVideoState(first_level_name);
 		auto& stateMgr = StateManager::get();
 
-		stateMgr.freezeState(0);
+		stateMgr.freezeState(100);
 		stateMgr.popState();
 		stateMgr.pushState(loadingState_p);
-		stateMgr.unfreezeState(0);
+		stateMgr.unfreezeState(100);
 	}
 }

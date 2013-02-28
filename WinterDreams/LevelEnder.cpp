@@ -4,11 +4,16 @@
 #include "LevelState.h"
 #include "PropertyManager.h"
 #include "StateManager.h"
+#include "InputManager.h"
 
 LevelEnder::LevelEnder( bool startsEnabled, const sf::FloatRect& hitBox, bool once):
 	CollisionZone(startsEnabled, hitBox, once),
 	mSubLevel_p(nullptr)
 {
+}
+
+LevelEnder::~LevelEnder() {
+	InputManager::get().unlockInput();
 }
 
 void LevelEnder::update(SubLevel* subLevel_p) {
@@ -30,6 +35,7 @@ void LevelEnder::onCollision(PhysicalEntity* physical_p, const sf::FloatRect& in
 		auto lvs_p = new LoadingVideoState(nextLevelName);
 
 		auto& sm = StateManager::get();
+		InputManager::get().lockInput();
 		sm.freezeState(200);
 		sm.popState();
 		sm.pushState(lvs_p);

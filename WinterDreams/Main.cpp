@@ -26,7 +26,7 @@ int main()
 		else if(level_or_menu == "menu") {
 			auto videoState_p = new VideoState("loading_ogg_test.ogg");
 			StateManager::get().pushState(videoState_p);
-			StateManager::get().unfreezeState(0);
+			StateManager::get().unfreezeState(100);
 		}
 		else {
 			assert(0);

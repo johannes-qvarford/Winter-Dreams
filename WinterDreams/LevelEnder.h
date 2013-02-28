@@ -12,6 +12,8 @@ public:
 
 	LevelEnder(bool startsEnabled, const sf::FloatRect& hitBox, bool once);
 
+	~LevelEnder();
+
 	void update(SubLevel* subLevel_p);
 
 	void onCollision(PhysicalEntity* physical_p, const sf::Rect<float>& intersection);
