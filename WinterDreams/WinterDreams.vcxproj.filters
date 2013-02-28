@@ -365,7 +365,7 @@
     </ClInclude>
     <ClInclude Include="ExitButton.h">
       <Filter>Includes\UI</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="VideoState.h">
       <Filter>Includes\State</Filter>
     </ClInclude>
@@ -375,6 +375,7 @@
     <ClInclude Include="LoadingFunction.h">
       <Filter>Includes</Filter>
     </ClInclude>
+    <ClInclude Include="ListFrame.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">

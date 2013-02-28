@@ -28,6 +28,7 @@
     <ClCompile Include="LightPoint.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Cursor.cpp" />
+    <ClCompile Include="LoadingFunction.cpp" />
     <ClCompile Include="LoadingState.cpp" />
     <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="LoadingVideoState.cpp" />
