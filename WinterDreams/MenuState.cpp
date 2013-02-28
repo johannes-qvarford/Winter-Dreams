@@ -40,6 +40,26 @@ private:
 	}
 };
 
+class IngameMenuStateSpecs {
+public:
+
+	static IngameMenuStateSpecs& get(){ static IngameMenuStateSpecs sInspecs; return sInspecs; }
+
+	std::string mFrameFilename;
+
+	float mFrameXOffset;
+
+	float mFrameYOffset;
+
+private:
+
+	IngameMenuStateSpecs() {
+		auto& igms = PropertyManager::get().getGeneralSettings().get_child("ui.ingamemenu");
+		mFrameFilename = igms.get<std::string>("frame.filename");
+		mFrameXOffset = igms.get<float>("frame.xoffset");
+		mFrameYOffset = igms.get<float>("frame.yoffset");
+	}
+};
 
 MenuState* MenuState::makeMainMenuState() {
 	auto& res = ResourceManager::get();
@@ -72,6 +92,40 @@ MenuState* MenuState::makeMainMenuState() {
 	state_p->addWidget(exit_sp);
 	state_p->addWidget(frame_sp);
 	state_p->addWidget(cursor_sp);
+	state_p->setBackground(bg_sp);
+
+	return state_p;
+}
+
+MenuState* MenuState::makeInGameManuState(sf::Texture background) {
+	auto& res = ResourceManager::get();
+	auto& specs = IngameMenuStateSpecs::get();
+
+	auto state_p = new MenuState();
+
+	auto widgets = std::std::vector<std::shared_ptr<Widget >> ();
+
+	//create buttons
+	auto resume_sp = std::make_shared<ResumeButton>();
+	auto settings_sp = std::make_shared<SettingsButton>();
+	auto mainmenu_sp = std::make_shared<MainMenuButton>();
+	auto frame_sp = std::make_shared<Button>(sf::Vector2f(specs.mFrameXOffset, specs.mFrameYOffset), specs.mFrameFilename);
+
+	widgets.push_back(resume_sp);
+	widgets.push_back(settings_sp);
+	widgets.push_back(mainmenu_sp);
+
+	//create a curson
+	auto cursor_sp = std::make_shared<Cursor>(widgets);
+
+	//add a background image
+	auto bg_sp = std::make_shared<sf::Texture>(background);
+
+	state_p->addWidget(resume_sp);
+	state_p->addWidget(settings_sp);
+	state_p->addWidget(mainmenu_sp);
+	state_p->addWidget(frame_sp);
+	state_p->addwidget(cursor_sp);
 	state_p->setBackground(bg_sp);
 
 	return state_p;

@@ -1,0 +1,24 @@
+#ifndef INCLUDED_MAINMENUBUTTON
+#define INCLUDED_MAINMENUBUTTON
+
+#include "Button.h"
+
+class MainMenuButton : public Button {
+public:
+	////////////////////////////////////////////////////////////
+	// /Create a main menu button.
+	////////////////////////////////////////////////////////////
+	MainMenuButton(const sf::Vector2f& initialPosition);
+
+	////////////////////////////////////////////////////////////
+	// /Does the following:
+	// /pop state, pop state, push main menu state
+	////////////////////////////////////////////////////////////
+	void activate();
+
+private:
+
+	bool mUpdated;
+};
+
+#endif
