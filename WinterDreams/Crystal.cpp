@@ -94,7 +94,7 @@ void Crystal::update(SubLevel* subLevel_p) {
 
 void Crystal::drawSelf() {
 	auto& windowManager = WindowManager::get();
-	auto& sprite = mCurrentAnimation->getCurrentSprite();
+	auto sprite = mCurrentAnimation->getCurrentSprite();
 
 	windowManager.getWindow()->draw( sprite, *windowManager.getStates() );
 }

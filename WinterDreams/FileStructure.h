@@ -12,5 +12,6 @@ extern const std::string FS_DIR_SHADERS;
 extern const std::string FS_DIR_LOADINGSCREEN;
 extern const std::string FS_DIR_UI;
 extern const std::string FS_DIR_FONTS;
+extern const std::string FS_DIR_VIDEO;
 
 #endif

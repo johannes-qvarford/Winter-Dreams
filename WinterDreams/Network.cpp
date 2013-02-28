@@ -1,6 +1,6 @@
 #include "Network.h"
 #include <string>
-#include <SFML\System\Time.hpp>
+#include <SFML/System/Time.hpp>
 #include <iostream>
 
 // GetResponse returns a Reponse class that contains a string of API fluff

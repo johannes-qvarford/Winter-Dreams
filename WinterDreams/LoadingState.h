@@ -4,10 +4,10 @@
 #include "State.h"
 
 #include <string>
-#include <SFML\System.hpp>
+#include <SFML/System.hpp>
 #include <boost/property_tree/ptree.hpp>
-#include <SFML\Graphics\Texture.hpp>
-#include <SFML\Graphics\Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 class SubLevel;
 class LevelState;
@@ -39,7 +39,7 @@ public:
 	// /Start loading the argument level. 
 	// /Will eventually display the loading screen aswell.
 	////////////////////////////////////////////////////////////
-	virtual void update();
+	void update();
 	////////////////////////////////////////////////////////////
 	// /Draws the loadingscreen
 	////////////////////////////////////////////////////////////

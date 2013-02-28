@@ -1,7 +1,7 @@
 #ifndef INCLUDED_DAMAGEHITBOX
 #define INCLUDED_DAMAGEHITBOX
 
-#include <SFML\Graphics\Rect.hpp>
+#include <SFML/Graphics/Rect.hpp>
 #include <memory>
 #include "GraphicalEntity.h"
 

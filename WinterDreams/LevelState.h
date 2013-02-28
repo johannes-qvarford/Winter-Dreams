@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <string>
+#include "SFML\Audio\Sound.hpp"
 
 #include "State.h"
 
@@ -10,6 +11,7 @@ class SubLevel;
 class Player;
 class Camera;
 class InventoryDisplay;
+
 
 ////////////////////////////////////////////////////////////
 // /LevelState controls a collection of sublevels.
@@ -84,11 +86,28 @@ public:
 	////////////////////////////////////////////////////////////
 	std::shared_ptr<InventoryDisplay> getInventoryDisplay();
 
+	enum SoundType{
+		SOUND,
+		NARRATOR,
+		MUSIC
+	};
+
+	void registerSound(std::shared_ptr<sf::Sound>, SoundType type);
+
+	void onFreeze();
+
+	void onUnfreeze();
+
+
 private:
 
 	typedef std::map<std::string, std::shared_ptr<SubLevel> > SubLevels;
 
 	SubLevels mSubLevels;
+
+	std::vector<std::shared_ptr<sf::Sound>> mRegSoundVecSound;
+
+	std::vector<std::shared_ptr<sf::Sound>> mRegSoundVecMusic;
 
 	SubLevels::iterator mCurrentSubLevel;
 

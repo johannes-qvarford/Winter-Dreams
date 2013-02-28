@@ -1,7 +1,7 @@
 #ifndef INCLUDED_ANIMATION
 #define INCLUDED_ANIMATION
 
-#include <SFML\Graphics\Sprite.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 #include "AnimationSpecs.h"
 #include <string>
 #include <memory>

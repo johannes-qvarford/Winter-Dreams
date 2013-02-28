@@ -2,7 +2,7 @@
 #include "SubLevel.h"
 #include "Crystal.h"
 #include "FileStructure.h"
-#include <SFML\Audio.hpp>
+#include <SFML/Audio.hpp>
 #include "PropertyManager.h"
 #include "GameToScreen.h"
 

@@ -4,8 +4,8 @@
 #include <deque>
 #include <string>
 #include <memory>
-#include <SFML\System\Vector2.hpp>
-#include <SFML\Graphics\Texture.hpp>
+#include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include "Particle.h"
 
 struct ParticleType{

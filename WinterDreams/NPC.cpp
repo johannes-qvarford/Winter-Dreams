@@ -109,7 +109,7 @@ void NPC::update(SubLevel* subLevel_p) {
 		
 		//get a vector to the point
 		auto posToPoint = (*mPath_p)[mNextPoint] - position;
-			
+
 		float distance;
 		{
 			auto x = posToPoint.x;
@@ -139,7 +139,7 @@ void NPC::update(SubLevel* subLevel_p) {
 }
 
 void NPC::drawSelf() {
-	auto& sprite = mCurrentAnimation_p->getCurrentSprite();
+	auto sprite = mCurrentAnimation_p->getCurrentSprite();
 	
 	//get screen position
 	auto position = GAME_TO_SCREEN * sf::Vector2f(mHitBox.left, mHitBox.top);

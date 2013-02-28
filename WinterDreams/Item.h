@@ -3,7 +3,7 @@
 
 #include "GraphicalEntity.h"
 #include "Animation.h"
-#include <SFML\Graphics\Rect.hpp>
+#include <SFML/Graphics/Rect.hpp>
 #include <string>
 
 class Item : public GraphicalEntity {

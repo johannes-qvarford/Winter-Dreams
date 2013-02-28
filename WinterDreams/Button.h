@@ -9,32 +9,17 @@
 #include <memory>
 
 ////////////////////////////////////////////////////////////
-// /A button is a graphical rectangle with text, 
-// /that will pop the current state when its activated.
+// /A button is a graphical rectangle.
 ////////////////////////////////////////////////////////////
 class Button : public Widget {
+
 public:
 
 	////////////////////////////////////////////////////////////
-	// /Create a button with a texture, at a certain position
-	// /with some text.
+	// /Create a button with a texture, at a certain position.
+	// /The filename, lacks the directory part.
 	////////////////////////////////////////////////////////////
-	Button(const sf::Vector2f& initialPosition, const std::string& text, const std::string& buttonFilename, const std::string& fontFilename, int characterSize);
-
-	////////////////////////////////////////////////////////////
-	// /Do something graphical, like displaying a pressed button.
-	////////////////////////////////////////////////////////////
-	void activate();
-
-	////////////////////////////////////////////////////////////
-	// /Do nothing.
-	////////////////////////////////////////////////////////////
-	void update(MenuState* state_p);
-
-	////////////////////////////////////////////////////////////
-	// /Change text color, (we might change to another texture in the future).
-	////////////////////////////////////////////////////////////
-	void onHover(bool doHover);
+	Button(const sf::Vector2f& initialPosition, const std::string& buttonFilename);
 
 	////////////////////////////////////////////////////////////
 	// /Get the bounds of the button.
@@ -42,12 +27,17 @@ public:
 	const sf::FloatRect& getBounds() const;
 
 	////////////////////////////////////////////////////////////
-	// /Get the bounds of the button.
+	// /Get the bounds of the button´.
 	////////////////////////////////////////////////////////////
-	sf::FloatRect* getBounds();
+	sf::FloatRect& getBounds();
 	
 	////////////////////////////////////////////////////////////
-	// /Draw a box with text in it.
+	// /Set the bounds of the widget.
+	////////////////////////////////////////////////////////////
+	virtual void setBounds(const sf::FloatRect& bounds);
+
+	////////////////////////////////////////////////////////////
+	// /Draw a texture.
 	////////////////////////////////////////////////////////////
 	void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates()) const;
 
@@ -56,10 +46,6 @@ protected:
 	std::shared_ptr<sf::Texture> mTexture_sp;
 	
 	sf::FloatRect mBounds;
-
-	sf::Text mText;
-
-	std::shared_ptr<sf::Font> mFont_sp;
 };
 
 #endif

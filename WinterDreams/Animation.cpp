@@ -1,6 +1,6 @@
 #include "Animation.h"
 #include "ResourceManager.h"
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include "FileStructure.h"
 
 ////////////////////////////////////////////////////////////

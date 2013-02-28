@@ -1,13 +1,13 @@
 #ifndef INCLUDED_NETWORK
 #define INCLUDED_NETWORK
 
-#include <SFML\Graphics\Texture.hpp>
-#include <SFML\Network\Http.hpp>
-#include <SFML\Network\TcpSocket.hpp>
-#include <SFML\Network\IpAddress.hpp>
-#include <SFML\Network\Packet.hpp>
-#include <SFML\System\Vector2.hpp>
-#include <SFML\System\Vector3.hpp>
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Network/Http.hpp>
+#include <SFML/Network/TcpSocket.hpp>
+#include <SFML/Network/IpAddress.hpp>
+#include <SFML/Network/Packet.hpp>
+#include <SFML/System/Vector2.hpp>
+#include <SFML/System/Vector3.hpp>
 
 struct PacketContents{
 	int player;				//The uKontroll player identifier

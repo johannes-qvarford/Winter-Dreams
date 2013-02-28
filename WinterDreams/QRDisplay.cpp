@@ -8,15 +8,15 @@
 #include "StateManager.h"
 #include "InputManager.h"
 #include "Network.h"
-#include <SFML\Graphics.hpp>
-#include <SFML\Network.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/Network.hpp>
 
 static const char * const BOX_FILENAME = "placeholder_box.png"; 
 static const char * const FONT_FILENAME = "arial.ttf";
 static const char * const TEXT_STRING = "uKontroll";
 
 QRDisplay::QRDisplay(const sf::Vector2f& initialPosition):
-	Button(initialPosition, TEXT_STRING, FS_DIR_UI + BOX_FILENAME, FS_DIR_FONTS + FONT_FILENAME, 20),
+	Button(initialPosition, FS_DIR_UI + BOX_FILENAME),
 	mUpdated(false)
 {
 
@@ -39,9 +39,10 @@ void QRDisplay::activate() {
 }
 
 void QRDisplay::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-	auto sprite = sf::Sprite(*mTexture_sp);
-	sprite.setPosition(mBounds.left, mBounds.top);
-	target.draw(sprite, states);
-	target.draw(mText);
-	target.draw( mQrSprite );	
+	Button::draw(target, states);
+	//auto sprite = sf::Sprite(*mTexture_sp);
+	//sprite.setPosition(mBounds.left, mBounds.top);
+	//target.draw(sprite, states);
+	//target.draw(mText);
+	//target.draw( mQrSprite );	
 }

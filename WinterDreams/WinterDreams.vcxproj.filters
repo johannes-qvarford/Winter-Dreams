@@ -166,9 +166,6 @@
     <ClCompile Include="MenuState.cpp">
       <Filter>Sources\State</Filter>
     </ClCompile>
-    <ClCompile Include="ListFrame.cpp">
-      <Filter>Sources\UI</Filter>
-    </ClCompile>
     <ClCompile Include="LevelSplash.cpp">
       <Filter>Sources\Entity</Filter>
     </ClCompile>
@@ -178,8 +175,29 @@
     <ClCompile Include="QRDisplay.cpp">
       <Filter>Sources\UI</Filter>
     </ClCompile>
-    <ClCompile Include="StartGameButton.cpp">
+    <ClCompile Include="PlayButton.cpp">
       <Filter>Sources\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsButton.cpp">
+      <Filter>Sources\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CreditsButton.cpp">
+      <Filter>Sources\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Cursor.cpp">
+      <Filter>Sources\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="ExitButton.cpp">
+      <Filter>Sources\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="VideoState.cpp">
+      <Filter>Sources\State</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingVideoState.cpp">
+      <Filter>Sources\State</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingFunction.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -324,12 +342,6 @@
     <ClInclude Include="Button.h">
       <Filter>Includes\UI</Filter>
     </ClInclude>
-    <ClInclude Include="ListFrame.h">
-      <Filter>Includes\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="StartGameButton.h">
-      <Filter>Includes\UI</Filter>
-    </ClInclude>
     <ClInclude Include="Network.h">
       <Filter>Includes</Filter>
     </ClInclude>
@@ -339,6 +351,31 @@
     <ClInclude Include="QRDisplay.h">
       <Filter>Includes\UI</Filter>
     </ClInclude>
+    <ClInclude Include="CreditsButton.h">
+      <Filter>Includes\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayButton.h">
+      <Filter>Includes\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsButton.h">
+      <Filter>Includes\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Cursor.h">
+      <Filter>Includes\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ExitButton.h">
+      <Filter>Includes\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoState.h">
+      <Filter>Includes\State</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingVideoState.h">
+      <Filter>Includes\State</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingFunction.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="ListFrame.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">

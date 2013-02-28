@@ -2,7 +2,7 @@
 #include "ResourceManager.h"
 #include "FileStructure.h"
 #include "StateManager.h"
-#include "LoadingState.h"
+#include "LoadingVideoState.h"
 #include "PropertyManager.h"
 #include "StateManager.h"
 #include "InputManager.h"
@@ -24,15 +24,15 @@ void StartGameButton::activate() {
 		mUpdated = true;
 		Button::activate();
 
-		auto& first_level_name = PropertyManager::get().getGeneralSettings().get<std::string>("first_level_name");
+		auto first_level_name = PropertyManager::get().getGeneralSettings().get<std::string>("first_level_name");
 
-		auto loadingState_p = new LoadingState(first_level_name);
+		auto loadingState_p = new LoadingVideoState(first_level_name, "loading_ogg_test.ogg");
 		auto& stateMgr = StateManager::get();
 
 		stateMgr.freezeState();
 		stateMgr.popState();
 		stateMgr.pushState(loadingState_p);
-		stateMgr.unfreezeState();
+		stateMgr.unfreezeState(120);
 
 		onHover(false);
 	}

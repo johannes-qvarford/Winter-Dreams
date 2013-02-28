@@ -12,10 +12,21 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	auto& properties = pt.get_child("properties");
 	auto startdisabled = properties.get<bool>("startdisabled", false);
 
-	auto& spriteName = properties.get<std::string>("sprite");
+	auto spriteName = properties.get<std::string>("sprite");
 	auto layer = properties.get<int>("layer");
-	float occludisionlevel = properties.get<float>("occlusionlevel");
-	auto& name = pt.get<std::string>("name","");
+	
+	//enabled/disabledopatiy is not supported yet.
+	auto enabledopacity = properties.get<float>("enabledopacity",-1);
+	auto disabledopacity = properties.get<float>("disabledopacity",-1);
+	
+	if(enabledopacity < 0)
+		disabledopacity = 100;
+	if(disabledopacity < 0)
+		disabledopacity = properties.get<float>("occlusionlevel");
+	
+	
+	auto fadetime = properties.get<int>("fadetime");
+	auto name = pt.get<std::string>("name","");
 
 	auto width = pt.get<int>("width") / 32.f * X_STEP;
 	auto height = -pt.get<int>("height") / 32.f * Y_STEP;//need to negate height.
@@ -28,7 +39,7 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	auto& animations = PropertyManager::get().getObjectSettings().get_child("occluder.animations");
 
 	auto& spriteTree = animations.get_child(spriteName);
-	std::string& filename = spriteTree.get<std::string>("filename");
+	std::string filename = spriteTree.get<std::string>("filename");
 	int xorigin = spriteTree.get<int>("xorigin");
 	int yorigin = spriteTree.get<int>("yorigin");
 	
@@ -40,9 +51,10 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	Animation anim(FS_DIR_OBJECTANIMATIONS + "occluder/" + filename, temp_sp->getSize().x, temp_sp->getSize().y, 1, 100, xorigin, yorigin); 
 
 	auto occluded_sp = std::shared_ptr<OccludedEntity>(new OccludedEntity(
-		sf::FloatRect(correctedPosition, sf::Vector2f(X_STEP, -Y_STEP)), anim, sf::Vector2f(xorigin, yorigin), occludisionlevel, layer, !startdisabled));
+
+		sf::FloatRect(correctedPosition, sf::Vector2f(X_STEP, -Y_STEP)), anim, enabledopacity / 100, disabledopacity / 100, fadetime, layer, !startdisabled));
 	
-	//does it have a name?
+	//does it have a name? What's it called? Oh, %n? That's cute.
 	if(name != "")
 		subLevel_p->mapEntityToName( name , occluded_sp);
 

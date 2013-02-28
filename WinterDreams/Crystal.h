@@ -4,7 +4,7 @@
 #include "GraphicalEntity.h"
 #include "SolidZone.h"
 #include "Animation.h"
-#include <SFML\Graphics\Rect.hpp>
+#include <SFML/Graphics/Rect.hpp>
 
 class SolidZone;
 //////////////////////////////////////////////////////
