@@ -30,10 +30,10 @@ void LevelEnder::onCollision(PhysicalEntity* physical_p, const sf::FloatRect& in
 		auto lvs_p = new LoadingVideoState(nextLevelName);
 
 		auto& sm = StateManager::get();
-		sm.unfreezeState(200);
+		sm.freezeState(200);
 		sm.popState();
 		sm.pushState(lvs_p);
-		sm.unfreezeState(10);
+		sm.unfreezeState(100);
 	}
 }
 
