@@ -38,10 +38,10 @@ CrystalSpecs& CrystalSpecs::get() {
 }
 ////////////////////////////////////////////////////////////////////////////////
 
-Crystal::Crystal( const sf::FloatRect& position, bool startEnabled, int imgVersion) : 
+Crystal::Crystal( const sf::FloatRect& position, bool startEnabled) : 
 	GraphicalEntity( startEnabled ),
 	mSolidZone( new SolidZone( position, startEnabled ) ),
-	mVersion ( imgVersion ),
+	mVersion ( rand()%3+1 ),
 	mHP		( CrystalSpecs::get().mHealth ),
 	mSoundBuffer( ResourceManager::get().getSoundBuffer( FS_DIR_SOUNDS + "pickaxe_ice.wav" ) )
 {	
@@ -65,7 +65,7 @@ Crystal::Crystal( const sf::FloatRect& position, bool startEnabled, int imgVersi
 	}
 	char VERSION[] = "solid0";
 
-	VERSION[5] += rand()%3 + 1;
+	VERSION[5] += mVersion;
 
 	mCurrentAnimation = &mAnimationMap.find( std::string(VERSION) )->second; //INSERT INITIAL CRYSTAL IMG HERE
 		//Get a reference to the crystal's solidzone's hitbox
@@ -136,8 +136,13 @@ void Crystal::updateAnimation(){
 
 	if( mHP >= 3)
 	{}
-	else if (mHP == 2)
-		mCurrentAnimation = &mAnimationMap.find( "broken" )->second;
-	else
-		mCurrentAnimation = &mAnimationMap.find( "destroyed" )->second;
+	else if (mHP == 2){		
+	char VERSION[] = "broken0";
+	VERSION[6] += mVersion;
+		mCurrentAnimation = &mAnimationMap.find( std::string(VERSION) )->second;
+	} else {
+		char VERSION[] = "destroyed0";
+		VERSION[9] += mVersion;
+		mCurrentAnimation = &mAnimationMap.find( std::string(VERSION) )->second;
+	}
 }
