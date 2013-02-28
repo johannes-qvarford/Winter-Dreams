@@ -24,7 +24,8 @@ mEnabledLastFrame(startsEnabled),
 mInitMusic(false),
 mTotalVolume(0),
 mClock(),
-mThreeD(threeD)
+mThreeD(threeD),
+mSound(new sf::Sound())
 {
 ////////////////////////////////////////////////////////////////////////
 // /FS_DIR_SOUNDS betyder: vart ligger filen, mSoundName betyder: vad heter filen
