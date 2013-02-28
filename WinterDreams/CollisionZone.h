@@ -4,6 +4,10 @@
 #include "PhysicalEntity.h"
 #include "SFML/Graphics/Rect.hpp"
 
+////////////////////////////////////////////////////////////
+// /A collision zone is a physical entity that can be activated
+// /once or not.
+////////////////////////////////////////////////////////////
 class CollisionZone : public PhysicalEntity {
 public: 
 

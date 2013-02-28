@@ -22,14 +22,11 @@ int main()
 		//add LoadingState to the top of the stack.
 
 		if(level_or_menu == "level") {
-			auto firstLevelname = PropertyManager::get().getGeneralSettings().get<std::string>("first_level_name");
-			auto loadState_p = new LoadingState(firstLevelname);
-			StateManager::get().pushState(loadState_p);
 		}
 		else if(level_or_menu == "menu") {
 			auto videoState_p = new VideoState("loading_ogg_test.ogg");
 			StateManager::get().pushState(videoState_p);
-			StateManager::get().unfreezeState();
+			StateManager::get().unfreezeState(100);
 		}
 		else {
 			assert(0);

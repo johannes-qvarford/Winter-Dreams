@@ -136,7 +136,7 @@ float SoundScape::getVolume(SubLevel* subLevel_p){
 
 		mSound->setPosition(soundScapeHitBox_r.left, soundScapeHitBox_r.top, -5);
 		mSound->setMinDistance(mInnerRadius);
-		mSound->setAttenuation(mRangeDecay);
+		mSound->setAttenuation(static_cast<float>(mRangeDecay) );
 		mInitMusic = true;
 	}
 

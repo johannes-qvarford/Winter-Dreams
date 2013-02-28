@@ -61,9 +61,6 @@
     <ClCompile Include="ParticleSystem.cpp">
       <Filter>Sources\Particle</Filter>
     </ClCompile>
-    <ClCompile Include="LoadingState.cpp">
-      <Filter>Sources\State</Filter>
-    </ClCompile>
     <ClCompile Include="Registration_crystal.cpp">
       <Filter>Sources\Registration</Filter>
     </ClCompile>
@@ -201,6 +198,12 @@
     </ClCompile>
     <ClCompile Include="SubLevelFade.cpp">
       <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelEnder.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_levelend.cpp">
+      <Filter>Sources\Registration</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -378,8 +381,13 @@
     <ClInclude Include="LoadingFunction.h">
       <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="ListFrame.h" />
     <ClInclude Include="SubLevelFade.h">
+	  <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelEnder.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
       <Filter>Includes\Entity</Filter>
     </ClInclude>
   </ItemGroup>

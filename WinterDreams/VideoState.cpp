@@ -63,9 +63,9 @@ void VideoState::reqestVideoEnd() {
 void VideoState::onVideoEnd() {
 
 	auto& sm = StateManager::get();
-	sm.freezeState();
+	sm.freezeState(0);
 	sm.popState();
 	sm.pushState( MenuState::makeMainMenuState() );
-	sm.unfreezeState();
+	sm.unfreezeState(0);
 }
 

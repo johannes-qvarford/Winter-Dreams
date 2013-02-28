@@ -231,13 +231,13 @@ void StateManager::updateNormal() {
 			break;
 		case Action::FREEZE:
 			mStateOfManager = FADING_OUT;
-			mFramesToFade = action.mFadeFrames;
+			mFramesToFade = std::max(1, action.mFadeFrames);
 			mCurrentFadeFrame = 0;
 			mStates.top()->onFreeze();
 			break;
 		case Action::UNFREEZE:
 			mStateOfManager = FADING_IN;
-			mFramesToFade = action.mFadeFrames;
+			mFramesToFade =  std::max(1, action.mFadeFrames);
 			mCurrentFadeFrame = action.mFadeFrames;
 			mStates.top()->onUnfreeze();
 			break;

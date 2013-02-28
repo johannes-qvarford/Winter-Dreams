@@ -3,12 +3,13 @@
 
 #include <cassert>
 
-LevelState::LevelState():
+LevelState::LevelState(const std::string& levelName):
 	mSubLevels(),
 	mCurrentSubLevel(),
 	mPlayer_sp(),
 	mCamera_sp(),
-	mInventoryDisplay_sp()
+	mInventoryDisplay_sp(),
+	mLevelName(levelName)
 {
 
 }
@@ -70,6 +71,10 @@ std::shared_ptr<InventoryDisplay> LevelState::getInventoryDisplay() {
 	return mInventoryDisplay_sp;
 }
 
+const std::string& LevelState::getLevelName() const {
+	return mLevelName;
+}
+
 void LevelState::registerSound(std::shared_ptr<sf::Sound> sound, SoundType type){
 
 	switch (type){
@@ -90,22 +95,22 @@ void LevelState::registerSound(std::shared_ptr<sf::Sound> sound, SoundType type)
 }
 
 void LevelState::onFreeze(){
-	for (int i = 0; i < mRegSoundVecSound.size(); i++){
+	for (unsigned int i = 0; i < mRegSoundVecSound.size(); i++){
 			mRegSoundVecSound[i]->pause();
 	}
-	for (int i = 0; i < mRegSoundVecMusic.size(); i++){
+	for (unsigned int i = 0; i < mRegSoundVecMusic.size(); i++){
 			auto sound_sp = mRegSoundVecMusic[i];
-			sound_sp->setVolume(sound_sp->getVolume() * 0.5);
+			sound_sp->setVolume(sound_sp->getVolume() * 0.5f);
 	}
 }
 
 void LevelState::onUnfreeze(){
 
-	for (int i = 0; i < mRegSoundVecSound.size(); i++){
+	for (unsigned int i = 0; i < mRegSoundVecSound.size(); i++){
 			mRegSoundVecSound[i]->play();
 	}
-	for (int i = 0; i < mRegSoundVecMusic.size(); i++){
+	for (unsigned int i = 0; i < mRegSoundVecMusic.size(); i++){
 			auto sound_sp = mRegSoundVecMusic[i];
-			sound_sp->setVolume(sound_sp->getVolume() * 2);
+			sound_sp->setVolume(sound_sp->getVolume() * 2.f);
 	}
 }

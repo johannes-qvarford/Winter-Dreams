@@ -172,6 +172,11 @@ private:
 	std::map<std::string, Animation> mAnimationMap;		//The avatar's animation map
 	sf::FloatRect					 mHitBox;			//The avatar's current hitbox
 	int								 mLightLevel;		//The avatar's current light
+	float							 mCurrentLightIntensity;
+	float							 mDeltaLightIntensity;
+	float							 mTargetLightIntensity;
+	float							 mTargetLightLastFrame;
+
 	MovementMode					 mMovementMode;		//The avatar's current movementMode
 	float							 mMoveSpeed;		//The avatar's movespeed
 	Inventory						 mInventory;		//The avatar's inventory
