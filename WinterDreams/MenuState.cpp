@@ -71,7 +71,7 @@ MenuState* MenuState::makeMainMenuState() {
 	auto bg_sp = res.getTexture(FS_DIR_UI + specs.mBgFilename);
 
 	//add some music
-	auto music_sp = ResourceManager::get().getSoundBuffer( FS_DIR_SOUNDS + "menu_theme.wav" );
+	auto music_sp = ResourceManager::get().getSoundBuffer( FS_DIR_MUSIC + "menu_theme.wav" );
 
 	state_p->addWidget(play_sp);
 	state_p->addWidget(settings_sp);
