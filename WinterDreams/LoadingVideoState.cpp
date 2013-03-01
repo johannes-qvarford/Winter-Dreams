@@ -1,6 +1,7 @@
 #include "LoadingVideoState.h"
 #include "LoadingFunction.h"
 #include "LevelState.h"
+#include "PropertyManager.h"
 #include "ResourceManager.h"
 #include "FileStructure.h"
 #include "InputManager.h"
@@ -9,19 +10,24 @@
 #include "MenuState.h"
 
 #include <sfTheora.h>
-#include <SFML\Graphics\Texture.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include <cassert>
 
-LoadingVideoState::LoadingVideoState(const std::string& levelName, const std::string& videoFileName ) :
-	VideoState( videoFileName ),
-	mLoadingSpecs_p(new LoadingSpecs(levelName, new LevelState(), &mMutex, &mRunning)),
-	mThread( loadingFunc::loadLevel, *mLoadingSpecs_p),
+LoadingVideoState::LoadingVideoState(const std::string& levelName) :
+VideoState(PropertyManager::get().getGeneralSettings().get<std::string>(
+		"levels." + levelName + ".intro_video")),
+	mRunMutex(),
+	mResoruceMutex(),
 	mRunning( true ),
-	mDone(false),
+	mDone(false),	
+
+	mLoadingSpecs_p ( new LoadingSpecs(levelName, new LevelState(levelName), &mRunMutex, &mResoruceMutex, &mRunning )), 
+	mThread ( loadingFunc::loadLevel, *mLoadingSpecs_p) ,
 
 	mIsLoadingIconTexture( ResourceManager::get().getTexture(FS_DIR_LOADINGSCREEN + "loadingicon.png") ),
 	mDoneLoadingIconTexture( ResourceManager::get().getTexture(FS_DIR_LOADINGSCREEN + "doneloadingicon.png") )
 	{
+
 		mIsLoadingIcon.setTexture( *mIsLoadingIconTexture );
 		mDoneLoadingIcon.setTexture( *mDoneLoadingIconTexture );
 
@@ -32,21 +38,21 @@ LoadingVideoState::LoadingVideoState(const std::string& levelName, const std::st
 	}
 
 LoadingVideoState::~LoadingVideoState() {
-	mMutex.lock();
+	mResoruceMutex.lock();
+	mRunMutex.lock();
 	mThread.terminate();	//Not a good solution but it works
-	mMutex.unlock();
-
-	delete mLoadingSpecs_p;
+	mRunMutex.unlock();
+	mResoruceMutex.unlock();
 }
 
 void LoadingVideoState::update() {
-	mMutex.lock();
+	mRunMutex.lock();
 	if( mRunning ){
-		mMutex.unlock();
+		mRunMutex.unlock();
 		mVideo->update( mDeltaTime.restart() );
 		mIsLoadingIcon.rotate(-5);
 	} else {
-		mMutex.unlock();
+		mRunMutex.unlock();
 		VideoState::update();
 	}
 
@@ -57,13 +63,13 @@ void LoadingVideoState::render() {
 
 	auto& renderWindow = *WindowManager::get().getRenderWindow();
 
-	mMutex.lock();
+	mRunMutex.lock();
 	if( mRunning ){
-		mMutex.unlock();
+		mRunMutex.unlock();
 		renderWindow.draw( mIsLoadingIcon );
 	}
 	else{
-		mMutex.unlock();
+		mRunMutex.unlock();
 		renderWindow.draw( mDoneLoadingIcon );
 	}	
 }

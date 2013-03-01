@@ -3,12 +3,13 @@
 
 #include <cassert>
 
-LevelState::LevelState():
+LevelState::LevelState(const std::string& levelName):
 	mSubLevels(),
 	mCurrentSubLevel(),
 	mPlayer_sp(),
 	mCamera_sp(),
-	mInventoryDisplay_sp()
+	mInventoryDisplay_sp(),
+	mLevelName(levelName)
 {
 
 }
@@ -31,9 +32,13 @@ void LevelState::addSubLevel(const std::string& name, std::shared_ptr<SubLevel> 
 }
 
 void LevelState::switchSubLevel(const std::string& name) {
+	//lås inputManager
+	//Kalla statemanagers updateFadingOut()
 	auto it = mSubLevels.find(name);
 	assert(it != mSubLevels.end());
 	mCurrentSubLevel = it;
+	//När mStateOfManager = NORMAL; sätt mDirection till down och kalla på updateFadingIn()
+	//låsupp inputmanager
 }
 
 std::shared_ptr<SubLevel> LevelState::getSubLevel(const std::string& name) {
@@ -66,6 +71,10 @@ std::shared_ptr<InventoryDisplay> LevelState::getInventoryDisplay() {
 	return mInventoryDisplay_sp;
 }
 
+const std::string& LevelState::getLevelName() const {
+	return mLevelName;
+}
+
 void LevelState::registerSound(std::shared_ptr<sf::Sound> sound, SoundType type){
 
 	switch (type){
@@ -86,22 +95,22 @@ void LevelState::registerSound(std::shared_ptr<sf::Sound> sound, SoundType type)
 }
 
 void LevelState::onFreeze(){
-	for (int i = 0; i < mRegSoundVecSound.size(); i++){
+	for (unsigned int i = 0; i < mRegSoundVecSound.size(); i++){
 			mRegSoundVecSound[i]->pause();
 	}
-	for (int i = 0; i < mRegSoundVecMusic.size(); i++){
+	for (unsigned int i = 0; i < mRegSoundVecMusic.size(); i++){
 			auto sound_sp = mRegSoundVecMusic[i];
-			sound_sp->setVolume(sound_sp->getVolume() * 0.5);
+			sound_sp->setVolume(sound_sp->getVolume() * 0.5f);
 	}
 }
 
 void LevelState::onUnfreeze(){
 
-	for (int i = 0; i < mRegSoundVecSound.size(); i++){
+	for (unsigned int i = 0; i < mRegSoundVecSound.size(); i++){
 			mRegSoundVecSound[i]->play();
 	}
-	for (int i = 0; i < mRegSoundVecMusic.size(); i++){
+	for (unsigned int i = 0; i < mRegSoundVecMusic.size(); i++){
 			auto sound_sp = mRegSoundVecMusic[i];
-			sound_sp->setVolume(sound_sp->getVolume() * 2);
+			sound_sp->setVolume(sound_sp->getVolume() * 2.f);
 	}
 }

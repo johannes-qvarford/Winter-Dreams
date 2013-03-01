@@ -24,12 +24,19 @@ mEnabledLastFrame(startsEnabled),
 mInitMusic(false),
 mTotalVolume(0),
 mClock(),
-mThreeD(threeD)
+mThreeD(threeD),
+mSound(new sf::Sound())
 {
 ////////////////////////////////////////////////////////////////////////
 // /FS_DIR_SOUNDS betyder: vart ligger filen, mSoundName betyder: vad heter filen
 ////////////////////////////////////////////////////////////////////////
-	mBuffer = ResourceManager::get().getSoundBuffer(FS_DIR_SOUNDS + mSoundName);
+	if (mSoundType == "sound")
+		mBuffer = ResourceManager::get().getSoundBuffer(FS_DIR_SOUNDS + mSoundName);
+	else if (mSoundType == "narrator")
+		mBuffer = ResourceManager::get().getSoundBuffer(FS_DIR_NARRATORS + mSoundName);
+	else
+		mBuffer = ResourceManager::get().getSoundBuffer(FS_DIR_MUSIC + mSoundName);
+	
 	mSound->setBuffer(*mBuffer);
 	mSound->setLoop(loop);
 	mSound->setVolume(mVolume);
@@ -135,7 +142,7 @@ float SoundScape::getVolume(SubLevel* subLevel_p){
 
 		mSound->setPosition(soundScapeHitBox_r.left, soundScapeHitBox_r.top, -5);
 		mSound->setMinDistance(mInnerRadius);
-		mSound->setAttenuation(mRangeDecay);
+		mSound->setAttenuation(static_cast<float>(mRangeDecay) );
 		mInitMusic = true;
 	}
 

@@ -51,7 +51,7 @@ static void loadSubLevel(const std::string& subLevelName, LevelState* levelState
 static void loadLevel(LoadingSpecs& specs);
 
 LoadingState::LoadingState(std::string levelName):
-	mLoadingSpecs_p(new LoadingSpecs(levelName, new LevelState(), &mMutex, &mRunning)),
+	mLoadingSpecs_p(new LoadingSpecs(levelName, new LevelState(levelName), &mMutex, &mRunning)),
 	mThread( loadLevel, *mLoadingSpecs_p),
 	mRunning( true ),
 	mDone(false),

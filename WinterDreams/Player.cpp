@@ -76,6 +76,10 @@ Player::Player(sf::FloatRect initialPosition, int lightLevel, bool startEnabled)
 	mHitBox( initialPosition.left, initialPosition.top, X_STEP , -Y_STEP ), //All hitbox heights are now inverted, ask Johannes.
 	mFramesSinceLastBlink(0),
 	mFramesSinceLastHit(1000),
+	mCurrentLightIntensity( PlayerSpecs::get().mLightToDistance.find( mLightLevel )->second ),
+	mTargetLightIntensity( mCurrentLightIntensity ),
+	mDeltaLightIntensity(0),
+	mTargetLightLastFrame( mTargetLightIntensity),
 	mIsInvisible(false)
 {
 	using namespace std;
@@ -308,12 +312,15 @@ void Player::updateCurrentAnimation() {
 }
 
 void Player::setFacingDirection(sf::Vector2i dir){
-	if( mDirection.x > 0 || mDirection.y > 0)
-		mFacingDir = dir;
+	//if( mDirection.x > 0 || mDirection.y > 0)
+		//mFacingDir = dir;
+	mDirection = dir;
+	assignMoveAnimations(nullptr);
 }
 
 sf::Vector2i Player::getFacingDirection() const {
-	return mFacingDir;
+//	return mFacingDir;
+	return mDirection;
 }
 
 void Player::addLightSource(SubLevel* subLevel_p){
@@ -323,10 +330,21 @@ void Player::addLightSource(SubLevel* subLevel_p){
 	pos.x += mHitBox.width/2.f;
 	pos.y += mHitBox.height/2.f;
 
+	mTargetLightIntensity = PlayerSpecs::get().mLightToDistance.find( mLightLevel )->second;
+
+	if(mTargetLightIntensity != mTargetLightLastFrame)
+		mDeltaLightIntensity = (mTargetLightIntensity - mTargetLightLastFrame) / 50;
+
+	//If current value is not close to the target value, increase current value by the delta value
+	if( abs(mTargetLightIntensity - mCurrentLightIntensity) > 0.01)
+		mCurrentLightIntensity += mDeltaLightIntensity;
+
 	auto& brightness = PlayerSpecs::get().mBrightness;
-	auto& distance = PlayerSpecs::get().mLightToDistance.find( mLightLevel )->second;
+	auto& distance = mCurrentLightIntensity;
 
 	subLevel_p->setLightPoint( ID, pos, brightness, distance );
+
+	mTargetLightLastFrame = mTargetLightIntensity;
 }
 
 bool Player::isVulnerable() const{

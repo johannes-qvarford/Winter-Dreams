@@ -7,7 +7,10 @@
 #include <SFML/Graphics/Texture.hpp>
 
 class Widget;
-
+namespace sf{
+	class Sound;
+	class SoundBuffer;
+};
 ////////////////////////////////////////////////////////////
 // /MenuState represents the a menu.
 // /MenuStates can only be created with its static member functions.
@@ -49,7 +52,10 @@ private:
 
 	std::list<std::shared_ptr<Widget> > mWidgets;
 
-	std::shared_ptr<sf::Texture> mBackground_sp;
+	std::shared_ptr<sf::Texture>	 mBackground_sp;
+
+	std::shared_ptr<sf::SoundBuffer>	mMusicBuffer;
+	std::shared_ptr<sf::Sound>			mMusic;
 
 	////////////////////////////////////////////////////////////
 	// /MenuStates constructor performs no actions
@@ -70,6 +76,11 @@ private:
 	// /Add a widget to the MenuState.
 	////////////////////////////////////////////////////////////
 	void addWidget(std::shared_ptr<Widget> widget_sp);
+
+	////////////////////////////////////////////////////////////
+	// /Add some music to the MenuState.
+	////////////////////////////////////////////////////////////
+	void addMusic(std::shared_ptr<sf::SoundBuffer> music_sp);
 
 	////////////////////////////////////////////////////////////
 	// /No copies

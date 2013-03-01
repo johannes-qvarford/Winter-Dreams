@@ -14,6 +14,7 @@
 VideoState::VideoState(const std::string& videoFileName) :
 	mRequestPerformed( false )
 {
+
 	auto& rm = ResourceManager::get();
 		//Get a shared_ptr to the video
 	mVideo = rm.getVideo( FS_DIR_VIDEO + videoFileName );
@@ -22,7 +23,6 @@ VideoState::VideoState(const std::string& videoFileName) :
 		//Save the videos lenght
 	auto lenght = mVideo->getDuration();
 	mVidLenght += lenght;
-
 }
 
 VideoState::~VideoState() {}
@@ -41,8 +41,8 @@ void VideoState::update() {
 }
 
 void VideoState::render() {
-	auto& rendTex = *WindowManager::get().getRenderWindow();
-	rendTex.draw( *mVideo );
+	auto& rendWin = *WindowManager::get().getRenderWindow();
+	rendWin.draw( *mVideo );
 }
 
 void VideoState::onUnfreeze() {
@@ -63,9 +63,9 @@ void VideoState::reqestVideoEnd() {
 void VideoState::onVideoEnd() {
 
 	auto& sm = StateManager::get();
-	sm.freezeState();
+	sm.freezeState(0);
 	sm.popState();
 	sm.pushState( MenuState::makeMainMenuState() );
-	sm.unfreezeState();
+	sm.unfreezeState(0);
 }
 

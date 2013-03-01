@@ -197,10 +197,10 @@ void StateManager::darkenWindow(float alpha) {
 		intAlpha = sf::Uint8(alpha * 255);
 
 	sf::Vertex vertices[] = {
-		sf::Vertex(sf::Vector2f(0, 0), sf::Color(1, 1, 1, intAlpha)),
-		sf::Vertex(sf::Vector2f(0, VIEW_HEIGHT), sf::Color(1, 1, 1, intAlpha)),
-		sf::Vertex(sf::Vector2f(VIEW_WIDTH, VIEW_HEIGHT), sf::Color(1, 1, 1, intAlpha)),
-		sf::Vertex(sf::Vector2f(VIEW_WIDTH, 0), sf::Color(1, 1, 1, intAlpha))
+		sf::Vertex(sf::Vector2f(0, 0), sf::Color(0, 0, 0, intAlpha)),
+		sf::Vertex(sf::Vector2f(0, VIEW_HEIGHT), sf::Color(0, 0, 0, intAlpha)),
+		sf::Vertex(sf::Vector2f(VIEW_WIDTH, VIEW_HEIGHT), sf::Color(0, 0, 0, intAlpha)),
+		sf::Vertex(sf::Vector2f(VIEW_WIDTH, 0), sf::Color(0, 0, 0, intAlpha))
 	};
 
 	auto newStates = states;
@@ -231,13 +231,13 @@ void StateManager::updateNormal() {
 			break;
 		case Action::FREEZE:
 			mStateOfManager = FADING_OUT;
-			mFramesToFade = action.mFadeFrames;
+			mFramesToFade = std::max(1, action.mFadeFrames);
 			mCurrentFadeFrame = 0;
 			mStates.top()->onFreeze();
 			break;
 		case Action::UNFREEZE:
 			mStateOfManager = FADING_IN;
-			mFramesToFade = action.mFadeFrames;
+			mFramesToFade =  std::max(1, action.mFadeFrames);
 			mCurrentFadeFrame = action.mFadeFrames;
 			mStates.top()->onUnfreeze();
 			break;

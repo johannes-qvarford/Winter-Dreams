@@ -7,9 +7,20 @@
 	{
 		"lvl_1":
 		{
+			"intro_video": "loading_ogg_test.ogg",
 			"first_sublevel_name" : "lvl_1_1v10.json",
-			"sublevels": ["lvl_1_1v10.json", "lvl_1_2v05.json"]
+			"sublevels": ["lvl_1_1v10.json", "lvl_1_2v05.json"],
+			"next_level": "lvl_2"
+		},
+		
+		"lvl_2": 
+		{
+			"intro_video": "loading_ogg_test.ogg",
+			"first_sublevel_name" : "lvl_1_1v10.json",
+			"sublevels": ["lvl_1_1v10.json", "lvl_1_2v05.json"],
+			"next_level": "lvl_2"
 		}
+		
 	},
 	
 	"ui": {
@@ -21,13 +32,14 @@
 			}
 		},
 		"mainmenu" : {
+			"bgmmusic": "menu_theme.wav",
 			"frame": {
 				"filename":"frame.png",
 				"xoffset":0.0425,
 				"yoffset":0.355
 			},
 		
-			"bgfilename": "mainmenu.png",
+			"bgfilename": "mainmenu2.png",
 			"play": {
 				"filename":"play.png",
 				"xoffset":0.154,

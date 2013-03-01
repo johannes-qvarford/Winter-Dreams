@@ -8,7 +8,7 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	auto fadeOutTime = properties.get<float>("fadeouttime") * 60;
 	auto imgName = properties.get<std::string>("splashimgfile");
 
-	auto splash = std::shared_ptr<LevelSplash>( new LevelSplash( imgName, lifeTime, fadeOutTime ) );
+	auto splash = std::shared_ptr<LevelSplash>( new LevelSplash( imgName, static_cast<int>(lifeTime), static_cast<int>(fadeOutTime) ) );
 
 	subLevel_p->addScript( splash );
 }

@@ -139,55 +139,92 @@
 			"animations" : {
 				"solid1": {
 					"spritewidth": "64",
-					"spriteheight": "95",
-					"yorigin": "79",
+					"spriteheight": "86",
+					"yorigin": "70",
 					"xorigin": "0",
 					"numberofsprites": "1",
 					"framespersprite": "100",
-					"filename": "crystalsolid2.png"
+					"filename": "Crystal_2.png"
 				},
 				"solid2": {
 					"spritewidth": "64",
-					"spriteheight": "76",
-					"yorigin": "60",
+					"spriteheight": "82",
+					"yorigin": "66",
 					"xorigin": "0",
 					"numberofsprites": "1",
 					"framespersprite": "100",
-					"filename": "crystalsolid3.png"
+					"filename": "Crystal_3.png"
 				},
 				"solid3": {
 					"spritewidth": "64",
-					"spriteheight": "95",
-					"yorigin": "79",
+					"spriteheight": "97",
+					"yorigin": "81",
 					"xorigin": "0",
 					"numberofsprites": "1",
 					"framespersprite": "100",
-					"filename": "crystalsolid4.png"
+					"filename": "Crystal_4.png"
 				},
-				"broken": {
+				"broken1": {
 					"spritewidth": "64",
-					"spriteheight": "69",
-					"yorigin": "53",
+					"spriteheight": "61",
+					"yorigin": "45",
 					"xorigin": "0",
 					"numberofsprites": "1",
 					"framespersprite": "100",
-					"filename": "crystalbroken2.png"
+					"filename": "Crystal_2_Broken.png"
 				},
-				"destroyed": {
+				"broken2": {
 					"spritewidth": "64",
-					"spriteheight": "48",
-					"yorigin": "32",
+					"spriteheight": "64",
+					"yorigin": "48",
 					"xorigin": "0",
 					"numberofsprites": "1",
 					"framespersprite": "100",
-					"filename": "crystaldestroyed2.png"
+					"filename": "Crystal_3_Broken.png"
+				},
+				"broken3": {
+					"spritewidth": "64",
+					"spriteheight": "70",
+					"yorigin": "54",
+					"xorigin": "0",
+					"numberofsprites": "1",
+					"framespersprite": "100",
+					"filename": "Crystal_4_Broken.png"
+				},
+				"destroyed1": {
+					"spritewidth": "64",
+					"spriteheight": "49",
+					"yorigin": "33",
+					"xorigin": "0",
+					"numberofsprites": "1",
+					"framespersprite": "100",
+					"filename": "Crystal_2_Destroyed.png"
+				},
+				"destroyed2": {
+					"spritewidth": "64",
+					"spriteheight": "49",
+					"yorigin": "33",
+					"xorigin": "0",
+					"numberofsprites": "1",
+					"framespersprite": "100",
+					"filename": "Crystal_3_Destroyed.png"
+				},
+				"destroyed3": {
+					"spritewidth": "64",
+					"spriteheight": "40",
+					"yorigin": "24",
+					"xorigin": "0",
+					"numberofsprites": "1",
+					"framespersprite": "100",
+					"filename": "Crystal_4_Destroyed.png"
 				}				
 			}
 		},
 		"player": {
 			"invulnerabilityframes": 40,
 			"blinkframedistance": 8,
-			"walkspeed": 2.0,
+			"walkspeed": 20.0,
+
 			"lightsize": {
 				"1": "0.12",
 				"2": "0.16",
