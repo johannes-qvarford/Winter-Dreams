@@ -196,6 +196,9 @@
     <ClCompile Include="LoadingFunction.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="SubLevelFade.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
     <ClCompile Include="LevelEnder.cpp">
       <Filter>Sources\Entity</Filter>
     </ClCompile>
@@ -216,6 +219,12 @@
     </ClCompile>
     <ClCompile Include="Registration_counter.cpp">
       <Filter>Sources\Entity</Filter>
+	</ClCompile>
+    <ClCompile Include="ResumeButton.cpp">
+      <Filter>Sources\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenuButton.cpp">
+      <Filter>Sources\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -393,6 +402,9 @@
     <ClInclude Include="LoadingFunction.h">
       <Filter>Includes</Filter>
     </ClInclude>
+    <ClInclude Include="SubLevelFade.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
     <ClInclude Include="LevelEnder.h">
       <Filter>Includes\Entity</Filter>
     </ClInclude>
@@ -404,6 +416,12 @@
     </ClInclude>
     <ClInclude Include="Counter.h">
       <Filter>Includes\Entity</Filter>
+	</ClInclude>
+    <ClInclude Include="ResumeButton.h">
+      <Filter>Includes\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuButton.h">
+      <Filter>Includes\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

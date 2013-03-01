@@ -5,6 +5,8 @@
 #include "ExitButton.h"
 #include "Cursor.h"
 #include "QRDisplay.h"
+#include "ResumeButton.h"
+#include "MainMenuButton.h"
 
 #include "ResourceManager.h"
 #include "FileStructure.h"
@@ -52,6 +54,26 @@ private:
 	}
 };
 
+class IngameMenuStateSpecs {
+public:
+
+	static IngameMenuStateSpecs& get(){ static IngameMenuStateSpecs sInspecs; return sInspecs; }
+
+	std::string mFrameFilename;
+
+	float mFrameXOffset;
+
+	float mFrameYOffset;
+
+private:
+
+	IngameMenuStateSpecs() {
+		auto& igms = PropertyManager::get().getGeneralSettings().get_child("ui.ingamemenu");
+		mFrameFilename = igms.get<std::string>("frame.filename");
+		mFrameXOffset = igms.get<float>("frame.xoffset");
+		mFrameYOffset = igms.get<float>("frame.yoffset");
+	}
+};
 
 MenuState* MenuState::makeMainMenuState() {
 	auto& res = ResourceManager::get();
@@ -82,7 +104,7 @@ MenuState* MenuState::makeMainMenuState() {
 	auto bg_sp = res.getTexture(FS_DIR_UI + specs.mBgFilename);
 
 	//add some music
-	auto music_sp = ResourceManager::get().getSoundBuffer( FS_DIR_SOUNDS + "menu_theme.wav" );
+	auto music_sp = ResourceManager::get().getSoundBuffer( FS_DIR_MUSIC + "menu_theme.wav" );
 
 	state_p->addWidget(play_sp);
 	state_p->addWidget(settings_sp);
@@ -93,6 +115,40 @@ MenuState* MenuState::makeMainMenuState() {
 	state_p->addWidget(cursor_sp);
 	state_p->setBackground(bg_sp);
 	state_p->addMusic(music_sp);
+
+	return state_p;
+}
+
+MenuState* MenuState::makeIngameMenuState(sf::Texture background) {
+	auto& res = ResourceManager::get();
+	auto& specs = IngameMenuStateSpecs::get();
+
+	auto state_p = new MenuState();
+
+	auto widgets = std::vector<std::shared_ptr<Widget >> ();
+
+	//create buttons
+	auto resume_sp = std::make_shared<ResumeButton>();
+	auto settings_sp = std::make_shared<SettingsButton>();
+	auto mainmenu_sp = std::make_shared<MainMenuButton>();
+	auto frame_sp = std::make_shared<Button>(sf::Vector2f(specs.mFrameXOffset, specs.mFrameYOffset), specs.mFrameFilename);
+
+	widgets.push_back(resume_sp);
+	widgets.push_back(settings_sp);
+	widgets.push_back(mainmenu_sp);
+
+	//create a curson
+	auto cursor_sp = std::make_shared<Cursor>(widgets);
+
+	//add a background image
+	auto bg_sp = std::make_shared<sf::Texture>(background);
+
+	state_p->addWidget(resume_sp);
+	state_p->addWidget(settings_sp);
+	state_p->addWidget(mainmenu_sp);
+	state_p->addWidget(frame_sp);
+	state_p->addWidget(cursor_sp);
+	state_p->setBackground(bg_sp);
 
 	return state_p;
 }

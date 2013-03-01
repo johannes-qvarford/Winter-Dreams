@@ -10,6 +10,14 @@
 #include <SFML/System/Vector3.hpp>
 
 struct PacketContents{
+	PacketContents() :
+		player( 0 ),
+		joystick(0,0),
+		gyro(0,0,0),
+		a(false),
+		b(false)
+	{ }
+
 	int player;				//The uKontroll player identifier
 	sf::Vector2f joystick;	//The uKontroll joystick X
 	sf::Vector3f gyro;		//The uKontroll device gyro X

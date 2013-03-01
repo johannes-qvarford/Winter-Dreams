@@ -4,6 +4,8 @@
 #include "WindowManager.h"
 #include "GameToScreen.h"
 
+#include <boost/foreach.hpp>
+
 #ifdef _DEBUG
 #include <SFML/Graphics/VertexArray.hpp>
 #endif
@@ -13,7 +15,7 @@
 //to mean that the player has left the zone.
 static const int EXIT_FRAMES = 2;
 
-TriggerZone::TriggerZone(const sf::FloatRect& hitBox, const std::list<std::string>& onEnterNames, const std::list<std::string>& onExitNames, std::list<std::string> requiredItems, int lightLevel, SubLevel* subLevel_p, bool triggerOnce, bool startEnabled):
+TriggerZone::TriggerZone(const sf::FloatRect& hitBox, const std::list<std::string>& onEnterNames, const std::list<std::string>& onExitNames, std::list<std::string> requiredItems, std::list<std::string> absenceRequiredItems, int lightLevel, SubLevel* subLevel_p, bool triggerOnce, bool startEnabled):
 	CollisionZone(startEnabled, hitBox, triggerOnce),
 	mUpdatesSinceLastTouch(EXIT_FRAMES + 1),
 	mInZone(false),
@@ -21,6 +23,7 @@ TriggerZone::TriggerZone(const sf::FloatRect& hitBox, const std::list<std::strin
 	mEnterNames(onEnterNames),
 	mExitNames(onExitNames),
 	mRequiredItems(requiredItems),
+	mAbsenceRequiredItems(absenceRequiredItems),
 	mSubLevel_p(subLevel_p)
 {
 }
@@ -84,11 +87,18 @@ void TriggerZone::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::Re
 	if(player_p == nullptr || player_p->getCurrentLightLevel() < mLightLevel)
 		return;
 
+	auto& inventory = player_p->getInventory();
+
 	//only collide if the player has certain items.
 	for(auto it = mRequiredItems.begin(), end = mRequiredItems.end(); it != end; ++it) {
-		auto& inventory = player_p->getInventory();
+		
 		auto& itemName = *it;
 		if(inventory.hasItem(itemName) == 0)
+			return;
+	}
+	//only collider if the player doesn't have certain items
+	BOOST_FOREACH(const auto& itemName, mAbsenceRequiredItems) {
+		if(inventory.hasItem(itemName) != 0)
 			return;
 	}
 

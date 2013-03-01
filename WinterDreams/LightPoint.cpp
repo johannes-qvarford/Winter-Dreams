@@ -55,7 +55,7 @@ LightPoint::LightPoint(const sf::FloatRect& initialPosition, int lightLevel, boo
 	mOnce(once)
 {
 	auto& lp = LightPointSpecs::get();
-	Animation::fromListToMap(lp.getAnimSpecList(), FS_DIR_OBJECTANIMATIONS + "npc/", &mAnimationMap);
+	Animation::fromListToMap(lp.getAnimSpecList(), FS_DIR_OBJECTANIMATIONS + "light/", &mAnimationMap);
 	auto it = mAnimationMap.find("placeholder");
 	mCurrentAnimation_p = &it->second;
 }

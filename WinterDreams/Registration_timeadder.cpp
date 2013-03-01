@@ -18,4 +18,4 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	subLevel_p->addScript(adder_sp);
 }
 
-static ObjectTypeRegistration reg("timer", regCallback);
+static ObjectTypeRegistration reg("timeadder", regCallback);

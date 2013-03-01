@@ -7,35 +7,44 @@
 #ifdef _DEBUG
 #include "WindowManager.h"
 #endif
+#include "InputManager.h"
+#include "SubLevelFade.h"
 
-
-LevelPortal::LevelPortal(sf::FloatRect position, SubLevel* level, const std::string& targetLevel, const std::string& targetPortal, bool startEnabled, bool enabledOnce) :
+LevelPortal::LevelPortal(sf::FloatRect position, SubLevel* subLevel, const std::string& targetLevel, const std::string& targetPortal, bool startEnabled, bool enabledOnce, sf::Vector2i direction) :
 	CollisionZone( startEnabled, position, enabledOnce ),
-	mLevel( level->getLevel() ),
+	mSubLevel_p(subLevel),
 	mTargetLevel( targetLevel ),
-	mTargetPortal( targetPortal )
+	mTargetPortal( targetPortal ),
+	mIsWaiting(false),
+	mWaitingFrames(0),
+	mDirection(direction)
 {	}
 
 LevelPortal::~LevelPortal() { }
 
-void LevelPortal::onCollision(PhysicalEntity* pe, const sf::Rect<float>& intersection) {
-		//////////////////////////////////////////////////////////////
-		// /If targetPortal is "", the portal is a one-way portal. Hence
-		// /it shouldn't affect anything on collision
-		//////////////////////////////////////////////////////////////
-	if(mTargetPortal == "" || getEnabled() == false)
-		return;
-		//////////////////////////////////////////////////////////////
-		// /Checks if the entity collided with it of type player.
-		//////////////////////////////////////////////////////////////
-	if( dynamic_cast<Player*>(pe)){
-		auto& player = *mLevel->getPlayer();
-		auto& camera = *mLevel->getCamera();
 
+const int WAITINGFRAMES = 60;
+
+void LevelPortal::update(SubLevel* subLevel_p){
+
+
+		
+			
+		
+	
+	if (mIsWaiting){
+		++mWaitingFrames; 
+	}
+	if (mWaitingFrames == WAITINGFRAMES){
+
+		auto& player = *mSubLevel_p->getLevel()->getPlayer();
+		auto& camera = *mSubLevel_p->getLevel()->getCamera();
+
+		auto nextSubLevel_p = std::shared_ptr<SubLevel>();
 		sf::Vector2f newPos;
 		{
-			auto nextLevel = mLevel->getSubLevel(mTargetLevel);
-			auto temp_sp = nextLevel->getEntity( mTargetPortal ).lock();
+			nextSubLevel_p = mSubLevel_p->getLevel()->getSubLevel(mTargetLevel);
+			auto temp_sp = nextSubLevel_p->getEntity( mTargetPortal ).lock();
 			auto nextPortal_p = static_cast<LevelPortal*>(temp_sp.get() );
 				//////////////////////////////////////////////////////////////
 				// /Get the position of the targetPortal
@@ -50,16 +59,41 @@ void LevelPortal::onCollision(PhysicalEntity* pe, const sf::Rect<float>& interse
 
 			newPos = sf::Vector2f( rect.left + X_STEP * tilesWide, rect.top);
 		}
-			//////////////////////////////////////////////////////////////
-			// /Switch sublevel to the target level.
-			// /Move the player to the position previously calculated
-			// /Snap the camera to the players position
-			// /Lock the camera again (since snapToPosition unlocks it automaticly)
-			//////////////////////////////////////////////////////////////
-		mLevel->switchSubLevel( mTargetLevel );
+
+		//////////////////////////////////////////////////////////////
+		// /Switch sublevel to the target level.
+		// /Move the player to the position previously calculated
+		// /Snap the camera to the players position
+		// /Lock the camera again (since snapToPosition unlocks it automaticly)
+		//////////////////////////////////////////////////////////////
+		mSubLevel_p->getLevel()->switchSubLevel( mTargetLevel );
 		player.setPosition( newPos );
+		player.setFacingDirection(mDirection);
 		camera.snapToPosition( GAME_TO_SCREEN * newPos );
 		camera.lockCamera();
+		InputManager::get().unlockInput();
+		auto fade_sp = std::shared_ptr<SubLevelFade>(new SubLevelFade(WAITINGFRAMES, SubLevelFade::FADE_IN));
+		nextSubLevel_p->addScript(fade_sp);
+		mIsWaiting = false;
+		mWaitingFrames = 0;
+	}
+}
+
+void LevelPortal::onCollision(PhysicalEntity* pe, const sf::Rect<float>& intersection) {
+		//////////////////////////////////////////////////////////////
+		// /If targetPortal is "", the portal is a one-way portal. Hence
+		// /it shouldn't affect anything on collision
+		//////////////////////////////////////////////////////////////
+	if(mTargetPortal == "" || getEnabled() == false)
+		return;
+		//////////////////////////////////////////////////////////////
+		// /Checks if the entity collided with it of type player.
+		//////////////////////////////////////////////////////////////
+	if( dynamic_cast<Player*>(pe) && !mIsWaiting){
+		mIsWaiting = true;
+		auto fade_sp = std::shared_ptr<SubLevelFade>(new SubLevelFade(WAITINGFRAMES, SubLevelFade::FADE_OUT));
+		mSubLevel_p->addScript(fade_sp);
+		InputManager::get().lockInput();
 	}
 }
 

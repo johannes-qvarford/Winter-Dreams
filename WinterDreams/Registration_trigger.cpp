@@ -10,7 +10,7 @@ inline void seperateRequiredItems(const std::list<std::string>& inReqItems, std:
 		if(req[0] != '!')
 			reqItems_p->push_back(req);
 		else
-			absReqItems_p->push_back(req);
+			absReqItems_p->push_back(req.substr(1, req.size() - 1));
 	}
 }
 
@@ -44,7 +44,7 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	seperateRequiredItems(items, &absenceRequiredItems, &requiredItems);
 
 	auto triggerZone_sp = std::shared_ptr<CollisionZone>(
-		new TriggerZone(box, enterTriggerList, exitTriggerList, requiredItems, minlightlevel, subLevel_p, once, !startdisabled));
+		new TriggerZone(box, enterTriggerList, exitTriggerList, requiredItems, absenceRequiredItems, minlightlevel, subLevel_p, once, !startdisabled));
 
 	if(name != "")
 		subLevel_p->mapEntityToName(name, triggerZone_sp);
