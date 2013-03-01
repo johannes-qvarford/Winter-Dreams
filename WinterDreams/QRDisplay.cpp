@@ -34,7 +34,8 @@ void QRDisplay::activate() {
 		mQrSprite.setPosition( 0,0 );
 		mQrSprite.setScale( 0.5, 0.5 );
 
-		mSocket_p = openSocket( response );
+		auto socket =  openSocket( response );
+		InputManager::get().setSocket( socket );
 	}
 }
 

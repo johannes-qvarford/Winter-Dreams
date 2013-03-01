@@ -70,9 +70,8 @@ sf::TcpSocket* openSocket(const sf::Http::Response& getResponse){
 	return socket;
 }
 
-PacketContents getPacket(sf::TcpSocket* tcpSocket){
+PacketContents getPacket(sf::TcpSocket* tcpSocket, bool* connectionStatus ){
 	static std::string buf("");
-	static bool connected = false;
 	static std::string lastFrameMovement("");
 
 	//Set up variables for the function
@@ -95,6 +94,7 @@ PacketContents getPacket(sf::TcpSocket* tcpSocket){
 		lastFrameMovement = "1|0|0|0|-0|0|0|0;";
 		buf = lastFrameMovement;
 		std::cout <<"Connect/Disconnect" <<std::endl;
+		*connectionStatus  = false;
 		return packetContents;
 	}
 		//Push the gotten data onto the buf
@@ -107,9 +107,9 @@ PacketContents getPacket(sf::TcpSocket* tcpSocket){
 		buf = buf.substr( buf.find(";")+1 );
 		
 		//Handel the data
-	if( status == sf::Socket::Done || connected){
+	if( status == sf::Socket::Done || connectionStatus){
 			//Switch the bool that indicates we've connected
-		connected = true;
+		*connectionStatus = true;
 			//If no new data's reached us, use last frames data
 		if(content.size() < 1)
 			content = lastFrameMovement;

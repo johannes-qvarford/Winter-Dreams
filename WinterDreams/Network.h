@@ -42,13 +42,16 @@ sf::Texture getQR(const sf::Http::Response& getResponse);
 // /GET RESPONSE on port :2511 (so tell people to keep it open!)
 // /Returns a sf::TcpSocket pointer. Now also claims the session
 // /as admin!
-///////////////////////////////////////////////////////////////////
+//////////////////////////// ///////////////////////////////////////
 sf::TcpSocket* openSocket(const sf::Http::Response& getResponse);
 //////////////////////////////////////////////////
 // /Receives a packet from the server containing
 // /the uKontroller data string and returns a
 // /struct containing all your data for you, lazy.
+//
+// /The bool-reference will tell you if the socket is
+// /connected.
 //////////////////////////////////////////////////
-PacketContents getPacket(sf::TcpSocket* tcpSocket);
+PacketContents getPacket(sf::TcpSocket* tcpSocket, bool* connectionStatus );
 
 #endif
