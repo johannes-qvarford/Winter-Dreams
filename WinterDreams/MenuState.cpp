@@ -90,12 +90,13 @@ MenuState* MenuState::makeMainMenuState() {
 	auto exit_sp = std::make_shared<ExitButton>();
 	auto title_sp = std::make_shared<Button>(sf::Vector2f(specs.mTitleXOffset, specs.mTitleYOffset), specs.mTitleFilename);
 	auto frame_sp = std::make_shared<Button>(sf::Vector2f(specs.mFrameXOffset, specs.mFrameYOffset), specs.mFrameFilename);
+	auto qr_sp = std::make_shared<QRDisplay>();
 	
-
 	widgets.push_back(play_sp);
 	widgets.push_back(settings_sp);
 	widgets.push_back(credits_sp);
 	widgets.push_back(exit_sp);
+	widgets.push_back(qr_sp);
 	
 	//create a cursor
 	auto cursor_sp = std::make_shared<Cursor>(widgets);
@@ -115,6 +116,7 @@ MenuState* MenuState::makeMainMenuState() {
 	state_p->addWidget(cursor_sp);
 	state_p->setBackground(bg_sp);
 	state_p->addMusic(music_sp);
+	state_p->addWidget(qr_sp);
 
 	return state_p;
 }

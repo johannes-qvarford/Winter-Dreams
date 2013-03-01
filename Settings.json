@@ -72,6 +72,12 @@
 				"filename":"exit_2.png",
 				"xoffset":0.18,
 				"yoffset":0.85
+			},
+			"ukontroll": {
+				"filename":"ukontroll.png",
+				"xoffset": 0.9015625,
+				"yoffsetbot": 0.9435185,
+				"yoffsettop": 0.7787037
 			}
 		},
 		"ingamemenu": {
