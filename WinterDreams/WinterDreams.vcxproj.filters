@@ -205,6 +205,12 @@
     <ClCompile Include="Registration_levelend.cpp">
       <Filter>Sources\Registration</Filter>
     </ClCompile>
+    <ClCompile Include="ResumeButton.cpp">
+      <Filter>Sources\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenuButton.cpp">
+      <Filter>Sources\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameToScreen.h">
@@ -382,13 +388,19 @@
       <Filter>Includes</Filter>
     </ClInclude>
     <ClInclude Include="SubLevelFade.h">
-	  <Filter>Includes\Entity</Filter>
+      <Filter>Includes\Entity</Filter>
     </ClInclude>
     <ClInclude Include="LevelEnder.h">
       <Filter>Includes\Entity</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="ResumeButton.h">
+      <Filter>Includes\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuButton.h">
+      <Filter>Includes\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

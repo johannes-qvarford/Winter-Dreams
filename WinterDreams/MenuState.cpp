@@ -5,6 +5,8 @@
 #include "ExitButton.h"
 #include "Cursor.h"
 #include "QRDisplay.h"
+#include "ResumeButton.h"
+#include "MainMenuButton.h"
 
 #include "ResourceManager.h"
 #include "FileStructure.h"
@@ -105,13 +107,13 @@ MenuState* MenuState::makeMainMenuState() {
 	return state_p;
 }
 
-MenuState* MenuState::makeInGameManuState(sf::Texture background) {
+MenuState* MenuState::makeIngameMenuState(sf::Texture background) {
 	auto& res = ResourceManager::get();
 	auto& specs = IngameMenuStateSpecs::get();
 
 	auto state_p = new MenuState();
 
-	auto widgets = std::std::vector<std::shared_ptr<Widget >> ();
+	auto widgets = std::vector<std::shared_ptr<Widget >> ();
 
 	//create buttons
 	auto resume_sp = std::make_shared<ResumeButton>();
@@ -133,7 +135,7 @@ MenuState* MenuState::makeInGameManuState(sf::Texture background) {
 	state_p->addWidget(settings_sp);
 	state_p->addWidget(mainmenu_sp);
 	state_p->addWidget(frame_sp);
-	state_p->addwidget(cursor_sp);
+	state_p->addWidget(cursor_sp);
 	state_p->setBackground(bg_sp);
 
 	return state_p;

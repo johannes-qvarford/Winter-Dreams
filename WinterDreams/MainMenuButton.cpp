@@ -29,7 +29,7 @@ private:
 	}
 };
 
-MainMenuButton::MainMenuButton(const sf::Vector2f& initialPosition):
+MainMenuButton::MainMenuButton():
 	Button(sf::Vector2f(MainMenuButtonSpecs::get().mXOffset, MainMenuButtonSpecs::get().mYOffset), MainMenuButtonSpecs::get().mFilename),
 	mUpdated(false)
 {
@@ -42,7 +42,7 @@ void MainMenuButton::activate() {
 		Button::activate();
 
 		auto& stateMgr = StateManager::get();
-		auto mms = MenuState::MakeMainMenuState();
+		auto mms = MenuState::makeMainMenuState();
 
 		stateMgr.popState();
 		stateMgr.popState();
