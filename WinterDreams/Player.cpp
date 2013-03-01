@@ -312,12 +312,15 @@ void Player::updateCurrentAnimation() {
 }
 
 void Player::setFacingDirection(sf::Vector2i dir){
-	if( mDirection.x > 0 || mDirection.y > 0)
-		mFacingDir = dir;
+	//if( mDirection.x > 0 || mDirection.y > 0)
+		//mFacingDir = dir;
+	mDirection = dir;
+	assignMoveAnimations(nullptr);
 }
 
 sf::Vector2i Player::getFacingDirection() const {
-	return mFacingDir;
+//	return mFacingDir;
+	return mDirection;
 }
 
 void Player::addLightSource(SubLevel* subLevel_p){

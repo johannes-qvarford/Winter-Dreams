@@ -32,6 +32,7 @@
     <ClCompile Include="LoadingFunction.cpp" />
     <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="LoadingVideoState.cpp" />
+    <ClCompile Include="SubLevelFade.cpp" />
     <ClCompile Include="Registration_levelend.cpp" />
     <ClCompile Include="VideoState.cpp" />
     <ClCompile Include="Network.cpp" />
@@ -103,6 +104,8 @@
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="LoadingFunction.h" />
     <ClInclude Include="LoadingVideoState.h" />
+    <ClInclude Include="SubLevelFade.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="VideoState.h" />
     <ClInclude Include="Network.h" />
     <ClInclude Include="NPC.h" />

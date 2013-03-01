@@ -10,7 +10,7 @@
 #include "MenuState.h"
 
 #include <sfTheora.h>
-#include <SFML\Graphics\Texture.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include <cassert>
 
 LoadingVideoState::LoadingVideoState(const std::string& levelName) :

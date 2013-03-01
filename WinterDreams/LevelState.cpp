@@ -32,9 +32,13 @@ void LevelState::addSubLevel(const std::string& name, std::shared_ptr<SubLevel> 
 }
 
 void LevelState::switchSubLevel(const std::string& name) {
+	//lås inputManager
+	//Kalla statemanagers updateFadingOut()
 	auto it = mSubLevels.find(name);
 	assert(it != mSubLevels.end());
 	mCurrentSubLevel = it;
+	//När mStateOfManager = NORMAL; sätt mDirection till down och kalla på updateFadingIn()
+	//låsupp inputmanager
 }
 
 std::shared_ptr<SubLevel> LevelState::getSubLevel(const std::string& name) {

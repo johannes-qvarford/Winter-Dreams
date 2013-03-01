@@ -30,7 +30,13 @@ mSound(new sf::Sound())
 ////////////////////////////////////////////////////////////////////////
 // /FS_DIR_SOUNDS betyder: vart ligger filen, mSoundName betyder: vad heter filen
 ////////////////////////////////////////////////////////////////////////
-	mBuffer = ResourceManager::get().getSoundBuffer(FS_DIR_SOUNDS + mSoundName);
+	if (mSoundType == "sound")
+		mBuffer = ResourceManager::get().getSoundBuffer(FS_DIR_SOUNDS + mSoundName);
+	else if (mSoundType == "narrator")
+		mBuffer = ResourceManager::get().getSoundBuffer(FS_DIR_NARRATORS + mSoundName);
+	else
+		mBuffer = ResourceManager::get().getSoundBuffer(FS_DIR_MUSIC + mSoundName);
+	
 	mSound->setBuffer(*mBuffer);
 	mSound->setLoop(loop);
 	mSound->setVolume(mVolume);

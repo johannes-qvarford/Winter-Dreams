@@ -196,6 +196,9 @@
     <ClCompile Include="LoadingFunction.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="SubLevelFade.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
     <ClCompile Include="LevelEnder.cpp">
       <Filter>Sources\Entity</Filter>
     </ClCompile>
@@ -378,7 +381,13 @@
     <ClInclude Include="LoadingFunction.h">
       <Filter>Includes</Filter>
     </ClInclude>
+    <ClInclude Include="SubLevelFade.h">
+	  <Filter>Includes\Entity</Filter>
+    </ClInclude>
     <ClInclude Include="LevelEnder.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
       <Filter>Includes\Entity</Filter>
     </ClInclude>
   </ItemGroup>
