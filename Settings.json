@@ -8,16 +8,22 @@
 		"lvl_1":
 		{
 			"intro_video": "loading_ogg_test.ogg",
-			"first_sublevel_name" : "lvl_1_1v10.json",
-			"sublevels": ["lvl_1_1v10.json", "lvl_1_2v05.json"],
+			"first_sublevel_name": "lvl_1_1v10.json",
+			"sublevels": {
+				"lvl_1_1": "lvl_1_1v10.json", 
+				"lvl_1_2": "lvl_1_2v05.json"
+			},
 			"next_level": "lvl_2"
 		},
 		
 		"lvl_2": 
 		{
 			"intro_video": "loading_ogg_test.ogg",
-			"first_sublevel_name" : "lvl_1_1v10.json",
-			"sublevels": ["lvl_1_1v10.json", "lvl_1_2v05.json"],
+			"first_sublevel_name": "lvl_1_1v10.json",
+			"sublevels": {
+				"lvl_1_1": "lvl_1_1v10.json", 
+				"lvl_1_2": "lvl_1_2v05.json"
+			},
 			"next_level": "lvl_2"
 		}
 		
@@ -27,8 +33,10 @@
 		"general": {
 			"cursor" : {
 				"filename": "cursor.png",
-				"xoffsetfrombutton": -0.010,
-				"yoffsetfrombutton": 0
+				"xoffsetfrombutton": -0.060,
+				
+				
+				"yoffsetfrombutton": -0.02
 			}
 		},
 		"mainmenu" : {
@@ -40,25 +48,30 @@
 			},
 		
 			"bgfilename": "mainmenu2.png",
+			"title": {
+				"filename":"mainmenu_title.png",
+				"xoffset":0.018,
+				"yoffset":0.131
+			},
 			"play": {
-				"filename":"play.png",
-				"xoffset":0.154,
-				"yoffset":0.500
+				"filename":"play_2.png",
+				"xoffset":0.18,
+				"yoffset":0.550
 			},
 			"settings": {
-				"filename":"settings.png",
-				"xoffset":0.154,
-				"yoffset":0.600
+				"filename":"settings_2.png",
+				"xoffset":0.18,
+				"yoffset":0.650
 			},
 			"credits": {
-				"filename":"credits.png",
-				"xoffset":0.154,
-				"yoffset":0.700
+				"filename":"credits_2.png",
+				"xoffset":0.18,
+				"yoffset":0.75
 			},
 			"exit": {
-				"filename":"exit.png",
-				"xoffset":0.154,
-				"yoffset":0.800
+				"filename":"exit_2.png",
+				"xoffset":0.18,
+				"yoffset":0.85
 			}
 		},
 		"ingamemenu": {

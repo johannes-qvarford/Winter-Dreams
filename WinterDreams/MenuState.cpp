@@ -26,6 +26,10 @@ public:
 
 	std::string mBgFilename;
 	std::string mFrameFilename;
+	std::string mTitleFilename;
+	float mTitleXOffset;
+	float mTitleYOffset;
+
 	std::string mBgmMusic;
 
 	float mFrameXOffset;
@@ -40,6 +44,10 @@ private:
 		mFrameFilename = mms.get<std::string>("frame.filename");
 		mFrameXOffset = mms.get<float>("frame.xoffset");
 		mFrameYOffset = mms.get<float>("frame.yoffset");
+		mTitleFilename = mms.get<std::string>("title.filename");
+		mTitleXOffset = mms.get<float>("title.xoffset");
+		mTitleYOffset = mms.get<float>("title.yoffset");
+
 		mBgmMusic = mms.get<std::string>("bgmmusic");
 	}
 };
@@ -58,7 +66,10 @@ MenuState* MenuState::makeMainMenuState() {
 	auto settings_sp = std::make_shared<SettingsButton>();
 	auto credits_sp = std::make_shared<CreditsButton>();
 	auto exit_sp = std::make_shared<ExitButton>();
+	auto title_sp = std::make_shared<Button>(sf::Vector2f(specs.mTitleXOffset, specs.mTitleYOffset), specs.mTitleFilename);
 	auto frame_sp = std::make_shared<Button>(sf::Vector2f(specs.mFrameXOffset, specs.mFrameYOffset), specs.mFrameFilename);
+	
+
 	widgets.push_back(play_sp);
 	widgets.push_back(settings_sp);
 	widgets.push_back(credits_sp);
@@ -78,6 +89,7 @@ MenuState* MenuState::makeMainMenuState() {
 	state_p->addWidget(credits_sp);
 	state_p->addWidget(exit_sp);
 	state_p->addWidget(frame_sp);
+	state_p->addWidget(title_sp);
 	state_p->addWidget(cursor_sp);
 	state_p->setBackground(bg_sp);
 	state_p->addMusic(music_sp);
@@ -114,36 +126,53 @@ void MenuState::render() {
 #ifdef DEBUG_MAINMENUSTATE
 	{
 		static bool b = false;
+		static int waiting = 0;
+		waiting++;
+
+
 		if(b == false)
 			WindowManager::get().setVideoMode(800, 600, sf::Style::Default);
 		b = true;
 
-		static Widget* curWidget = nullptr;
+		static auto curWidgetIt = mWidgets.begin();
 
-		auto mp = sf::Mouse::getPosition(window);
-		auto normalPos = sf::Vector2f(float(mp.x) / window.getSize().x, float(mp.y) / window.getSize().y); 
+		//auto mp = sf::Mouse::getPosition(window);
+		//auto normalPos = sf::Vector2f(float(mp.x) / window.getSize().x, float(mp.y) / window.getSize().y); 
 
 		//find a new widget
-		if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+		if(sf::Mouse::isButtonPressed(sf::Mouse::Left) && waiting % 60) {
 
-			foreach(auto widget_sp, mWidgets) {
-				auto& box = widget_sp->getBounds();
-				if(box.contains(normalPos)) {
-					curWidget = widget_sp.get();
-				}
-			}
+			curWidgetIt++;
+			curWidgetIt = (curWidgetIt != mWidgets.end() ? curWidgetIt : mWidgets.begin());
+
+			//foreach(auto widget_sp, mWidgets) {
+			//	auto& box = widget_sp->getBounds();
+			//	if(box.contains(normalPos)) {
+			//		curWidget = widget_sp.get();
+			//	}
+			//}
+
 		}
 
-		if(sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-			curWidget = nullptr;
+		auto& box = (*curWidgetIt)->getBounds();
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::G)) {
+			box.left -= 0.001;
+		}
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::J)) {
+			box.left += 0.001;
+		}
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Y)) {
+			box.top -= 0.001;
+		}
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::H)) {
+			box.top += 0.001;
 		}
 
-		if(curWidget != nullptr) {
-			auto& box = curWidget->getBounds();
-			box.left = normalPos.x;
-			box.top = normalPos.y;
-			std::cout << normalPos.x << ' ' << normalPos.y << std::endl;
-		}
+		//if(sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
+		//	curWidget = nullptr;
+		//}
+
+		std::cout << box.left << ' ' << box.top << std::endl;
 	}
 
 

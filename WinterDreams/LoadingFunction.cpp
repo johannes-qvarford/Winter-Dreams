@@ -46,12 +46,9 @@ void loadingFunc::loadLevel(LoadingSpecs& specs) {
 
 	for(auto it = sublevels.begin(), end = sublevels.end(); it != end; ++it) {
 		//load sublevels one at a time.
-		auto& entry = it->second;
-		auto subLevelName = entry.get_value<std::string>();
+		auto subLevelName = it->first;
 		loadSubLevel(subLevelName, specs.mLoadedLevel_p, specs.mResourceMutex_p);
 	}
-
-
 
 	specs.mLoadedLevel_p->switchSubLevel(level.get<std::string>("first_sublevel_name"));
 
@@ -90,6 +87,8 @@ static void loadSubLevel(const std::string& subLevelName, LevelState* levelState
 	auto tilesToObjects = std::map<int, std::string>();
 	
 	//read sublevel from json
+
+	auto subLevelFilename = propMgr.getGeneralSettings().get<std::string>(
 	auto levelData = ptree();
 	json_parser::read_json(FS_DIR_LEVELS + subLevelName, levelData);
 

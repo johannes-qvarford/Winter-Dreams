@@ -32,7 +32,12 @@
     <ClCompile Include="LoadingFunction.cpp" />
     <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="LoadingVideoState.cpp" />
+    <ClCompile Include="Registration_counter.cpp" />
     <ClCompile Include="Registration_levelend.cpp" />
+    <ClCompile Include="Registration_timeadder.cpp" />
+    <ClCompile Include="Registration_timer.cpp" />
+    <ClCompile Include="TimeAdder.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="VideoState.cpp" />
     <ClCompile Include="Network.cpp" />
     <ClCompile Include="NPC.cpp" />
@@ -85,6 +90,7 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CollisionZone.h" />
+    <ClInclude Include="Counter.h" />
     <ClInclude Include="CreditsButton.h" />
     <ClInclude Include="CutsceneTriggerZone.h" />
     <ClInclude Include="DamageHitBox.h" />
@@ -103,6 +109,7 @@
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="LoadingFunction.h" />
     <ClInclude Include="LoadingVideoState.h" />
+    <ClInclude Include="TimeAdder.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="VideoState.h" />
     <ClInclude Include="Network.h" />

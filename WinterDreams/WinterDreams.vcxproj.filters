@@ -202,6 +202,21 @@
     <ClCompile Include="Registration_levelend.cpp">
       <Filter>Sources\Registration</Filter>
     </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_timer.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeAdder.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_timeadder.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_counter.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameToScreen.h">
@@ -382,6 +397,12 @@
       <Filter>Includes\Entity</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeAdder.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Counter.h">
       <Filter>Includes\Entity</Filter>
     </ClInclude>
   </ItemGroup>
