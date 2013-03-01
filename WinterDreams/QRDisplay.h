@@ -16,8 +16,7 @@ public:
 	QRDisplay(const sf::Vector2f& initialPosition);
 
 	////////////////////////////////////////////////////////////
-	// /Does the following:
-	// /fadeout, pop state, push loading state, fadein.
+	// /
 	////////////////////////////////////////////////////////////
 	void activate();
 
@@ -26,8 +25,8 @@ public:
 private:
 	std::shared_ptr<sf::Texture> mQrCodeTexture_sp;
 	sf::Sprite mQrSprite;
-	sf::TcpSocket* mSocket_p;
 	bool mUpdated;
+	
 };
 
 #endif
