@@ -53,4 +53,5 @@ private:
 	std::list<std::string> mAbsenceRequiredItems;
 };
 
+
 #endif

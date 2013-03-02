@@ -15,6 +15,8 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CollisionZone.cpp" />
+    <ClCompile Include="Counter.cpp" />
+    <ClCompile Include="CounterAdder.cpp" />
     <ClCompile Include="CreditsButton.cpp" />
     <ClCompile Include="DamageHitBox.cpp" />
     <ClCompile Include="ExitButton.cpp" />
@@ -94,6 +96,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CollisionZone.h" />
     <ClInclude Include="Counter.h" />
+    <ClInclude Include="CounterAdder.h" />
     <ClInclude Include="CreditsButton.h" />
     <ClInclude Include="CutsceneTriggerZone.h" />
     <ClInclude Include="DamageHitBox.h" />
