@@ -13,19 +13,27 @@ public:
 	////////////////////////////////////////////////////////////
 	// /Create a start game button.
 	////////////////////////////////////////////////////////////
-	QRDisplay(const sf::Vector2f& initialPosition);
+	QRDisplay();
 
 	////////////////////////////////////////////////////////////
 	// /
 	////////////////////////////////////////////////////////////
 	void activate();
 
+	void update(MenuState* menuState_p);
+
 	void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates()) const;
 
 private:
+	enum DisplayStatus{ 
+		TOP, BOTTOM, ASCEND, DESCEND
+	};
+
+	DisplayStatus mStatus;
 	std::shared_ptr<sf::Texture> mQrCodeTexture_sp;
-	sf::Sprite mQrSprite;
+	sf::Vector2f mQrPos;
 	bool mUpdated;
+	bool mActivated;
 	
 };
 
