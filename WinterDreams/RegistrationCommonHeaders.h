@@ -23,5 +23,9 @@ inline void splitString(const std::string& str, std::list<std::string>* strList_
 
 }
 
+inline int secsToFrames(float secs) {
+	return int(secs * 60);
+}
+
 
 #endif

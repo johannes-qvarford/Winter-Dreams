@@ -15,6 +15,8 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CollisionZone.cpp" />
+    <ClCompile Include="Counter.cpp" />
+    <ClCompile Include="CounterAdder.cpp" />
     <ClCompile Include="CreditsButton.cpp" />
     <ClCompile Include="DamageHitBox.cpp" />
     <ClCompile Include="ExitButton.cpp" />
@@ -31,10 +33,17 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="LoadingFunction.cpp" />
+    <ClCompile Include="MainMenuButton.cpp" />
     <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="LoadingVideoState.cpp" />
+    <ClCompile Include="Registration_counter.cpp" />
+    <ClCompile Include="ResumeButton.cpp" />
     <ClCompile Include="SubLevelFade.cpp" />
     <ClCompile Include="Registration_levelend.cpp" />
+    <ClCompile Include="Registration_timeadder.cpp" />
+    <ClCompile Include="Registration_timer.cpp" />
+    <ClCompile Include="TimeAdder.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="VideoState.cpp" />
     <ClCompile Include="Network.cpp" />
     <ClCompile Include="NPC.cpp" />
@@ -87,6 +96,8 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CollisionZone.h" />
+    <ClInclude Include="Counter.h" />
+    <ClInclude Include="CounterAdder.h" />
     <ClInclude Include="CreditsButton.h" />
     <ClInclude Include="CutsceneTriggerZone.h" />
     <ClInclude Include="DamageHitBox.h" />
@@ -106,6 +117,9 @@
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="LoadingFunction.h" />
     <ClInclude Include="LoadingVideoState.h" />
+    <ClInclude Include="TimeAdder.h" />
+    <ClInclude Include="MainMenuButton.h" />
+    <ClInclude Include="ResumeButton.h" />
     <ClInclude Include="SubLevelFade.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="VideoState.h" />

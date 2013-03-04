@@ -245,8 +245,8 @@ void Player::updateMovement(SubLevel* subLevel_p) {
 			offset = sf::Vector2f(0, -7);
 
 		mRightFoot = !mRightFoot;
-		auto footStep_sp = std::shared_ptr<FootStep>(new FootStep(sf::Vector2f(mHitBox.left + 8, mHitBox.top - 18) + offset, mFacingDir, "ice", 124));
-		subLevel_p->addGraphicalEntity(footStep_sp);
+		// auto footStep_sp = std::shared_ptr<FootStep>(new FootStep(sf::Vector2f(mHitBox.left + 8, mHitBox.top - 18) + offset, mFacingDir, "ice", 124));
+		// subLevel_p->addGraphicalEntity(footStep_sp);
 
 	}
 }
@@ -338,14 +338,14 @@ void Player::updateCurrentAnimation() {
 
 void Player::setFacingDirection(sf::Vector2i dir){
 	//if( mDirection.x > 0 || mDirection.y > 0)
-		//mFacingDir = dir;
+		mFacingDir = dir;
 	mDirection = dir;
 	assignMoveAnimations(nullptr);
 }
 
 sf::Vector2i Player::getFacingDirection() const {
-//	return mFacingDir;
-	return mDirection;
+	return mFacingDir;
+//	return mDirection;
 }
 
 void Player::addLightSource(SubLevel* subLevel_p){

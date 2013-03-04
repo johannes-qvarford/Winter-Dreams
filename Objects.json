@@ -223,7 +223,8 @@
 		"player": {
 			"invulnerabilityframes": 40,
 			"blinkframedistance": 8,
-			"walkspeed": 2,
+
+			"walkspeed": 20.0,
 
 			"framesperstep": 27,
 			"footsteps":[
@@ -241,8 +242,6 @@
 				}
 			],
 
-			
-			
 			"lightsize": {
 				"1": "0.12",
 				"2": "0.16",
@@ -256,6 +255,7 @@
 				"10": "0.60"
 			},
 			"brightness": "1.25",
+			
 			
 			"animations": {
 				"placeholder": {				

@@ -8,7 +8,7 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	auto once = pt.get<bool>("properties.once", false);
 	auto height = ( pt.get<int>("height") / 32 ) * -Y_STEP;
 	auto width = ( pt.get<int>("width") / 32 ) * X_STEP;
-	auto targetLevel = pt.get<std::string>("properties.levelname") + ".json";
+	auto targetLevel = pt.get<std::string>("properties.levelname");
 	auto targetPortal = pt.get<std::string>("properties.targetportal", "");
 	auto name = pt.get<std::string>("name", "");
 	auto directionString = pt.get<std::string>("properties.exitdirection", "se");

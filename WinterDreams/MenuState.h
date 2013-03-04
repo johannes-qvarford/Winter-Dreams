@@ -34,7 +34,7 @@ public:
 	// /game.
 	// /TODO: implment.
 	////////////////////////////////////////////////////////////
-	static MenuState* makeIngameMenuState();
+	static MenuState* makeIngameMenuState(sf::Texture background);
 
 public:	
 
