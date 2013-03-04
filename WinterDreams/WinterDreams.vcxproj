@@ -22,6 +22,7 @@
     <ClCompile Include="ExitButton.cpp" />
     <ClCompile Include="FileStructure.cpp" />
     <ClCompile Include="Crystal.cpp" />
+    <ClCompile Include="FootStep.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="InventoryDisplay.cpp" />
     <ClCompile Include="LevelEnder.cpp" />
@@ -102,6 +103,7 @@
     <ClInclude Include="DamageHitBox.h" />
     <ClInclude Include="ExitButton.h" />
     <ClInclude Include="FileStructure.h" />
+    <ClInclude Include="FootStep.h" />
     <ClInclude Include="GameToScreen.h" />
     <ClInclude Include="Crystal.h" />
     <ClInclude Include="GraphicalEntity.h" />

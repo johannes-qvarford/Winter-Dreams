@@ -205,6 +205,9 @@
     <ClCompile Include="Registration_levelend.cpp">
       <Filter>Sources\Registration</Filter>
     </ClCompile>
+    <ClCompile Include="FootStep.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>Sources\Entity</Filter>
     </ClCompile>
@@ -416,6 +419,9 @@
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="FootStep.h">
+	  <Filter>Includes\Entity</Filter>
     </ClInclude>
     <ClInclude Include="TimeAdder.h">
       <Filter>Includes\Entity</Filter>
