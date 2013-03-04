@@ -45,6 +45,21 @@
 				"yorigin": 169,
 				"xorigin": 79,
 				"filename": "bridgeOuterTop.png"
+			},
+			"darkwall":{
+				"yorigin": 128,
+				"xorigin": 64,
+				"filename": "darkwall.png"
+			},
+			"light_source":{
+				"yorigin": 716,
+				"xorigin": 218,
+				"filename": "light_source.png"
+			},
+			"bridge_segment":{
+				"yorigin": 148,
+				"xorigin": 66,
+				"filename": "bridge_segment.png"
 			}
 		}
 	},
