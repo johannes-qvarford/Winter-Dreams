@@ -1483,7 +1483,7 @@
                      "disabledopacity":"100",
                      "enabledopacity":"0",
                      "fadetime":"500",
-                     "layer":"1",
+                     "layer":"0",
                      "sprite":"bridge_segment"
                     },
                  "type":"occluder",
