@@ -9,6 +9,7 @@
 #include "FileStructure.h"
 #include "PropertyManager.h"
 #include "InputManager.h"
+#include "FootStep.h"
 #include <list>
 #include <cmath>
 #include <iostream>
@@ -23,7 +24,7 @@ public:
 	// /Is used to access the different properties of the player.
 	////////////////////////////////////////////////////////////////////////////
 	static PlayerSpecs& get();
-
+	int mFramesPerStep;
 	int mInvulFrames;
 	float mBlinkFrameDistance;
 	float mMoveSpeed;
@@ -40,6 +41,7 @@ private:
 PlayerSpecs::PlayerSpecs() {
 	auto& obj = PropertyManager::get().getObjectSettings();
 	auto& player = obj.get_child( "objects.player" );
+	mFramesPerStep = player.get<int>("framesperstep");
 	mInvulFrames = player.get<int>( "invulnerabilityframes" );
 	mBlinkFrameDistance = player.get<float>( "blinkframedistance" );
 	mMoveSpeed = player.get<float>( "walkspeed" );
@@ -80,7 +82,10 @@ Player::Player(sf::FloatRect initialPosition, int lightLevel, bool startEnabled)
 	mTargetLightIntensity( mCurrentLightIntensity ),
 	mDeltaLightIntensity(0),
 	mTargetLightLastFrame( mTargetLightIntensity),
-	mIsInvisible(false)
+	mIsInvisible(false),
+	mFrameCount(0),
+	mFramesPerStep(24),
+	mRightFoot(true)
 {
 	using namespace std;
 	auto& p = PlayerSpecs::get();
@@ -224,6 +229,26 @@ void Player::updateMovement(SubLevel* subLevel_p) {
 		mDirection=sf::Vector2i(static_cast<int>(stick.x),static_cast<int>(stick.y));
 	else
 		mDirection=sf::Vector2i(static_cast<int>(stick.x*2),static_cast<int>(stick.y*2));
+	if (mDirection != sf::Vector2i(0, 0))
+		mFrameCount++;
+
+	if (mFrameCount == mFramesPerStep){
+		mFrameCount = 0;
+		sf::Vector2f offset;
+		if ((mFacingDir == sf::Vector2i(-1, -1) || mFacingDir == sf::Vector2i(1, 1)) && mRightFoot)
+			offset = sf::Vector2f(7, -7);
+		if ((mFacingDir == sf::Vector2i(0, -1) || mFacingDir == sf::Vector2i(0, 1)) && mRightFoot)
+			offset = sf::Vector2f(7, 0);
+		if ((mFacingDir == sf::Vector2i(1, -1) || mFacingDir == sf::Vector2i(-1, 1)) && mRightFoot)
+			offset = sf::Vector2f(7, 7);
+		if ((mFacingDir == sf::Vector2i(1, 0) || mFacingDir == sf::Vector2i(-1, 0)) && mRightFoot)
+			offset = sf::Vector2f(0, -7);
+
+		mRightFoot = !mRightFoot;
+		// auto footStep_sp = std::shared_ptr<FootStep>(new FootStep(sf::Vector2f(mHitBox.left + 8, mHitBox.top - 18) + offset, mFacingDir, "ice", 124));
+		// subLevel_p->addGraphicalEntity(footStep_sp);
+
+	}
 }
 
 

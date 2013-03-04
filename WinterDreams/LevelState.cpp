@@ -95,22 +95,46 @@ void LevelState::registerSound(std::shared_ptr<sf::Sound> sound, SoundType type)
 }
 
 void LevelState::onFreeze(){
-	for (unsigned int i = 0; i < mRegSoundVecSound.size(); i++){
-			mRegSoundVecSound[i]->pause();
+	for (unsigned int i = 0; i < mRegSoundVecSound.size();){
+		if(mRegSoundVecSound[i].expired())
+			mRegSoundVecSound.erase(mRegSoundVecSound.begin() + i);
+		else {
+			auto sound_sp = mRegSoundVecSound[i].lock();
+			if(sound_sp->getStatus() == sf::Sound::Playing)
+				mRegSoundVecSound[i].lock()->pause();
+			i++;
+		}
 	}
 	for (unsigned int i = 0; i < mRegSoundVecMusic.size(); i++){
-			auto sound_sp = mRegSoundVecMusic[i];
-			sound_sp->setVolume(sound_sp->getVolume() * 0.5f);
+		if(mRegSoundVecMusic[i].expired())
+			mRegSoundVecMusic.erase(mRegSoundVecMusic.begin() + i);
+		else {
+			auto music_sp = mRegSoundVecMusic[i].lock();
+			music_sp->setVolume(music_sp->getVolume() / 2);
+			i++;
+		}
 	}
 }
 
 void LevelState::onUnfreeze(){
 
-	for (unsigned int i = 0; i < mRegSoundVecSound.size(); i++){
-			mRegSoundVecSound[i]->play();
+	for (unsigned int i = 0; i < mRegSoundVecSound.size();){
+		if(mRegSoundVecSound[i].expired())
+			mRegSoundVecSound.erase(mRegSoundVecSound.begin() + i);
+		else {	
+			auto sound_sp = mRegSoundVecSound[i].lock();
+			if(sound_sp->getStatus() == sf::Sound::Paused)
+				mRegSoundVecSound[i].lock()->play();
+			i++;
+		}
 	}
 	for (unsigned int i = 0; i < mRegSoundVecMusic.size(); i++){
-			auto sound_sp = mRegSoundVecMusic[i];
-			sound_sp->setVolume(sound_sp->getVolume() * 2.f);
+		if(mRegSoundVecMusic[i].expired())
+			mRegSoundVecMusic.erase(mRegSoundVecMusic.begin() + i);
+		else {
+			auto music_sp = mRegSoundVecMusic[i].lock();
+			music_sp->setVolume(music_sp->getVolume() * 2);
+			i++;
+		}
 	}
 }

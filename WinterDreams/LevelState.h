@@ -110,9 +110,9 @@ private:
 
 	SubLevels mSubLevels;
 
-	std::vector<std::shared_ptr<sf::Sound>> mRegSoundVecSound;
+	std::vector<std::weak_ptr<sf::Sound>> mRegSoundVecSound;
 
-	std::vector<std::shared_ptr<sf::Sound>> mRegSoundVecMusic;
+	std::vector<std::weak_ptr<sf::Sound>> mRegSoundVecMusic;
 
 	SubLevels::iterator mCurrentSubLevel;
 
