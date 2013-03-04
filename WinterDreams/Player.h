@@ -176,6 +176,9 @@ private:
 	float							 mDeltaLightIntensity;
 	float							 mTargetLightIntensity;
 	float							 mTargetLightLastFrame;
+	int								 mFrameCount;		//Counts player movment frames
+	int								 mFramesPerStep;
+	bool							 mRightFoot;
 
 	MovementMode					 mMovementMode;		//The avatar's current movementMode
 	float							 mMoveSpeed;		//The avatar's movespeed
