@@ -57,7 +57,7 @@
 				"filename": "light_source.png"
 			},
 			"bridge_segment":{
-				"yorigin": 116,
+				"yorigin": 180,
 				"xorigin": 66,
 				"filename": "bridge_segment.png"
 			}

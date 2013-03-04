@@ -10,8 +10,8 @@
 			"intro_video": "loading_2_video.ogv",
 			"first_sublevel_name": "lvl_1_1",
 			"sublevels": {
-				"lvl_1_1": "lvl_1_1v13_fix.json", 
-				"lvl_1_2": "lvl_1_2v08.json"
+				"lvl_1_1": "lvl_1_1v13_fix2.json", 
+				"lvl_1_2": "lvl_1_2v08_fix.json"
 			},
 			"next_level": "lvl_2"
 		},
