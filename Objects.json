@@ -57,7 +57,7 @@
 				"filename": "light_source.png"
 			},
 			"bridge_segment":{
-				"yorigin": 148,
+				"yorigin": 116,
 				"xorigin": 66,
 				"filename": "bridge_segment.png"
 			}
@@ -257,7 +257,7 @@
 			"invulnerabilityframes": 40,
 			"blinkframedistance": 8,
 
-			"walkspeed": 2.0,
+			"walkspeed": 1.75,
 
 			"framesperstep": 27,
 			"footsteps":[
@@ -472,13 +472,13 @@
 		"levelportal": {
 			"animations": {
 				"portal": {
-					"spritewidth": "64",
-					"spriteheight": "64",
-					"yorigin": "48",
-					"xorigin": "0",
-					"numberofsprites": "3",
+					"spritewidth": "128",
+					"spriteheight": "128",
+					"yorigin": "112",
+					"xorigin": "48",
+					"numberofsprites": "4",
 					"framespersprite": "10",			
-					"filename": "placeholder.png"
+					"filename": "animation_portal.png"
 				}
 			}
 		}

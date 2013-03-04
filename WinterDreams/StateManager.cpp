@@ -39,7 +39,9 @@ static bool pollEvents() {
 		}
 			//if Esc is pressed
 		if (ev.type == sf::Event::KeyPressed && ev.key.code == sf::Keyboard::Escape){
+#ifndef SHIPPING_REAL
 			return false;
+#endif
 		}
 	}
 	return true;
@@ -103,7 +105,8 @@ void StateManager::run() {
 			windowManager.setFullscreenMode(true);
 		}
 #endif
-
+		if( mStates.empty() && mActions.empty() )
+			return;
 		if(pollEvents() == false) {
 			while(mStates.empty() == false)
 				mStates.pop();

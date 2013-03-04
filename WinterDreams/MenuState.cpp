@@ -168,8 +168,10 @@ MenuState::~MenuState() {
 
 void MenuState::update() {
 	auto status = mMusic->getStatus();
-	if( status != sf::Sound::Playing)
+	if( status != sf::Sound::Playing){
 		mMusic->play();
+		mMusic->setVolume( 50.f );
+	}
 
 	foreach(auto& widget_sp, mWidgets) {
 		widget_sp->update(this);
