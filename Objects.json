@@ -242,7 +242,7 @@
 			"invulnerabilityframes": 40,
 			"blinkframedistance": 8,
 
-			"walkspeed": 20.0,
+			"walkspeed": 2.0,
 
 			"framesperstep": 27,
 			"footsteps":[
