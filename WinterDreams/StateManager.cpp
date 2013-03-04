@@ -1,6 +1,7 @@
 #include "StateManager.h"
 #include "State.h"
 #include "WindowManager.h"
+#include "InputManager.h"
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
@@ -54,9 +55,7 @@ StateManager::StateManager():
 }
 
 StateManager::~StateManager() {
-	while(mStates.empty() == false) {
-		mStates.pop();
-	}
+
 }
 
 void StateManager::run() {
@@ -105,12 +104,16 @@ void StateManager::run() {
 		}
 #endif
 
-		if(pollEvents() == false)
+		if(pollEvents() == false) {
+			while(mStates.empty() == false)
+				mStates.pop();
 			return;
+		}
 
 		//try to catch up, by doing a maximun of MAX_FRAMESKIP updates.
 		while(GetTickCount.getElapsedTime() > nextGameTick && loops < MAX_FRAMESKIP ) { 
 			WindowManager::get().resetLightIDs();
+			InputManager::get().update();
 
 			nextGameTick += sf::Time( sf::microseconds(advances) );
 			++loops;

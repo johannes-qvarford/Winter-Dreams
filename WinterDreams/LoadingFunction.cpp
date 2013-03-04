@@ -39,7 +39,9 @@ void loadingFunc::loadLevel(LoadingSpecs& specs) {
 
 	
 	//look in settings for which sublevels to load.
+	specs.mResourceMutex_p->lock();
 	auto& settings = PropertyManager::get().getGeneralSettings();
+	specs.mResourceMutex_p->unlock();
 	auto& levels = settings.get_child("levels");
 	auto& level = levels.get_child(specs.mLevelName);
 	auto& sublevels = level.get_child("sublevels");
@@ -49,9 +51,9 @@ void loadingFunc::loadLevel(LoadingSpecs& specs) {
 		auto subLevelName = it->first;
 		loadSubLevel(subLevelName, specs.mLoadedLevel_p, specs.mResourceMutex_p);
 	}
-
+	specs.mResourceMutex_p->lock();
 	specs.mLoadedLevel_p->switchSubLevel(level.get<std::string>("first_sublevel_name"));
-
+	specs.mResourceMutex_p->unlock();
 	//now, add player, camera, and inventory display to sub levels.
 	std::shared_ptr<Player> player_sp = specs.mLoadedLevel_p->getPlayer();
 	std::shared_ptr<Camera> camera_sp = specs.mLoadedLevel_p->getCamera();
@@ -78,9 +80,11 @@ static void loadSubLevel(const std::string& subLevelName, LevelState* levelState
 	using namespace boost::property_tree;
 	
 	//get managers
+	mutex->lock();
 	auto& propMgr = PropertyManager::get();
 	auto& resMgr = ResourceManager::get();
 	auto& objFact = ObjectFactory::get();
+	mutex->unlock();
 	auto tilesToObjects = std::map<int, std::string>();
 	
 	//read sublevel from json

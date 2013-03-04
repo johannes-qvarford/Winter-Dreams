@@ -130,13 +130,13 @@
 			
 			"animations" : {
 				"placeholder": {
-					"spritewidth": "64",
-					"spriteheight": "64",
-					"yorigin": "48",
-					"xorigin": "0",
+					"spritewidth": "128",
+					"spriteheight": "179",
+					"yorigin": "153",
+					"xorigin": "32",
 					"numberofsprites": "1",
 					"framespersprite": "100",
-					"filename": "placeholder.png"
+					"filename": "light_source.png"
 				}
 			},
 			"lightsize": {
@@ -448,8 +448,21 @@
 					"spriteheight": "64",
 					"yorigin": "48",
 					"xorigin": "0",
+					"numberofsprites": "7",
+					"framespersprite": "3",			
+					"filename": "pickaxe_slash.png"
+				}
+			}
+		},
+		"levelportal": {
+			"animations": {
+				"portal": {
+					"spritewidth": "64",
+					"spriteheight": "64",
+					"yorigin": "48",
+					"xorigin": "0",
 					"numberofsprites": "3",
-					"framespersprite": "8",			
+					"framespersprite": "10",			
 					"filename": "placeholder.png"
 				}
 			}

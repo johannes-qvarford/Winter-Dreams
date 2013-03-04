@@ -4,33 +4,87 @@
 #include "LevelState.h"
 #include "GameToScreen.h"
 #include "SubLevel.h"
-#ifdef _DEBUG
+
 #include "WindowManager.h"
-#endif
 #include "InputManager.h"
 #include "SubLevelFade.h"
+#include "PropertyManager.h"
+#include "FileStructure.h"
+
+class PortalSpecs{
+public:	
+	////////////////////////////////////////////////////////////////////////////
+	// /Singleton-pattern.
+	// /Is used to access the different properties of the player.
+	////////////////////////////////////////////////////////////////////////////
+	static PortalSpecs& get();
+
+	std::list<AnimationSpecs> mAnimSpecs;
+
+private:
+	PortalSpecs();						//Singleton-pattern
+	PortalSpecs(const PortalSpecs& p);		//No copies
+	PortalSpecs& operator=(PortalSpecs& p);	//No copies
+};
+////////////////////////////////////////////////////////////////////////////////
+PortalSpecs::PortalSpecs() {
+	auto& obj = PropertyManager::get().getObjectSettings();
+	auto& item = obj.get_child( "objects.levelportal" );
+	
+	AnimationSpecs::parse( item, mAnimSpecs);
+}
+////////////////////////////////////////////////////////////////////////////////
+PortalSpecs& PortalSpecs::get() { 
+	static PortalSpecs p;
+	return p;
+}
+////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 LevelPortal::LevelPortal(sf::FloatRect position, SubLevel* subLevel, const std::string& targetLevel, const std::string& targetPortal, bool startEnabled, bool enabledOnce, sf::Vector2i direction) :
-	CollisionZone( startEnabled, position, enabledOnce ),
+	GraphicalEntity( startEnabled ),
+	mOnce( enabledOnce ),
+	mHitBox( position ),
 	mSubLevel_p(subLevel),
 	mTargetLevel( targetLevel ),
 	mTargetPortal( targetPortal ),
 	mIsWaiting(false),
 	mWaitingFrames(0),
-	mDirection(direction)
-{	}
+	mDirection(direction),
+	mCurrentAnimation_p( nullptr )
+{	
+	auto& animSpecs = PortalSpecs::get().mAnimSpecs;
 
-LevelPortal::~LevelPortal() { }
+		//Since there is only one animation in PortalSpec's list,
+		//this loop will only be performed once. 
+		//But for consistency, we use the loop-syntax.
+	for( auto iter = animSpecs.begin(), end = animSpecs.end(); iter != end; ++iter) {
+		if(iter->mAnimName != "portal" )
+			continue;
+
+		auto w =	iter->mWidth;
+		auto h =	iter->mHeight;
+		auto yO =	iter->mYOrigin;
+		auto xO =	iter->mXOrigin;
+		auto nos =	iter->mNrOfSprites;
+		auto fps =	iter->mFramesPerSprite;
+		auto file = iter->mFileName;
+		auto name = iter->mAnimName;
+
+		mCurrentAnimation_p = new Animation(FS_DIR_OBJECTANIMATIONS +"levelportal/"+ file , w, h, nos, fps, xO, yO);
+	}
+}
+
+LevelPortal::~LevelPortal() {
+	delete mCurrentAnimation_p;
+}
 
 
 const int WAITINGFRAMES = 60;
 
 void LevelPortal::update(SubLevel* subLevel_p){
-
-
-		
-			
-		
 	
 	if (mIsWaiting){
 		++mWaitingFrames; 
@@ -45,7 +99,7 @@ void LevelPortal::update(SubLevel* subLevel_p){
 		{
 			nextSubLevel_p = mSubLevel_p->getLevel()->getSubLevel(mTargetLevel);
 			auto temp_sp = nextSubLevel_p->getEntity( mTargetPortal ).lock();
-			auto nextPortal_p = static_cast<LevelPortal*>(temp_sp.get() );
+			auto nextPortal_p = dynamic_cast<LevelPortal*>(temp_sp.get() );
 				//////////////////////////////////////////////////////////////
 				// /Get the position of the targetPortal
 				// /
@@ -55,7 +109,7 @@ void LevelPortal::update(SubLevel* subLevel_p){
 			auto& rect = nextPortal_p->getHitBox();
 			auto tilesWide = static_cast<int>(rect.width / X_STEP) -1;
 
-			nextPortal_p->swapEnabled();
+			nextPortal_p->setEnabled(false);
 
 			newPos = sf::Vector2f( rect.left + X_STEP * tilesWide, rect.top);
 		}
@@ -76,7 +130,9 @@ void LevelPortal::update(SubLevel* subLevel_p){
 		nextSubLevel_p->addScript(fade_sp);
 		mIsWaiting = false;
 		mWaitingFrames = 0;
-	}
+	}	
+
+	mCurrentAnimation_p->updateAnimation();		
 }
 
 void LevelPortal::onCollision(PhysicalEntity* pe, const sf::Rect<float>& intersection) {
@@ -84,7 +140,7 @@ void LevelPortal::onCollision(PhysicalEntity* pe, const sf::Rect<float>& interse
 		// /If targetPortal is "", the portal is a one-way portal. Hence
 		// /it shouldn't affect anything on collision
 		//////////////////////////////////////////////////////////////
-	if(mTargetPortal == "" || getEnabled() == false)
+	if(mTargetPortal == "" || getEnabled() == false )
 		return;
 		//////////////////////////////////////////////////////////////
 		// /Checks if the entity collided with it of type player.
@@ -95,25 +151,17 @@ void LevelPortal::onCollision(PhysicalEntity* pe, const sf::Rect<float>& interse
 		mSubLevel_p->addScript(fade_sp);
 		InputManager::get().lockInput();
 	}
+
+	//if (mOnce == true)
+	//	setEnabled(false);
 }
 
-void LevelPortal::drawSelf() {
-#ifdef _DEBUG
-
-	sf::Vertex vertices[] =
-	{
-		sf::Vertex(sf::Vector2f(mHitBox.left, mHitBox.top), sf::Color::Red, sf::Vector2f( 0,  0)),
-		sf::Vertex(sf::Vector2f(mHitBox.left, mHitBox.top + mHitBox.height), sf::Color::Red, sf::Vector2f( 0, 10)),
-		sf::Vertex(sf::Vector2f(mHitBox.left + mHitBox.width, mHitBox.top + mHitBox.height), sf::Color::Red, sf::Vector2f(10, 10)),
-		sf::Vertex(sf::Vector2f(mHitBox.left + mHitBox.width, mHitBox.top), sf::Color::Red, sf::Vector2f(10,  0))
-	};
+void LevelPortal::drawSelf() {	
+	sf::Vector2f pos = GAME_TO_SCREEN * sf::Vector2f( mHitBox.left, mHitBox.top);
+	auto& s = mCurrentAnimation_p->getCurrentSprite();
+	s.setPosition( pos );
 
 	auto& window = *WindowManager::get().getWindow();
-	auto states = *WindowManager::get().getStates();
-
-	//translate to screen coordinates
-	states.transform *= GAME_TO_SCREEN;
-
-	window.draw(vertices, 4, sf::LinesStrip, states);
-#endif
+	auto& state  = *WindowManager::get().getStates();
+	window.draw( s, state);
 }
