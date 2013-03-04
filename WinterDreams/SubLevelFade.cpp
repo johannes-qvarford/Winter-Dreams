@@ -19,9 +19,9 @@ void SubLevelFade::update(SubLevel* subLevel_p){
 	
 		if (mWaitingFrames < mFadeTime){
 			if (mType == FADE_IN)
-				mAlpha -= (1.0/mFadeTime);
+				mAlpha -= (1.0f/mFadeTime);
 			else if (mType == FADE_OUT)
-				mAlpha += (1.0/mFadeTime);
+				mAlpha += (1.0f/mFadeTime);
 
 			mWaitingFrames++;
 		}

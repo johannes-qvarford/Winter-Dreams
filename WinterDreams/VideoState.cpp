@@ -11,7 +11,7 @@
 #include <SFML\Audio\Sound.hpp>
 #include <cassert>
 
-VideoState::VideoState(const std::string& videoFileName) :
+VideoState::VideoState(const std::string& videoFileName, const std::string& musicFileName) :
 	mRequestPerformed( false )
 {
 
@@ -24,9 +24,16 @@ VideoState::VideoState(const std::string& videoFileName) :
 		//Save the videos lenght
 	auto lenght = mVideo->getDuration();
 	mVidLenght += lenght;
+
+	if( musicFileName != "" ){
+		mMusic.openFromFile( FS_DIR_MUSIC + musicFileName );
+		mMusic.play();
+	}
 }
 
-VideoState::~VideoState() {}
+VideoState::~VideoState() { 
+	mMusic.stop();
+}
 
 void VideoState::update() {
 /////////////////////////////////////////////
@@ -70,9 +77,9 @@ void VideoState::reqestVideoEnd() {
 void VideoState::onVideoEnd() {
 
 	auto& sm = StateManager::get();
-	sm.freezeState(0);
+	sm.freezeState(20);
 	sm.popState();
 	sm.pushState( MenuState::makeMainMenuState() );
-	sm.unfreezeState(0);
+	sm.unfreezeState(120);
 }
 

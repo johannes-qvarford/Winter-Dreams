@@ -61,7 +61,7 @@ NPC::NPC(const std::string& pathName, const sf::FloatRect& initialPosition, bool
 	Animation::fromListToMap(animSpecs, FS_DIR_OBJECTANIMATIONS + "npc/", &mAnimationMap);
 	//use placeholder for now
 
-	auto it = mAnimationMap.find("placeholder");
+	auto it = mAnimationMap.find("left");
 	mCurrentAnimation_p = &it->second;
 }
 

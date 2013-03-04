@@ -9,7 +9,7 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	auto adjustedHeight = -pt.get<int>("height") * (Y_STEP / 32);
 	auto startdisabled = pt.get<bool>("startdisabled", false);
 
-	auto box = sf::FloatRect(position.x, position.y, adjustedWidth, adjustedHeight);
+	auto box = sf::FloatRect(position.x, position.y - adjustedHeight - Y_STEP, adjustedWidth, adjustedHeight);
 
 	auto le_sp = std::make_shared<LevelEnder>(!startdisabled, box, true);
 
