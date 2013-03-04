@@ -89,7 +89,7 @@ void InputManager::unlockInput() {
 void InputManager::setSocket(sf::TcpSocket* socket) {
 	delete mConnectionSocket;
 	mConnectionSocket = socket;
-	mIsConnected = true;
+//	mIsConnected = true;
 	mPacket = getPacket(mConnectionSocket);
 }
 

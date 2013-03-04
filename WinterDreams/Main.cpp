@@ -24,7 +24,7 @@ int main()
 		if(level_or_menu == "level") {
 		}
 		else if(level_or_menu == "menu") {
-			auto videoState_p = new VideoState("loading_2_video.ogv");
+			auto videoState_p = new VideoState("hela_introsekvens_sn_.ogv", "AmbientWind2.wav");
 			StateManager::get().pushState(videoState_p);
 			StateManager::get().unfreezeState(100);
 		}

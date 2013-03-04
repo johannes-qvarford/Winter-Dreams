@@ -44,9 +44,9 @@ void CreditsButton::activate() {
 //		auto loadingState_p = new LoadingState(first_level_name);
 		auto& stateMgr = StateManager::get();
 
-		stateMgr.freezeState();
+//		stateMgr.freezeState();
 //		stateMgr.popState();
 //		stateMgr.pushState(loadingState_p);
-		stateMgr.unfreezeState();
+//		stateMgr.unfreezeState();
 	}
 }

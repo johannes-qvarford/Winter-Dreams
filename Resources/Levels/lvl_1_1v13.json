@@ -1447,7 +1447,7 @@
                      "disabledopacity":"0",
                      "enabledopacity":"95",
                      "fadetime":"500",
-                     "layer":"1",
+                     "layer":"0",
                      "sprite":"darkwall"
                     },
                  "type":"occluder",
