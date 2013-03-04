@@ -11,7 +11,7 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	auto entList = std::list<std::string>();
 	splitString(counttrigger, &entList);
 
-	auto counter_sp = std::make_shared<Counter>(entList, countamount, !startEnabled, subLevel_p);
+	auto counter_sp = std::make_shared<Counter>(entList, countamount, startEnabled, subLevel_p);
 		
 	subLevel_p->addScript(counter_sp);
 
@@ -19,4 +19,4 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 		subLevel_p->mapEntityToName( name, counter_sp );
 }
 
-static ObjectTypeRegistration reg("levelportal", regCallback);
+static ObjectTypeRegistration reg("counter", regCallback);

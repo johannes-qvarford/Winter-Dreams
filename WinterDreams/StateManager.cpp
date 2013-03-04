@@ -95,12 +95,15 @@ void StateManager::run() {
 	{	
 		auto& windowManager = WindowManager::get();
 
+
+#ifndef SHIPPING_REAL
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
 			windowManager.setFullscreenMode(false);
 		}
 		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
 			windowManager.setFullscreenMode(true);
 		}
+#endif
 
 		if(pollEvents() == false)
 			return;

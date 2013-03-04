@@ -239,13 +239,16 @@ void SubLevel::render() {
 
 	sf::Sprite renderTextureSprite(window.getTexture());
 
+#ifndef SHIPPING_REAL
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 		renderWindow.draw(renderTextureSprite, mLightCircleShader.get() );
 
 	} else {
 		renderWindow.draw(renderTextureSprite);
 	}
-
+#else
+	renderWindow.draw(renderTextureSprite);
+#endif
 	for(auto it = mScripts.begin(), end = mScripts.end(); it != end; ++it) {
 		auto script_sp = *it;
 		script_sp->draw();
@@ -353,8 +356,10 @@ static bool smallerPosition(std::shared_ptr<PhysicalEntity> lhs_p, std::shared_p
 }
 
 void SubLevel::checkCollisions(std::shared_ptr<GraphicalEntity> graphical_sp) {
+#ifndef SHIPPING_REAL
 	if( sf::Keyboard::isKeyPressed( sf::Keyboard::C ) )
 		return;
+#endif
 
 	for(auto it = mGraphicalEntities.begin(), end = mGraphicalEntities.end(); it != end; ++it) {
 		auto other_sp = *it;

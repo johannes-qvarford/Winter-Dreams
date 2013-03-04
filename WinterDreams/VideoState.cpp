@@ -18,6 +18,7 @@ VideoState::VideoState(const std::string& videoFileName) :
 	auto& rm = ResourceManager::get();
 		//Get a shared_ptr to the video
 	mVideo = rm.getVideo( FS_DIR_VIDEO + videoFileName );
+
 		//Check the video for errors
 	assert( !mVideo->hasError() );
 		//Save the videos lenght
@@ -42,6 +43,12 @@ void VideoState::update() {
 
 void VideoState::render() {
 	auto& rendWin = *WindowManager::get().getRenderWindow();
+	
+	//scale video to fit window.
+	auto bounds = mVideo->getLocalBounds();
+	auto scale = sf::Vector2f(float(rendWin.getSize().x) / bounds.width, float(rendWin.getSize().y) / bounds.height);
+	mVideo->setScale(scale);
+	
 	rendWin.draw( *mVideo );
 }
 

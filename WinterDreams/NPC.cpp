@@ -129,6 +129,13 @@ void NPC::update(SubLevel* subLevel_p) {
 		//normalize
 		auto normalPosToPoint = posToPoint / distance;
 
+		mCurrentAnimation_p->updateAnimation();
+
+		if(normalPosToPoint.x > 0 && normalPosToPoint.y < 0)
+			mCurrentAnimation_p = &mAnimationMap.find("right")->second;
+		else if(normalPosToPoint.x < 0 && normalPosToPoint.y > 0)
+			mCurrentAnimation_p = &mAnimationMap.find("left")->second;
+
 		//get closer to the point
 		position += normalPosToPoint * speed; 
 

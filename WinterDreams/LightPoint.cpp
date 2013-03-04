@@ -90,16 +90,16 @@ void LightPoint::update(SubLevel* subLevel_p) {
 }
 
 void LightPoint::drawSelf() {
-	auto& manager = WindowManager::get();
-	auto& window = *manager.getWindow();
-	auto& states = *manager.getStates();
-	auto sprite = mCurrentAnimation_p->getCurrentSprite();
-	auto& hitBox = getHitBox();
-	auto position = GAME_TO_SCREEN * sf::Vector2f(hitBox.left, hitBox.top);
+	//auto& manager = WindowManager::get();
+	//auto& window = *manager.getWindow();
+	//auto& states = *manager.getStates();
+	//auto sprite = mCurrentAnimation_p->getCurrentSprite();
+	//auto& hitBox = getHitBox();
+	//auto position = GAME_TO_SCREEN * sf::Vector2f(hitBox.left, hitBox.top);
 
-	sprite.setPosition(position);
+	//sprite.setPosition(position);
 
-	window.draw(sprite, states);
+	//window.draw(sprite, states);
 }
 
 sf::FloatRect& LightPoint::getHitBox() {

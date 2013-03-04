@@ -74,6 +74,8 @@ void OccludedEntity::drawSelf(){
 	sf::Sprite spr = mAnimation.getCurrentSprite();
 
 	auto pos = GAME_TO_SCREEN * sf::Vector2f(mHitBox.left, mHitBox.top);
+	pos.x = int(pos.x);
+	pos.y = int(pos.y);
 
 	spr.setPosition(pos);
 	
