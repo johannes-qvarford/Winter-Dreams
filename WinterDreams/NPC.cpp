@@ -52,19 +52,21 @@ NPC::NPC(const std::string& pathName, const sf::FloatRect& initialPosition, bool
 	mPathName(pathName),
 	mPath_p(NULL),
 	mNextPoint(0),
-	mHitBox(initialPosition)
+	mHitBox(initialPosition),
+	mFirstFrame(false)
 {
 	auto& npcSpecs = NPCSpecs::get();
 	auto& animSpecs = npcSpecs.getAnimSpecList();
 
 	Animation::fromListToMap(animSpecs, FS_DIR_OBJECTANIMATIONS + "npc/", &mAnimationMap);
 	//use placeholder for now
+
 	auto it = mAnimationMap.find("placeholder");
 	mCurrentAnimation_p = &it->second;
 }
 
 void NPC::update(SubLevel* subLevel_p) {
-	
+
 	//are we still looking for the path?
 	if(mFoundPath == false) {
 		auto& points = subLevel_p->getAiPath(mPathName);
@@ -130,6 +132,14 @@ void NPC::update(SubLevel* subLevel_p) {
 		auto normalPosToPoint = posToPoint / distance;
 
 		mCurrentAnimation_p->updateAnimation();
+
+		if(mFirstFrame == false) {
+			if(normalPosToPoint.x > 0)
+				mCurrentAnimation_p = &mAnimationMap.find("right")->second;
+			else
+				mCurrentAnimation_p = &mAnimationMap.find("left")->second;
+		}
+		mFirstFrame = true;
 
 		if(normalPosToPoint.x > 0 && normalPosToPoint.y < 0)
 			mCurrentAnimation_p = &mAnimationMap.find("right")->second;
