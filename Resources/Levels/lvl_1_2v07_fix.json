@@ -441,8 +441,9 @@
                  "name":"fx_bridge_4_gfx",
                  "properties":
                     {
-                     "disabledopacity":"95",
-                     "enabledopacity":"0",
+					 "startdisabled":true,
+                     "disabledopacity":"0",
+                     "enabledopacity":"95",
                      "fadetime":"750",
                      "layer":"0",
                      "sprite":"Bridge_MiddleDown"
@@ -459,8 +460,9 @@
                  "name":"fx_bridge_5_gfx",
                  "properties":
                     {
-                     "disabledopacity":"95",
-                     "enabledopacity":"0",
+					 "startdisabled":true,
+                     "disabledopacity":"0",
+                     "enabledopacity":"95",
                      "fadetime":"750",
                      "layer":"0",
                      "sprite":"Bridge_MiddleLeft"
@@ -477,8 +479,9 @@
                  "name":"fx_bridge_6_gfx",
                  "properties":
                     {
-                     "disabledopacity":"95",
-                     "enabledopacity":"0",
+					 "startdisabled":true,
+                     "disabledopacity":"0",
+                     "enabledopacity":"95",
                      "fadetime":"750",
                      "layer":"0",
                      "sprite":"Bridge_MiddleRight"
@@ -495,8 +498,9 @@
                  "name":"fx_bridge_7_gfx",
                  "properties":
                     {
-                     "disabledopacity":"95",
-                     "enabledopacity":"0",
+					 "startdisabled":true,
+                     "disabledopacity":"0",
+                     "enabledopacity":"95",
                      "fadetime":"750",
                      "layer":"0",
                      "sprite":"Bridge_MiddleTop"
@@ -513,8 +517,9 @@
                  "name":"fx_bridge_1_gfx",
                  "properties":
                     {
-                     "disabledopacity":"95",
-                     "enabledopacity":"0",
+					 "startdisabled":true,
+                     "disabledopacity":"0",
+                     "enabledopacity":"95",
                      "fadetime":"750",
                      "layer":"0",
                      "sprite":"Bridge_OuterBottomRight"
@@ -531,8 +536,9 @@
                  "name":"fx_bridge_2_gfx",
                  "properties":
                     {
-                     "disabledopacity":"95",
-                     "enabledopacity":"0",
+					 "startdisabled":true,
+                     "disabledopacity":"0",
+                     "enabledopacity":"95",
                      "fadetime":"750",
                      "layer":"0",
                      "sprite":"Bridge_OuterBottomRight"
@@ -549,8 +555,9 @@
                  "name":"fx_bridge_8_gfx",
                  "properties":
                     {
-                     "disabledopacity":"95",
-                     "enabledopacity":"0",
+					 "startdisabled":true,
+                     "disabledopacity":"0",
+                     "enabledopacity":"95",
                      "fadetime":"750",
                      "layer":"0",
                      "sprite":"Bridge_OuterLeft"
@@ -567,8 +574,9 @@
                  "name":"fx_bridge_3_gfx",
                  "properties":
                     {
-                     "disabledopacity":"95",
-                     "enabledopacity":"0",
+					 "startdisabled":true,
+                     "disabledopacity":"0",
+                     "enabledopacity":"95",
                      "fadetime":"750",
                      "layer":"0",
                      "sprite":"Bridge_OuterRight"
@@ -585,8 +593,9 @@
                  "name":"fx_bridge_9_gfx",
                  "properties":
                     {
-                     "disabledopacity":"95",
-                     "enabledopacity":"0",
+					 "startdisabled":true,
+                     "disabledopacity":"0",
+                     "enabledopacity":"95",
                      "fadetime":"750",
                      "layer":"0",
                      "sprite":"Bridge_OuterTop"

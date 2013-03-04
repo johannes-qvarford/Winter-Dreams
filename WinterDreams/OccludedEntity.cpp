@@ -22,7 +22,7 @@ OccludedEntity::OccludedEntity(const sf::FloatRect& initialPosition, const Anima
 		mCurrentAlpha=disabledOpacity;
 	}
 
-	mFadeTime=static_cast<float>(60/fadeTime);
+	mFadeTime=static_cast<float>(fadeTime / (1000.f / 60.f));
 }
 
 OccludedEntity::~OccludedEntity(){
@@ -54,18 +54,18 @@ void OccludedEntity::drawSelf(){
 
 	if (getEnabled()){
 		if (mCurrentAlpha < mEnabledAlpha){
-			mCurrentAlpha += mFadeTime;
+			mCurrentAlpha += 1.f / (mFadeTime + 0.001f);
 			mCurrentAlpha = std::min(mCurrentAlpha, mEnabledAlpha);
 		} else if (mCurrentAlpha > mEnabledAlpha){
-			mCurrentAlpha -= mFadeTime;
+			mCurrentAlpha -= 1.f / (mFadeTime + 0.001f);
 			mCurrentAlpha = std::max(mCurrentAlpha, mEnabledAlpha);
 		}
 	} else {
 		if (mCurrentAlpha > mDisabledAlpha){
-			mCurrentAlpha -= mFadeTime;
+			mCurrentAlpha -= 1.f / (mFadeTime + 0.001f);
 			mCurrentAlpha = std::max(mCurrentAlpha, mDisabledAlpha);
-		} else if (mCurrentAlpha > mDisabledAlpha){
-			mCurrentAlpha += mFadeTime;
+		} else if (mCurrentAlpha < mDisabledAlpha){
+			mCurrentAlpha += 1.f / (mFadeTime + 0.001f);
 			mCurrentAlpha = std::min(mCurrentAlpha, mDisabledAlpha);
 		}
 	}
@@ -81,9 +81,9 @@ void OccludedEntity::drawSelf(){
 	
 	states.blendMode = sf::BlendAlpha;
 
-	if (getEnabled() == false){
+//	if (getEnabled() == false){
 		states.shader = mShader.get();
-	}
+//	}
 
 	renTex->draw(spr, states);
 

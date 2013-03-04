@@ -12,6 +12,7 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	auto& properties = pt.get_child("properties");
 	auto startdisabled = properties.get<bool>("startdisabled", false);
 
+
 	auto spriteName = properties.get<std::string>("sprite");
 	auto layer = properties.get<int>("layer");
 	
@@ -25,7 +26,7 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 		disabledopacity = properties.get<float>("occlusionlevel");
 	
 	
-	auto fadetime = properties.get<float>("fadetime", 1);
+	auto fadetime = properties.get<int>("fadetime", 1);
 	auto name = pt.get<std::string>("name","");
 
 	auto width = pt.get<int>("width") / 32.f * X_STEP;
