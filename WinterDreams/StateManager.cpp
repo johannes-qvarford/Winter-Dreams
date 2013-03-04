@@ -55,9 +55,7 @@ StateManager::StateManager():
 }
 
 StateManager::~StateManager() {
-	while(mStates.empty() == false) {
-		mStates.pop();
-	}
+
 }
 
 void StateManager::run() {
@@ -106,8 +104,11 @@ void StateManager::run() {
 		}
 #endif
 
-		if(pollEvents() == false)
+		if(pollEvents() == false) {
+			while(mStates.empty() == false)
+				mStates.pop();
 			return;
+		}
 
 		//try to catch up, by doing a maximun of MAX_FRAMESKIP updates.
 		while(GetTickCount.getElapsedTime() > nextGameTick && loops < MAX_FRAMESKIP ) { 

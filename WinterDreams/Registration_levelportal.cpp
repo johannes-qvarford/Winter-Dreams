@@ -4,8 +4,8 @@
 
 static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, const boost::property_tree::ptree& pt) {
 	
-	auto startEnabled = !pt.get<bool>("startdisable", false);
-	auto once = pt.get<bool>("properties.once", false);
+	auto startEnabled = !pt.get<bool>("startdisabled", false);
+	auto once = pt.get<bool>("properties.once", true);
 	auto height = ( pt.get<int>("height") / 32 ) * -Y_STEP;
 	auto width = ( pt.get<int>("width") / 32 ) * X_STEP;
 	auto targetLevel = pt.get<std::string>("properties.levelname");
@@ -22,12 +22,12 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	else if (directionString == "nw")
 		direction = sf::Vector2i(-1, 0);
 	sf::FloatRect rect( position.x, position.y, width, height );
-	std::shared_ptr<CollisionZone> portal_p( new LevelPortal(rect, subLevel_p, targetLevel, targetPortal, startEnabled, once, direction) );
+	std::shared_ptr<PhysicalEntity> portal_p( new LevelPortal(rect, subLevel_p, targetLevel, targetPortal, startEnabled, once, direction) );
 
-	subLevel_p->addCollisionZone( portal_p );
+	subLevel_p->addGraphicalEntity( std::dynamic_pointer_cast<GraphicalEntity>(portal_p) );
 
 	if( name != "" )
-		subLevel_p->mapEntityToName( name, portal_p );
+		subLevel_p->mapEntityToName( name, std::static_pointer_cast<Entity>(portal_p) );
 }
 
 static ObjectTypeRegistration reg("levelportal", regCallback);

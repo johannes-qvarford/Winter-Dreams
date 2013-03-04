@@ -2,6 +2,8 @@
 #define INCLUDED_LEVELPORTAL
 
 #include "CollisionZone.h"
+#include "GraphicalEntity.h"
+#include "Animation.h"
 #include <string>
 
 class LevelState;
@@ -9,7 +11,7 @@ class LevelState;
 // /A level portal teleports the players view to another level (or
 // /somewhere else on the same level.
 //////////////////////////////////////////////////////////////
-class LevelPortal : public CollisionZone {
+class LevelPortal : public  GraphicalEntity {
 public:
 	////////////////////////////////////////////////////////////////////////////
 	// /The levelportal has a hitbox, which also represents the portals position.
@@ -36,9 +38,13 @@ public:
 
 	void update(SubLevel* subLevel_p);
 
+	sf::FloatRect& getHitBox() { return mHitBox; }
+
 private:
+	bool mOnce;
 	bool mIsWaiting;
 	sf::Vector2i mDirection;
+	sf::FloatRect mHitBox;
 	int mWaitingFrames;
 	SubLevel* mSubLevel_p;
 	std::string mTargetLevel;
@@ -48,6 +54,8 @@ private:
 	LevelPortal(const LevelPortal& lp);
 	//No copies
 	LevelPortal& operator=(const LevelPortal& lp);
+
+	Animation*				 mCurrentAnimation_p; //The portals's current animation
 };
 
 #endif

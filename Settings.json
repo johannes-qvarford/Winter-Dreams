@@ -7,7 +7,7 @@
 	{
 		"lvl_1":
 		{
-			"intro_video": "loading_ogg_test_.ogg",
+			"intro_video": "loading_2_video.ogv",
 			"first_sublevel_name": "lvl_1_1",
 			"sublevels": {
 				"lvl_1_1": "lvl_1_1v11.json", 
@@ -18,7 +18,7 @@
 		
 		"lvl_2":
 		{
-			"intro_video": "loading_ogg_test_.ogg",
+			"intro_video": "loading_2_video.ogv",
 			"first_sublevel_name": "lvl_1_1",
 			"sublevels": {
 				"lvl_1_1": "lvl_1_1v11.json", 

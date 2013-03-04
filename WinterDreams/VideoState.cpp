@@ -24,6 +24,7 @@ VideoState::VideoState(const std::string& videoFileName) :
 		//Save the videos lenght
 	auto lenght = mVideo->getDuration();
 	mVidLenght += lenght;
+
 }
 
 VideoState::~VideoState() { }

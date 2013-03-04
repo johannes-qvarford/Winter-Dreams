@@ -24,7 +24,7 @@ int main()
 		if(level_or_menu == "level") {
 		}
 		else if(level_or_menu == "menu") {
-			auto videoState_p = new VideoState("loading_ogg_test_.ogg");
+			auto videoState_p = new VideoState("loading_2_video.ogv");
 			StateManager::get().pushState(videoState_p);
 			StateManager::get().unfreezeState(100);
 		}
