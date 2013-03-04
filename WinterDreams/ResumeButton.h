@@ -1,5 +1,5 @@
 #ifndef INCLUDED_RESUMEBUTTON
-#define INCLUDED_ResumeBUTTON
+#define INCLUDED_RESUMEBUTTON
 
 #include "Button.h"
 
@@ -8,7 +8,7 @@ public:
 	////////////////////////////////////////////////////////////
 	// /Create a resume button.
 	////////////////////////////////////////////////////////////
-	ResumeButton(const sf::Vector2f& initialPosition);
+	ResumeButton();
 
 	////////////////////////////////////////////////////////////
 	// /Does the following:

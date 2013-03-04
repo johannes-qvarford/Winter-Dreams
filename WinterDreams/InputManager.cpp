@@ -1,5 +1,6 @@
 #include "InputManager.h"
-#include "Network.h"
+
+sf::Vector2f uKontrollStick(const PacketContents& p);
 
 InputManager& InputManager::get(){
 	static InputManager inputManager;
@@ -11,45 +12,58 @@ InputManager::InputManager():
 	KEY_B(sf::Keyboard::Z),
 	KEY_START(sf::Keyboard::Return),
 	KEY_SELECT(sf::Keyboard::Space),
-	mIsUnlocked( true )	
+	mConnectionSocket( new sf::TcpSocket ),
+	mIsUnlocked( true ),
+	mIsConnected( false )
 {
+}
+
+InputManager::~InputManager(){
+	mConnectionSocket->disconnect();
+	delete mConnectionSocket;
+	
 }
 
 sf::Vector2f InputManager::getStick(){
 	sf::Vector2f stick(0,0);
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-		stick += sf::Vector2f(-1, 1);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-		stick += sf::Vector2f(-1, -1);		
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-		stick += sf::Vector2f(1, -1);	
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-		stick += sf::Vector2f(1, 1);		
-	}
-	float length = sqrt(stick.x*stick.x + stick.y*stick.y);
-	if( abs(length) > 0 ){
-		stick = sf::Vector2f(stick.x/length, stick.y/length);
+
+	if(mIsConnected)
+		stick = uKontrollStick(mPacket);
+	else{
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+			stick += sf::Vector2f(-1, 1);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+			stick += sf::Vector2f(-1, -1);		
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+			stick += sf::Vector2f(1, -1);	
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+			stick += sf::Vector2f(1, 1);		
+		}
+		float length = sqrt(stick.x*stick.x + stick.y*stick.y);
+		if( abs(length) > 0 ){
+			stick = sf::Vector2f(stick.x/length, stick.y/length);
+		}
 	}
 	return mIsUnlocked ? stick : sf::Vector2f(0,0);
 }
 
 bool InputManager::isADown(){
-	return mIsUnlocked ? (sf::Keyboard::isKeyPressed(KEY_A)) : false;
+	return mIsUnlocked ? ( mIsConnected ? mPacket.a :(sf::Keyboard::isKeyPressed(KEY_A) ) ) : false;
 }
 
 bool InputManager::isBDown(){
-	return mIsUnlocked ? (sf::Keyboard::isKeyPressed(KEY_B)) : false;
+	return mIsUnlocked ? ( mIsConnected ? mPacket.b :(sf::Keyboard::isKeyPressed(KEY_B) ) ) : false;
 }
 
 bool InputManager::isStartDown(){
-	return mIsUnlocked ? (sf::Keyboard::isKeyPressed(KEY_START)) : false;
+	return mIsUnlocked ? (sf::Keyboard::isKeyPressed(KEY_START) ) : false;
 }
 
 bool InputManager::isSelectDown(){
-	return mIsUnlocked ? (sf::Keyboard::isKeyPressed(KEY_SELECT)) : false;
+	return mIsUnlocked ? ( mIsConnected ? (mPacket.a && mPacket.b) : (sf::Keyboard::isKeyPressed(KEY_SELECT))) : false;
 }
 
 void InputManager::setKeyBinding(std::string binding, sf::Keyboard::Key key){
@@ -66,3 +80,27 @@ void InputManager::lockInput() {
 void InputManager::unlockInput() {
 	mIsUnlocked = true;
 }
+
+//////////////////////////////////////////////////////////////////////////
+////////////////////////// uKontroll related /////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+
+void InputManager::setSocket(sf::TcpSocket* socket) {
+	delete mConnectionSocket;
+	mConnectionSocket = socket;
+}
+
+void InputManager::update(){
+	mPacket = getPacket( mConnectionSocket, &mIsConnected );
+}
+
+sf::Vector2f uKontrollStick(const PacketContents& p) {
+	auto pack = p;
+	pack.joystick.x /= pack.joystick.x;
+	pack.joystick.y /= pack.joystick.y;
+	return pack.joystick;
+}
+
+////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////

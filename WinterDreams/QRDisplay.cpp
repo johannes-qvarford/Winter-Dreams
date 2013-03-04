@@ -11,38 +11,91 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Network.hpp>
 
-static const char * const BOX_FILENAME = "placeholder_box.png"; 
-static const char * const FONT_FILENAME = "arial.ttf";
-static const char * const TEXT_STRING = "uKontroll";
+class QRSpecs {
+public:
 
-QRDisplay::QRDisplay(const sf::Vector2f& initialPosition):
-	Button(initialPosition, FS_DIR_UI + BOX_FILENAME),
-	mUpdated(false)
+	static QRSpecs& get(){ static QRSpecs sSpecs; return sSpecs; }
+
+	float mXOffset;
+
+	float mYOffsetBot;
+	float mYOffsetTop;
+
+	std::string mFilename;
+
+private:
+
+	QRSpecs() {
+		//exit(int) is a c function. use some other name
+		auto& exit_ = PropertyManager::get().getGeneralSettings().get_child("ui.mainmenu.ukontroll");
+		mXOffset = exit_.get<float>("xoffset");
+		mYOffsetBot = exit_.get<float>("yoffsetbot");
+		mYOffsetTop = exit_.get<float>("yoffsettop");
+		mFilename = exit_.get<std::string>("filename");
+	}
+};
+
+QRDisplay::QRDisplay():
+	Button(sf::Vector2f(QRSpecs::get().mXOffset, QRSpecs::get().mYOffsetBot), QRSpecs::get().mFilename),
+	mUpdated(false),
+	mActivated(false),
+	mStatus( BOTTOM ),
+	mQrPos( 0,0 )
 {
-
 }
 
 void QRDisplay::activate() {
-	if(mUpdated == false && InputManager::get().isADown()) {
-		mUpdated = true;
+	bool updated = false;
+	if( InputManager::get().isADown() )
+		updated = true;
+
+	if(mActivated == false && updated == true && InputManager::get().isADown()) {
+		mActivated = true;
 
 		auto response = getResponse();
 
 		mQrCodeTexture_sp = std::make_shared<sf::Texture>( getQR( response ) );
 		
-		mQrSprite.setTexture( *mQrCodeTexture_sp );
-		mQrSprite.setPosition( 0,0 );
-		mQrSprite.setScale( 0.5, 0.5 );
+		auto socket =  openSocket( response );
+		InputManager::get().setSocket( socket );
+	}
 
-		mSocket_p = openSocket( response );
+	if( mStatus == BOTTOM && updated == true ){
+		mStatus = ASCEND;
+		updated = false;
+	}
+	else if( mStatus == TOP && updated == true ){
+		mStatus = DESCEND;
+		updated = false;
 	}
 }
 
+void QRDisplay::update(MenuState* menuState_p){
+	if( mStatus == ASCEND ){
+		if( mBounds.top > QRSpecs::get().mYOffsetTop )
+			mBounds.top -= 2.f / 1080.f;
+		else
+			mStatus = TOP;
+	} else 	if( mStatus == DESCEND ){
+		if( mBounds.top < QRSpecs::get().mYOffsetBot )
+			mBounds.top += 2.f / 1080.f;
+		else
+			mStatus = BOTTOM;
+	}
+
+	mQrPos = sf::Vector2f( mBounds.left + (8.f / 1080.f), mBounds.top + mBounds.height - (8.f / 1080.f) );
+}
+
 void QRDisplay::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-	Button::draw(target, states);
-	//auto sprite = sf::Sprite(*mTexture_sp);
-	//sprite.setPosition(mBounds.left, mBounds.top);
-	//target.draw(sprite, states);
-	//target.draw(mText);
-	//target.draw( mQrSprite );	
+	Button::draw(target, states);		
+	
+	if( mActivated ){
+		auto qrSprite = sf::Sprite( *mQrCodeTexture_sp );
+		qrSprite.setPosition( mQrPos.x * target.getSize().x, mQrPos.y * target.getSize().y );
+		qrSprite.setScale(
+			float(target.getSize().x) / 1920*0.45f, 
+			float(target.getSize().y) / 1080*0.45f);
+		qrSprite.setOrigin( 0.f, mQrCodeTexture_sp->getSize().y);
+		target.draw( qrSprite, states );	
+	}
 }

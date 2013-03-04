@@ -205,6 +205,33 @@
     <ClCompile Include="Registration_levelend.cpp">
       <Filter>Sources\Registration</Filter>
     </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_timer.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeAdder.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_timeadder.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="ResumeButton.cpp">
+      <Filter>Sources\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenuButton.cpp">
+      <Filter>Sources\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Counter.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="CounterAdder.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_counter.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameToScreen.h">
@@ -382,12 +409,27 @@
       <Filter>Includes</Filter>
     </ClInclude>
     <ClInclude Include="SubLevelFade.h">
-	  <Filter>Includes\Entity</Filter>
+      <Filter>Includes\Entity</Filter>
     </ClInclude>
     <ClInclude Include="LevelEnder.h">
       <Filter>Includes\Entity</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeAdder.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Counter.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="ResumeButton.h">
+      <Filter>Includes\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuButton.h">
+      <Filter>Includes\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CounterAdder.h">
       <Filter>Includes\Entity</Filter>
     </ClInclude>
   </ItemGroup>

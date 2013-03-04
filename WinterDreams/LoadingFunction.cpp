@@ -46,12 +46,9 @@ void loadingFunc::loadLevel(LoadingSpecs& specs) {
 
 	for(auto it = sublevels.begin(), end = sublevels.end(); it != end; ++it) {
 		//load sublevels one at a time.
-		auto& entry = it->second;
-		auto subLevelName = entry.get_value<std::string>();
+		auto subLevelName = it->first;
 		loadSubLevel(subLevelName, specs.mLoadedLevel_p, specs.mResourceMutex_p);
 	}
-
-
 
 	specs.mLoadedLevel_p->switchSubLevel(level.get<std::string>("first_sublevel_name"));
 
@@ -60,12 +57,9 @@ void loadingFunc::loadLevel(LoadingSpecs& specs) {
 	std::shared_ptr<Camera> camera_sp = specs.mLoadedLevel_p->getCamera();
 	std::shared_ptr<InventoryDisplay> display_sp = specs.mLoadedLevel_p->getInventoryDisplay();
 
-
-
 	for(auto it = sublevels.begin(), end = sublevels.end(); it != end; ++it) {
 		//iterate over all sublevels.
-		auto& entry = it->second;
-		auto subLevelName = entry.get_value<std::string>();
+		auto subLevelName = it->first;
 		auto subLevel_sp = specs.mLoadedLevel_p->getSubLevel(subLevelName);
 
 		//add them to the sublevel.
@@ -90,8 +84,10 @@ static void loadSubLevel(const std::string& subLevelName, LevelState* levelState
 	auto tilesToObjects = std::map<int, std::string>();
 	
 	//read sublevel from json
+
+	auto subLevelFilename = propMgr.getGeneralSettings().get<std::string>("levels." + levelState_p->getLevelName() + ".sublevels." + subLevelName);
 	auto levelData = ptree();
-	json_parser::read_json(FS_DIR_LEVELS + subLevelName, levelData);
+	json_parser::read_json(FS_DIR_LEVELS + subLevelFilename, levelData);
 
 	//connect sublevel with level
 	auto subLevel_sp = std::shared_ptr<SubLevel>(new SubLevel(levelState_p));

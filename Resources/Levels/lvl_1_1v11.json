@@ -612,7 +612,7 @@
                      "loop":"false",
                      "rangedecay":"0",
                      "sound3d":"false",
-                     "soundfile":"roar1",
+                     "soundfile":"roar1.ogg",
                      "soundtype":"narrator",
                      "volume":"100"
                     },
@@ -632,7 +632,7 @@
                      "loop":"false",
                      "rangedecay":"0",
                      "sound3d":"false",
-                     "soundfile":"roar2",
+                     "soundfile":"roar2.ogg",
                      "soundtype":"narrator",
                      "volume":"100"
                     },
@@ -652,7 +652,7 @@
                      "loop":"false",
                      "rangedecay":"0",
                      "sound3d":"false",
-                     "soundfile":"roar3",
+                     "soundfile":"roar3.ogg",
                      "soundtype":"narrator",
                      "volume":"100"
                     },
@@ -705,7 +705,7 @@
                      "loop":"false",
                      "rangedecay":"0",
                      "sound3d":"false",
-                     "soundfile":"roar4",
+                     "soundfile":"roar4.ogg",
                      "soundtype":"narrator",
                      "volume":"100"
                     },
@@ -725,7 +725,7 @@
                      "loop":"false",
                      "rangedecay":"0",
                      "sound3d":"false",
-                     "soundfile":"roar3",
+                     "soundfile":"roar3.ogg",
                      "soundtype":"narrator",
                      "volume":"100"
                     },
@@ -762,7 +762,7 @@
                      "loop":"false",
                      "rangedecay":"0",
                      "sound3d":"false",
-                     "soundfile":"roar4",
+                     "soundfile":"roar4.ogg",
                      "soundtype":"narrator",
                      "volume":"100"
                     },
@@ -799,7 +799,7 @@
                      "loop":"false",
                      "rangedecay":"0",
                      "sound3d":"false",
-                     "soundfile":"roar1",
+                     "soundfile":"roar1.ogg",
                      "soundtype":"narrator",
                      "volume":"100"
                     },
@@ -851,7 +851,7 @@
                      "loop":"false",
                      "rangedecay":"0",
                      "sound3d":"false",
-                     "soundfile":"roar3",
+                     "soundfile":"roar3.ogg",
                      "soundtype":"narrator",
                      "volume":"100"
                     },
@@ -871,7 +871,7 @@
                      "loop":"false",
                      "rangedecay":"0",
                      "sound3d":"false",
-                     "soundfile":"roar2",
+                     "soundfile":"roar2.ogg",
                      "soundtype":"narrator",
                      "volume":"100"
                     },
@@ -904,8 +904,8 @@
                     {
                      "alarmaction":"enable",
                      "alarmtrigger":"na_crystals_nopick_2_trigger",
-                     "maxtime":"45",
-                     "time":"45"
+                     "maxtime":"5",
+                     "time":"5"
                     },
                  "type":"timer",
                  "visible":true,

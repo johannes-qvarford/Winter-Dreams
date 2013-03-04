@@ -3,6 +3,11 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <string>
+#include "Network.h"
+
+namespace sf{
+	class TcpSocket;
+}
 
 class InputManager{
 public:
@@ -45,13 +50,26 @@ public:
 	// /values again.
 	/////////////////////////////////////////////////////////////////////
 	void unlockInput();
+	/////////////////////////////////////////////////////////////////////
+	// /Assigns a socket to the InputManager from which it will request 
+	// /uKontroll data.
+	/////////////////////////////////////////////////////////////////////
+	void setSocket(sf::TcpSocket* socket);
+	/////////////////////////////////////////////////////////////////////
+	// /Requests a new input packet. Shall be called once per frame.
+	/////////////////////////////////////////////////////////////////////
+	void update();
 private:
 	InputManager();
-	~InputManager(){};
+	~InputManager();
 	InputManager(const InputManager& i);
 	InputManager& operator = (const InputManager&);
 
 	sf::Keyboard::Key KEY_A, KEY_B, KEY_START, KEY_SELECT;
 	bool mIsUnlocked;
+
+	bool mIsConnected;
+	sf::TcpSocket* mConnectionSocket;
+	PacketContents mPacket;
 };
 #endif

@@ -28,7 +28,7 @@ private:
 	}
 };
 
-ResumeButton::ResumeButton(const sf::Vector2f& initialPosition):
+ResumeButton::ResumeButton():
 	Button(sf::Vector2f(ResumeButtonSpecs::get().mXOffset, ResumeButtonSpecs::get().mYOffset), ResumeButtonSpecs::get().mFilename),
 	mUpdated(false)
 {
