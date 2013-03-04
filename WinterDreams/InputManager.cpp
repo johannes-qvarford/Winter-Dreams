@@ -1,4 +1,5 @@
 #include "InputManager.h"
+#include <cmath>
 
 sf::Vector2f uKontrollStick(const PacketContents& p);
 
@@ -88,17 +89,28 @@ void InputManager::unlockInput() {
 void InputManager::setSocket(sf::TcpSocket* socket) {
 	delete mConnectionSocket;
 	mConnectionSocket = socket;
+	mIsConnected = true;
+	mPacket = getPacket(mConnectionSocket);
 }
 
 void InputManager::update(){
-	mPacket = getPacket( mConnectionSocket, &mIsConnected );
+	if( mIsConnected )
+		mPacket = getPacket( mConnectionSocket);
 }
 
 sf::Vector2f uKontrollStick(const PacketContents& p) {
+	static const sf::Transform matrix
+		(	 cos( -45.f ), -sin( -45.f ), 0,
+			 sin( -45.f ),	cos( -45.f ), 0,
+			 	0		 ,		0		, 0 );
 	auto pack = p;
-	pack.joystick.x /= pack.joystick.x;
-	pack.joystick.y /= pack.joystick.y;
-	return pack.joystick;
+
+	if(pack.joystick.x != 0)
+		pack.joystick.x *= static_cast<float>(0.01);
+	if(pack.joystick.y != 0)
+		pack.joystick.y *= -static_cast<float>(0.01);
+	
+	return matrix * pack.joystick;
 }
 
 ////////////////////////////////////////////////////////////////////////////

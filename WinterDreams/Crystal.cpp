@@ -109,6 +109,7 @@ sf::FloatRect& Crystal::getHitBox() {
 
 void Crystal::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::FloatRect& intersection) {
 	static sf::Sound sound(*mSoundBuffer);
+	sound.setVolume(10);
 		//First do the standard Solid Zone collisions
 	mSolidZone->onCollision( entityCollidedWith_p, intersection );
 

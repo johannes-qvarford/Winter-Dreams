@@ -1,6 +1,7 @@
 #include "StateManager.h"
 #include "State.h"
 #include "WindowManager.h"
+#include "InputManager.h"
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
@@ -111,6 +112,7 @@ void StateManager::run() {
 		//try to catch up, by doing a maximun of MAX_FRAMESKIP updates.
 		while(GetTickCount.getElapsedTime() > nextGameTick && loops < MAX_FRAMESKIP ) { 
 			WindowManager::get().resetLightIDs();
+			InputManager::get().update();
 
 			nextGameTick += sf::Time( sf::microseconds(advances) );
 			++loops;

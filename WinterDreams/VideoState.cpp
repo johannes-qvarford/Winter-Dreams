@@ -26,7 +26,7 @@ VideoState::VideoState(const std::string& videoFileName) :
 	mVidLenght += lenght;
 }
 
-VideoState::~VideoState() {}
+VideoState::~VideoState() { }
 
 void VideoState::update() {
 /////////////////////////////////////////////
