@@ -247,7 +247,7 @@ void SubLevel::render() {
 		renderWindow.draw(renderTextureSprite);
 	}
 #else
-	renderWindow.draw(renderTextureSprite);
+	renderWindow.draw(renderTextureSprite, mLightCircleShader.get() );
 #endif
 	for(auto it = mScripts.begin(), end = mScripts.end(); it != end; ++it) {
 		auto script_sp = *it;

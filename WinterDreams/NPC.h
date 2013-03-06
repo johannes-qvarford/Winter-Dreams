@@ -40,6 +40,8 @@ public:
 
 private:
 
+	bool mFirstFrame;
+
 	Animation* mCurrentAnimation_p;
 
 	std::map<std::string, Animation> mAnimationMap;
