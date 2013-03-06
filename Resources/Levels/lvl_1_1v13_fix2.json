@@ -62,6 +62,18 @@
          "height":104,
          "name":"Objects",
          "objects":[
+				{
+				"name":"levelsplash",
+				"properties":
+					{
+					"lifetime":12,
+					"fadeouttime":2,
+					"fadeintime":0,
+					"splashimgfile":"splash.png"
+					},
+					"type":"levelsplash",
+					"visiblie":true
+				},
                 {
                  "height":32,
                  "name":"player",
@@ -529,7 +541,7 @@
                  "name":"sn_music_main",
                  "properties":
                     {
-                     "fadein":"5000",
+                     "fadein":"1000",
                      "innerradius":"1",
                      "loop":"true",
                      "rangedecay":"0",
