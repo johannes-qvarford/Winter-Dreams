@@ -60,6 +60,16 @@
 				"yorigin": 180,
 				"xorigin": 66,
 				"filename": "bridge_segment.png"
+			},
+			"wall_section_right":{
+				"yorigin": 275,
+				"xorigin": 141,
+				"filename": "Wall_section_left.png"
+			},
+			"wall_section_left":{
+				"yorigin": 183,
+				"xorigin": 187,
+				"filename": "Wall_section_right.png"
 			}
 		}
 	},
