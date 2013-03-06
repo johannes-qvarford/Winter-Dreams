@@ -137,7 +137,25 @@
 					"numberofsprites": "8",
 					"framespersprite": "12",
 					"filename": "zeb_spritesheet_right.png"
-				}				
+				},
+				"up": {
+					"spritewidth": "100",
+					"spriteheight": "100",
+					"yorigin": "80",
+					"xorigin": "0",
+					"numberofsprites": "8",
+					"framespersprite": "12",
+					"filename": "zeb_spritesheet_back.png"
+				},
+				"down": {
+					"spritewidth": "100",
+					"spriteheight": "100",
+					"yorigin": "80",
+					"xorigin": "0",
+					"numberofsprites": "8",
+					"framespersprite": "12",
+					"filename": "zeb_spritesheet_front.png"
+				}					
 			}
 		},
 		"light" : {

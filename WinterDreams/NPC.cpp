@@ -133,18 +133,14 @@ void NPC::update(SubLevel* subLevel_p) {
 
 		mCurrentAnimation_p->updateAnimation();
 
-		if(mFirstFrame == false) {
-			if(normalPosToPoint.x > 0)
-				mCurrentAnimation_p = &mAnimationMap.find("right")->second;
-			else
-				mCurrentAnimation_p = &mAnimationMap.find("left")->second;
-		}
-		mFirstFrame = true;
-
-		if(normalPosToPoint.x > 0 && normalPosToPoint.y < 0)
+		if(normalPosToPoint.x >= 0 && normalPosToPoint.y <= 0)
 			mCurrentAnimation_p = &mAnimationMap.find("right")->second;
-		else if(normalPosToPoint.x < 0 && normalPosToPoint.y > 0)
+		else if(normalPosToPoint.x <= 0 && normalPosToPoint.y >= 0)
 			mCurrentAnimation_p = &mAnimationMap.find("left")->second;
+		else if(normalPosToPoint.x >= 0 && normalPosToPoint.y >= 0)
+			mCurrentAnimation_p = &mAnimationMap.find("down")->second;
+		else 
+			mCurrentAnimation_p = &mAnimationMap.find("up")->second;
 
 		//get closer to the point
 		position += normalPosToPoint * speed; 
