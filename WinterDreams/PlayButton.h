@@ -13,6 +13,7 @@ public:
 	////////////////////////////////////////////////////////////
 	PlayButton();
 
+	~PlayButton();
 	////////////////////////////////////////////////////////////
 	// /Do the following:
 	// /fadeout, pop state, push loading state, fadein.
@@ -22,6 +23,8 @@ public:
 private:
 
 	bool mUpdated;
+	sf::Sound mActivationSound;
+	std::shared_ptr<sf::SoundBuffer> mSoundBuffer;
 };
 
 #endif

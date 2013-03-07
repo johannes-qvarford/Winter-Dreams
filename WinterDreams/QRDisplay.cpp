@@ -95,7 +95,7 @@ void QRDisplay::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 		qrSprite.setScale(
 			float(target.getSize().x) / 1920*0.45f, 
 			float(target.getSize().y) / 1080*0.45f);
-		qrSprite.setOrigin( 0.f, mQrCodeTexture_sp->getSize().y);
+		qrSprite.setOrigin( 0.f, static_cast<float>(mQrCodeTexture_sp->getSize().y) );
 		target.draw( qrSprite, states );	
 	}
 }

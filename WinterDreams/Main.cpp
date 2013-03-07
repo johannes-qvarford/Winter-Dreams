@@ -6,6 +6,7 @@
 #include "FileStructure.h"
 #include "GameToScreen.h"
 #include "InputManager.h"
+#include "MenuState.h"
 
 #include <string>
 #include <iostream>
@@ -24,9 +25,15 @@ int main()
 		if(level_or_menu == "level") {
 		}
 		else if(level_or_menu == "menu") {
-			auto videoState_p = new VideoState("hela_introsekvens_sn_.ogv", "AmbientWind2.wav");
-			StateManager::get().pushState(videoState_p);
-			StateManager::get().unfreezeState(100);
+			auto menu = MenuState::makeMainMenuState();
+			auto charmVideoState_p = new VideoState("Charm_logotype_3_1_deluxe.ogv", "MonoLight.ogg");
+		//	auto ukontrollVideoState_p = new VideoState("ukontroll-logo-sting-2013-720p.ogv");
+			auto introVideoState_p = new VideoState("hela_introsekvens_sn_.ogv", "AmbientWind2.wav");
+			StateManager::get().pushState( menu );
+			StateManager::get().pushState(introVideoState_p);
+		//	StateManager::get().pushState(ukontrollVideoState_p);
+			StateManager::get().pushState(charmVideoState_p);
+			StateManager::get().unfreezeState(10);
 		}
 		else {
 			assert(0);

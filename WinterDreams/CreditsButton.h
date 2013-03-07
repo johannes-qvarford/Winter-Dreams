@@ -13,6 +13,7 @@ public:
 	////////////////////////////////////////////////////////////
 	CreditsButton();
 
+	~CreditsButton();
 	////////////////////////////////////////////////////////////
 	// /Do the following:
 	// /fadeout, pop state, push credits state, fadein.
@@ -22,6 +23,8 @@ public:
 private:
 
 	bool mUpdated;
+	sf::Sound mActivationSound;
+	std::shared_ptr<sf::SoundBuffer> mSoundBuffer;
 };
 
 #endif

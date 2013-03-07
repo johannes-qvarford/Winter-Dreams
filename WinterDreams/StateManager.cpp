@@ -107,6 +107,7 @@ void StateManager::run() {
 #endif
 		if( mStates.empty() && mActions.empty() )
 			return;
+
 		if(pollEvents() == false) {
 			while(mStates.empty() == false)
 				mStates.pop();
@@ -207,9 +208,9 @@ void StateManager::darkenWindow(float alpha) {
 
 	sf::Vertex vertices[] = {
 		sf::Vertex(sf::Vector2f(0, 0), sf::Color(0, 0, 0, intAlpha)),
-		sf::Vertex(sf::Vector2f(0, float(VIEW_HEIGHT)), sf::Color(0, 0, 0, intAlpha)),
-		sf::Vertex(sf::Vector2f(float(VIEW_WIDTH), float(VIEW_HEIGHT)), sf::Color(0, 0, 0, intAlpha)),
-		sf::Vertex(sf::Vector2f(float(VIEW_WIDTH), 0), sf::Color(0, 0, 0, intAlpha))
+		sf::Vertex(sf::Vector2f(0, static_cast<float>(VIEW_HEIGHT)), sf::Color(0, 0, 0, intAlpha)),
+		sf::Vertex(sf::Vector2f(static_cast<float>(VIEW_WIDTH), static_cast<float>(VIEW_HEIGHT)), sf::Color(0, 0, 0, intAlpha)),
+		sf::Vertex(sf::Vector2f(static_cast<float>(VIEW_WIDTH), 0), sf::Color(0, 0, 0, intAlpha))
 	};
 
 	auto newStates = states;
