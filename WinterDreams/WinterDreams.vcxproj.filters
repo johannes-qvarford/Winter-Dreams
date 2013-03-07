@@ -235,6 +235,12 @@
     <ClCompile Include="Registration_counter.cpp">
       <Filter>Sources\Registration</Filter>
     </ClCompile>
+    <ClCompile Include="Registration_playercontrols.cpp">
+      <Filter>Sources\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerControls.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameToScreen.h">
@@ -421,7 +427,7 @@
       <Filter>Includes\Entity</Filter>
     </ClInclude>
     <ClInclude Include="FootStep.h">
-	  <Filter>Includes\Entity</Filter>
+      <Filter>Includes\Entity</Filter>
     </ClInclude>
     <ClInclude Include="TimeAdder.h">
       <Filter>Includes\Entity</Filter>
@@ -436,6 +442,9 @@
       <Filter>Includes\UI</Filter>
     </ClInclude>
     <ClInclude Include="CounterAdder.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerControls.h">
       <Filter>Includes\Entity</Filter>
     </ClInclude>
   </ItemGroup>

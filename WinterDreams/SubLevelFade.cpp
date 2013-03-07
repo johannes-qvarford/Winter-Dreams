@@ -47,9 +47,9 @@ void SubLevelFade::draw() const{
 
 	sf::Vertex vertices[] = {
 		sf::Vertex(sf::Vector2f(0, 0), sf::Color(0, 0, 0, intAlpha)),
-		sf::Vertex(sf::Vector2f(0, VIEW_HEIGHT), sf::Color(0, 0, 0, intAlpha)),
-		sf::Vertex(sf::Vector2f(VIEW_WIDTH, VIEW_HEIGHT), sf::Color(0, 0, 0, intAlpha)),
-		sf::Vertex(sf::Vector2f(VIEW_WIDTH, 0), sf::Color(0, 0, 0, intAlpha))
+		sf::Vertex(sf::Vector2f(0, float(VIEW_HEIGHT)), sf::Color(0, 0, 0, intAlpha)),
+		sf::Vertex(sf::Vector2f(float(VIEW_WIDTH), float(VIEW_HEIGHT)), sf::Color(0, 0, 0, intAlpha)),
+		sf::Vertex(sf::Vector2f(float(VIEW_WIDTH), 0), sf::Color(0, 0, 0, intAlpha))
 	};
 
 	auto newStates = states;

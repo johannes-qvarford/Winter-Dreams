@@ -10,12 +10,19 @@ class SubLevel;
 ///////////////////////////////////////////////
 class TriggerZone : public CollisionZone {
 public:
+	enum Action {
+		ACTION_SWAP,
+		ACTION_ENABLE,
+		ACTION_DISABLE
+	};
+
 
 	///////////////////////////////////////////////
 	// /Create a TriggerZone, that can trigger once or several times, only at a certain lightlevel, only when the player has certain items.
+	// /When it triggers, it affect its targets in a certain way.
 	// /If triggering only once, onExitName is ignored.
 	///////////////////////////////////////////////
-	TriggerZone(const sf::FloatRect& hitBox, const std::list<std::string>& onEnterNames, const std::list<std::string>& onExitNames, std::list<std::string> requiredItems, std::list<std::string> absenceRequiredItems, int lightLevel, SubLevel* subLevel_p, bool triggerOnce, bool startEnabled); 
+	TriggerZone(const sf::FloatRect& hitBox, Action action, const std::list<std::string>& onEnterNames, const std::list<std::string>& onExitNames, std::list<std::string> requiredItems, std::list<std::string> absenceRequiredItems, int lightLevel, SubLevel* subLevel_p, bool triggerOnce, bool startEnabled); 
 	
 	///////////////////////////////////////////////
 	// /swap exit entities enabled state when a player
@@ -35,6 +42,8 @@ public:
 	void onCollision(PhysicalEntity* entityCollidedWith_p, const sf::Rect<float>& intersection);
 
 private:
+
+	Action mAction;
 
 	SubLevel* mSubLevel_p;
 

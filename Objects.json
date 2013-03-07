@@ -62,14 +62,14 @@
 				"filename": "bridge_segment.png"
 			},
 			"wall_section_right":{
-				"yorigin": 275,
+				"yorigin": 307,
 				"xorigin": 141,
-				"filename": "Wall_section_left.png"
+				"filename": "Wall_section_right.png"
 			},
 			"wall_section_left":{
-				"yorigin": 183,
+				"yorigin": 215,
 				"xorigin": 187,
-				"filename": "Wall_section_right.png"
+				"filename": "Wall_section_left.png"
 			}
 		}
 	},
@@ -285,7 +285,7 @@
 			"invulnerabilityframes": 40,
 			"blinkframedistance": 8,
 
-			"walkspeed": 1.75,
+			"walkspeed": 20,
 
 			"framesperstep": 27,
 			"footsteps":[
