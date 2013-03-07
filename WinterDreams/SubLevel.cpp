@@ -164,54 +164,7 @@ void SubLevel::render() {
 		window.draw(sprite);
 	}
 
-#ifdef DEBUG_SOLIDZONE
 
-	std::list<std::shared_ptr<PhysicalEntity> > L;
-	auto& view = WindowManager::get().getWindow()->getView();
-	auto center = view.getCenter();
-	auto size = view.getSize();
-	auto viewRect = sf::FloatRect(center.x - size.x*0.6f, center.y - size.y*0.6f, size.x*1.2f, size.y*1.2f) ;
-
-	for( auto it = mGraphicalEntities.begin(), end = mGraphicalEntities.end(); it != end; ++it){
-		auto aRect = GAME_TO_SCREEN.transformRect( (*it)->getHitBox() );
-		if( viewRect.intersects( aRect ) ){	
-			L.push_back( std::static_pointer_cast<PhysicalEntity>(*it) );
-		}
-	}
-	for( auto it = mCollisionZones.begin(), end = mCollisionZones.end(); it != end; ++it){
-		auto aRect = GAME_TO_SCREEN.transformRect( (*it)->getHitBox() );
-		if( viewRect.intersects( aRect ) ){	
-			L.push_back( std::static_pointer_cast<PhysicalEntity>(*it) );
-		}
-	} 
-	L.sort(smallerPosition);
-
-	for( auto a = L.begin(), b = L.end(); a != b; ++a) {	
-		(*a)->drawSelf();
-	}
-	std::cout << "["<<L.size() <<"]"<<" ";
-
-
-	//"push" new matrix
-	auto oldMatrix = renderStates.transform;
-//	renderStates.transform = GAME_TO_SCREEN;
-
-	//draw paths
-	for(auto it = mNameToAiPath.begin(), end = mNameToAiPath.end(); it != end; ++it) {
-		auto& path = it->second;
-		
-		//put path in a vertex array, draw points as a linestrip.
-		sf::VertexArray arr(sf::LinesStrip, path.size());
-
-		for(size_t i = 0, size = path.size();i < size; ++i) {
-			arr[i] = GAME_TO_SCREEN * path[i];
-		}
-		window.draw(arr, renderStates);
-	}
-
-	//"pop" new matrix
-	renderStates.transform = oldMatrix;
-#else
 
 	//sort them in drawing order.
 	mGraphicalEntities.sort(smallerPosition);
@@ -229,8 +182,6 @@ void SubLevel::render() {
 			graphical_sp->drawSelf();
 		}
 	}
-
-#endif
 
 	//display
 

@@ -1437,6 +1437,18 @@
          "height":104,
          "name":"Occluders",
          "objects":[
+		 		{
+				"name":"levelsplash",
+				"properties":
+					{
+					"lifetime":12,
+					"fadeouttime":2,
+					"fadeintime":0,
+					"splashimgfile":"splash.png"
+					},
+					"type":"levelsplash",
+					"visiblie":true
+				},
                 {
                  "gid":26,
                  "height":0,

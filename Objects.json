@@ -482,7 +482,11 @@
 				}
 			}
 		},
-		
+		"soundscape":{
+			"narrator":{
+				"1001.ogg": "You're not alone, 100 bla bla"
+			}
+		},
 		"hitbox": {
 			"lifetime": "18",
 			"animations": {
