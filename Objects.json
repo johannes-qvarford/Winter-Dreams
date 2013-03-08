@@ -224,20 +224,20 @@
 			"invulnerabilityframes": 40,
 			"blinkframedistance": 8,
 
-			"walkspeed": 20.0,
+			"walkspeed": 2.0,
 
 			"framesperstep": 27,
 			"footsteps":[
 				{
 					"name":"ice",
-					"wfilename":"FootStepNorth.png",
-					"efilename":"FootStepNorth.png",
+					"wfilename":"FootStepWest.png",
+					"efilename":"FootStepWest.png",
 					"sfilename":"FootStepNorth.png",
 					"nfilename":"FootStepNorth.png",
-					"nwfilename":"FootStepNorth.png",
-					"nefilename":"FootStepNorth.png",
-					"swfilename":"FootStepNorth.png",
-					"sefilename":"FootStepNorth.png",
+					"nwfilename":"FootStepNorthwest.png",
+					"nefilename":"FootStepNortheast.png",
+					"swfilename":"FootStepNortheast.png",
+					"sefilename":"FootStepNorthwest.png",
 					"soundfilename":"MonoPickaxeIce.ogg"
 				}
 			],

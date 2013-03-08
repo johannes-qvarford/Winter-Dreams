@@ -9,6 +9,8 @@ LevelState::LevelState(const std::string& levelName):
 	mPlayer_sp(),
 	mCamera_sp(),
 	mInventoryDisplay_sp(),
+	mNextSpot(1),
+	mFinishedSpot(0),
 	mLevelName(levelName)
 {
 
@@ -137,4 +139,21 @@ void LevelState::onUnfreeze(){
 			i++;
 		}
 	}
+}
+
+int LevelState::requestNarratorSpot(){
+	mNextSpot++;
+
+	return mNextSpot - 1;
+}
+
+bool LevelState::isSpotAvailable(int spot){
+	if (spot == mFinishedSpot + 1)
+		return true;
+	else
+		return false;
+}
+
+void LevelState::finishSpot(int spot){
+	mFinishedSpot = spot;
 }

@@ -25,6 +25,9 @@ mInitMusic(false),
 mTotalVolume(0),
 mClock(),
 mThreeD(threeD),
+mSpot(0),
+mICanHasNarratorSpot(false),
+mIsWaitingForSpot(false),
 mSound(new sf::Sound())
 {
 ////////////////////////////////////////////////////////////////////////
@@ -210,14 +213,27 @@ void SoundScape::update(SubLevel* subLevel_p){
 // /för att ett ljud/låt ska börja att spela så behöver det gå från att inte vara aktiverad till att vara det
 //////////////////////////////////////////////////////////////////////
 	if (enabledThisFrame == true && mEnabledLastFrame == false){
-		mClock.restart();
-		mSound->play();
+		if (mSoundType == "narrator"){
+			mSpot = subLevel_p->getLevel()->requestNarratorSpot();
+			mIsWaitingForSpot = true;
+		}
+		else {
+			mClock.restart();
+			mSound->play();
+		}
+	}
+
+	if (mIsWaitingForSpot && subLevel_p->getLevel()->isSpotAvailable(mSpot) == true){
+			mClock.restart();
+			mSound->play();
 	}
 //////////////////////////////////////////////////////////////////////
 // /Samma sak fast tvärtom
 //////////////////////////////////////////////////////////////////////
 	else if (enabledThisFrame == false && mEnabledLastFrame == true){
 		mSound->stop();
+		if (mSoundType == "narrator")
+			subLevel_p->getLevel()->finishSpot(mSpot);
 	}
 
 	float volume = getVolume(subLevel_p);

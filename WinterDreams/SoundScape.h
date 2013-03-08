@@ -37,6 +37,7 @@ public:
 
 
 	void drawSelf();
+
 private:
 
 	bool mBoolEntity;
@@ -55,7 +56,9 @@ private:
 	std::shared_ptr<sf::Sound> mSound;
 	std::weak_ptr<Player> mPlayer_wp;
 	bool mEnabledLastFrame;
-	
+	int mSpot;
+	bool mICanHasNarratorSpot;
+	bool mIsWaitingForSpot;
 	
 	float getVolume(SubLevel* subLevel_p);
 
