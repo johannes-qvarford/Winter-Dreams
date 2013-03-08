@@ -5,11 +5,9 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	auto& properties = pt.get_child("properties");
 
 	auto name = pt.get<std::string>("name");
-	//TODO: change true to false
 	auto startdisabled = properties.get<bool>("startdisabled", true);
 	auto queue = properties.get<std::string>("queue");
-	//should be entit(ies)
-	auto entity = properties.get<std::string>("entity");
+	auto entity = properties.get<std::string>("entity", "");
 
 	std::list<std::string> entList;
 	splitString(entity, &entList);

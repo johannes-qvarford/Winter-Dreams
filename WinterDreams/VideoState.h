@@ -26,7 +26,7 @@ public:
 	// /It will automaticly search in the FS_DIR_VIDEO for the
 	// /argument file name.
 	////////////////////////////////////////////////////////////
-	VideoState(const std::string& videoFileName);
+	VideoState(const std::string& videoFileName, const std::string& musicFileName = "");
 	////////////////////////////////////////////////////////////
 	// /No dynamic member variables.
 	////////////////////////////////////////////////////////////
@@ -57,9 +57,9 @@ protected:
 	void reqestVideoEnd();
 
 	std::shared_ptr<sftheora::Video> mVideo;	//The states video
-	sf::Time mVidLenght;	//Keeps track of the video's lenght
-	sf::Clock mRunTime;		//Kepes track of how long time the video's been running	
 	sf::Clock mDeltaTime;	//Used to calculate how many frames the video should advance
+	sf::Music mMusic;
+	bool mInitialized;
 private:
 	////////////////////////////////////////////////////////////
 	// /Each subclass of video state may define their own 
@@ -69,7 +69,11 @@ private:
 	////////////////////////////////////////////////////////////
 	virtual void onVideoEnd();
 
+
 	bool mRequestPerformed;	//True if a VideoEnd request has been performed
+
+	std::string mVideoFileName;
+	std::string mMusicFileName;
 
 
 ///////////////// No copies ///////////////////////////////////

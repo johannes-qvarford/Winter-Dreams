@@ -226,6 +226,7 @@ void SoundScape::update(SubLevel* subLevel_p){
 	if (mIsWaitingForSpot && subLevel_p->getLevel()->isSpotAvailable(mSpot) == true){
 			mClock.restart();
 			mSound->play();
+			mIsWaitingForSpot = true;
 	}
 //////////////////////////////////////////////////////////////////////
 // /Samma sak fast tvärtom

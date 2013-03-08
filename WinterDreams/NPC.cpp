@@ -46,25 +46,28 @@ NPCSpecs::NPCSpecs()
 	AnimationSpecs::parse(npcTree, mAnimSpecList);
 }
 
-NPC::NPC(const std::string& pathName, const sf::FloatRect& initialPosition, bool startsEnabled):
+NPC::NPC(const std::string& pathName, const sf::FloatRect& initialPosition, int damage, bool startsEnabled):
 	GraphicalEntity(startsEnabled),
+	mDamage(damage),
 	mFoundPath(false),
 	mPathName(pathName),
 	mPath_p(NULL),
 	mNextPoint(0),
-	mHitBox(initialPosition)
+	mHitBox(initialPosition),
+	mFirstFrame(false)
 {
 	auto& npcSpecs = NPCSpecs::get();
 	auto& animSpecs = npcSpecs.getAnimSpecList();
 
 	Animation::fromListToMap(animSpecs, FS_DIR_OBJECTANIMATIONS + "npc/", &mAnimationMap);
 	//use placeholder for now
-	auto it = mAnimationMap.find("placeholder");
+
+	auto it = mAnimationMap.find("left");
 	mCurrentAnimation_p = &it->second;
 }
 
 void NPC::update(SubLevel* subLevel_p) {
-	
+
 	//are we still looking for the path?
 	if(mFoundPath == false) {
 		auto& points = subLevel_p->getAiPath(mPathName);
@@ -129,6 +132,17 @@ void NPC::update(SubLevel* subLevel_p) {
 		//normalize
 		auto normalPosToPoint = posToPoint / distance;
 
+		mCurrentAnimation_p->updateAnimation();
+
+		if(normalPosToPoint.x >= 0 && normalPosToPoint.y <= 0)
+			mCurrentAnimation_p = &mAnimationMap.find("right")->second;
+		else if(normalPosToPoint.x <= 0 && normalPosToPoint.y >= 0)
+			mCurrentAnimation_p = &mAnimationMap.find("left")->second;
+		else if(normalPosToPoint.x >= 0 && normalPosToPoint.y >= 0)
+			mCurrentAnimation_p = &mAnimationMap.find("down")->second;
+		else 
+			mCurrentAnimation_p = &mAnimationMap.find("up")->second;
+
 		//get closer to the point
 		position += normalPosToPoint * speed; 
 
@@ -162,8 +176,12 @@ void NPC::onCollision(PhysicalEntity * pe_p, const sf::FloatRect& intersection) 
 	if(player_p == nullptr)
 		return;
 
-	if(player_p->getCurrentLightLevel() > 1 && player_p->isVulnerable()) {
-		player_p->adjustCurrentLightLevel(-1);
+	auto curLevel = player_p->getCurrentLightLevel();
+
+	if(curLevel > 1 && player_p->isVulnerable()) {
+
+		//remove damage so that the player has at least 1 light level.
+		player_p->setCurrentLightLevel(curLevel > mDamage ? curLevel - mDamage : 1);
 		player_p->setInvulnerable();
 	}
 }

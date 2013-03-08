@@ -75,6 +75,26 @@ private:
 	}
 };
 
+class CreditsMenuStateSpecs{
+public:
+	static CreditsMenuStateSpecs& get(){ static CreditsMenuStateSpecs s; return s;	}
+
+	std::string mBackgroundFileName;
+
+	std::string  mFrameFileName;
+	sf::Vector2f mFrameOffset;
+private:
+	CreditsMenuStateSpecs() {
+		auto& cms = PropertyManager::get().getGeneralSettings().get_child("ui.credits");
+
+		mBackgroundFileName = cms.get<std::string>("bgfilename");
+
+		mFrameFileName = cms.get<std::string>("frame.filename");
+		mFrameOffset.x = cms.get<float>("frame.xoffset");
+		mFrameOffset.y = cms.get<float>("frame.yoffset");
+	}
+};
+
 MenuState* MenuState::makeMainMenuState() {
 	auto& res = ResourceManager::get();
 	auto& specs = MainMenuStateSpecs::get();
@@ -155,11 +175,34 @@ MenuState* MenuState::makeIngameMenuState(sf::Texture background) {
 	return state_p;
 }
 
+MenuState* MenuState::makeCreditsMenuState(){
+	auto& res = ResourceManager::get();
+	auto& specs = CreditsMenuStateSpecs::get();
+
+	auto state_p = new MenuState();
+	auto widgets = std::vector<std::shared_ptr<Widget >> ();
+
+	auto resume_sp = std::make_shared<ResumeButton>();
+	auto frame_sp = std::make_shared<Button>(specs.mFrameOffset, specs.mFrameFileName);
+	resume_sp->setBounds( sf::FloatRect( 1.2f, 1.2f, 0.1f, 0.1f ) );
+
+	widgets.push_back(resume_sp);
+
+	auto cursor_sp = std::make_shared<Cursor>(widgets);
+	auto bg_sp = res.getTexture( FS_DIR_UI + specs.mBackgroundFileName );
+
+	state_p->setBackground( bg_sp );
+	state_p->addWidget(resume_sp);
+	state_p->addWidget(cursor_sp);
+	state_p->addWidget(frame_sp);
+
+	return state_p;
+}
+
 MenuState::MenuState()
 {
 	mMusic = std::make_shared<sf::Sound>();
 }
-
 
 
 MenuState::~MenuState() {
@@ -168,8 +211,10 @@ MenuState::~MenuState() {
 
 void MenuState::update() {
 	auto status = mMusic->getStatus();
-	if( status != sf::Sound::Playing)
+	if( status != sf::Sound::Playing){
 		mMusic->play();
+		mMusic->setVolume( 50.f );
+	}
 
 	foreach(auto& widget_sp, mWidgets) {
 		widget_sp->update(this);

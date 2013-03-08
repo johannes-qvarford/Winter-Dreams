@@ -16,8 +16,8 @@
 
 
 
-LevelSplash::LevelSplash(const std::string& splashFileName, const int lifeTime, const int fadeoutTime) : 
-	Script( true ),
+LevelSplash::LevelSplash(const std::string& splashFileName, const int lifeTime, int fadeoutTime, bool startEnabled) : 
+	Script( startEnabled ),
 	mLifeTime( lifeTime ),
 	mAlpha( 1.f ),
 	mFadeOutTime( fadeoutTime ),
@@ -34,6 +34,9 @@ LevelSplash::~LevelSplash()
 
 
 void LevelSplash::update(SubLevel* subLevel_p) {
+	if(getEnabled() == false)
+		return;
+
 	if( mFirstUpdate == true ){
 		InputManager::get().lockInput();
 		mFirstUpdate = false;

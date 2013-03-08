@@ -10,7 +10,7 @@
 class LevelEnder : public CollisionZone {
 public:
 
-	LevelEnder(bool startsEnabled, const sf::FloatRect& hitBox, bool once);
+	LevelEnder(bool startsEnabled, const sf::FloatRect& hitBox);
 
 	~LevelEnder();
 

@@ -6,7 +6,7 @@
 #include "PropertyManager.h"
 #include "StateManager.h"
 #include "InputManager.h"
-
+#include "ResourceManager.h"
 class ExitButtonSpecs {
 public:
 
@@ -18,6 +18,8 @@ public:
 
 	std::string mFilename;
 
+	std::string mAudioFileName;
+
 private:
 
 	ExitButtonSpecs() {
@@ -26,6 +28,7 @@ private:
 		mXOffset = exit_.get<float>("xoffset");
 		mYOffset = exit_.get<float>("yoffset");
 		mFilename = exit_.get<std::string>("filename");
+		mAudioFileName = exit_.get<std::string>("audiofile");
 	}
 };
 
@@ -33,12 +36,20 @@ ExitButton::ExitButton():
 	Button(sf::Vector2f(ExitButtonSpecs::get().mXOffset, ExitButtonSpecs::get().mYOffset), ExitButtonSpecs::get().mFilename),
 	mUpdated(false)
 {
+	mSoundBuffer = ResourceManager::get().getSoundBuffer( FS_DIR_SOUNDS + ExitButtonSpecs::get().mAudioFileName );
+	mActivationSound.setBuffer( *mSoundBuffer );
+	mActivationSound.setVolume(50.f);
+}
+
+ExitButton::~ExitButton(){
+	mActivationSound.stop();
 }
 
 void ExitButton::activate() {
 	
 	if(mUpdated == false && InputManager::get().isADown()) {
 		mUpdated = true;
+		mActivationSound.play();
 
 		auto& stateMgr = StateManager::get();
 

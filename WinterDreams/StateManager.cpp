@@ -1,6 +1,7 @@
 #include "StateManager.h"
 #include "State.h"
 #include "WindowManager.h"
+#include "InputManager.h"
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
@@ -38,7 +39,9 @@ static bool pollEvents() {
 		}
 			//if Esc is pressed
 		if (ev.type == sf::Event::KeyPressed && ev.key.code == sf::Keyboard::Escape){
+#ifndef SHIPPING_REAL
 			return false;
+#endif
 		}
 	}
 	return true;
@@ -54,9 +57,7 @@ StateManager::StateManager():
 }
 
 StateManager::~StateManager() {
-	while(mStates.empty() == false) {
-		mStates.pop();
-	}
+
 }
 
 void StateManager::run() {
@@ -95,19 +96,28 @@ void StateManager::run() {
 	{	
 		auto& windowManager = WindowManager::get();
 
+
+#ifndef SHIPPING_REAL
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
 			windowManager.setFullscreenMode(false);
 		}
 		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
 			windowManager.setFullscreenMode(true);
 		}
-
-		if(pollEvents() == false)
+#endif
+		if( mStates.empty() && mActions.empty() )
 			return;
+
+		if(pollEvents() == false) {
+			while(mStates.empty() == false)
+				mStates.pop();
+			return;
+		}
 
 		//try to catch up, by doing a maximun of MAX_FRAMESKIP updates.
 		while(GetTickCount.getElapsedTime() > nextGameTick && loops < MAX_FRAMESKIP ) { 
 			WindowManager::get().resetLightIDs();
+			InputManager::get().update();
 
 			nextGameTick += sf::Time( sf::microseconds(advances) );
 			++loops;
@@ -198,9 +208,9 @@ void StateManager::darkenWindow(float alpha) {
 
 	sf::Vertex vertices[] = {
 		sf::Vertex(sf::Vector2f(0, 0), sf::Color(0, 0, 0, intAlpha)),
-		sf::Vertex(sf::Vector2f(0, VIEW_HEIGHT), sf::Color(0, 0, 0, intAlpha)),
-		sf::Vertex(sf::Vector2f(VIEW_WIDTH, VIEW_HEIGHT), sf::Color(0, 0, 0, intAlpha)),
-		sf::Vertex(sf::Vector2f(VIEW_WIDTH, 0), sf::Color(0, 0, 0, intAlpha))
+		sf::Vertex(sf::Vector2f(0, static_cast<float>(VIEW_HEIGHT)), sf::Color(0, 0, 0, intAlpha)),
+		sf::Vertex(sf::Vector2f(static_cast<float>(VIEW_WIDTH), static_cast<float>(VIEW_HEIGHT)), sf::Color(0, 0, 0, intAlpha)),
+		sf::Vertex(sf::Vector2f(static_cast<float>(VIEW_WIDTH), 0), sf::Color(0, 0, 0, intAlpha))
 	};
 
 	auto newStates = states;

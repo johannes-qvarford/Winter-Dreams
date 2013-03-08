@@ -7,22 +7,22 @@
 	{
 		"lvl_1":
 		{
-			"intro_video": "loading_ogg_test.ogg",
+			"intro_video": "loading_2_video.ogv",
 			"first_sublevel_name": "lvl_1_1",
 			"sublevels": {
-				"lvl_1_1": "lvl_1_1v11.json", 
-				"lvl_1_2": "lvl_1_2v05.json"
+				"lvl_1_1": "lvl_1_1v14.json", 
+				"lvl_1_2": "lvl_1_2v08_fix.json"
 			},
 			"next_level": "lvl_2"
 		},
 		
 		"lvl_2":
 		{
-			"intro_video": "loading_ogg_test.ogg",
+			"intro_video": "loading_2_video.ogv",
 			"first_sublevel_name": "lvl_1_1",
 			"sublevels": {
-				"lvl_1_1": "lvl_1_1v11.json", 
-				"lvl_1_2": "lvl_1_2v05.json"
+				"lvl_1_1": "lvl_1_1v14.json", 
+				"lvl_1_2": "lvl_1_2v08_fix.json"
 			},
 			"next_level": "lvl_2"
 		}
@@ -54,21 +54,25 @@
 				"yoffset":0.131
 			},
 			"play": {
+				"audiofile":"PlayMouseoverSound.ogg",
 				"filename":"play_2.png",
 				"xoffset":0.18,
 				"yoffset":0.550
 			},
 			"settings": {
+				"audiofile":"OptionsMouseoverSound.ogg",
 				"filename":"settings_2.png",
 				"xoffset":0.18,
 				"yoffset":0.650
 			},
 			"credits": {
+				"audiofile":"CreditsMouseoverSound.ogg",
 				"filename":"credits_2.png",
 				"xoffset":0.18,
 				"yoffset":0.75
 			},
 			"exit": {
+				"audiofile":"ExitMouseoverSound.ogg",
 				"filename":"exit_2.png",
 				"xoffset":0.18,
 				"yoffset":0.85
@@ -136,6 +140,20 @@
 				"filename": "placeholder_voicevolume.png",
 				"xoffset":0,
 				"yoffset":0
+			}
+		},
+		"credits": {
+			"bgfilename": "mainmenu2.png",
+			"frame": {
+				"filename":"credits_list.png",
+				"xoffset":0.166,
+				"yoffset":0.0
+			},
+			
+			"continue": {			
+				"filename":"placeholder.png",
+				"xoffset":1.1,
+				"yoffset":1.1
 			}
 		}
 	},

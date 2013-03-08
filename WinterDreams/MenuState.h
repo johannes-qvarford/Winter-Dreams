@@ -36,6 +36,11 @@ public:
 	////////////////////////////////////////////////////////////
 	static MenuState* makeIngameMenuState(sf::Texture background);
 
+	////////////////////////////////////////////////////////////
+	// /Make a menu state used at the credits screen.
+	////////////////////////////////////////////////////////////
+	static MenuState* makeCreditsMenuState();
+
 public:	
 
 	////////////////////////////////////////////////////////////
@@ -52,7 +57,7 @@ private:
 
 	std::list<std::shared_ptr<Widget> > mWidgets;
 
-	std::shared_ptr<sf::Texture>	 mBackground_sp;
+	std::shared_ptr<sf::Texture>		mBackground_sp;
 
 	std::shared_ptr<sf::SoundBuffer>	mMusicBuffer;
 	std::shared_ptr<sf::Sound>			mMusic;

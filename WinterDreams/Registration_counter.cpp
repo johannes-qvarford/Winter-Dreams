@@ -3,15 +3,15 @@
 
 static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, const boost::property_tree::ptree& pt) {
 	
-	auto startEnabled = !pt.get<bool>("startdisable", false);
+	auto startdisabled = pt.get<bool>("startdisabled", false);
 	auto name = pt.get<std::string>("name", "");
-	auto counttrigger = pt.get<std::string>("properties.counttrigger");
-	auto countamount = pt.get<int>("properties.countamount");
+	auto counttrigger = pt.get<std::string>("properties.counttrigger", "");
+	auto countamount = pt.get<int>("properties.countamount", 4);
 
 	auto entList = std::list<std::string>();
 	splitString(counttrigger, &entList);
 
-	auto counter_sp = std::make_shared<Counter>(entList, countamount, !startEnabled, subLevel_p);
+	auto counter_sp = std::make_shared<Counter>(entList, countamount, !startdisabled, subLevel_p);
 		
 	subLevel_p->addScript(counter_sp);
 

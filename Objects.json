@@ -45,6 +45,31 @@
 				"yorigin": 169,
 				"xorigin": 79,
 				"filename": "bridgeOuterTop.png"
+			},
+			"darkwall":{
+				"yorigin": 128,
+				"xorigin": 64,
+				"filename": "darkwall.png"
+			},
+			"light_source":{
+				"yorigin": 716,
+				"xorigin": 218,
+				"filename": "light_source.png"
+			},
+			"bridge_segment":{
+				"yorigin": 180,
+				"xorigin": 66,
+				"filename": "bridge_segment.png"
+			},
+			"wall_section_right":{
+				"yorigin": 307,
+				"xorigin": 141,
+				"filename": "Wall_section_right.png"
+			},
+			"wall_section_left":{
+				"yorigin": 215,
+				"xorigin": 187,
+				"filename": "Wall_section_left.png"
 			}
 		}
 	},
@@ -104,7 +129,43 @@
 					"numberofsprites": "1",
 					"framespersprite": "10",
 					"filename": "placeholder.png"
-				}
+				},
+				"left": {
+					"spritewidth": "100",
+					"spriteheight": "100",
+					"yorigin": "80",
+					"xorigin": "0",
+					"numberofsprites": "8",
+					"framespersprite": "12",
+					"filename": "zeb_spritesheet_left.png"
+				},
+				"right": {
+					"spritewidth": "100",
+					"spriteheight": "100",
+					"yorigin": "80",
+					"xorigin": "0",
+					"numberofsprites": "8",
+					"framespersprite": "12",
+					"filename": "zeb_spritesheet_right.png"
+				},
+				"up": {
+					"spritewidth": "100",
+					"spriteheight": "100",
+					"yorigin": "80",
+					"xorigin": "0",
+					"numberofsprites": "8",
+					"framespersprite": "12",
+					"filename": "zeb_spritesheet_back.png"
+				},
+				"down": {
+					"spritewidth": "100",
+					"spriteheight": "100",
+					"yorigin": "80",
+					"xorigin": "0",
+					"numberofsprites": "8",
+					"framespersprite": "12",
+					"filename": "zeb_spritesheet_front.png"
+				}					
 			}
 		},
 		"light" : {
@@ -112,13 +173,13 @@
 			
 			"animations" : {
 				"placeholder": {
-					"spritewidth": "64",
-					"spriteheight": "64",
-					"yorigin": "48",
-					"xorigin": "0",
+					"spritewidth": "128",
+					"spriteheight": "179",
+					"yorigin": "153",
+					"xorigin": "32",
 					"numberofsprites": "1",
 					"framespersprite": "100",
-					"filename": "placeholder.png"
+					"filename": "light_source.png"
 				}
 			},
 			"lightsize": {
@@ -224,7 +285,8 @@
 			"invulnerabilityframes": 40,
 			"blinkframedistance": 8,
 
-			"walkspeed": 2.0,
+			"walkspeed": 20,
+
 
 			"framesperstep": 27,
 			"footsteps":[
@@ -273,7 +335,7 @@
 					"yorigin": "69",
 					"xorigin": "10",
 					"numberofsprites": "8",
-					"framespersprite": "6",
+					"framespersprite": "9",
 					"filename": "spritesheet_zeles_back_left.png"
 				},
 				"backright": {
@@ -282,7 +344,7 @@
 					"yorigin": "69",
 					"xorigin": "10",
 					"numberofsprites": "8",
-					"framespersprite": "6",
+					"framespersprite": "9",
 					"filename": "spritesheet_zeles_back_right.png"
 				},
 				"frontleft": {
@@ -291,7 +353,7 @@
 					"yorigin": "69",
 					"xorigin": "10",
 					"numberofsprites": "6",
-					"framespersprite": "8",
+					"framespersprite": "12",
 					"filename": "spritesheet_zeles_front_left.png"
 				},
 				"frontright": {
@@ -300,7 +362,7 @@
 					"yorigin": "69",
 					"xorigin": "10",
 					"numberofsprites": "6",
-					"framespersprite": "8",
+					"framespersprite": "12",
 					"filename": "spritesheet_zeles_front_right.png"
 				},
 				"front": {
@@ -309,7 +371,7 @@
 					"yorigin": "64",
 					"xorigin": "10",
 					"numberofsprites": "8",
-					"framespersprite": "6",				
+					"framespersprite": "9",				
 					"filename": "spritesheet_zeles_front.png"
 				},
 				"back": {
@@ -318,7 +380,7 @@
 					"yorigin": "69",
 					"xorigin": "10",
 					"numberofsprites": "8",
-					"framespersprite": "6",				
+					"framespersprite": "9",				
 					"filename": "spritesheet_zeles_back.png"
 				},
 				"right": {
@@ -327,7 +389,7 @@
 					"yorigin": "69",
 					"xorigin": "10",
 					"numberofsprites": "7",
-					"framespersprite": "7",				
+					"framespersprite": "10",				
 					"filename": "spritesheet_zeles_right.png"
 				},
 				"left": {
@@ -336,7 +398,7 @@
 					"yorigin": "69",
 					"xorigin": "10",
 					"numberofsprites": "7",
-					"framespersprite": "7",				
+					"framespersprite": "10",				
 					"filename": "spritesheet_zeles_left.png"
 				}
 			}
@@ -421,7 +483,11 @@
 				}
 			}
 		},
-		
+		"soundscape":{
+			"narrator":{
+				"1001.ogg": "You're not alone, 100 bla bla"
+			}
+		},
 		"hitbox": {
 			"lifetime": "18",
 			"animations": {
@@ -430,9 +496,22 @@
 					"spriteheight": "64",
 					"yorigin": "48",
 					"xorigin": "0",
-					"numberofsprites": "3",
-					"framespersprite": "8",			
-					"filename": "placeholder.png"
+					"numberofsprites": "7",
+					"framespersprite": "3",			
+					"filename": "pickaxe_slash.png"
+				}
+			}
+		},
+		"levelportal": {
+			"animations": {
+				"portal": {
+					"spritewidth": "128",
+					"spriteheight": "128",
+					"yorigin": "112",
+					"xorigin": "48",
+					"numberofsprites": "4",
+					"framespersprite": "10",			
+					"filename": "animation_portal.png"
 				}
 			}
 		}

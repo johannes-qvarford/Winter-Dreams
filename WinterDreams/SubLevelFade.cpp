@@ -19,9 +19,9 @@ void SubLevelFade::update(SubLevel* subLevel_p){
 	
 		if (mWaitingFrames < mFadeTime){
 			if (mType == FADE_IN)
-				mAlpha -= (1.0/mFadeTime);
+				mAlpha -= (1.0f/mFadeTime);
 			else if (mType == FADE_OUT)
-				mAlpha += (1.0/mFadeTime);
+				mAlpha += (1.0f/mFadeTime);
 
 			mWaitingFrames++;
 		}
@@ -46,10 +46,10 @@ void SubLevelFade::draw() const{
 		intAlpha = sf::Uint8(mAlpha * 255);
 
 	sf::Vertex vertices[] = {
-		sf::Vertex(sf::Vector2f(0, 0), sf::Color(0, 0, 0, intAlpha)),
-		sf::Vertex(sf::Vector2f(0, VIEW_HEIGHT), sf::Color(0, 0, 0, intAlpha)),
-		sf::Vertex(sf::Vector2f(VIEW_WIDTH, VIEW_HEIGHT), sf::Color(0, 0, 0, intAlpha)),
-		sf::Vertex(sf::Vector2f(VIEW_WIDTH, 0), sf::Color(0, 0, 0, intAlpha))
+		sf::Vertex(sf::Vector2f(0.f, 0.f), sf::Color(0, 0, 0, intAlpha)),
+		sf::Vertex(sf::Vector2f(0.f, static_cast<float>(VIEW_HEIGHT)), sf::Color(0, 0, 0, intAlpha)),
+		sf::Vertex(sf::Vector2f(static_cast<float>(VIEW_WIDTH), static_cast<float>(VIEW_HEIGHT)), sf::Color(0, 0, 0, intAlpha)),
+		sf::Vertex(sf::Vector2f(static_cast<float>(VIEW_WIDTH), 0.f), sf::Color(0, 0, 0, intAlpha))
 	};
 
 	auto newStates = states;
