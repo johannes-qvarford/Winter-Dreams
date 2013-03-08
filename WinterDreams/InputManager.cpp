@@ -88,14 +88,13 @@ void InputManager::unlockInput() {
 
 void InputManager::setSocket(sf::TcpSocket* socket) {
 	delete mConnectionSocket;
-	mConnectionSocket = socket;
-//	mIsConnected = true;
-	mPacket = getPacket(mConnectionSocket);
+	mConnectionSocket = socket;	
+	mPacket = getPacket(mConnectionSocket, mIsConnected);
 }
 
 void InputManager::update(){
-	if( mIsConnected )
-		mPacket = getPacket( mConnectionSocket);
+
+	mPacket = getPacket( mConnectionSocket, mIsConnected );
 }
 
 sf::Vector2f uKontrollStick(const PacketContents& p) {

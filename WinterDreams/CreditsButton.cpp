@@ -36,7 +36,7 @@ CreditsButton::CreditsButton():
 {
 	mSoundBuffer = ResourceManager::get().getSoundBuffer( FS_DIR_SOUNDS + CreditsButtonSpecs::get().mAudioFileName );
 	mActivationSound.setBuffer( *mSoundBuffer );
-	mActivationSound.setVolume(50.f);
+	mActivationSound.setVolume(20.f);
 }
 
 CreditsButton::~CreditsButton(){
@@ -46,7 +46,7 @@ CreditsButton::~CreditsButton(){
 void CreditsButton::activate() {
 
 	//TODO: goto credits.
-	if(mUpdated == false && InputManager::get().isADown()) {
+	if(mUpdated == false && (InputManager::get().isADown() ||InputManager::get().isStartDown() ) ){
 		mUpdated = true;
 		mActivationSound.play();
 		

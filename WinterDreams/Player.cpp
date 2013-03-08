@@ -225,10 +225,14 @@ void Player::updateMovement(SubLevel* subLevel_p) {
 	stick *= static_cast<float>(mMoveSpeed);
 		//Adjust the avatars position by tempDir
 	adjustPosition( stick );
-	if( stick.x > 0 ||stick.y > 0)
-		mDirection=sf::Vector2i(static_cast<int>(stick.x),static_cast<int>(stick.y));
-	else
-		mDirection=sf::Vector2i(static_cast<int>(stick.x*2),static_cast<int>(stick.y*2));
+
+	//TODO::Calculate rotation for setting direction on the avatar.
+
+					if( stick.x > 0 ||stick.y > 0)
+						mDirection=sf::Vector2i(static_cast<int>(stick.x),static_cast<int>(stick.y));
+					else
+						mDirection=sf::Vector2i(static_cast<int>(stick.x*2),static_cast<int>(stick.y*2));
+
 	if (mDirection != sf::Vector2i(0, 0))
 		mFrameCount++;
 
@@ -251,18 +255,6 @@ void Player::updateMovement(SubLevel* subLevel_p) {
 	}
 }
 
-
-/*void Player::updateAnimations(SubLevel* subLevel_p) {
-	static std::vector<std::pair<sf::Vector2f, std::string> > animations;
-	static bool init = false;
-
-	if(!init) {
-		animations.push_back(std::pair<sf::Vector2f, std::string>());
-	}
-	init = true;
-	
-}
-*/
 
 void Player::assignMoveAnimations(SubLevel* subLevel_p) {
 
@@ -410,3 +402,4 @@ static void addHitBox( SubLevel* subLevel_p, Player* player, int dmgAmount, cons
 static int convert( int value) {
 	return (value > 0) ? 1 : (value < 0) ? -1 : 0;
 }
+

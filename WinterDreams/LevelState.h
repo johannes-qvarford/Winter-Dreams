@@ -108,6 +108,8 @@ private:
 
 	typedef std::map<std::string, std::shared_ptr<SubLevel> > SubLevels;
 
+	bool mIngameMenu;
+
 	SubLevels mSubLevels;
 
 	std::vector<std::weak_ptr<sf::Sound>> mRegSoundVecSound;
