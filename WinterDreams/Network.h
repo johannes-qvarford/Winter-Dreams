@@ -52,6 +52,6 @@ sf::TcpSocket* openSocket(const sf::Http::Response& getResponse);
 // /The bool-reference will tell you if the socket is
 // /connected.
 //////////////////////////////////////////////////
-PacketContents getPacket(sf::TcpSocket* tcpSocket);
+PacketContents getPacket(sf::TcpSocket* tcpSocket, bool& connected);
 
 #endif

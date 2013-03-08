@@ -40,7 +40,7 @@
 			}
 		},
 		"mainmenu" : {
-			"bgmmusic": "menu_theme.wav",
+			"bgmmusic": "UtanFlöjt Glatt Main.ogg",
 			"frame": {
 				"filename":"frame.png",
 				"xoffset":0.0425,
@@ -51,7 +51,7 @@
 			"title": {
 				"filename":"mainmenu_title.png",
 				"xoffset":0.018,
-				"yoffset":0.131
+				"yoffset":0.091
 			},
 			"play": {
 				"audiofile":"PlayMouseoverSound.ogg",
@@ -85,20 +85,25 @@
 			}
 		},
 		"ingamemenu": {
+			"frame": {
+				"filename":"frame.png",
+				"xoffset":0.0425,
+				"yoffset":0.355
+			},
 			"continue": {
 				"filename":"placeholder.png",
-				"xoffset":0,
-				"yoffset":0
+				"xoffset":0.5,
+				"yoffset":0.5
 			},
 			"options": {
 				"filename":"placeholder.png",
-				"xoffset":0,
-				"yoffset":0
+				"xoffset":0.7,
+				"yoffset":0.7
 			},
 			"mainmenu": {
 				"filename":"placeholder.png",
-				"xoffset":0,
-				"yoffset":0
+				"xoffset":0.3,
+				"yoffset":0.3
 			}
 		},
 		"settings": {

@@ -37,7 +37,7 @@ ResumeButton::ResumeButton():
 
 void ResumeButton::activate() {
 	
-	if(mUpdated == false && InputManager::get().isADown()) {
+	if(mUpdated == false && (InputManager::get().isADown() ||InputManager::get().isStartDown() ) ){
 		mUpdated = true;
 		Button::activate();
 
