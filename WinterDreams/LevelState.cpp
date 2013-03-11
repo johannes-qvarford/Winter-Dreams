@@ -1,6 +1,8 @@
 #include "LevelState.h"
 #include "SubLevel.h"
-
+#include "StateManager.h"
+#include "MenuState.h"
+#include <SFML\Graphics\RenderTexture.hpp>
 #include <cassert>
 
 LevelState::LevelState(const std::string& levelName):
@@ -11,7 +13,8 @@ LevelState::LevelState(const std::string& levelName):
 	mInventoryDisplay_sp(),
 	mNextSpot(1),
 	mFinishedSpot(0),
-	mLevelName(levelName)
+	mLevelName(levelName),
+	mIngameMenu( false )
 {
 
 }
@@ -20,6 +23,17 @@ LevelState::~LevelState() {
 }
 
 void LevelState::update() {
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::T) && mIngameMenu == false){
+		mIngameMenu = true;
+		static sf::RenderTexture t;
+		t.create(1920,1080);
+		t.clear(sf::Color::White);
+		auto ingameMenu_p = MenuState::makeIngameMenuState(t.getTexture());
+		StateManager::get().freezeState();
+		StateManager::get().pushState(ingameMenu_p);
+		StateManager::get().unfreezeState();
+	}
+
 	auto& subLevel_sp = mCurrentSubLevel->second;
 	subLevel_sp->update();
 }
@@ -119,6 +133,7 @@ void LevelState::onFreeze(){
 }
 
 void LevelState::onUnfreeze(){
+	mIngameMenu = false;
 
 	for (unsigned int i = 0; i < mRegSoundVecSound.size();){
 		if(mRegSoundVecSound[i].expired())

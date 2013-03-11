@@ -38,7 +38,7 @@ ExitButton::ExitButton():
 {
 	mSoundBuffer = ResourceManager::get().getSoundBuffer( FS_DIR_SOUNDS + ExitButtonSpecs::get().mAudioFileName );
 	mActivationSound.setBuffer( *mSoundBuffer );
-	mActivationSound.setVolume(50.f);
+	mActivationSound.setVolume(20.f);
 }
 
 ExitButton::~ExitButton(){
@@ -47,7 +47,7 @@ ExitButton::~ExitButton(){
 
 void ExitButton::activate() {
 	
-	if(mUpdated == false && InputManager::get().isADown()) {
+	if(mUpdated == false && (InputManager::get().isADown() ||InputManager::get().isStartDown() ) ){
 		mUpdated = true;
 		mActivationSound.play();
 

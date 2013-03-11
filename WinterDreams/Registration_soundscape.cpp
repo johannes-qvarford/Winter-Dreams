@@ -8,7 +8,7 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	auto innerradius = properties.get<float>("innerradius", 1);
 	auto rangedecay = properties.get<int>("rangedecay", 10);
 	auto soundfile = properties.get<std::string>("soundfile");
-	auto volume = properties.get<float>("volume");
+	auto volume = properties.get<float>("volume", 100);
 	auto loop = properties.get<bool>("loop", false);
 	auto threeD = properties.get<bool>("sound3d", false);
 	auto fadein = properties.get<int>("fadein", 0);

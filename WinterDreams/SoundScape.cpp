@@ -228,8 +228,6 @@ void SoundScape::update(SubLevel* subLevel_p){
 			mClock.restart();
 			mSound->play();
 			mIsWaitingForSpot = false;
-			if(mSoundName == "1004.ogg")
-				int a = 4;
 	}
 //////////////////////////////////////////////////////////////////////
 // /Samma sak fast tvärtom
@@ -267,7 +265,7 @@ void SoundScape::drawSelf(){
 		position.x += i;
 
 		sf::Vertex vertex[] = {sf::Vertex(position, sf::Color::Yellow)};
-		window.draw(vertex, 1, sf::Points, states);
+		//window.draw(vertex, 1, sf::Points, states);
 
 	}
 }

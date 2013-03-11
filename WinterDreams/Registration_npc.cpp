@@ -6,7 +6,7 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	auto name = pt.get<std::string>("name", "");
 	auto& properties = pt.get_child("properties");
 	auto startdisabled = properties.get<bool>("startdisabled",false); 
-	auto ai_path = properties.get<std::string>("ai_path");
+	auto ai_path = properties.get<std::string>("path");
 	auto damage = properties.get<int>("damage", 1);
 
 	auto initialPosition = sf::FloatRect(position.x, position.y, X_STEP, -Y_STEP);

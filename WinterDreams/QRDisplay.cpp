@@ -49,7 +49,7 @@ void QRDisplay::activate() {
 	if( InputManager::get().isADown() )
 		updated = true;
 
-	if(mActivated == false && updated == true && InputManager::get().isADown()) {
+	if(mActivated == false && updated == true && (InputManager::get().isADown() ||InputManager::get().isStartDown() ) ){
 		mActivated = true;
 
 		auto response = getResponse();

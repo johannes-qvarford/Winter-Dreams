@@ -285,7 +285,7 @@
 			"invulnerabilityframes": 40,
 			"blinkframedistance": 8,
 
-			"walkspeed": 20,
+			"walkspeed": 1.75,
 
 
 			"framesperstep": 27,
@@ -485,12 +485,12 @@
 		},
 		"soundscape":{
 			"narrator":{
-				"1001.ogg": "You finally open your eyes, but you are not with me. [t5250]You are somewhere else.",
-				"1002.ogg": "Isn’t that a good girl, [t2500]now try and see if you can get those frozen limbs moving [t7200]and we can see about getting you back to me. ",
-				"1003.ogg": "Your steps crack against the icy floor, [t3800]the coldness is numbing, but you don’t care. [t8200]You are home, are you not?",
-				"1004.ogg": "Doesn’t it smell of childhood, nostalgia, of dreams… [t6000]or maybe nightmares? [t8000]Pray tell me, young one, what lurks in your mind of what was?",
-				"1005.ogg": "We are exploring the restraints, [t2700]the shackles holding you down inside yourself. [t7000]Our quest takes us deeper…",
-				"1006.ogg": "You see the slithering forms of your so-called friends. [t4000]Most of them has done their duty by now. [t6700]They saw the night and in time, so shall you. [t11500]But not now. First, the light.",
+				"1001.ogg": "[t0]You finally open your eyes, but you are not with me. [t5250]You are somewhere else.",
+				"1002.ogg": "[t0]Isn’t that a good girl, [t2500]now try and see if you can get those frozen limbs moving [t7200]and we can see about getting you back to me. ",
+				"1003.ogg": "[t0]Your steps crack against the icy floor, [t3800]the coldness is numbing, but you don’t care. [t8200]You are home, are you not?",
+				"1004.ogg": "[t0]Doesn’t it smell of childhood, nostalgia, of dreams… [t6000]or maybe nightmares? [t8000]Pray tell me, young one, what lurks in your mind of what was?",
+				"1005.ogg": "[t0]We are exploring the restraints, [t2700]the shackles holding you down inside yourself. [t7000]Our quest takes us deeper…",
+				"1006.ogg": "[t0]You see the slithering forms of your so-called friends. [t4000]Most of them has done their duty by now. [t6700]They saw the night and in time, so shall you. [t11500]But not now. First, the light.",
 				
 				"1007.ogg": "You feel the shadowy form glide through you, consuming what little hope you might have had.",
 				"1008.ogg": "They laugh at you, calling you princess.",
