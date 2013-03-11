@@ -6,12 +6,14 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	auto name = pt.get<std::string>("name", "");
 	auto& properties = pt.get_child("properties");
 	auto startdisabled = properties.get<bool>("startdisabled",false); 
-	auto ai_path = properties.get<std::string>("ai_path");
+	auto path = properties.get<std::string>("path","");
+	if(path == "")
+		path = properties.get<std::string>("ai_path");
 	auto damage = properties.get<int>("damage", 1);
 
 	auto initialPosition = sf::FloatRect(position.x, position.y, X_STEP, -Y_STEP);
 
-	auto npc_sp = std::shared_ptr<GraphicalEntity>(new NPC(ai_path, initialPosition, damage, !startdisabled));
+	auto npc_sp = std::shared_ptr<GraphicalEntity>(new NPC(path, initialPosition, damage, !startdisabled));
 
 	if(name != "")
 		subLevel_p->mapEntityToName(name, npc_sp);

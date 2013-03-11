@@ -44,6 +44,7 @@
     <ClCompile Include="Registration_levelend.cpp" />
     <ClCompile Include="Registration_timeadder.cpp" />
     <ClCompile Include="Registration_timer.cpp" />
+    <ClCompile Include="TextDisplay.cpp" />
     <ClCompile Include="TimeAdder.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="VideoState.cpp" />
@@ -120,6 +121,7 @@
     <ClInclude Include="LoadingFunction.h" />
     <ClInclude Include="LoadingVideoState.h" />
     <ClInclude Include="PlayerControls.h" />
+    <ClInclude Include="TextDisplay.h" />
     <ClInclude Include="TimeAdder.h" />
     <ClInclude Include="MainMenuButton.h" />
     <ClInclude Include="ResumeButton.h" />
@@ -198,7 +200,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>SFML_DYNAMIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;SFML_DYNAMIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)..\sfTheora-1.4\include\;$(SolutionDir)..\SFML\include\;$(SolutionDir)..\boost-svn\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PrecompiledHeader.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>PrecompiledHeader.h</ForcedIncludeFiles>
@@ -220,7 +222,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>PLACE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;PLACE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)..\sfTheora-1.4\include\;$(SolutionDir)..\SFML\include\;$(SolutionDir)..\boost-svn\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PrecompiledHeader.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)..\..\Obj\$(Configuration)\PCH.pch</PrecompiledHeaderOutputFile>

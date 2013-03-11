@@ -6,11 +6,32 @@
 #include "WindowManager.h"
 #include "GameToScreen.h"
 #include "PropertyManager.h"
+#include "TextDisplay.h"
+
 #include <cmath>
+#include <boost/algorithm/string.hpp>
+#include <boost/range/iterator_range.hpp>
 
+struct SoundScapeSpecs {
+public:
 
+	static SoundScapeSpecs& get(){ static SoundScapeSpecs s; return s; }
 
-SoundScape::SoundScape(sf::Rect<float> collisionBox, float innerRadius, int rangeDecay, float volume, bool loop, std::string soundName, bool startsEnabled, std::string soundType, int fadeInTime, bool threeD):
+	std::map<std::string, std::string> mNarratorSoundToText;
+
+private:
+
+	SoundScapeSpecs() {
+		auto& narrator = PropertyManager::get().getObjectSettings().get_child("objects.soundscape.narrator");
+		for(auto it = narrator.begin(), end = narrator.end(); it != end; ++it) {
+			auto name = it->first;
+			auto text = it->second.get_value<std::string>();
+			mNarratorSoundToText[name] = text;
+		}
+	}
+};
+
+SoundScape::SoundScape(sf::Rect<float> collisionBox, float innerRadius, int rangeDecay, float volume, bool loop, std::string soundName, bool startsEnabled, std::string soundType, int fadeInTime, bool threeD, SubLevel* subLevel_p):
 CollisionZone(startsEnabled, collisionBox, false),
 mBoolEntity(false),
 mInnerRadius(innerRadius),
@@ -40,6 +61,34 @@ mSound(new sf::Sound())
 	mSound->setBuffer(*mBuffer);
 	mSound->setLoop(loop);
 	mSound->setVolume(mVolume);
+
+	//try to find subtitles to narrators
+	auto sss = SoundScapeSpecs::get();
+	auto it = sss.mNarratorSoundToText.find(mSoundName);
+
+	if(it != sss.mNarratorSoundToText.end()) {
+
+		//found match
+
+		auto subs = it->second;
+
+		std::vector<TextDisplay::TimedText> timedTexts;
+
+		//std::string str1("[t0]and stuff[t2000]hello mom!");
+    
+		std::vector<std::string> splitVec;
+		boost::split( splitVec, subs, boost::is_any_of("[]"), boost::token_compress_on );
+
+		for(size_t i = 1; i < splitVec.size(); i+=2) {
+			TextDisplay::TimedText tt;
+			tt.mText = splitVec[i+1];
+			tt.mTimestamp = (std::atoi(splitVec[i].c_str()+1)) / 1000.f * 60;
+			timedTexts.push_back(tt);
+		}
+
+		auto text_sp = std::make_shared<TextDisplay>(timedTexts, sf::Vector2f(0.5, 0.5), true);
+		subLevel_p->addScript(text_sp);
+	}
 }
 
 SoundScape::~SoundScape(){

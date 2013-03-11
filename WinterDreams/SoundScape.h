@@ -20,7 +20,7 @@ public:
 // /startsEnabled behövs för att veta om ljudet ska köras direkt eller om det ska aktiveras först
 // /soundType är för att bestämma om soundscapen är en narrator, sound eller music 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-	SoundScape(sf::Rect<float> collisionBox, float innerRadius, int rangeDecay, float volume, bool loop, std::string soundName, bool startsEnabled, std::string soundType, int fadeInTime, bool threeD);
+	SoundScape(sf::Rect<float> collisionBox, float innerRadius, int rangeDecay, float volume, bool loop, std::string soundName, bool startsEnabled, std::string soundType, int fadeInTime, bool threeD, SubLevel* subLevel_p);
 
 ////////////////////////////////////////////////////////////////////////
 // /stoppa ljudet/musiken

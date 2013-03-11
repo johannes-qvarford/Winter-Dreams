@@ -241,6 +241,9 @@
     <ClCompile Include="PlayerControls.cpp">
       <Filter>Sources\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="TextDisplay.cpp">
+      <Filter>Sources\Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameToScreen.h">
@@ -445,6 +448,9 @@
       <Filter>Includes\Entity</Filter>
     </ClInclude>
     <ClInclude Include="PlayerControls.h">
+      <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="TextDisplay.h">
       <Filter>Includes\Entity</Filter>
     </ClInclude>
   </ItemGroup>
