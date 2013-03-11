@@ -35,8 +35,10 @@ mSound(new sf::Sound())
 ////////////////////////////////////////////////////////////////////////
 	if (mSoundType == "sound")
 		mBuffer = ResourceManager::get().getSoundBuffer(FS_DIR_SOUNDS + mSoundName);
-	else if (mSoundType == "narrator")
+	else if (mSoundType == "narrator") {
 		mBuffer = ResourceManager::get().getSoundBuffer(FS_DIR_NARRATORS + mSoundName);
+		mIsWaitingForSpot = true;
+	}
 	else
 		mBuffer = ResourceManager::get().getSoundBuffer(FS_DIR_MUSIC + mSoundName);
 	
@@ -196,7 +198,7 @@ void SoundScape::update(SubLevel* subLevel_p){
 	if (mBoolEntity == false){
 		auto player_sp = subLevel_p->getLevel()->getPlayer();
 		mPlayer_wp = player_sp;
-		if (getEnabled() == true){
+		if (getEnabled() == true && mSoundType != "narrator"){
 			mSound->play();
 		}
 		mBoolEntity = true;
@@ -204,7 +206,7 @@ void SoundScape::update(SubLevel* subLevel_p){
 //////////////////////////////////////////////////////////////////
 // /när ljudet/låten stoppas så ska det inte längre vara aktiverat så att man kan aktivera de igen
 //////////////////////////////////////////////////////////////////
-	if (mEnabledLastFrame && mSound->getStatus() == sf::Sound::Stopped){
+	if (mEnabledLastFrame && mSound->getStatus() == sf::Sound::Stopped && !mIsWaitingForSpot){
 		setEnabled(false);
 	}
 	auto enabledThisFrame = getEnabled();
@@ -215,7 +217,6 @@ void SoundScape::update(SubLevel* subLevel_p){
 	if (enabledThisFrame == true && mEnabledLastFrame == false){
 		if (mSoundType == "narrator"){
 			mSpot = subLevel_p->getLevel()->requestNarratorSpot();
-			mIsWaitingForSpot = true;
 		}
 		else {
 			mClock.restart();
@@ -226,15 +227,19 @@ void SoundScape::update(SubLevel* subLevel_p){
 	if (mIsWaitingForSpot && subLevel_p->getLevel()->isSpotAvailable(mSpot) == true){
 			mClock.restart();
 			mSound->play();
-			mIsWaitingForSpot = true;
+			mIsWaitingForSpot = false;
+			if(mSoundName == "1004.ogg")
+				int a = 4;
 	}
 //////////////////////////////////////////////////////////////////////
 // /Samma sak fast tvärtom
 //////////////////////////////////////////////////////////////////////
 	else if (enabledThisFrame == false && mEnabledLastFrame == true){
 		mSound->stop();
-		if (mSoundType == "narrator")
+		if (mSoundType == "narrator" && mIsWaitingForSpot == false)
 			subLevel_p->getLevel()->finishSpot(mSpot);
+		else
+			mSound->setVolume(mSound->getVolume());
 	}
 
 	float volume = getVolume(subLevel_p);
