@@ -484,7 +484,7 @@
 		},
 		"soundscape":{
 			"narrator":{
-				"1001.ogg": "You're not alone, 100 bla bla"
+				"1002.ogg": "[t0]You're not alone[t500]bla bla"
 			}
 		},
 		"hitbox": {

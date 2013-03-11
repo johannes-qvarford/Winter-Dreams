@@ -93,6 +93,8 @@ Player::Player(sf::FloatRect initialPosition, int lightLevel, bool startEnabled)
 	Animation::fromListToMap(p.mAnimSpecList, FS_DIR_OBJECTANIMATIONS + "player/", &mAnimationMap);
 	mCurrentAnimation_p = &mAnimationMap.begin()->second;
 	
+
+
 }
 
 Player::~Player() {}
