@@ -199,14 +199,16 @@ MenuState* MenuState::makeCreditsMenuState(){
 	return state_p;
 }
 
-MenuState::MenuState()
+MenuState::MenuState():
+	mIsFadingOut(false)
 {
 	mMusic = std::make_shared<sf::Sound>();
 }
 
 
-MenuState::~MenuState() {
-		mMusic->stop();
+MenuState::~MenuState()
+{
+	mMusic->stop();
 }
 
 void MenuState::update() {
@@ -216,14 +218,15 @@ void MenuState::update() {
 		mMusic->setVolume( 50.f );
 	}
 
-	foreach(auto& widget_sp, mWidgets) {
-		widget_sp->update(this);
+	if(mIsFadingOut == false) {
+		foreach(auto& widget_sp, mWidgets) {
+			widget_sp->update(this);
+		}
 	}
 }
 
 void MenuState::render() {
 	auto& window = *WindowManager::get().getRenderWindow();
-
 
 
 #ifdef DEBUG_MAINMENUSTATE
@@ -288,6 +291,14 @@ void MenuState::render() {
 	foreach(auto widget_sp, mWidgets) {
 		window.draw(*widget_sp);
 	}
+}
+
+void MenuState::onFreeze() {
+	mIsFadingOut = true;
+}
+
+void MenuState::onUnfreeze() {
+	mIsFadingOut = false;
 }
 
 void MenuState::setBackground(std::shared_ptr<sf::Texture> texture_sp) {

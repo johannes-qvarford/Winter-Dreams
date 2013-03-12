@@ -48,8 +48,8 @@ PlayButton::~PlayButton(){
 
 void PlayButton::activate() {
 	
-	if(mUpdated == false && (InputManager::get().isADown() ||InputManager::get().isStartDown() ) ){
-		mUpdated = true;
+	if(/*mUpdated == false &&*/ (InputManager::get().isADown() ||InputManager::get().isStartDown() ) ){
+		//mUpdated = true;
 		mActivationSound.play();
 
 		auto first_level_name = PropertyManager::get().getGeneralSettings().get<std::string>("first_level_name");

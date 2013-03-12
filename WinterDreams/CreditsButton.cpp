@@ -46,8 +46,8 @@ CreditsButton::~CreditsButton(){
 void CreditsButton::activate() {
 
 	//TODO: goto credits.
-	if(mUpdated == false && (InputManager::get().isADown() ||InputManager::get().isStartDown() ) ){
-		mUpdated = true;
+	if(/*mUpdated == false && */(InputManager::get().isADown() ||InputManager::get().isStartDown() ) ){
+		//mUpdated = true;
 		mActivationSound.play();
 		
 		auto creditsmenu_p = MenuState::makeCreditsMenuState();
