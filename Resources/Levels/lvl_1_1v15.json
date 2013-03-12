@@ -754,7 +754,7 @@
                      "soundfile":"1001.ogg",
                      "soundtype":"narrator",
                      "startdisabled":"true",
-                     "volume":"100"
+                     "volume":"40"
                     },
                  "type":"soundscape",
                  "visible":true,
@@ -775,7 +775,7 @@
                      "soundfile":"1003.ogg",
                      "soundtype":"narrator",
                      "startdisabled":"true",
-                     "volume":"100"
+                     "volume":"40"
                     },
                  "type":"soundscape",
                  "visible":true,
@@ -796,7 +796,7 @@
                      "soundfile":"1004.ogg",
                      "soundtype":"narrator",
                      "startdisabled":"true",
-                     "volume":"100"
+                     "volume":"40"
                     },
                  "type":"soundscape",
                  "visible":true,
@@ -1489,7 +1489,7 @@
                      "soundfile":"1002.ogg",
                      "soundtype":"narrator",
                      "startdisabled":"true",
-                     "volume":"100"
+                     "volume":"40"
                     },
                  "type":"soundscape",
                  "visible":true,

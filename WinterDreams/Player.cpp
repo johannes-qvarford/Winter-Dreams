@@ -238,21 +238,26 @@ void Player::updateMovement(SubLevel* subLevel_p) {
 	if (mDirection != sf::Vector2i(0, 0))
 		mFrameCount++;
 
+	// creates a new footstep
 	if (mFrameCount == mFramesPerStep){
 		mFrameCount = 0;
 		sf::Vector2f offset;
+		//north and south
 		if ((mFacingDir == sf::Vector2i(-1, -1) || mFacingDir == sf::Vector2i(1, 1)) && mRightFoot)
 			offset = sf::Vector2f(7, -7);
+		//northeast and southwest
 		if ((mFacingDir == sf::Vector2i(0, -1) || mFacingDir == sf::Vector2i(0, 1)) && mRightFoot)
 			offset = sf::Vector2f(7, 0);
+		//east and west
 		if ((mFacingDir == sf::Vector2i(1, -1) || mFacingDir == sf::Vector2i(-1, 1)) && mRightFoot)
-			offset = sf::Vector2f(7, 7);
+			offset = sf::Vector2f(3, 3);
+		//northwest and southeast
 		if ((mFacingDir == sf::Vector2i(1, 0) || mFacingDir == sf::Vector2i(-1, 0)) && mRightFoot)
 			offset = sf::Vector2f(0, -7);
 
 		mRightFoot = !mRightFoot;
-		// auto footStep_sp = std::shared_ptr<FootStep>(new FootStep(sf::Vector2f(mHitBox.left + 8, mHitBox.top - 18) + offset, mFacingDir, "ice", 124));
-		// subLevel_p->addGraphicalEntity(footStep_sp);
+		//auto footStep_sp = std::shared_ptr<FootStep>(new FootStep(sf::Vector2f(mHitBox.left + 11, mHitBox.top - 15) + offset, mFacingDir, "ice", 124));
+		//subLevel_p->addGraphicalEntity(footStep_sp);
 
 	}
 }

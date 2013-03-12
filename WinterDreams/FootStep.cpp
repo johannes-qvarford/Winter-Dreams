@@ -147,3 +147,7 @@ void FootStep::drawSelf(){
 int FootStep::getLayer(){
 	return 0;
 }
+
+int FootStep::getMinorLayer(){
+	return 6;
+}

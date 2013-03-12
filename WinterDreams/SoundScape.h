@@ -4,6 +4,7 @@
 #include "SFML/Graphics/Rect.hpp"
 #include "CollisionZone.h"
 #include "Player.h"
+#include "TextDisplay.h"
 
 class SoundScape : public CollisionZone {
 public:
@@ -37,6 +38,7 @@ public:
 
 
 	void drawSelf();
+
 private:
 
 	bool mBoolEntity;
@@ -53,9 +55,12 @@ private:
 	std::string mSoundName;
 	std::shared_ptr<sf::SoundBuffer> mBuffer;
 	std::shared_ptr<sf::Sound> mSound;
+	std::weak_ptr<TextDisplay> mText_wp;
 	std::weak_ptr<Player> mPlayer_wp;
 	bool mEnabledLastFrame;
-	
+	int mSpot;
+	bool mICanHasNarratorSpot;
+	bool mIsWaitingForSpot;
 	
 	float getVolume(SubLevel* subLevel_p);
 
