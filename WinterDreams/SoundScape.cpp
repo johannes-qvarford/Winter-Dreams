@@ -237,6 +237,19 @@ void SoundScape::update(SubLevel* subLevel_p){
 			auto sss = SoundScapeSpecs::get();
 			auto it = sss.mNarratorSoundToText.find(mSoundName);
 
+			//TESTING
+			static bool b = false;
+			if(b) {
+				std::vector<TextDisplay::TimedText> timedTexts;
+				TextDisplay::TimedText t[] = {{0,"hello world!"}};
+				timedTexts.push_back(t[0]);
+				auto text_sp = std::make_shared<TextDisplay>(timedTexts, sf::Vector2f(0.5, 0.8), true);
+				subLevel_p->addScript(text_sp);
+			}
+			b = false;
+
+
+
 			if(it != sss.mNarratorSoundToText.end()) {
 
 				//found match
