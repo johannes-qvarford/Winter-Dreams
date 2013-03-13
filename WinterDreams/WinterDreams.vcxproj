@@ -37,7 +37,9 @@
     <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="LoadingVideoState.cpp" />
     <ClCompile Include="Registration_counter.cpp" />
+    <ClCompile Include="ResolutionButton.cpp" />
     <ClCompile Include="ResumeButton.cpp" />
+    <ClCompile Include="SoundVolumeSlider.cpp" />
     <ClCompile Include="SubLevelFade.cpp" />
     <ClCompile Include="Registration_levelend.cpp" />
     <ClCompile Include="Registration_timeadder.cpp" />
@@ -117,6 +119,8 @@
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="LoadingFunction.h" />
     <ClInclude Include="LoadingVideoState.h" />
+    <ClInclude Include="ResolutionButton.h" />
+    <ClInclude Include="SoundVolumeSlider.h" />
     <ClInclude Include="TimeAdder.h" />
     <ClInclude Include="MainMenuButton.h" />
     <ClInclude Include="ResumeButton.h" />
