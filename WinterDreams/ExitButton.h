@@ -13,6 +13,7 @@ public:
 	////////////////////////////////////////////////////////////
 	ExitButton();
 
+	~ExitButton();
 	////////////////////////////////////////////////////////////
 	// /Do the following:
 	// /fade, pop
@@ -22,6 +23,8 @@ public:
 private:
 
 	bool mUpdated;
+	sf::Sound mActivationSound;
+	std::shared_ptr<sf::SoundBuffer> mSoundBuffer;
 };
 
 #endif

@@ -1,6 +1,8 @@
 #include "LevelState.h"
 #include "SubLevel.h"
-
+#include "StateManager.h"
+#include "MenuState.h"
+#include <SFML\Graphics\RenderTexture.hpp>
 #include <cassert>
 
 LevelState::LevelState(const std::string& levelName):
@@ -9,7 +11,10 @@ LevelState::LevelState(const std::string& levelName):
 	mPlayer_sp(),
 	mCamera_sp(),
 	mInventoryDisplay_sp(),
-	mLevelName(levelName)
+	mNextSpot(1),
+	mFinishedSpot(0),
+	mLevelName(levelName),
+	mIngameMenu( false )
 {
 
 }
@@ -18,6 +23,17 @@ LevelState::~LevelState() {
 }
 
 void LevelState::update() {
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::T) && mIngameMenu == false){
+		mIngameMenu = true;
+		static sf::RenderTexture t;
+		t.create(1920,1080);
+		t.clear(sf::Color::White);
+		auto ingameMenu_p = MenuState::makeIngameMenuState(t.getTexture());
+		StateManager::get().freezeState();
+		StateManager::get().pushState(ingameMenu_p);
+		StateManager::get().unfreezeState();
+	}
+
 	auto& subLevel_sp = mCurrentSubLevel->second;
 	subLevel_sp->update();
 }
@@ -117,6 +133,7 @@ void LevelState::onFreeze(){
 }
 
 void LevelState::onUnfreeze(){
+	mIngameMenu = false;
 
 	for (unsigned int i = 0; i < mRegSoundVecSound.size();){
 		if(mRegSoundVecSound[i].expired())
@@ -137,4 +154,21 @@ void LevelState::onUnfreeze(){
 			i++;
 		}
 	}
+}
+
+int LevelState::requestNarratorSpot(){
+	mNextSpot++;
+
+	return mNextSpot - 1;
+}
+
+bool LevelState::isSpotAvailable(int spot){
+	if (spot == mFinishedSpot + 1)
+		return true;
+	else
+		return false;
+}
+
+void LevelState::finishSpot(int spot){
+	mFinishedSpot = spot;
 }

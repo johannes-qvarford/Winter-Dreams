@@ -46,8 +46,9 @@ NPCSpecs::NPCSpecs()
 	AnimationSpecs::parse(npcTree, mAnimSpecList);
 }
 
-NPC::NPC(const std::string& pathName, const sf::FloatRect& initialPosition, bool startsEnabled):
+NPC::NPC(const std::string& pathName, const sf::FloatRect& initialPosition, int damage, bool startsEnabled):
 	GraphicalEntity(startsEnabled),
+	mDamage(damage),
 	mFoundPath(false),
 	mPathName(pathName),
 	mPath_p(NULL),
@@ -175,8 +176,12 @@ void NPC::onCollision(PhysicalEntity * pe_p, const sf::FloatRect& intersection) 
 	if(player_p == nullptr)
 		return;
 
-	if(player_p->getCurrentLightLevel() > 1 && player_p->isVulnerable()) {
-		player_p->adjustCurrentLightLevel(-1);
+	auto curLevel = player_p->getCurrentLightLevel();
+
+	if(curLevel > 1 && player_p->isVulnerable()) {
+
+		//remove damage so that the player has at least 1 light level.
+		player_p->setCurrentLightLevel(curLevel > mDamage ? curLevel - mDamage : 1);
 		player_p->setInvulnerable();
 	}
 }

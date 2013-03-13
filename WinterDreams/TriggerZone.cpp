@@ -15,8 +15,9 @@
 //to mean that the player has left the zone.
 static const int EXIT_FRAMES = 2;
 
-TriggerZone::TriggerZone(const sf::FloatRect& hitBox, const std::list<std::string>& onEnterNames, const std::list<std::string>& onExitNames, std::list<std::string> requiredItems, std::list<std::string> absenceRequiredItems, int lightLevel, SubLevel* subLevel_p, bool triggerOnce, bool startEnabled):
+TriggerZone::TriggerZone(const sf::FloatRect& hitBox, TriggerZone::Action action, const std::list<std::string>& onEnterNames, const std::list<std::string>& onExitNames, std::list<std::string> requiredItems, std::list<std::string> absenceRequiredItems, int lightLevel, SubLevel* subLevel_p, bool triggerOnce, bool startEnabled):
 	CollisionZone(startEnabled, hitBox, triggerOnce),
+	mAction(action),
 	mUpdatesSinceLastTouch(EXIT_FRAMES + 1),
 	mInZone(false),
 	mLightLevel(lightLevel),
@@ -50,10 +51,12 @@ void TriggerZone::update(SubLevel* subLevel_p) {
 			//do nothing if entity is dead
 			if(entity_wp.expired())
 				return;
-
-			//swap enabled state of entity
 			std::shared_ptr<Entity> entity_sp(entity_wp);
-			entity_sp->swapEnabled();
+			switch(mAction) {
+			case ACTION_SWAP: entity_sp->swapEnabled(); break;
+			case ACTION_ENABLE: entity_sp->setEnabled(true); break;
+			case ACTION_DISABLE: entity_sp->setEnabled(false); break;
+			}
 		}
 	}
 }
@@ -119,10 +122,12 @@ void TriggerZone::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::Re
 			if(entity_wp.expired())
 				return;
 
-			//swap enabled state of entity
 			std::shared_ptr<Entity> entity_sp(entity_wp);
-			entity_sp->swapEnabled();
-
+			switch(mAction) {
+			case ACTION_SWAP: entity_sp->swapEnabled(); break;
+			case ACTION_ENABLE: entity_sp->setEnabled(true); break;
+			case ACTION_DISABLE: entity_sp->setEnabled(false); break;
+			}
 			//disable self if it's a one time trigger
 			CollisionZone::onCollision(entityCollidedWith_p, intersection);
 		}

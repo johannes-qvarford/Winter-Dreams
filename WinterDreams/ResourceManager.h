@@ -1,6 +1,7 @@
 #ifndef INCLUDED_RESOURCEMANAGER
 #define INCLUDED_RESOURCEMANAGER
 
+#include "FileStructure.h"
 #include <SFML\Graphics.hpp>
 #include <SFML\Audio.hpp>
 #include <sfTheora\Video.h>

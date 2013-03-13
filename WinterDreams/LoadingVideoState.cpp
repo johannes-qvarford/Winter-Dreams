@@ -44,11 +44,13 @@ LoadingVideoState::~LoadingVideoState() {
 }
 
 void LoadingVideoState::update() {
+	if( mInitialized == false )
+		VideoState::update();
+
 	mRunMutex.lock();
 	if( mRunning ){
 		mRunMutex.unlock();
 		mVideo->update( mDeltaTime.restart() );
-//		mIsLoadingIcon.rotate(-5);
 	} else {
 		mRunMutex.unlock();
 		VideoState::update();

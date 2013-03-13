@@ -2,7 +2,6 @@
 #define INCLUDED_SETTINGSBUTTON
 
 #include "Button.h"
-
 ////////////////////////////////////////////////////////////
 // /A settings button is used to enter the settings menu.
 ////////////////////////////////////////////////////////////
@@ -13,6 +12,7 @@ public:
 	////////////////////////////////////////////////////////////
 	SettingsButton();
 
+	~SettingsButton();
 	////////////////////////////////////////////////////////////
 	// /Do the following:
 	// /fadeout, pop state, push settings state, fadein.
@@ -22,6 +22,8 @@ public:
 private:
 
 	bool mUpdated;
+	sf::Sound mActivationSound;
+	std::shared_ptr<sf::SoundBuffer> mSoundBuffer;
 };
 
 #endif

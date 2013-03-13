@@ -90,6 +90,24 @@ private:
 		mFrameFilename = sms.get<std::string>("frame.filename");
 		mFrameXOffset = sms.get<float>("frame.xoffset");
 		mFrameXOffset = sms.get<float>("frame.yoffset");
+		
+class CreditsMenuStateSpecs{
+public:
+	static CreditsMenuStateSpecs& get(){ static CreditsMenuStateSpecs s; return s;	}
+
+	std::string mBackgroundFileName;
+
+	std::string  mFrameFileName;
+	sf::Vector2f mFrameOffset;
+private:
+	CreditsMenuStateSpecs() {
+		auto& cms = PropertyManager::get().getGeneralSettings().get_child("ui.credits");
+
+		mBackgroundFileName = cms.get<std::string>("bgfilename");
+
+		mFrameFileName = cms.get<std::string>("frame.filename");
+		mFrameOffset.x = cms.get<float>("frame.xoffset");
+		mFrameOffset.y = cms.get<float>("frame.yoffset");
 	}
 };
 
@@ -123,7 +141,7 @@ MenuState* MenuState::makeMainMenuState() {
 	auto bg_sp = res.getTexture(FS_DIR_UI + specs.mBgFilename);
 
 	//add some music
-	auto music_sp = ResourceManager::get().getSoundBuffer( FS_DIR_MUSIC + "menu_theme.wav" );
+	auto music_sp = ResourceManager::get().getSoundBuffer( FS_DIR_MUSIC + specs.get().mBgmMusic );
 
 	state_p->addWidget(play_sp);
 	state_p->addWidget(settings_sp);
@@ -173,6 +191,7 @@ MenuState* MenuState::makeIngameMenuState(sf::Texture background) {
 	return state_p;
 }
 
+<<<<<<< HEAD
 MenuState* MenuState::makeSettingsMenuState(sf::Texture background) {
 	auto& res = ResourceManager::get();
 	auto& specs = SettingsMenuStateSpecs::get();
@@ -206,19 +225,46 @@ MenuState* MenuState::makeSettingsMenuState(sf::Texture background) {
 
 	state_p->addWidget(resolution_sp);
 	state_p->addWidget(sndvol_sp);
+=======
+MenuState* MenuState::makeCreditsMenuState(){
+	auto& res = ResourceManager::get();
+	auto& specs = CreditsMenuStateSpecs::get();
+
+	auto state_p = new MenuState();
+	auto widgets = std::vector<std::shared_ptr<Widget >> ();
+
+	auto resume_sp = std::make_shared<ResumeButton>();
+	auto frame_sp = std::make_shared<Button>(specs.mFrameOffset, specs.mFrameFileName);
+	resume_sp->setBounds( sf::FloatRect( 1.2f, 1.2f, 0.1f, 0.1f ) );
+
+	widgets.push_back(resume_sp);
+
+	auto cursor_sp = std::make_shared<Cursor>(widgets);
+	auto bg_sp = res.getTexture( FS_DIR_UI + specs.mBackgroundFileName );
+
+	state_p->setBackground( bg_sp );
+	state_p->addWidget(resume_sp);
+	state_p->addWidget(cursor_sp);
+	state_p->addWidget(frame_sp);
+>>>>>>> bf56da56901c174494c95197951cc1da6d4fab43
 
 	return state_p;
 }
 
+<<<<<<< HEAD
 MenuState::MenuState()
+=======
+MenuState::MenuState():
+	mIsFadingOut(false)
+>>>>>>> bf56da56901c174494c95197951cc1da6d4fab43
 {
 	mMusic = std::make_shared<sf::Sound>();
 }
 
 
-
-MenuState::~MenuState() {
-		mMusic->stop();
+MenuState::~MenuState()
+{
+	mMusic->stop();
 }
 
 void MenuState::update() {
@@ -228,14 +274,15 @@ void MenuState::update() {
 		mMusic->setVolume( 50.f );
 	}
 
-	foreach(auto& widget_sp, mWidgets) {
-		widget_sp->update(this);
+	if(mIsFadingOut == false) {
+		foreach(auto& widget_sp, mWidgets) {
+			widget_sp->update(this);
+		}
 	}
 }
 
 void MenuState::render() {
 	auto& window = *WindowManager::get().getRenderWindow();
-
 
 
 #ifdef DEBUG_MAINMENUSTATE
@@ -300,6 +347,14 @@ void MenuState::render() {
 	foreach(auto widget_sp, mWidgets) {
 		window.draw(*widget_sp);
 	}
+}
+
+void MenuState::onFreeze() {
+	mIsFadingOut = true;
+}
+
+void MenuState::onUnfreeze() {
+	mIsFadingOut = false;
 }
 
 void MenuState::setBackground(std::shared_ptr<sf::Texture> texture_sp) {

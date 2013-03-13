@@ -21,7 +21,8 @@ public:
 private:
 
 	ResumeButtonSpecs() {
-		auto& resume = PropertyManager::get().getGeneralSettings().get_child("ui.ingamemenu.resume");
+		auto& resume = PropertyManager::get().getGeneralSettings().get_child("ui.ingamemenu.continue");
+
 		mXOffset = resume.get<float>("xoffset");
 		mYOffset = resume.get<float>("yoffset");
 		mFilename = resume.get<std::string>("filename");
@@ -36,14 +37,15 @@ ResumeButton::ResumeButton():
 
 void ResumeButton::activate() {
 	
-	if(mUpdated == false && InputManager::get().isADown()) {
+	if(mUpdated == false && (InputManager::get().isADown() ||InputManager::get().isStartDown() ) ){
 		mUpdated = true;
 		Button::activate();
 
 		auto& stateMgr = StateManager::get();
 
+		stateMgr.freezeState();
 		stateMgr.popState();
-		stateMgr.unfreezeState(10);
+		stateMgr.unfreezeState();
 
 		onHover(false);
 	}

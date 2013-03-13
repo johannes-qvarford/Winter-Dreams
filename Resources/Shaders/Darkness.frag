@@ -1,7 +1,6 @@
-
+#version 110
 #define NUM_LIGHTS 10
 
-varying out vec4 colorOut;
 uniform sampler2D texture;
 uniform float lightPosx[NUM_LIGHTS];
 uniform float lightPosy[NUM_LIGHTS];
@@ -20,14 +19,14 @@ void main()
 		float dis = distance(gl_TexCoord[0].xy, vec2(lightPosx[i], lightPosy[i]));
 		
 		curValue = brightness[i]*(maxDis[i] - dis) / maxDis[i];
-		//curValue = max(curValue, 0);
-		curValue = clamp(curValue, 0, 1);
+		//curValue = max(curValue, 0.0);
+		curValue = clamp(curValue, 0.0, 1.0);
 		curValue *= curValue;
 
 		lightValue += curValue;
 		//lightValue = max(curValue, lightValue);
 	}
 
-	lightValue = clamp(lightValue, 0.03, 1);
-	colorOut = vec4(col.rgb * lightValue, 1.0);
+	lightValue = clamp(lightValue, 0.03, 1.0);
+	gl_FragColor = vec4(col.rgb * lightValue, 1.0);
 }	

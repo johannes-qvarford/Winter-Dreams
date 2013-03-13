@@ -22,7 +22,7 @@ public:
 private:
 
 	MainMenuButtonSpecs() {
-		auto& MainMenu = PropertyManager::get().getGeneralSettings().get_child("ui.ingamemenu.mainenu");
+		auto& MainMenu = PropertyManager::get().getGeneralSettings().get_child("ui.ingamemenu.mainmenu");
 		mXOffset = MainMenu.get<float>("xoffset");
 		mYOffset = MainMenu.get<float>("yoffset");
 		mFilename = MainMenu.get<std::string>("filename");
@@ -37,7 +37,7 @@ MainMenuButton::MainMenuButton():
 
 void MainMenuButton::activate() {
 	
-	if(mUpdated == false && InputManager::get().isADown()) {
+	if(mUpdated == false && (InputManager::get().isADown() ||InputManager::get().isStartDown() ) ){
 		mUpdated = true;
 		Button::activate();
 

@@ -3,31 +3,35 @@
 #include <string>
 
 static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, const boost::property_tree::ptree& pt) {
-	
-	auto startEnabled = !pt.get<bool>("startdisabled", false);
-	auto once = pt.get<bool>("properties.once", true);
-	auto height = ( pt.get<int>("height") / 32 ) * -Y_STEP;
-	auto width = ( pt.get<int>("width") / 32 ) * X_STEP;
-	auto targetLevel = pt.get<std::string>("properties.levelname");
-	auto targetPortal = pt.get<std::string>("properties.targetportal", "");
 	auto name = pt.get<std::string>("name", "");
-	auto directionString = pt.get<std::string>("properties.exitdirection", "se");
+	auto& properties = pt.get_child("properties");
+	auto startdisabled = properties.get<bool>("startdisabled", false);
+	auto once = properties.get<bool>("once", true);
+	auto height = pt.get<float>("height");
+	auto width = pt.get<float>("width");
+	auto levelname = properties.get<std::string>("levelname");
+	auto targetportal = properties.get<std::string>("targetportal", "");
+	auto exitdirection = properties.get<std::string>("exitdirection", "se");
+	
+	auto adjustedHeight = ( height / 32 ) * -Y_STEP;
+	auto adjustedWidth = ( width / 32 ) * X_STEP;
 	sf::Vector2i direction;
-	if (directionString == "se")
+	if (exitdirection == "se")
 		direction = sf::Vector2i(1, 0);
-	else if (directionString == "sw")
+	else if (exitdirection == "sw")
 		direction = sf::Vector2i(0, 1);
-	else if (directionString == "ne")
+	else if (exitdirection == "ne")
 		direction = sf::Vector2i(0, -1);
-	else if (directionString == "nw")
+	else if (exitdirection == "nw")
 		direction = sf::Vector2i(-1, 0);
-	sf::FloatRect rect( position.x, position.y, width, height );
-	std::shared_ptr<PhysicalEntity> portal_p( new LevelPortal(rect, subLevel_p, targetLevel, targetPortal, startEnabled, once, direction) );
+	sf::FloatRect rect( position.x, position.y, adjustedWidth, adjustedHeight );
+	
+	auto portal_sp = std::make_shared<LevelPortal>(rect, subLevel_p, levelname, targetportal, !startdisabled, once, direction);
 
-	subLevel_p->addGraphicalEntity( std::dynamic_pointer_cast<GraphicalEntity>(portal_p) );
+	subLevel_p->addGraphicalEntity(portal_sp);
 
 	if( name != "" )
-		subLevel_p->mapEntityToName( name, std::static_pointer_cast<Entity>(portal_p) );
+		subLevel_p->mapEntityToName( name, portal_sp );
 }
 
 static ObjectTypeRegistration reg("levelportal", regCallback);

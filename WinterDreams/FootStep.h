@@ -15,9 +15,12 @@ public:
 
 	int getLayer();
 
+	int getMinorLayer();
+
 	sf::Rect<float>& getHitBox(); 
 
 	void onCollision(PhysicalEntity * ent, const sf::Rect<float>& intersection);
+
 private:
 	sf::Rect<float>						mHitBox;
 /*

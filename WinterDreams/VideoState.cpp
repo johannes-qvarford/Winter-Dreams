@@ -12,23 +12,11 @@
 #include <cassert>
 
 VideoState::VideoState(const std::string& videoFileName, const std::string& musicFileName) :
-	mRequestPerformed( false )
+	mRequestPerformed( false ),
+	mInitialized( false ),
+	mVideoFileName( videoFileName ),
+	mMusicFileName( musicFileName )
 {
-
-	auto& rm = ResourceManager::get();
-		//Get a shared_ptr to the video
-	mVideo = rm.getVideo( FS_DIR_VIDEO + videoFileName );
-
-		//Check the video for errors
-	assert( !mVideo->hasError() );
-		//Save the videos lenght
-	auto lenght = mVideo->getDuration();
-	mVidLenght += lenght;
-
-	if( musicFileName != "" ){
-		mMusic.openFromFile( FS_DIR_MUSIC + musicFileName );
-		mMusic.play();
-	}
 }
 
 VideoState::~VideoState() { 
@@ -36,6 +24,24 @@ VideoState::~VideoState() {
 }
 
 void VideoState::update() {
+	if( mInitialized == false ){
+			auto& rm = ResourceManager::get();
+		//Get a shared_ptr to the video
+		mVideo = rm.getVideo( FS_DIR_VIDEO + mVideoFileName );
+
+			//Check the video for errors
+		assert( !mVideo->hasError() );
+			//Save the videos lenght
+		auto lenght = mVideo->getDuration();
+
+		if( mMusicFileName != "" ){
+			mMusic.openFromFile( FS_DIR_MUSIC + mMusicFileName );
+			mMusic.play();
+		}
+
+		mInitialized = true;
+	}
+
 /////////////////////////////////////////////
 //Restart the delta time clock each frame.
 //The video will use the return value from
@@ -61,7 +67,6 @@ void VideoState::render() {
 
 void VideoState::onUnfreeze() {
 	mDeltaTime.restart();
-	mRunTime.restart();
 }
 //////////////////////////////   PROTECTED  ////////////////////////////////////////////////
 
@@ -77,9 +82,8 @@ void VideoState::reqestVideoEnd() {
 void VideoState::onVideoEnd() {
 
 	auto& sm = StateManager::get();
-	sm.freezeState(20);
+	sm.freezeState();
 	sm.popState();
-	sm.pushState( MenuState::makeMainMenuState() );
-	sm.unfreezeState(120);
+	sm.unfreezeState();
 }
 

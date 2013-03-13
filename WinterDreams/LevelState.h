@@ -91,6 +91,8 @@ public:
 	////////////////////////////////////////////////////////////
 	const std::string& getLevelName() const;
 
+
+
 	enum SoundType{
 		SOUND,
 		NARRATOR,
@@ -99,6 +101,12 @@ public:
 
 	void registerSound(std::shared_ptr<sf::Sound>, SoundType type);
 
+	int requestNarratorSpot();
+
+	bool isSpotAvailable(int spot);
+
+	void finishSpot(int spot);
+
 	void onFreeze();
 
 	void onUnfreeze();
@@ -106,7 +114,13 @@ public:
 
 private:
 
+	int mNextSpot;
+
+	int mFinishedSpot;
+
 	typedef std::map<std::string, std::shared_ptr<SubLevel> > SubLevels;
+
+	bool mIngameMenu;
 
 	SubLevels mSubLevels;
 

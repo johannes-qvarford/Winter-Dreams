@@ -93,6 +93,8 @@ Player::Player(sf::FloatRect initialPosition, int lightLevel, bool startEnabled)
 	Animation::fromListToMap(p.mAnimSpecList, FS_DIR_OBJECTANIMATIONS + "player/", &mAnimationMap);
 	mCurrentAnimation_p = &mAnimationMap.begin()->second;
 	
+
+
 }
 
 Player::~Player() {}
@@ -225,44 +227,41 @@ void Player::updateMovement(SubLevel* subLevel_p) {
 	stick *= static_cast<float>(mMoveSpeed);
 		//Adjust the avatars position by tempDir
 	adjustPosition( stick );
-	if( stick.x > 0 ||stick.y > 0)
-		mDirection=sf::Vector2i(static_cast<int>(stick.x),static_cast<int>(stick.y));
-	else
-		mDirection=sf::Vector2i(static_cast<int>(stick.x*2),static_cast<int>(stick.y*2));
+
+	//TODO::Calculate rotation for setting direction on the avatar.
+
+					if( stick.x > 0 ||stick.y > 0)
+						mDirection=sf::Vector2i(static_cast<int>(stick.x),static_cast<int>(stick.y));
+					else
+						mDirection=sf::Vector2i(static_cast<int>(stick.x*2),static_cast<int>(stick.y*2));
+
 	if (mDirection != sf::Vector2i(0, 0))
 		mFrameCount++;
 
+	// creates a new footstep
 	if (mFrameCount == mFramesPerStep){
 		mFrameCount = 0;
 		sf::Vector2f offset;
+		//north and south
 		if ((mFacingDir == sf::Vector2i(-1, -1) || mFacingDir == sf::Vector2i(1, 1)) && mRightFoot)
 			offset = sf::Vector2f(7, -7);
+		//northeast and southwest
 		if ((mFacingDir == sf::Vector2i(0, -1) || mFacingDir == sf::Vector2i(0, 1)) && mRightFoot)
 			offset = sf::Vector2f(7, 0);
+		//east and west
 		if ((mFacingDir == sf::Vector2i(1, -1) || mFacingDir == sf::Vector2i(-1, 1)) && mRightFoot)
-			offset = sf::Vector2f(7, 7);
+			offset = sf::Vector2f(3, 3);
+		//northwest and southeast
 		if ((mFacingDir == sf::Vector2i(1, 0) || mFacingDir == sf::Vector2i(-1, 0)) && mRightFoot)
 			offset = sf::Vector2f(0, -7);
 
 		mRightFoot = !mRightFoot;
-		// auto footStep_sp = std::shared_ptr<FootStep>(new FootStep(sf::Vector2f(mHitBox.left + 8, mHitBox.top - 18) + offset, mFacingDir, "ice", 124));
-		// subLevel_p->addGraphicalEntity(footStep_sp);
+		//auto footStep_sp = std::shared_ptr<FootStep>(new FootStep(sf::Vector2f(mHitBox.left + 11, mHitBox.top - 15) + offset, mFacingDir, "ice", 124));
+		//subLevel_p->addGraphicalEntity(footStep_sp);
 
 	}
 }
 
-
-/*void Player::updateAnimations(SubLevel* subLevel_p) {
-	static std::vector<std::pair<sf::Vector2f, std::string> > animations;
-	static bool init = false;
-
-	if(!init) {
-		animations.push_back(std::pair<sf::Vector2f, std::string>());
-	}
-	init = true;
-	
-}
-*/
 
 void Player::assignMoveAnimations(SubLevel* subLevel_p) {
 
@@ -410,3 +409,4 @@ static void addHitBox( SubLevel* subLevel_p, Player* player, int dmgAmount, cons
 static int convert( int value) {
 	return (value > 0) ? 1 : (value < 0) ? -1 : 0;
 }
+

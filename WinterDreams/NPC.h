@@ -20,7 +20,7 @@ public:
 	// /Create an NPC that walks along a named path,
 	// /that starts at a certain position.
 	//////////////////////////////////////////////////////
-	NPC(const std::string& pathName, const sf::FloatRect& initialPosition, bool startsEnabled);
+	NPC(const std::string& pathName, const sf::FloatRect& initialPosition, int damage, bool startsEnabled);
 
 	//////////////////////////////////////////////////////
 	// /Move the NPC from point to point along the path.
@@ -39,6 +39,8 @@ public:
 	sf::FloatRect& getHitBox();
 
 private:
+
+	int mDamage;
 
 	bool mFirstFrame;
 

@@ -6,8 +6,8 @@
 #include "StateManager.h"
 #include "InputManager.h"
 
-LevelEnder::LevelEnder( bool startsEnabled, const sf::FloatRect& hitBox, bool once):
-	CollisionZone(startsEnabled, hitBox, once),
+LevelEnder::LevelEnder( bool startsEnabled, const sf::FloatRect& hitBox):
+	CollisionZone(startsEnabled, hitBox, true),
 	mSubLevel_p(nullptr)
 {
 }
