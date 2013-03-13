@@ -29,8 +29,11 @@ private:
 	}
 };
 
-ResumeButton::ResumeButton():
-	Button(sf::Vector2f(ResumeButtonSpecs::get().mXOffset, ResumeButtonSpecs::get().mYOffset), ResumeButtonSpecs::get().mFilename),
+ResumeButton::ResumeButton(const std::string& textureFileName, const unsigned int& fadeInTime, const unsigned int& fadeOutTime):
+	Button(sf::Vector2f(ResumeButtonSpecs::get().mXOffset, ResumeButtonSpecs::get().mYOffset),
+		  ( (textureFileName == "") ? ResumeButtonSpecs::get().mFilename : textureFileName) ), //Button's constructor end here
+	mFadeInTime( fadeInTime ),
+	mFadeOutTime( fadeOutTime ),
 	mUpdated(false)
 {
 }
@@ -43,9 +46,9 @@ void ResumeButton::activate() {
 
 		auto& stateMgr = StateManager::get();
 
-		stateMgr.freezeState();
+		stateMgr.freezeState(mFadeOutTime);
 		stateMgr.popState();
-		stateMgr.unfreezeState();
+		stateMgr.unfreezeState(mFadeInTime);
 
 		onHover(false);
 	}

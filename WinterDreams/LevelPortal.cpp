@@ -125,7 +125,6 @@ void LevelPortal::update(SubLevel* subLevel_p){
 		player.setFacingDirection(mDirection);
 		camera.snapToPosition( GAME_TO_SCREEN * newPos );
 		camera.lockCamera();
-		InputManager::get().unlockInput();
 		auto fade_sp = std::shared_ptr<SubLevelFade>(new SubLevelFade(WAITINGFRAMES, SubLevelFade::FADE_IN));
 		nextSubLevel_p->addScript(fade_sp);
 		mIsWaiting = false;
@@ -149,7 +148,6 @@ void LevelPortal::onCollision(PhysicalEntity* pe, const sf::Rect<float>& interse
 		mIsWaiting = true;
 		auto fade_sp = std::shared_ptr<SubLevelFade>(new SubLevelFade(WAITINGFRAMES, SubLevelFade::FADE_OUT));
 		mSubLevel_p->addScript(fade_sp);
-		InputManager::get().lockInput();
 	}
 
 	//if (mOnce == true)

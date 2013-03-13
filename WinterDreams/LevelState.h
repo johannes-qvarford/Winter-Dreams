@@ -111,6 +111,7 @@ public:
 
 	void onUnfreeze();
 
+	void onEndUnfreeze();
 
 private:
 

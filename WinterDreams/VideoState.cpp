@@ -66,6 +66,7 @@ void VideoState::render() {
 }
 
 void VideoState::onUnfreeze() {
+	State::onUnfreeze();
 	mDeltaTime.restart();
 }
 //////////////////////////////   PROTECTED  ////////////////////////////////////////////////
