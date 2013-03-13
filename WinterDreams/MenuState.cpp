@@ -200,7 +200,7 @@ MenuState* MenuState::makeCreditsMenuState(){
 }
 
 MenuState::MenuState():
-	mIsFadingOut(false)
+	mIsFreezing(false)
 {
 	mMusic = std::make_shared<sf::Sound>();
 }
@@ -218,7 +218,7 @@ void MenuState::update() {
 		mMusic->setVolume( 50.f );
 	}
 
-	if(mIsFadingOut == false) {
+	if(mIsFreezing == false) {
 		foreach(auto& widget_sp, mWidgets) {
 			widget_sp->update(this);
 		}
@@ -294,11 +294,15 @@ void MenuState::render() {
 }
 
 void MenuState::onFreeze() {
-	mIsFadingOut = true;
+	mIsFreezing = true;
 }
 
 void MenuState::onUnfreeze() {
-	mIsFadingOut = false;
+	mIsFreezing = true;
+}
+
+void MenuState::onEndUnfreeze() {
+	mIsFreezing = false;
 }
 
 void MenuState::setBackground(std::shared_ptr<sf::Texture> texture_sp) {

@@ -277,8 +277,10 @@ void StateManager::updateFadingIn() {
 	//fade linearly, continue as usual after that.
 	float alpha = static_cast<float>(mCurrentFadeFrame) / static_cast<float>(mFramesToFade);
 	--mCurrentFadeFrame;
-	if(alpha <= 0.f)
+	if(alpha <= 0.f) {
+		mStates.top()->onEndUnfreeze();
 		mStateOfManager = NORMAL;
+	}
 
 	mStates.top()->update();
 	prepareWindow();
@@ -292,8 +294,10 @@ void StateManager::updateFadingOut() {
 	//fade linearly, continue as usual after that.
 	float alpha = static_cast<float>(mCurrentFadeFrame) / static_cast<float>(mFramesToFade);
 	++mCurrentFadeFrame;
-	if(alpha >= 1.f)
+	if(alpha >= 1.f) {
+		mStates.top()->onEndFreeze();
 		mStateOfManager = NORMAL;
+	}
 
 	mStates.top()->update();
 	prepareWindow();
