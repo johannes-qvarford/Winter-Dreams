@@ -4,8 +4,9 @@
 #include <memory>
 #include <string>
 #include "SFML\Audio\Sound.hpp"
-
+#include <queue>
 #include "State.h"
+#include "SoundScape.h"
 
 class SubLevel;
 class Player;
@@ -91,7 +92,10 @@ public:
 	////////////////////////////////////////////////////////////
 	const std::string& getLevelName() const;
 
-
+	struct Narrator{
+		SoundScape* mSoundScape_p;
+		std::shared_ptr<sf::Sound> mSound_sp;
+	};
 
 	enum SoundType{
 		SOUND,
@@ -101,15 +105,11 @@ public:
 
 	void registerSound(std::shared_ptr<sf::Sound>, SoundType type);
 
-	int requestNarratorSpot();
-
-	bool isSpotAvailable(int spot);
-
-	void finishSpot(int spot);
-
 	void onFreeze();
 
 	void onUnfreeze();
+
+	void queueNarrator(SoundScape* soundScape_p, std::shared_ptr<sf::Sound> sound_sp);
 
 
 private:
@@ -123,6 +123,8 @@ private:
 	bool mIngameMenu;
 
 	SubLevels mSubLevels;
+
+	std::queue<Narrator> mQueue;
 
 	std::vector<std::weak_ptr<sf::Sound>> mRegSoundVecSound;
 

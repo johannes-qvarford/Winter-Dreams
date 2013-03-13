@@ -254,8 +254,8 @@ void Player::updateMovement(SubLevel* subLevel_p) {
 			offset = sf::Vector2f(0, -7);
 
 		mRightFoot = !mRightFoot;
-		//auto footStep_sp = std::shared_ptr<FootStep>(new FootStep(sf::Vector2f(mHitBox.left + 11, mHitBox.top - 15) + offset, mFacingDir, "ice", 124));
-		//subLevel_p->addGraphicalEntity(footStep_sp);
+		auto footStep_sp = std::shared_ptr<FootStep>(new FootStep(sf::Vector2f(mHitBox.left + 11, mHitBox.top - 15) + offset, mFacingDir, "ice", 124));
+		subLevel_p->addGraphicalEntity(footStep_sp);
 
 	}
 }

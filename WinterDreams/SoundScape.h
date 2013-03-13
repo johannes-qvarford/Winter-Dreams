@@ -35,6 +35,7 @@ public:
 ////////////////////////////////////////////////////////////////////////
 	void update(SubLevel* subLevel_p);
 
+	void setHasNarratorPlayed(bool played);
 
 	void drawSelf();
 
@@ -57,8 +58,8 @@ private:
 	std::weak_ptr<Player> mPlayer_wp;
 	bool mEnabledLastFrame;
 	int mSpot;
-	bool mICanHasNarratorSpot;
-	bool mIsWaitingForSpot;
+	//bool mICanHasNarratorSpot;
+	bool mHasNarratorPlayed;
 	
 	float getVolume(SubLevel* subLevel_p);
 

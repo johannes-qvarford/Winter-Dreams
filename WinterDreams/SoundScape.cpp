@@ -26,8 +26,8 @@ mTotalVolume(0),
 mClock(),
 mThreeD(threeD),
 mSpot(0),
-mICanHasNarratorSpot(false),
-mIsWaitingForSpot(false),
+//mICanHasNarratorSpot(false),
+mHasNarratorPlayed(true),
 mSound(new sf::Sound())
 {
 ////////////////////////////////////////////////////////////////////////
@@ -37,7 +37,7 @@ mSound(new sf::Sound())
 		mBuffer = ResourceManager::get().getSoundBuffer(FS_DIR_SOUNDS + mSoundName);
 	else if (mSoundType == "narrator") {
 		mBuffer = ResourceManager::get().getSoundBuffer(FS_DIR_NARRATORS + mSoundName);
-		mIsWaitingForSpot = true;
+		//mIsWaitingForSpot = true;
 	}
 	else
 		mBuffer = ResourceManager::get().getSoundBuffer(FS_DIR_MUSIC + mSoundName);
@@ -198,6 +198,10 @@ void SoundScape::update(SubLevel* subLevel_p){
 	if (mBoolEntity == false){
 		auto player_sp = subLevel_p->getLevel()->getPlayer();
 		mPlayer_wp = player_sp;
+		if (mSoundType == "narrator")
+			mHasNarratorPlayed = false;
+		else
+			mHasNarratorPlayed = true;
 		if (getEnabled() == true && mSoundType != "narrator"){
 			mSound->play();
 		}
@@ -206,7 +210,7 @@ void SoundScape::update(SubLevel* subLevel_p){
 //////////////////////////////////////////////////////////////////
 // /när ljudet/låten stoppas så ska det inte längre vara aktiverat så att man kan aktivera de igen
 //////////////////////////////////////////////////////////////////
-	if (mEnabledLastFrame && mSound->getStatus() == sf::Sound::Stopped && !mIsWaitingForSpot){
+	if (mEnabledLastFrame && mSound->getStatus() == sf::Sound::Stopped && mHasNarratorPlayed){
 		setEnabled(false);
 	}
 	auto enabledThisFrame = getEnabled();
@@ -216,7 +220,8 @@ void SoundScape::update(SubLevel* subLevel_p){
 //////////////////////////////////////////////////////////////////////
 	if (enabledThisFrame == true && mEnabledLastFrame == false){
 		if (mSoundType == "narrator"){
-			mSpot = subLevel_p->getLevel()->requestNarratorSpot();
+			//mSpot = subLevel_p->getLevel()->requestNarratorSpot();
+			subLevel_p->getLevel()->queueNarrator(this, mSound);
 		}
 		else {
 			mClock.restart();
@@ -224,19 +229,19 @@ void SoundScape::update(SubLevel* subLevel_p){
 		}
 	}
 
-	if (mIsWaitingForSpot && subLevel_p->getLevel()->isSpotAvailable(mSpot) == true){
+	/*if (mIsWaitingForSpot && subLevel_p->getLevel()->isSpotAvailable(mSpot) == true){
 			mClock.restart();
 			mSound->play();
 			mIsWaitingForSpot = false;
-	}
+	}*/
 //////////////////////////////////////////////////////////////////////
 // /Samma sak fast tvärtom
 //////////////////////////////////////////////////////////////////////
 	else if (enabledThisFrame == false && mEnabledLastFrame == true){
 		mSound->stop();
-		if (mSoundType == "narrator" && mIsWaitingForSpot == false)
+		/*if (mSoundType == "narrator" && mIsWaitingForSpot == false)
 			subLevel_p->getLevel()->finishSpot(mSpot);
-		else
+		else*/
 			mSound->setVolume(mSound->getVolume());
 	}
 
@@ -251,10 +256,16 @@ void SoundScape::update(SubLevel* subLevel_p){
 	mEnabledLastFrame = enabledThisFrame;
 }
 
+
+void SoundScape::setHasNarratorPlayed(bool played){
+	mHasNarratorPlayed = played;
+}
+
+
 void SoundScape::drawSelf(){
 	auto& manager = WindowManager::get();
 	auto& window = *manager.getWindow();
-	auto& states = *manager.getStates(); 
+	auto& states = *manager.getStates();
 
 	auto& hitBox = getHitBox();
 	auto position = sf::Vector2f(hitBox.left, hitBox.top);

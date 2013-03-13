@@ -23,6 +23,19 @@ LevelState::~LevelState() {
 }
 
 void LevelState::update() {
+
+	if(mQueue.empty() == false) {
+		if (mQueue.front().mSound_sp->getStatus() == sf::Sound::Stopped){
+			mQueue.front().mSoundScape_p->setHasNarratorPlayed(true);
+			mQueue.pop();
+			if (mQueue.empty() == false){
+				mQueue.front().mSound_sp->play();
+			}
+		}
+
+
+	}
+
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::T) && mIngameMenu == false){
 		mIngameMenu = true;
 		static sf::RenderTexture t;
@@ -156,19 +169,13 @@ void LevelState::onUnfreeze(){
 	}
 }
 
-int LevelState::requestNarratorSpot(){
-	mNextSpot++;
-
-	return mNextSpot - 1;
+void LevelState::queueNarrator(SoundScape* soundScape_p, std::shared_ptr<sf::Sound> sound_sp){	
+	Narrator n;
+	n.mSoundScape_p = soundScape_p;
+	n.mSound_sp = sound_sp;
+	mQueue.push(n);
+	if(mQueue.size() == 1) {
+		mQueue.front().mSound_sp->play();
+	}
 }
 
-bool LevelState::isSpotAvailable(int spot){
-	if (spot == mFinishedSpot + 1)
-		return true;
-	else
-		return false;
-}
-
-void LevelState::finishSpot(int spot){
-	mFinishedSpot = spot;
-}
