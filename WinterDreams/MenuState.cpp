@@ -7,6 +7,8 @@
 #include "QRDisplay.h"
 #include "ResumeButton.h"
 #include "MainMenuButton.h"
+#include "ResolutionButton.h"
+#include "SoundVolumeSlider.h"
 
 #include "ResourceManager.h"
 #include "FileStructure.h"
@@ -72,6 +74,22 @@ private:
 		mFrameFilename = igms.get<std::string>("frame.filename");
 		mFrameXOffset = igms.get<float>("frame.xoffset");
 		mFrameYOffset = igms.get<float>("frame.yoffset");
+	}
+};
+
+class SettingsMenuStateSpecs {
+public:
+	
+	static SettingsMenuStateSpecs& get(){ static SettingsMenuStateSpecs sSetspecs; return sSetspecs;}
+	std::string mFrameFilename;
+	float mFrameXOffset;
+	float mFrameYOffset;
+private:
+	SettingsMenuStateSpecs() {
+		auto& sms = PropertyManager::get().getGeneralSettings().get_child("ui.settingsmenu");
+		mFrameFilename = sms.get<std::string>("frame.filename");
+		mFrameXOffset = sms.get<float>("frame.xoffset");
+		mFrameXOffset = sms.get<float>("frame.yoffset");
 	}
 };
 
@@ -175,6 +193,43 @@ MenuState* MenuState::makeIngameMenuState(sf::Texture background) {
 	return state_p;
 }
 
+MenuState* MenuState::makeSettingsMenuState(sf::Texture background) {
+	auto& res = ResourceManager::get();
+	auto& specs = SettingsMenuStateSpecs::get();
+
+	auto state_p = new MenuState();
+
+	auto widgets = std::vector<std::shared_ptr<Widget >> ();
+
+	//create buttons
+//	auto resolution_sp = std::make_shared<ResolutionButton>();
+	//auto vsync_sp = std::make_shared<VSyncButton>();
+//	auto sndvol_sp = std::make_shared<SoundVolumeSlider>();
+	/*auto mscvol_sp = std::make_shared<MusicVolumeSlider>();
+	auto vicvol_sp = std::make_shared<VoiceVolumeSlider>();
+	auto subtitle_sp = std::make_shared<SubtitleButton>();
+	auto up_sp = std::make_shared<UpKeyButton>();
+	auto down_sp = std::make_shared<DownKeyButton>();
+	auto left_sp = std::make_shared<LeftKeyButton>();
+	auto right_sp = std::make_shared<RightKeyButton>();
+	auto use_sp = std::make_shared<UseKeyButton>();
+	auto switch_sp = std::make_shared<SwitchKeyButton>();
+	auto resume_sp = std::make_shared<ResumeButton>();*/
+
+//	widgets.push_back(resolution_sp);
+//	widgets.push_back(sndvol_sp);
+
+	auto cursor_sp = std::make_shared<Cursor>(widgets);
+
+	//add a background image
+	auto bg_sp = std::make_shared<sf::Texture>(background);
+
+//	state_p->addWidget(resolution_sp);
+//	state_p->addWidget(sndvol_sp);
+
+	return state_p;
+}
+
 MenuState* MenuState::makeCreditsMenuState(){
 	auto& res = ResourceManager::get();
 	auto& specs = CreditsMenuStateSpecs::get();
@@ -198,6 +253,7 @@ MenuState* MenuState::makeCreditsMenuState(){
 
 	return state_p;
 }
+
 
 MenuState::MenuState():
 	mIsFreezing(false)

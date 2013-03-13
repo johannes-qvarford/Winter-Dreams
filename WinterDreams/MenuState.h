@@ -27,7 +27,7 @@ public:
 	// /Make a menu state where the games settings can be altered.
 	// /TODO: implement.
 	////////////////////////////////////////////////////////////
-	static MenuState* makeSettingsMenuState();
+	static MenuState* makeSettingsMenuState(sf::Texture background);
 
 	////////////////////////////////////////////////////////////
 	// /Make a menu state that appears when the user pauses the
