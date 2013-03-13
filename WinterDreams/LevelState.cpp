@@ -3,6 +3,7 @@
 #include "StateManager.h"
 #include "MenuState.h"
 #include <SFML\Graphics\RenderTexture.hpp>
+#include "WindowManager.h"
 #include <cassert>
 
 LevelState::LevelState(const std::string& levelName):
@@ -23,17 +24,13 @@ LevelState::~LevelState() {
 }
 
 void LevelState::update() {
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::T) && mIngameMenu == false){
+	if(mIngameMenu == false && sf::Keyboard::isKeyPressed(sf::Keyboard::T) ){	
+		auto ingameMenu_p = MenuState::makeIngameMenuState( WindowManager::get().getRenderWindow()->getTexture() );
 		mIngameMenu = true;
-		static sf::RenderTexture t;
-		t.create(1920,1080);
-		t.clear(sf::Color::White);
-		auto ingameMenu_p = MenuState::makeIngameMenuState(t.getTexture());
 		StateManager::get().freezeState();
 		StateManager::get().pushState(ingameMenu_p);
 		StateManager::get().unfreezeState();
 	}
-
 	auto& subLevel_sp = mCurrentSubLevel->second;
 	subLevel_sp->update();
 }

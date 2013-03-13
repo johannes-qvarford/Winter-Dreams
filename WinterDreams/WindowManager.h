@@ -2,9 +2,8 @@
 #define INCLUDED_WINDOWMANAGER
 
 namespace sf {
-	class RenderWindow;
 	class RenderStates;
-	class RenderTexture;
+	class RenderTarget;
 };
 
 static const int VIEW_WIDTH = 1920;
@@ -25,7 +24,7 @@ public:
 	// /check that the correct video mode is used, if user has changed
 	// /desktop video mode.
 	////////////////////////////////////////////////////////////
-	void update();
+	bool update();
 
 	////////////////////////////////////////////////////////////
 	// /Set the video mode height and width.
@@ -47,7 +46,7 @@ public:
 	////////////////////////////////////////////////////////////
 	// /Get the window for drawing.
 	////////////////////////////////////////////////////////////
-	sf::RenderWindow* getRenderWindow();
+	sf::RenderTexture* getRenderWindow();
 
 	////////////////////////////////////////////////////////////
 	// /Get the RenderStates for drawing.
@@ -84,6 +83,7 @@ private:
 	sf::VideoMode mLastDesktopMode;
 
 	sf::RenderTexture mTexture;
+	sf::RenderTexture mTexture2;
 	sf::RenderWindow mWindow;
 	sf::RenderStates mRenderStates;
 };

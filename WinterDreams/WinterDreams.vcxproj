@@ -33,13 +33,14 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="LoadingFunction.cpp" />
-    <ClCompile Include="MainMenuButton.cpp" />
+    <ClCompile Include="GoToMainMenuButton.cpp" />
     <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="LoadingVideoState.cpp" />
     <ClCompile Include="PlayerControls.cpp" />
     <ClCompile Include="Registration_counter.cpp" />
     <ClCompile Include="Registration_playercontrols.cpp" />
     <ClCompile Include="ResumeButton.cpp" />
+    <ClCompile Include="PromptToMainButton.cpp" />
     <ClCompile Include="SubLevelFade.cpp" />
     <ClCompile Include="Registration_levelend.cpp" />
     <ClCompile Include="Registration_timeadder.cpp" />
@@ -122,8 +123,9 @@
     <ClInclude Include="LoadingVideoState.h" />
     <ClInclude Include="PlayerControls.h" />
     <ClInclude Include="TextDisplay.h" />
+    <ClInclude Include="PromptToMainButton.h" />
     <ClInclude Include="TimeAdder.h" />
-    <ClInclude Include="MainMenuButton.h" />
+    <ClInclude Include="GoToMainMenuButton.h" />
     <ClInclude Include="ResumeButton.h" />
     <ClInclude Include="SubLevelFade.h" />
     <ClInclude Include="Timer.h" />
