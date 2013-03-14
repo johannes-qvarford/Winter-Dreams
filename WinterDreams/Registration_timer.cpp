@@ -4,7 +4,7 @@
 static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, const boost::property_tree::ptree& pt) {
 	auto& properties = pt.get_child("properties");
 	auto name = pt.get<std::string>("name");
-	auto startdisabled = properties.get<bool>("startdisabled", false);
+	auto startdisabled = properties.get<bool>("startdisabled", true);
 	auto time_ = properties.get<float>("time");
 	auto alarmtrigger = properties.get<std::string>("alarmtrigger");
 	auto alarmaction = properties.get<std::string>("alarmaction", "swap");

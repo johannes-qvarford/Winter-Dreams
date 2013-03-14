@@ -14,39 +14,6 @@
 static const float FADE_OUT_SPEED = 0.01f;
 static const float FADE_IN_SPEED = 0.01f;
 
-/*
-//	Poll sfml window events.
-//	Returns whether or not the game should end.
-*/
-static bool pollEvents() {
-	auto& window = *WindowManager::get().getRenderWindow();
-	sf::Event ev;
-
-	//poll events. for now, end game if window is closed.
-	while(window.pollEvent(ev))
-	{
-		switch(ev.type) {
-				//if the window's X is pressed
-			case sf::Event::Closed:
-				return false;
-				break;
-			case sf::Event::Resized:
-//				WindowManager::get().resizeTexture(ev.size.width, ev.size.height);
-
-				break;
-			default:
-				break;
-		}
-			//if Esc is pressed
-		if (ev.type == sf::Event::KeyPressed && ev.key.code == sf::Keyboard::Escape){
-#ifndef SHIPPING_REAL
-			return false;
-#endif
-		}
-	}
-	return true;
-}
-
 StateManager::StateManager():
 	mStateOfManager(NORMAL),
 	mStates(),
@@ -108,12 +75,6 @@ void StateManager::run() {
 		if( mStates.empty() && mActions.empty() )
 			return;
 
-		if(pollEvents() == false) {
-			while(mStates.empty() == false)
-				mStates.pop();
-			return;
-		}
-
 		//try to catch up, by doing a maximun of MAX_FRAMESKIP updates.
 		while(GetTickCount.getElapsedTime() > nextGameTick && loops < MAX_FRAMESKIP ) { 
 			WindowManager::get().resetLightIDs();
@@ -136,6 +97,12 @@ void StateManager::run() {
 			GetTickCount.restart();
 		}
 		loops = 0;
+
+		if(WindowManager::get().update() == false) {
+			while(mStates.empty() == false)
+				mStates.pop();
+			return;
+		}
 	}
 }
 
@@ -277,8 +244,10 @@ void StateManager::updateFadingIn() {
 	//fade linearly, continue as usual after that.
 	float alpha = static_cast<float>(mCurrentFadeFrame) / static_cast<float>(mFramesToFade);
 	--mCurrentFadeFrame;
-	if(alpha <= 0.f)
+	if(alpha <= 0.f) {
+		mStates.top()->onEndUnfreeze();
 		mStateOfManager = NORMAL;
+	}
 
 	mStates.top()->update();
 	prepareWindow();
@@ -292,8 +261,10 @@ void StateManager::updateFadingOut() {
 	//fade linearly, continue as usual after that.
 	float alpha = static_cast<float>(mCurrentFadeFrame) / static_cast<float>(mFramesToFade);
 	++mCurrentFadeFrame;
-	if(alpha >= 1.f)
+	if(alpha >= 1.f) {
+		mStates.top()->onEndFreeze();
 		mStateOfManager = NORMAL;
+	}
 
 	mStates.top()->update();
 	prepareWindow();

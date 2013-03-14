@@ -95,7 +95,8 @@ public:
 	struct Narrator{
 		SoundScape* mSoundScape_p;
 		std::shared_ptr<sf::Sound> mSound_sp;
-	};
+		std::shared_ptr<TextDisplay> mText_sp;
+	}; 
 
 	enum SoundType{
 		SOUND,
@@ -109,7 +110,7 @@ public:
 
 	void onUnfreeze();
 
-	void queueNarrator(SoundScape* soundScape_p, std::shared_ptr<sf::Sound> sound_sp);
+	void queueNarrator(SoundScape* soundScape_p, std::shared_ptr<sf::Sound> sound_sp, std::string subs);
 
 
 private:

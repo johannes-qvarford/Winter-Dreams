@@ -15,6 +15,7 @@
 
 int main()
 {
+
 	try {
 
 		auto& prop = PropertyManager::get();

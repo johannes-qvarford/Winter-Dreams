@@ -1,23 +1,27 @@
-#ifndef INCLUDED_MAINMENUBUTTON
-#define INCLUDED_MAINMENUBUTTON
+#ifndef INCLUDED_RESOLUTIONBUTTON
+#define INCLUDED_RESOLUTIONBUTTON
 
 #include "Button.h"
+#include <vector>
+#include <SFML\Window\VideoMode.hpp>
 
-class MainMenuButton : public Button {
+class ResolutionButton : public Button {
 public:
 	////////////////////////////////////////////////////////////
-	// /Create a main menu button.
+	// /Create a resolution "slider-y" button.
 	////////////////////////////////////////////////////////////
-	MainMenuButton();
+	ResolutionButton();
 
 	////////////////////////////////////////////////////////////
 	// /Does the following:
-	// /pop state, pop state, push main menu state
+	// /changes the resolution
 	////////////////////////////////////////////////////////////
 	void activate();
 
 private:
-
+	std::vector<sf::VideoMode> mVideoModesVector;
+	size_t mCurrentVideoMode;
+	bool mCanSwitchVideoMode;
 	bool mUpdated;
 };
 

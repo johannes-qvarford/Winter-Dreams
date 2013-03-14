@@ -1,4 +1,4 @@
-#include "MainMenuButton.h"
+#include "GoToMainMenuButton.h"
 #include "ResourceManager.h"
 #include "FileStructure.h"
 #include "StateManager.h"
@@ -29,24 +29,26 @@ private:
 	}
 };
 
-MainMenuButton::MainMenuButton():
+GoToMainMenuButton::GoToMainMenuButton():
 	Button(sf::Vector2f(MainMenuButtonSpecs::get().mXOffset, MainMenuButtonSpecs::get().mYOffset), MainMenuButtonSpecs::get().mFilename),
 	mUpdated(false)
 {
 }
 
-void MainMenuButton::activate() {
+void GoToMainMenuButton::activate() {
 	
-	if(mUpdated == false && (InputManager::get().isADown() ||InputManager::get().isStartDown() ) ){
-		mUpdated = true;
+	if(InputManager::get().isADown() ||InputManager::get().isStartDown() ){
 		Button::activate();
 
 		auto& stateMgr = StateManager::get();
 		auto mms = MenuState::makeMainMenuState();
 
+		stateMgr.freezeState();
+		stateMgr.popState();
 		stateMgr.popState();
 		stateMgr.popState();
 		stateMgr.pushState(mms);
+		stateMgr.unfreezeState();
 
 		onHover(false);
 	}

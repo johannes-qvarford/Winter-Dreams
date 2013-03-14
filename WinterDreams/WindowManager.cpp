@@ -2,6 +2,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTexture.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
 #include <boost/foreach.hpp>
 
 #define foreach BOOST_FOREACH
@@ -9,7 +10,7 @@
 static const int LIGHT_ID_MAX = 10;
 
 const unsigned int WINDOW_WINDOWED = sf::Style::Titlebar | sf::Style::Close;
-const unsigned int WINDOW_FULLSCREEN = sf::Style::Fullscreen;
+const unsigned int WINDOW_FULLSCREEN = sf::Style::None | sf::Style::Resize;
 
 //Returns the static instance of WindowManager
 WindowManager& WindowManager::get(){
@@ -20,6 +21,7 @@ WindowManager& WindowManager::get(){
 WindowManager::WindowManager() :
 	mWindow(),
 	mTexture(),
+	mTexture2(),
 	mRenderStates(),
 	mNextLightID(0),
 	mMode()
@@ -35,13 +37,47 @@ WindowManager::WindowManager() :
 	onDesktopModeChanged();
 }
 
-void WindowManager::update() {
-	
+bool WindowManager::update() {
+	mWindow.clear();
 	//we have to adjust if desktop mode changed last frame.
 	auto desktop = sf::VideoMode::getDesktopMode();
 	if(desktop != mLastDesktopMode)
 		onDesktopModeChanged();
+
+	mWindow.draw( sf::Sprite(mTexture2.getTexture()) );
+	mWindow.display();
+
+/*
+//	Poll sfml window events.
+//	Returns whether or not the game should end.
+*/
+	sf::Event ev;
+
+	//poll events. for now, end game if window is closed.
+	while(mWindow.pollEvent(ev))
+	{
+		switch(ev.type) {
+				//if the window's X is pressed
+			case sf::Event::Closed:
+				return false;
+				break;
+			case sf::Event::Resized:
+//				WindowManager::get().resizeTexture(ev.size.width, ev.size.height);
+
+				break;
+			default:
+				break;
+		}
+			//if Esc is pressed
+		if (ev.type == sf::Event::KeyPressed && ev.key.code == sf::Keyboard::Escape){
+#ifndef SHIPPING_REAL
+			return false;
+#endif
+		}
+	}
+	return true;
 }
+
 
 void WindowManager::setFullscreenMode(bool fullscreen) {
 	//don't do anything if in same mode already.
@@ -60,8 +96,8 @@ sf::RenderTexture* WindowManager::getWindow(){
 }
 
 	//Returns a pointer to the static instance's RenderWindow
-sf::RenderWindow* WindowManager::getRenderWindow(){
-	return &mWindow;
+sf::RenderTexture* WindowManager::getRenderWindow(){
+	return &mTexture2;
 }
 
 sf::RenderStates* WindowManager::getStates(){
@@ -108,4 +144,5 @@ void WindowManager::onDesktopModeChanged() {
 void WindowManager::setVideoMode(int width, int height, int style) {
 	mWindow.create(sf::VideoMode(width, height), "Winter Dreams", style);
 	mTexture.create(width, height);
+	mTexture2.create(width, height);
 }

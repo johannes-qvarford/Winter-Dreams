@@ -6,11 +6,32 @@
 #include "WindowManager.h"
 #include "GameToScreen.h"
 #include "PropertyManager.h"
+#include "TextDisplay.h"
+
 #include <cmath>
+#include <boost/algorithm/string.hpp>
+#include <boost/range/iterator_range.hpp>
 
+struct SoundScapeSpecs {
+public:
 
+	static SoundScapeSpecs& get(){ static SoundScapeSpecs s; return s; }
 
-SoundScape::SoundScape(sf::Rect<float> collisionBox, float innerRadius, int rangeDecay, float volume, bool loop, std::string soundName, bool startsEnabled, std::string soundType, int fadeInTime, bool threeD):
+	std::map<std::string, std::string> mNarratorSoundToText;
+
+private:
+
+	SoundScapeSpecs() {
+		auto& narrator = PropertyManager::get().getObjectSettings().get_child("objects.soundscape.narrator");
+		for(auto it = narrator.begin(), end = narrator.end(); it != end; ++it) {
+			auto name = it->first;
+			auto text = it->second.get_value<std::string>();
+			mNarratorSoundToText[name] = text;
+		}
+	}
+};
+
+SoundScape::SoundScape(sf::Rect<float> collisionBox, float innerRadius, int rangeDecay, float volume, bool loop, std::string soundName, bool startsEnabled, std::string soundType, int fadeInTime, bool threeD, SubLevel* subLevel_p):
 CollisionZone(startsEnabled, collisionBox, false),
 mBoolEntity(false),
 mInnerRadius(innerRadius),
@@ -57,8 +78,6 @@ SoundScape::~SoundScape(){
 
 float SoundScape::getVolume(SubLevel* subLevel_p){
 
-
-
 	std::shared_ptr<Player> player_sp(mPlayer_wp);
 
 	sf::Rect<float> soundScapeHitBox_r = getHitBox();
@@ -80,7 +99,6 @@ float SoundScape::getVolume(SubLevel* subLevel_p){
 	float maxRange = (X_STEP * 100/(mRangeDecay + 0.0000001f)) + fullVolumeRadius;
 	float volumeModifier;
 
-
 //////////////////////////////////////////////////////////////////////
 // /beroende på vad soundTypen är så ska volymen vara olika från vad användaren 
 //  har satt för värden.
@@ -100,7 +118,6 @@ float SoundScape::getVolume(SubLevel* subLevel_p){
 		volumeModifier = float(volumeModifier/100 );
 	}
 
-
 //////////////////////////////////////////////////////////////////////
 // /om spelaren är innanför radien som volymen ska vara satt till max så ska ljudet vara max.
 // /Annar om spelaren är utanför radien där volymen ska vara satt till max men innanför
@@ -110,13 +127,9 @@ float SoundScape::getVolume(SubLevel* subLevel_p){
 //  och / maxRange - fullVolumeRadius är för att få det till 0,nått
 //////////////////////////////////////////////////////////////////////
 
-
-
-
 	sf::Time time = sf::milliseconds(0);
 	sf::Time volumeUpdateTime = sf::milliseconds(mFadeInTime/100);
 
-	
 //////////////////////////////////////////////////////////////////////
 // /Är det första gången en låt eller ett ljud startas så kan det vilja fade:as in
 //////////////////////////////////////////////////////////////////////
@@ -138,9 +151,6 @@ float SoundScape::getVolume(SubLevel* subLevel_p){
 		}
 	}
 
-
-
-
 	if (mSoundType == "sound" && mThreeD){
 		sf::Listener::setPosition(playerHitBox_r.left, playerHitBox_r.top, 0);
 		//sf::Listener::setGlobalVolume(mVolume * volumeModifier);
@@ -151,13 +161,11 @@ float SoundScape::getVolume(SubLevel* subLevel_p){
 		mInitMusic = true;
 	}
 
-
 //////////////////////////////////////////////////////////////////////
 // /om ljudet/musiken inte ska fade:as skall det gå igenom till nästa ifsats
 //////////////////////////////////////////////////////////////////////
 	if (mFadeInTime == 0)
 		mInitMusic = true;
-
 
 //////////////////////////////////////////////////////////////////////
 // /om spelaren är innanför radien som volymen ska vara satt till max så ska ljudet vara max.
@@ -178,13 +186,9 @@ float SoundScape::getVolume(SubLevel* subLevel_p){
 		else
 			mTotalVolume = 0;
 	}
-
-	
-
 	float volume = mTotalVolume;
 
 	return volume;
-
 }
 
 
@@ -221,7 +225,19 @@ void SoundScape::update(SubLevel* subLevel_p){
 	if (enabledThisFrame == true && mEnabledLastFrame == false){
 		if (mSoundType == "narrator"){
 			//mSpot = subLevel_p->getLevel()->requestNarratorSpot();
-			subLevel_p->getLevel()->queueNarrator(this, mSound);
+
+						//try to find subtitles to narrators
+			
+			auto sss = SoundScapeSpecs::get();
+			auto it = sss.mNarratorSoundToText.find(mSoundName);
+
+			//empty string
+			auto subs = std::string();
+			if(it != sss.mNarratorSoundToText.end()) {
+				//found match
+				subs = it->second;
+			}
+			subLevel_p->getLevel()->queueNarrator(this, mSound, subs);
 		}
 		else {
 			mClock.restart();
@@ -233,17 +249,21 @@ void SoundScape::update(SubLevel* subLevel_p){
 			mClock.restart();
 			mSound->play();
 			mIsWaitingForSpot = false;
+
 	}*/
+
 //////////////////////////////////////////////////////////////////////
 // /Samma sak fast tvärtom
 //////////////////////////////////////////////////////////////////////
 	else if (enabledThisFrame == false && mEnabledLastFrame == true){
 		mSound->stop();
-		/*if (mSoundType == "narrator" && mIsWaitingForSpot == false)
-			subLevel_p->getLevel()->finishSpot(mSpot);
-		else*/
-			mSound->setVolume(mSound->getVolume());
+		
+		//kill text if it's still alive.
+		if(auto text_sp = mText_wp.lock()) {
+			text_sp->setAlive(false);
+		}
 	}
+	
 
 	float volume = getVolume(subLevel_p);
 

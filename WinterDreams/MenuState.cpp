@@ -6,7 +6,11 @@
 #include "Cursor.h"
 #include "QRDisplay.h"
 #include "ResumeButton.h"
-#include "MainMenuButton.h"
+#include "ResolutionButton.h"
+#include "SoundVolumeSlider.h"
+#include "PromptToMainButton.h"
+#include "GoToMainMenuButton.h"
+
 
 #include "ResourceManager.h"
 #include "FileStructure.h"
@@ -61,17 +65,72 @@ public:
 
 	std::string mFrameFilename;
 
-	float mFrameXOffset;
-
-	float mFrameYOffset;
+	sf::Vector2f mFrameOffset;
+	sf::Vector2f mResumeOffset;
+	sf::Vector2f mSettingsOffset;
+	sf::Vector2f mPromptMenuOffset;
 
 private:
 
 	IngameMenuStateSpecs() {
 		auto& igms = PropertyManager::get().getGeneralSettings().get_child("ui.ingamemenu");
 		mFrameFilename = igms.get<std::string>("frame.filename");
-		mFrameXOffset = igms.get<float>("frame.xoffset");
-		mFrameYOffset = igms.get<float>("frame.yoffset");
+
+		mFrameOffset.x = igms.get<float>("frame.xoffset");
+		mFrameOffset.y = igms.get<float>("frame.yoffset");
+
+		mResumeOffset.x = igms.get<float>("continue.xoffset");
+		mResumeOffset.y = igms.get<float>("continue.yoffset");
+
+		mSettingsOffset.x = igms.get<float>("options.xoffset");
+		mSettingsOffset.y = igms.get<float>("options.yoffset");
+
+		mPromptMenuOffset.x = igms.get<float>("mainmenu.xoffset");
+		mPromptMenuOffset.y = igms.get<float>("mainmenu.yoffset");
+	}
+};
+
+class IngameMenuPromptQuitSpecs{
+	public:
+
+	static IngameMenuPromptQuitSpecs& get(){ static IngameMenuPromptQuitSpecs sInspecs; return sInspecs; }
+
+	std::string mFrameFilename;
+
+	sf::Vector2f mFrameOffset;
+	sf::Vector2f mYesOffset;
+	sf::Vector2f mNoOffset;
+
+private:
+
+	IngameMenuPromptQuitSpecs() {
+		auto& igms = PropertyManager::get().getGeneralSettings().get_child("ui.promptquit");
+		mFrameFilename = igms.get<std::string>("frame.filename");
+
+		mFrameOffset.x = igms.get<float>("frame.xoffset");
+		mFrameOffset.y = igms.get<float>("frame.yoffset");
+
+		mYesOffset.x = igms.get<float>("yes.xoffset");
+		mYesOffset.y = igms.get<float>("yes.yoffset");
+
+		mNoOffset.x = igms.get<float>("no.xoffset");
+		mNoOffset.y = igms.get<float>("no.yoffset");
+	}
+};
+
+class SettingsMenuStateSpecs {
+public:
+	
+	static SettingsMenuStateSpecs& get(){ static SettingsMenuStateSpecs sSetspecs; return sSetspecs;}
+	std::string mFrameFilename;
+	float mFrameXOffset;
+	float mFrameYOffset;
+private:
+	SettingsMenuStateSpecs() {
+		auto& sms = PropertyManager::get().getGeneralSettings().get_child("ui.settingsmenu");
+		mFrameFilename = sms.get<std::string>("frame.filename");
+		mFrameXOffset = sms.get<float>("frame.xoffset");
+		mFrameXOffset = sms.get<float>("frame.yoffset");
 	}
 };
 
@@ -144,16 +203,22 @@ MenuState* MenuState::makeMainMenuState() {
 MenuState* MenuState::makeIngameMenuState(sf::Texture background) {
 	auto& res = ResourceManager::get();
 	auto& specs = IngameMenuStateSpecs::get();
+	sf::Vector2f v(0,0);
+	
+	//create a background image
+	auto bg_sp = std::make_shared<sf::Texture>(background);
 
 	auto state_p = new MenuState();
-
 	auto widgets = std::vector<std::shared_ptr<Widget >> ();
 
 	//create buttons
-	auto resume_sp = std::make_shared<ResumeButton>();
+	auto resume_sp = std::make_shared<ResumeButton>(); 
 	auto settings_sp = std::make_shared<SettingsButton>();
-	auto mainmenu_sp = std::make_shared<MainMenuButton>();
-	auto frame_sp = std::make_shared<Button>(sf::Vector2f(specs.mFrameXOffset, specs.mFrameYOffset), specs.mFrameFilename);
+	auto mainmenu_sp = std::make_shared<PromptToMainButton>(specs.mPromptMenuOffset, bg_sp ); 
+	auto ingamemenuframe_sp = std::make_shared<Button>( sf::Vector2f(specs.mFrameOffset.x, specs.mFrameOffset.y), specs.mFrameFilename);
+	
+	resume_sp->setBounds( sf::FloatRect( specs.mResumeOffset, v ) );
+	settings_sp->setBounds( sf::FloatRect( specs.mSettingsOffset, v ) );
 
 	widgets.push_back(resume_sp);
 	widgets.push_back(settings_sp);
@@ -161,16 +226,82 @@ MenuState* MenuState::makeIngameMenuState(sf::Texture background) {
 
 	//create a curson
 	auto cursor_sp = std::make_shared<Cursor>(widgets);
+	
+	state_p->addWidget(ingamemenuframe_sp );
+	state_p->addWidget(resume_sp);
+	state_p->addWidget(settings_sp);
+	state_p->addWidget(mainmenu_sp);
+	state_p->addWidget(cursor_sp);
+	state_p->setBackground(bg_sp);
+
+	return state_p;
+}
+
+MenuState* MenuState::makeSettingsMenuState(sf::Texture background) {
+	auto& res = ResourceManager::get();
+	auto& specs = SettingsMenuStateSpecs::get();
+
+	auto state_p = new MenuState();
+
+	auto widgets = std::vector<std::shared_ptr<Widget >> ();
+
+	//create buttons
+//	auto resolution_sp = std::make_shared<ResolutionButton>();
+	//auto vsync_sp = std::make_shared<VSyncButton>();
+//	auto sndvol_sp = std::make_shared<SoundVolumeSlider>();
+	/*auto mscvol_sp = std::make_shared<MusicVolumeSlider>();
+	auto vicvol_sp = std::make_shared<VoiceVolumeSlider>();
+	auto subtitle_sp = std::make_shared<SubtitleButton>();
+	auto up_sp = std::make_shared<UpKeyButton>();
+	auto down_sp = std::make_shared<DownKeyButton>();
+	auto left_sp = std::make_shared<LeftKeyButton>();
+	auto right_sp = std::make_shared<RightKeyButton>();
+	auto use_sp = std::make_shared<UseKeyButton>();
+	auto switch_sp = std::make_shared<SwitchKeyButton>();
+	auto resume_sp = std::make_shared<ResumeButton>();*/
+
+//	widgets.push_back(resolution_sp);
+//	widgets.push_back(sndvol_sp);
+
+	auto cursor_sp = std::make_shared<Cursor>(widgets);
 
 	//add a background image
 	auto bg_sp = std::make_shared<sf::Texture>(background);
 
+//	state_p->addWidget(resolution_sp);
+//	state_p->addWidget(sndvol_sp);
+
+	return state_p;
+}
+
+MenuState* MenuState::makePromptQuitMenuState(std::shared_ptr<sf::Texture> background) {
+	auto& res = ResourceManager::get();
+	auto& specs = IngameMenuPromptQuitSpecs::get();
+	sf::Vector2f v(0,0);
+
+
+	auto state_p = new MenuState();
+	auto widgets = std::vector<std::shared_ptr<Widget >> ();
+
+	//create buttons
+	auto resume_sp = std::make_shared<ResumeButton>();
+	auto mainmenu_sp = std::make_shared<GoToMainMenuButton>(); 
+	auto promptframe_sp = std::make_shared<Button>( sf::Vector2f(specs.mFrameOffset.x, specs.mFrameOffset.y), specs.mFrameFilename);
+	
+	resume_sp->setBounds( sf::FloatRect( specs.mYesOffset, v ) );
+	mainmenu_sp->setBounds( sf::FloatRect( specs.mNoOffset, v ) );
+
+	widgets.push_back(resume_sp);
+	widgets.push_back(mainmenu_sp);
+
+	//create a curson
+	auto cursor_sp = std::make_shared<Cursor>(widgets);
+	
+	state_p->addWidget(promptframe_sp );
 	state_p->addWidget(resume_sp);
-	state_p->addWidget(settings_sp);
 	state_p->addWidget(mainmenu_sp);
-	state_p->addWidget(frame_sp);
 	state_p->addWidget(cursor_sp);
-	state_p->setBackground(bg_sp);
+	state_p->setBackground(background);
 
 	return state_p;
 }
@@ -192,22 +323,28 @@ MenuState* MenuState::makeCreditsMenuState(){
 	auto bg_sp = res.getTexture( FS_DIR_UI + specs.mBackgroundFileName );
 
 	state_p->setBackground( bg_sp );
+	state_p->addWidget(frame_sp);
 	state_p->addWidget(resume_sp);
 	state_p->addWidget(cursor_sp);
-	state_p->addWidget(frame_sp);
+
 
 	return state_p;
 }
 
-MenuState::MenuState()
+
+MenuState::MenuState():
+	mIsFreezing(false)
 {
 	mMusic = std::make_shared<sf::Sound>();
 }
 
 
-MenuState::~MenuState() {
-		mMusic->stop();
+MenuState::~MenuState()
+{
+	mMusic->stop();
 }
+
+#include "StateManager.h"
 
 void MenuState::update() {
 	auto status = mMusic->getStatus();
@@ -216,14 +353,15 @@ void MenuState::update() {
 		mMusic->setVolume( 50.f );
 	}
 
-	foreach(auto& widget_sp, mWidgets) {
-		widget_sp->update(this);
+	if(mIsFreezing == false) {
+		foreach(auto& widget_sp, mWidgets) {
+			widget_sp->update(this);
+		}
 	}
 }
 
 void MenuState::render() {
 	auto& window = *WindowManager::get().getRenderWindow();
-
 
 
 #ifdef DEBUG_MAINMENUSTATE
@@ -288,6 +426,18 @@ void MenuState::render() {
 	foreach(auto widget_sp, mWidgets) {
 		window.draw(*widget_sp);
 	}
+}
+
+void MenuState::onFreeze() {
+	mIsFreezing = true;
+}
+
+void MenuState::onUnfreeze() {
+	mIsFreezing = true;
+}
+
+void MenuState::onEndUnfreeze() {
+	mIsFreezing = false;
 }
 
 void MenuState::setBackground(std::shared_ptr<sf::Texture> texture_sp) {
