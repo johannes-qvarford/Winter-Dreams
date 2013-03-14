@@ -80,11 +80,7 @@ void OccludedEntity::drawSelf(){
 	spr.setPosition(pos);
 	
 	states.blendMode = sf::BlendAlpha;
-
-//	if (getEnabled() == false){
-		states.shader = mShader.get();
-//	}
-
+	states.shader = mShader.get();
 	renTex->draw(spr, states);
 
 	auto vertex = sf::Vertex(pos, sf::Color(255, 0, 0));

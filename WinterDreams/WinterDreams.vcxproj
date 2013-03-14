@@ -39,6 +39,7 @@
     <ClCompile Include="PlayerControls.cpp" />
     <ClCompile Include="Registration_counter.cpp" />
     <ClCompile Include="Registration_playercontrols.cpp" />
+    <ClCompile Include="Registration_scenary.cpp" />
     <ClCompile Include="ResumeButton.cpp" />
     <ClCompile Include="PromptToMainButton.cpp" />
     <ClCompile Include="SubLevelFade.cpp" />
@@ -122,6 +123,7 @@
     <ClInclude Include="LoadingFunction.h" />
     <ClInclude Include="LoadingVideoState.h" />
     <ClInclude Include="PlayerControls.h" />
+    <ClInclude Include="ScenaryTemplate.h" />
     <ClInclude Include="TextDisplay.h" />
     <ClInclude Include="PromptToMainButton.h" />
     <ClInclude Include="TimeAdder.h" />

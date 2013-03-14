@@ -585,10 +585,12 @@
 					"spritewidth": "200",
 					"spriteheight": "200",
 					
-					"comment": "drawing offset in tiled.exe: x: -64, y: 40",
+					"comment": "yorigin = height(200) - 40 - 16 = 144 in this case, xorigin = 68",
 					
-					"yorigin": "112",
-					"xorigin": "48",
+					"_yorigin": "151",
+					"_xorigin": "89",
+					"yorigin": "144",
+					"xorigin": "68",
 					"numberofsprites": "1",
 					"framespersprite": "1",			
 					"filename": "kristall_1_f.png"
