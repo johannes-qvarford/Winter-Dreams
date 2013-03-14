@@ -285,10 +285,11 @@ void MenuState::render() {
 	auto& window = *WindowManager::get().getRenderWindow();
 
 
-#ifdef DEBUG_MAINMENUSTATE
+#ifndef DEBUG_MAINMENUSTATE
 	{
 		static bool b = false;
 		static int waiting = 0;
+		static MenuState* ms_p = nullptr;
 		waiting++;
 
 
@@ -297,6 +298,11 @@ void MenuState::render() {
 		b = true;
 
 		static auto curWidgetIt = mWidgets.begin();
+
+		if(ms_p != this) {
+			curWidgetIt = mWidgets.begin();
+			ms_p = this;
+		}
 
 		//auto mp = sf::Mouse::getPosition(window);
 		//auto normalPos = sf::Vector2f(float(mp.x) / window.getSize().x, float(mp.y) / window.getSize().y); 
