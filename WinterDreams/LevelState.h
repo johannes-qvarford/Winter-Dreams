@@ -106,12 +106,13 @@ public:
 
 	void registerSound(std::shared_ptr<sf::Sound>, SoundType type);
 
-	void onFreeze();
+	void onEndFreeze();
 
 	void onUnfreeze();
 
 	void queueNarrator(SoundScape* soundScape_p, std::shared_ptr<sf::Sound> sound_sp, std::string subs);
 
+	void onEndUnfreeze();
 
 private:
 

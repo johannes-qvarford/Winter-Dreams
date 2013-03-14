@@ -24,7 +24,7 @@ void TextDisplay::update(SubLevel* subLevel_p) {
 	++mNumFrames;
 	
 	auto curIndex = int(0);
-	for(int i = 0; i < mTimedText.size(); ++i) {
+	for(size_t i = 0; i < mTimedText.size(); ++i) {
 		if(mNumFrames >= mTimedText[i].mTimestamp) {
 			curIndex = i;
 		}

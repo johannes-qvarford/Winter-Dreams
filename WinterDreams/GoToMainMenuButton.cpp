@@ -22,7 +22,7 @@ public:
 private:
 
 	MainMenuButtonSpecs() {
-		auto& MainMenu = PropertyManager::get().getGeneralSettings().get_child("ui.ingamemenu.mainmenu");
+		auto& MainMenu = PropertyManager::get().getGeneralSettings().get_child("ui.promptquit.yes");
 		mXOffset = MainMenu.get<float>("xoffset");
 		mYOffset = MainMenu.get<float>("yoffset");
 		mFilename = MainMenu.get<std::string>("filename");

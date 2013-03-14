@@ -218,7 +218,9 @@ sf::Vector2i Player::getDirection(){
 }
 
 void Player::updateMovement(SubLevel* subLevel_p) {
-	
+	if( mActionCooldown > 0 )
+		return;
+
 	//Create a temporary vector that will store the directions
 	//corresponding to the keys pressed.
 	mDirection=sf::Vector2i(0,0);
@@ -303,7 +305,7 @@ void Player::updateActions(SubLevel* subLevel_p) {
 		mActionCooldown--;
 	}
 
-	if( InputManager::get().isSelectDown() && mActionCooldown <= 0 ){
+	if( InputManager::get().isBDown() && mActionCooldown <= 0 ){
 		mInventory.equipNext();
 		mActionCooldown = 5;
 	}
@@ -425,7 +427,7 @@ static sf::Vector2i getSmartDirection(const sf::Vector2f& moveVec ) {
 	bool rightAligned = vec.x > 0.f;
 	float angle;
 	angle = atan( vec.y / vec.x );
-	angle *= 180.f/ M_PI;
+	angle *= 180.f/ static_cast<float>(M_PI);
 
 	if( angle > 67.5f )
 		dir = sf::Vector2i(0,1);

@@ -70,13 +70,10 @@ DamageHitBox::DamageHitBox(const sf::Rect<float>& hitBox, unsigned int damage, s
 	}
 
 	mCurrentAnimation_p->setPosition(GAME_TO_SCREEN * sf::Vector2f(mHitBox.left, mHitBox.top) );
-
-	InputManager::get().lockInput();
 }
 
 DamageHitBox::~DamageHitBox() {
 	delete mCurrentAnimation_p;
-	InputManager::get().unlockInput();
 }
 	///////////////////////////////////////////////
 	// /Returns the hit box of the damage zone

@@ -212,7 +212,7 @@ MenuState* MenuState::makeIngameMenuState(sf::Texture background) {
 	auto widgets = std::vector<std::shared_ptr<Widget >> ();
 
 	//create buttons
-	auto resume_sp = std::make_shared<ResumeButton>(); 
+	auto resume_sp = std::make_shared<ResumeButton>("", 30,30); 
 	auto settings_sp = std::make_shared<SettingsButton>();
 	auto mainmenu_sp = std::make_shared<PromptToMainButton>(specs.mPromptMenuOffset, bg_sp ); 
 	auto ingamemenuframe_sp = std::make_shared<Button>( sf::Vector2f(specs.mFrameOffset.x, specs.mFrameOffset.y), specs.mFrameFilename);
@@ -284,7 +284,7 @@ MenuState* MenuState::makePromptQuitMenuState(std::shared_ptr<sf::Texture> backg
 	auto widgets = std::vector<std::shared_ptr<Widget >> ();
 
 	//create buttons
-	auto resume_sp = std::make_shared<ResumeButton>();
+	auto resume_sp = std::make_shared<ResumeButton>("prompt_return_no.png", 30,30);
 	auto mainmenu_sp = std::make_shared<GoToMainMenuButton>(); 
 	auto promptframe_sp = std::make_shared<Button>( sf::Vector2f(specs.mFrameOffset.x, specs.mFrameOffset.y), specs.mFrameFilename);
 	
@@ -429,14 +429,17 @@ void MenuState::render() {
 }
 
 void MenuState::onFreeze() {
+	State::onFreeze();
 	mIsFreezing = true;
 }
 
 void MenuState::onUnfreeze() {
+	State::onUnfreeze();
 	mIsFreezing = true;
 }
 
 void MenuState::onEndUnfreeze() {
+	State::onEndUnfreeze();
 	mIsFreezing = false;
 }
 

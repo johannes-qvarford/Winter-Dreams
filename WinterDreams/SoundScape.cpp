@@ -206,6 +206,13 @@ void SoundScape::update(SubLevel* subLevel_p){
 			mHasNarratorPlayed = false;
 		else
 			mHasNarratorPlayed = true;
+
+		if(mSoundName == "1002.ogg") {
+			int a = 4;
+		}
+
+		subLevel_p->getLevel()->registerSound(mSound, (mSoundType == "narrator" ? LevelState::NARRATOR : mSoundType == "sound" ? LevelState::SOUND : LevelState::MUSIC));
+
 		if (getEnabled() == true && mSoundType != "narrator"){
 			mSound->play();
 		}
@@ -243,6 +250,7 @@ void SoundScape::update(SubLevel* subLevel_p){
 			mClock.restart();
 			mSound->play();
 		}
+
 	}
 
 	/*if (mIsWaitingForSpot && subLevel_p->getLevel()->isSpotAvailable(mSpot) == true){

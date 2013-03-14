@@ -3,7 +3,9 @@
 #include "StateManager.h"
 #include "MenuState.h"
 #include <SFML\Graphics\RenderTexture.hpp>
+#include "ResourceManager.h"
 #include "WindowManager.h"
+#include "InputManager.h"
 #include <cassert>
 #include <cmath>
 #include <boost/algorithm/string.hpp>
@@ -44,14 +46,18 @@ void LevelState::update() {
 
 	}
 
-	if(mIngameMenu == false && sf::Keyboard::isKeyPressed(sf::Keyboard::T) ){	
-		auto ingameMenu_p = MenuState::makeIngameMenuState( WindowManager::get().getRenderWindow()->getTexture() );
-		
+	if(mIngameMenu == false && InputManager::get().isStartDown() ){	
+		sf::RenderTexture t;
+		t.create( WindowManager::get().getRenderWindow()->getSize().x, WindowManager::get().getRenderWindow()->getSize().y );
+		t.draw( sf::Sprite(WindowManager::get().getRenderWindow()->getTexture()), ResourceManager::get().getShader( FS_DIR_SHADERS + "Grayscale.frag" ).get() );
+		t.display();
+		auto ingameMenu_p = MenuState::makeIngameMenuState( t.getTexture() );
 		mIngameMenu = true;
-		StateManager::get().freezeState();
+		StateManager::get().freezeState(0);
 		StateManager::get().pushState(ingameMenu_p);
-		StateManager::get().unfreezeState();
+		StateManager::get().unfreezeState(60);
 	}
+	
 	auto& subLevel_sp = mCurrentSubLevel->second;
 	subLevel_sp->update();
 }
@@ -128,14 +134,15 @@ void LevelState::registerSound(std::shared_ptr<sf::Sound> sound, SoundType type)
 
 }
 
-void LevelState::onFreeze(){
+void LevelState::onEndFreeze(){
+	State::onEndFreeze();
 	for (unsigned int i = 0; i < mRegSoundVecSound.size();){
 		if(mRegSoundVecSound[i].expired())
 			mRegSoundVecSound.erase(mRegSoundVecSound.begin() + i);
 		else {
 			auto sound_sp = mRegSoundVecSound[i].lock();
 			if(sound_sp->getStatus() == sf::Sound::Playing)
-				mRegSoundVecSound[i].lock()->pause();
+				sound_sp->pause();
 			i++;
 		}
 	}
@@ -151,8 +158,7 @@ void LevelState::onFreeze(){
 }
 
 void LevelState::onUnfreeze(){
-	mIngameMenu = false;
-
+	State::onUnfreeze();
 	for (unsigned int i = 0; i < mRegSoundVecSound.size();){
 		if(mRegSoundVecSound[i].expired())
 			mRegSoundVecSound.erase(mRegSoundVecSound.begin() + i);
@@ -191,7 +197,6 @@ void LevelState::queueNarrator(SoundScape* soundScape_p, std::shared_ptr<sf::Sou
 			timedTexts.push_back(tt);
 		}
 	}
-
 	auto text_sp = std::make_shared<TextDisplay>(timedTexts, sf::Vector2f(0.5, 0.8), true);
 	//save this, so that we can kill it later.
 	n.mText_sp = text_sp;
@@ -203,4 +208,11 @@ void LevelState::queueNarrator(SoundScape* soundScape_p, std::shared_ptr<sf::Sou
 		}
 	}
 }
+void LevelState::onEndUnfreeze(){
+	State::onEndUnfreeze();
+	mIngameMenu = false;
+}
+
+
+
 
