@@ -120,6 +120,7 @@
 			"startdisabled": false,
 			"speed" : 4.0,
 			"tolerance" : 4.0,
+			"soundfilename":"ShadowCollision.ogg",
 			"animations" : {
 				"placeholder": {
 					"spritewidth": "64",
@@ -564,6 +565,8 @@
 			}
 		},
 		"levelportal": {
+			"soundfilename":"PortalSound2.ogg",
+			"waitingframes" : 180,
 			"animations": {
 				"portal": {
 					"spritewidth": "128",

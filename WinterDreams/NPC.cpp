@@ -5,6 +5,7 @@
 #include "FileStructure.h"
 #include "GameToScreen.h"
 #include "WindowManager.h"
+#include "ResourceManager.h"
 #include "Player.h"
 
 #include <limits>
@@ -17,6 +18,8 @@ public:
 
 	float getTolerance() { return mTolerance; }
 
+	const std::string& getSoundFilename(){ return mSoundFilename; }
+
 	const std::list<AnimationSpecs>& getAnimSpecList(){ return mAnimSpecList; }
 
 private:
@@ -24,6 +27,8 @@ private:
 	float mSpeed;
 
 	float mTolerance;
+
+	std::string mSoundFilename;
 
 	std::list<AnimationSpecs> mAnimSpecList;
 
@@ -43,6 +48,7 @@ NPCSpecs::NPCSpecs()
 	auto npcTree = prop.get_child("objects.npc");
 	mSpeed = npcTree.get<float>("speed");
 	mTolerance = npcTree.get<float>("tolerance");
+	mSoundFilename = npcTree.get<std::string>("soundfilename");
 	AnimationSpecs::parse(npcTree, mAnimSpecList);
 }
 
@@ -54,8 +60,12 @@ NPC::NPC(const std::string& pathName, const sf::FloatRect& initialPosition, int 
 	mPath_p(NULL),
 	mNextPoint(0),
 	mHitBox(initialPosition),
-	mFirstFrame(false)
+	mFirstFrame(false),
+	mSound(),
+	mSoundBuffer(ResourceManager::get().getSoundBuffer(FS_DIR_SOUNDS + NPCSpecs::get().getSoundFilename()))
 {
+	mSound.setBuffer(*mSoundBuffer);
+
 	auto& npcSpecs = NPCSpecs::get();
 	auto& animSpecs = npcSpecs.getAnimSpecList();
 
@@ -176,8 +186,11 @@ void NPC::onCollision(PhysicalEntity * pe_p, const sf::FloatRect& intersection) 
 	if(player_p == nullptr)
 		return;
 
-	auto curLevel = player_p->getCurrentLightLevel();
+	//do this even if player has no life left?
+	if(mSound.getStatus() != sf::Sound::Playing)
+		mSound.play();
 
+	auto curLevel = player_p->getCurrentLightLevel();
 	if(curLevel > 1 && player_p->isVulnerable()) {
 
 		//remove damage so that the player has at least 1 light level.

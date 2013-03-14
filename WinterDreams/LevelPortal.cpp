@@ -9,6 +9,7 @@
 #include "InputManager.h"
 #include "SubLevelFade.h"
 #include "PropertyManager.h"
+#include "ResourceManager.h"
 #include "FileStructure.h"
 
 class PortalSpecs{
@@ -21,6 +22,10 @@ public:
 
 	std::list<AnimationSpecs> mAnimSpecs;
 
+	std::string mSoundFilename;
+
+	int mWaitingFrames;
+
 private:
 	PortalSpecs();						//Singleton-pattern
 	PortalSpecs(const PortalSpecs& p);		//No copies
@@ -31,6 +36,9 @@ PortalSpecs::PortalSpecs() {
 	auto& obj = PropertyManager::get().getObjectSettings();
 	auto& item = obj.get_child( "objects.levelportal" );
 	
+	
+	mSoundFilename = item.get<std::string>("soundfilename");
+	mWaitingFrames = item.get<int>("waitingframes");
 	AnimationSpecs::parse( item, mAnimSpecs);
 }
 ////////////////////////////////////////////////////////////////////////////////
@@ -53,9 +61,14 @@ LevelPortal::LevelPortal(sf::FloatRect position, SubLevel* subLevel, const std::
 	mIsWaiting(false),
 	mWaitingFrames(0),
 	mDirection(direction),
-	mCurrentAnimation_p( nullptr )
+	mCurrentAnimation_p( nullptr ),
+	mSound(),
+	mSoundBuffer_sp(ResourceManager::get().getSoundBuffer(FS_DIR_SOUNDS + PortalSpecs::get().mSoundFilename))
 {	
+	mSound.setBuffer(*mSoundBuffer_sp);
+
 	auto& animSpecs = PortalSpecs::get().mAnimSpecs;
+	auto& ps = PortalSpecs::get();
 
 		//Since there is only one animation in PortalSpec's list,
 		//this loop will only be performed once. 
@@ -81,15 +94,14 @@ LevelPortal::~LevelPortal() {
 	delete mCurrentAnimation_p;
 }
 
-
-const int WAITINGFRAMES = 60;
-
 void LevelPortal::update(SubLevel* subLevel_p){
 	
+	auto& ps = PortalSpecs::get();
+
 	if (mIsWaiting){
 		++mWaitingFrames; 
 	}
-	if (mWaitingFrames == WAITINGFRAMES){
+	if (mWaitingFrames == PortalSpecs::get().mWaitingFrames){
 
 		auto& player = *mSubLevel_p->getLevel()->getPlayer();
 		auto& camera = *mSubLevel_p->getLevel()->getCamera();
@@ -126,7 +138,8 @@ void LevelPortal::update(SubLevel* subLevel_p){
 		camera.snapToPosition( GAME_TO_SCREEN * newPos );
 		camera.lockCamera();
 		InputManager::get().unlockInput();
-		auto fade_sp = std::shared_ptr<SubLevelFade>(new SubLevelFade(WAITINGFRAMES, SubLevelFade::FADE_IN));
+		auto fade_sp = std::shared_ptr<SubLevelFade>(new SubLevelFade(PortalSpecs::get().mWaitingFrames, SubLevelFade::FADE_IN));
+
 		nextSubLevel_p->addScript(fade_sp);
 		mIsWaiting = false;
 		mWaitingFrames = 0;
@@ -147,9 +160,11 @@ void LevelPortal::onCollision(PhysicalEntity* pe, const sf::Rect<float>& interse
 		//////////////////////////////////////////////////////////////
 	if( dynamic_cast<Player*>(pe) && !mIsWaiting){
 		mIsWaiting = true;
-		auto fade_sp = std::shared_ptr<SubLevelFade>(new SubLevelFade(WAITINGFRAMES, SubLevelFade::FADE_OUT));
+		auto fade_sp = std::shared_ptr<SubLevelFade>(new SubLevelFade(PortalSpecs::get().mWaitingFrames, SubLevelFade::FADE_OUT));
 		mSubLevel_p->addScript(fade_sp);
 		InputManager::get().lockInput();
+		//play sound
+		mSound.play();
 	}
 
 	//if (mOnce == true)

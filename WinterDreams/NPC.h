@@ -40,6 +40,10 @@ public:
 
 private:
 
+	sf::Sound mSound;
+
+	std::shared_ptr<sf::SoundBuffer> mSoundBuffer;
+
 	int mDamage;
 
 	bool mFirstFrame;
