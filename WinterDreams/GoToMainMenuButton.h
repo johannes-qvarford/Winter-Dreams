@@ -3,16 +3,17 @@
 
 #include "Button.h"
 
-class MainMenuButton : public Button {
+class GoToMainMenuButton : public Button {
 public:
 	////////////////////////////////////////////////////////////
-	// /Create a main menu button.
+	// /Create a button that sends the player directly to the main
+	// /menu. No prompt.
 	////////////////////////////////////////////////////////////
-	MainMenuButton();
+	GoToMainMenuButton();
 
 	////////////////////////////////////////////////////////////
 	// /Does the following:
-	// /pop state, pop state, push main menu state
+	// /pop, pop, pop, push(MainMenuState)
 	////////////////////////////////////////////////////////////
 	void activate();
 

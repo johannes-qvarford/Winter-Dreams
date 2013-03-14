@@ -11,11 +11,14 @@
 #include "InputManager.h"
 #include "FootStep.h"
 #include <list>
-#include <cmath>
 #include <iostream>
+
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 static void addHitBox( SubLevel* subLevel_p, Player* player, int dmgAmount, const std::string& type);
 static int convert( int value );
+static sf::Vector2i getSmartDirection(const sf::Vector2f& moveVec );
 
 class PlayerSpecs{
 public:	
@@ -84,7 +87,7 @@ Player::Player(sf::FloatRect initialPosition, int lightLevel, bool startEnabled)
 	mTargetLightLastFrame( mTargetLightIntensity),
 	mIsInvisible(false),
 	mFrameCount(0),
-	mFramesPerStep(24),
+	mFramesPerStep(36),
 	mRightFoot(true)
 {
 	using namespace std;
@@ -215,7 +218,9 @@ sf::Vector2i Player::getDirection(){
 }
 
 void Player::updateMovement(SubLevel* subLevel_p) {
-	
+	if( mActionCooldown > 0 )
+		return;
+
 	//Create a temporary vector that will store the directions
 	//corresponding to the keys pressed.
 	mDirection=sf::Vector2i(0,0);
@@ -230,10 +235,12 @@ void Player::updateMovement(SubLevel* subLevel_p) {
 
 	//TODO::Calculate rotation for setting direction on the avatar.
 
-					if( stick.x > 0 ||stick.y > 0)
-						mDirection=sf::Vector2i(static_cast<int>(stick.x),static_cast<int>(stick.y));
-					else
-						mDirection=sf::Vector2i(static_cast<int>(stick.x*2),static_cast<int>(stick.y*2));
+	if( abs(stick.x) > 0.1 || abs(stick.y) > 0.1 )
+	mDirection = getSmartDirection( stick );
+					//if( stick.x > 0 ||stick.y > 0)
+					//	mDirection=sf::Vector2i(static_cast<int>(stick.x),static_cast<int>(stick.y));
+					//else
+					//	mDirection=sf::Vector2i(static_cast<int>(stick.x*2),static_cast<int>(stick.y*2));
 
 	if (mDirection != sf::Vector2i(0, 0))
 		mFrameCount++;
@@ -256,8 +263,8 @@ void Player::updateMovement(SubLevel* subLevel_p) {
 			offset = sf::Vector2f(0, -7);
 
 		mRightFoot = !mRightFoot;
-		//auto footStep_sp = std::shared_ptr<FootStep>(new FootStep(sf::Vector2f(mHitBox.left + 11, mHitBox.top - 15) + offset, mFacingDir, "ice", 124));
-		//subLevel_p->addGraphicalEntity(footStep_sp);
+		auto footStep_sp = std::shared_ptr<FootStep>(new FootStep(sf::Vector2f(mHitBox.left + 11, mHitBox.top - 15) + offset, mFacingDir, "ice", 124));
+		subLevel_p->addScript(footStep_sp);
 
 	}
 }
@@ -298,7 +305,7 @@ void Player::updateActions(SubLevel* subLevel_p) {
 		mActionCooldown--;
 	}
 
-	if( InputManager::get().isSelectDown() && mActionCooldown <= 0 ){
+	if( InputManager::get().isBDown() && mActionCooldown <= 0 ){
 		mInventory.equipNext();
 		mActionCooldown = 5;
 	}
@@ -410,3 +417,32 @@ static int convert( int value) {
 	return (value > 0) ? 1 : (value < 0) ? -1 : 0;
 }
 
+static sf::Vector2i getSmartDirection(const sf::Vector2f& moveVec ) {
+	auto vec = moveVec;	
+	if( abs(vec.x) < 0.01f )
+		vec.x = 0.01f;
+
+	sf::Vector2i dir(0,0);
+
+	bool rightAligned = vec.x > 0.f;
+	float angle;
+	angle = atan( vec.y / vec.x );
+	angle *= 180.f/ static_cast<float>(M_PI);
+
+	if( angle > 67.5f )
+		dir = sf::Vector2i(0,1);
+	else if( angle > 22.5f )
+		dir = sf::Vector2i(1,1);
+	else if( angle > -22.5f )
+		dir = sf::Vector2i(1,0);
+	else if( angle > -67.5f )
+		dir = sf::Vector2i(1,-1);
+	else
+		dir = sf::Vector2i(0,-1);
+
+	if(!rightAligned){
+		dir.x *= -1; dir.y*= -1;
+	}
+
+	return dir;
+}

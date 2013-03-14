@@ -3,7 +3,13 @@
 #include "StateManager.h"
 #include "MenuState.h"
 #include <SFML\Graphics\RenderTexture.hpp>
+#include "ResourceManager.h"
+#include "WindowManager.h"
+#include "InputManager.h"
 #include <cassert>
+#include <cmath>
+#include <boost/algorithm/string.hpp>
+#include <boost/range/iterator_range.hpp>
 
 LevelState::LevelState(const std::string& levelName):
 	mSubLevels(),
@@ -23,17 +29,35 @@ LevelState::~LevelState() {
 }
 
 void LevelState::update() {
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::T) && mIngameMenu == false){
-		mIngameMenu = true;
-		static sf::RenderTexture t;
-		t.create(1920,1080);
-		t.clear(sf::Color::White);
-		auto ingameMenu_p = MenuState::makeIngameMenuState(t.getTexture());
-		StateManager::get().freezeState();
-		StateManager::get().pushState(ingameMenu_p);
-		StateManager::get().unfreezeState();
+
+	if(mQueue.empty() == false) {
+		if (mQueue.front().mSound_sp->getStatus() == sf::Sound::Stopped){
+			mQueue.front().mSoundScape_p->setHasNarratorPlayed(true);
+			mQueue.front().mText_sp->setAlive(false);
+			mQueue.pop();
+			if (mQueue.empty() == false){
+				mQueue.front().mSound_sp->play();
+				for(auto it = mSubLevels.begin(), end = mSubLevels.end(); it != end; ++it) {
+					it->second->addScript(mQueue.front().mText_sp);
+				}
+			}
+		}
+
+
 	}
 
+	if(mIngameMenu == false && InputManager::get().isStartDown() ){	
+		sf::RenderTexture t;
+		t.create( WindowManager::get().getRenderWindow()->getSize().x, WindowManager::get().getRenderWindow()->getSize().y );
+		t.draw( sf::Sprite(WindowManager::get().getRenderWindow()->getTexture()), ResourceManager::get().getShader( FS_DIR_SHADERS + "Grayscale.frag" ).get() );
+		t.display();
+		auto ingameMenu_p = MenuState::makeIngameMenuState( t.getTexture() );
+		mIngameMenu = true;
+		StateManager::get().freezeState(0);
+		StateManager::get().pushState(ingameMenu_p);
+		StateManager::get().unfreezeState(60);
+	}
+	
 	auto& subLevel_sp = mCurrentSubLevel->second;
 	subLevel_sp->update();
 }
@@ -110,14 +134,15 @@ void LevelState::registerSound(std::shared_ptr<sf::Sound> sound, SoundType type)
 
 }
 
-void LevelState::onFreeze(){
+void LevelState::onEndFreeze(){
+	State::onEndFreeze();
 	for (unsigned int i = 0; i < mRegSoundVecSound.size();){
 		if(mRegSoundVecSound[i].expired())
 			mRegSoundVecSound.erase(mRegSoundVecSound.begin() + i);
 		else {
 			auto sound_sp = mRegSoundVecSound[i].lock();
 			if(sound_sp->getStatus() == sf::Sound::Playing)
-				mRegSoundVecSound[i].lock()->pause();
+				sound_sp->pause();
 			i++;
 		}
 	}
@@ -133,8 +158,7 @@ void LevelState::onFreeze(){
 }
 
 void LevelState::onUnfreeze(){
-	mIngameMenu = false;
-
+	State::onUnfreeze();
 	for (unsigned int i = 0; i < mRegSoundVecSound.size();){
 		if(mRegSoundVecSound[i].expired())
 			mRegSoundVecSound.erase(mRegSoundVecSound.begin() + i);
@@ -156,19 +180,39 @@ void LevelState::onUnfreeze(){
 	}
 }
 
-int LevelState::requestNarratorSpot(){
-	mNextSpot++;
+void LevelState::queueNarrator(SoundScape* soundScape_p, std::shared_ptr<sf::Sound> sound_sp, std::string subs){	
+	Narrator n;
+	n.mSoundScape_p = soundScape_p;
+	n.mSound_sp = sound_sp;
+	std::vector<TextDisplay::TimedText> timedTexts;
+	if(subs != "") {
+		std::vector<std::string> splitVec;
+		boost::split( splitVec, subs, boost::is_any_of("[]"), boost::token_compress_on );
 
-	return mNextSpot - 1;
+		//slit string from [t0]bla[t55]blö to {"", "t0", "bla", "t55", "blö"}
+		for(size_t i = 1; i < splitVec.size(); i+=2) {
+			TextDisplay::TimedText tt;
+			tt.mText = splitVec[i+1];
+			tt.mTimestamp = (std::atoi(splitVec[i].c_str()+1)) / 1000.f * 60;
+			timedTexts.push_back(tt);
+		}
+	}
+	auto text_sp = std::make_shared<TextDisplay>(timedTexts, sf::Vector2f(0.5, 0.8), true);
+	//save this, so that we can kill it later.
+	n.mText_sp = text_sp;
+	mQueue.push(n);
+	if(mQueue.size() == 1) {
+		mQueue.front().mSound_sp->play();
+		for(auto it = mSubLevels.begin(), end = mSubLevels.end(); it != end; ++it) {
+			it->second->addScript(mQueue.front().mText_sp);
+		}
+	}
+}
+void LevelState::onEndUnfreeze(){
+	State::onEndUnfreeze();
+	mIngameMenu = false;
 }
 
-bool LevelState::isSpotAvailable(int spot){
-	if (spot == mFinishedSpot + 1)
-		return true;
-	else
-		return false;
-}
 
-void LevelState::finishSpot(int spot){
-	mFinishedSpot = spot;
-}
+
+

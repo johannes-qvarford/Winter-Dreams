@@ -140,7 +140,7 @@ void SubLevel::render() {
 	auto& window = *WindowManager::get().getWindow();
 	auto& renderWindow = *WindowManager::get().getRenderWindow();
 	auto& renderStates = *WindowManager::get().getStates();
-	
+	window.clear();
 	renderStates.transform = sf::Transform::Identity;
 	
 	//draw background

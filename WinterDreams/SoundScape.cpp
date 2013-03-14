@@ -47,8 +47,8 @@ mTotalVolume(0),
 mClock(),
 mThreeD(threeD),
 mSpot(0),
-mICanHasNarratorSpot(false),
-mIsWaitingForSpot(false),
+//mICanHasNarratorSpot(false),
+mHasNarratorPlayed(true),
 mSound(new sf::Sound())
 {
 ////////////////////////////////////////////////////////////////////////
@@ -58,7 +58,7 @@ mSound(new sf::Sound())
 		mBuffer = ResourceManager::get().getSoundBuffer(FS_DIR_SOUNDS + mSoundName);
 	else if (mSoundType == "narrator") {
 		mBuffer = ResourceManager::get().getSoundBuffer(FS_DIR_NARRATORS + mSoundName);
-		mIsWaitingForSpot = true;
+		//mIsWaitingForSpot = true;
 	}
 	else
 		mBuffer = ResourceManager::get().getSoundBuffer(FS_DIR_MUSIC + mSoundName);
@@ -202,6 +202,17 @@ void SoundScape::update(SubLevel* subLevel_p){
 	if (mBoolEntity == false){
 		auto player_sp = subLevel_p->getLevel()->getPlayer();
 		mPlayer_wp = player_sp;
+		if (mSoundType == "narrator")
+			mHasNarratorPlayed = false;
+		else
+			mHasNarratorPlayed = true;
+
+		if(mSoundName == "1002.ogg") {
+			int a = 4;
+		}
+
+		subLevel_p->getLevel()->registerSound(mSound, (mSoundType == "narrator" ? LevelState::NARRATOR : mSoundType == "sound" ? LevelState::SOUND : LevelState::MUSIC));
+
 		if (getEnabled() == true && mSoundType != "narrator"){
 			mSound->play();
 		}
@@ -210,7 +221,7 @@ void SoundScape::update(SubLevel* subLevel_p){
 //////////////////////////////////////////////////////////////////
 // /när ljudet/låten stoppas så ska det inte längre vara aktiverat så att man kan aktivera de igen
 //////////////////////////////////////////////////////////////////
-	if (mEnabledLastFrame && mSound->getStatus() == sf::Sound::Stopped && !mIsWaitingForSpot){
+	if (mEnabledLastFrame && mSound->getStatus() == sf::Sound::Stopped && mHasNarratorPlayed){
 		setEnabled(false);
 	}
 	auto enabledThisFrame = getEnabled();
@@ -220,77 +231,47 @@ void SoundScape::update(SubLevel* subLevel_p){
 //////////////////////////////////////////////////////////////////////
 	if (enabledThisFrame == true && mEnabledLastFrame == false){
 		if (mSoundType == "narrator"){
-			mSpot = subLevel_p->getLevel()->requestNarratorSpot();
+			//mSpot = subLevel_p->getLevel()->requestNarratorSpot();
+
+						//try to find subtitles to narrators
+			
+			auto sss = SoundScapeSpecs::get();
+			auto it = sss.mNarratorSoundToText.find(mSoundName);
+
+			//empty string
+			auto subs = std::string();
+			if(it != sss.mNarratorSoundToText.end()) {
+				//found match
+				subs = it->second;
+			}
+			subLevel_p->getLevel()->queueNarrator(this, mSound, subs);
 		}
 		else {
 			mClock.restart();
 			mSound->play();
 		}
+
 	}
 
-	if (mIsWaitingForSpot && subLevel_p->getLevel()->isSpotAvailable(mSpot) == true){
+	/*if (mIsWaitingForSpot && subLevel_p->getLevel()->isSpotAvailable(mSpot) == true){
 			mClock.restart();
 			mSound->play();
 			mIsWaitingForSpot = false;
 
-			//try to find subtitles to narrators
-			auto sss = SoundScapeSpecs::get();
-			auto it = sss.mNarratorSoundToText.find(mSoundName);
+	}*/
 
-			//TESTING
-			static bool b = false;
-			if(b) {
-				std::vector<TextDisplay::TimedText> timedTexts;
-				TextDisplay::TimedText t[] = {{0,"hello world!"}};
-				timedTexts.push_back(t[0]);
-				auto text_sp = std::make_shared<TextDisplay>(timedTexts, sf::Vector2f(0.5, 0.8), true);
-				subLevel_p->addScript(text_sp);
-			}
-			b = false;
-
-
-
-			if(it != sss.mNarratorSoundToText.end()) {
-
-				//found match
-
-				auto subs = it->second;
-
-				std::vector<TextDisplay::TimedText> timedTexts;
-
-				std::vector<std::string> splitVec;
-				boost::split( splitVec, subs, boost::is_any_of("[]"), boost::token_compress_on );
-
-				//slit string from [t0]bla[t55]blö to {"", "t0", "bla", "t55", "blö"}
-				for(size_t i = 1; i < splitVec.size(); i+=2) {
-					TextDisplay::TimedText tt;
-					tt.mText = splitVec[i+1];
-					tt.mTimestamp = (std::atoi(splitVec[i].c_str()+1)) / 1000.f * 60;
-					timedTexts.push_back(tt);
-				}
-
-				auto text_sp = std::make_shared<TextDisplay>(timedTexts, sf::Vector2f(0.5, 0.8), true);
-				//save this, so that we can kill it later.
-				mText_wp = text_sp;
-				subLevel_p->addScript(text_sp);
-			}
-
-
-	}
 //////////////////////////////////////////////////////////////////////
 // /Samma sak fast tvärtom
 //////////////////////////////////////////////////////////////////////
 	else if (enabledThisFrame == false && mEnabledLastFrame == true){
 		mSound->stop();
-		if (mSoundType == "narrator" && mIsWaitingForSpot == false) {
-			subLevel_p->getLevel()->finishSpot(mSpot);
-			
-			//kill text if it's still alive.
-			if(auto text_sp = mText_wp.lock()) {
-				text_sp->setAlive(false);
-			}
+		
+		//kill text if it's still alive.
+		if(auto text_sp = mText_wp.lock()) {
+			text_sp->setAlive(false);
 		}
 	}
+	
 
 	float volume = getVolume(subLevel_p);
 
@@ -303,10 +284,16 @@ void SoundScape::update(SubLevel* subLevel_p){
 	mEnabledLastFrame = enabledThisFrame;
 }
 
+
+void SoundScape::setHasNarratorPlayed(bool played){
+	mHasNarratorPlayed = played;
+}
+
+
 void SoundScape::drawSelf(){
 	auto& manager = WindowManager::get();
 	auto& window = *manager.getWindow();
-	auto& states = *manager.getStates(); 
+	auto& states = *manager.getStates();
 
 	auto& hitBox = getHitBox();
 	auto position = sf::Vector2f(hitBox.left, hitBox.top);

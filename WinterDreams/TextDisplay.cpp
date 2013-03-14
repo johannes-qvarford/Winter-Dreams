@@ -17,10 +17,14 @@ TextDisplay::TextDisplay(const std::vector<TimedText>& timedText, const sf::Vect
 }
 
 void TextDisplay::update(SubLevel* subLevel_p) {
+	if(mTimedText.empty() ) {
+		return;
+	}
+
 	++mNumFrames;
 	
 	auto curIndex = int(0);
-	for(int i = 0; i < mTimedText.size(); ++i) {
+	for(size_t i = 0; i < mTimedText.size(); ++i) {
 		if(mNumFrames >= mTimedText[i].mTimestamp) {
 			curIndex = i;
 		}
@@ -30,6 +34,10 @@ void TextDisplay::update(SubLevel* subLevel_p) {
 }
 
 void TextDisplay::draw() const {
+	if(mTimedText.empty() ) {
+		return;
+	}
+	
 	auto& window = *WindowManager::get().getRenderWindow();
 	auto states = *WindowManager::get().getStates();
 

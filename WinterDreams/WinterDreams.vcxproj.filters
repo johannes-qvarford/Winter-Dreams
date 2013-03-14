@@ -223,9 +223,6 @@
     <ClCompile Include="ResumeButton.cpp">
       <Filter>Sources\UI</Filter>
     </ClCompile>
-    <ClCompile Include="MainMenuButton.cpp">
-      <Filter>Sources\UI</Filter>
-    </ClCompile>
     <ClCompile Include="Counter.cpp">
       <Filter>Sources\Entity</Filter>
     </ClCompile>
@@ -243,6 +240,12 @@
     </ClCompile>
     <ClCompile Include="TextDisplay.cpp">
       <Filter>Sources\Entity</Filter>
+	</ClCompile>
+    <ClCompile Include="PromptToMainButton.cpp">
+      <Filter>Sources\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="GoToMainMenuButton.cpp">
+      <Filter>Sources\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -441,9 +444,6 @@
     <ClInclude Include="ResumeButton.h">
       <Filter>Includes\UI</Filter>
     </ClInclude>
-    <ClInclude Include="MainMenuButton.h">
-      <Filter>Includes\UI</Filter>
-    </ClInclude>
     <ClInclude Include="CounterAdder.h">
       <Filter>Includes\Entity</Filter>
     </ClInclude>
@@ -452,6 +452,12 @@
     </ClInclude>
     <ClInclude Include="TextDisplay.h">
       <Filter>Includes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="GoToMainMenuButton.h">
+      <Filter>Includes\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="PromptToMainButton.h">
+      <Filter>Includes\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
