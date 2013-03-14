@@ -5,9 +5,13 @@
 	
 	"levels":
 	{
+		"onetime_intro_video":"hela_introsekvens_sn_.ogv",
+		"onetime_intro_music":"AmbientWind2.wav",
+		
 		"lvl_1":
 		{
 			"intro_video": "loading_2_video.ogv",
+			"into_music": "",
 			"first_sublevel_name": "lvl_1_1",
 			"sublevels": {
 				"lvl_1_1": "lvl_1_1v15_t.json", 
@@ -19,6 +23,7 @@
 		"lvl_2":
 		{
 			"intro_video": "loading_2_video.ogv",
+			"into_music": "AmbientWind2.wav",
 			"first_sublevel_name": "lvl_1_1",
 			"sublevels": {
 				"lvl_1_1": "lvl_1_1v15.json", 
@@ -78,10 +83,12 @@
 				"yoffset":0.85
 			},
 			"ukontroll": {
-				"filename":"ukontroll.png",
-				"xoffset": 0.9015625,
-				"yoffsetbot": 0.9435185,
-				"yoffsettop": 0.7787037
+				"filename":"ukontroll_upside.png",
+				"xoffset": 0.00364583,
+				"yoffsetbot": -0.0115259259,
+				"yoffsettop": -0.177777777,
+				"cursorposx": 0.077,
+				"cursorposy": 0.069
 			}
 		},
 		"ingamemenu": {

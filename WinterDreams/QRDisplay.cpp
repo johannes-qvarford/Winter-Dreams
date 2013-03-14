@@ -21,32 +21,42 @@ public:
 	float mYOffsetBot;
 	float mYOffsetTop;
 
-	std::string mFilename;
+	std::string mUkontrollFilename;
 
+	sf::Vector2f mCursorPos;
 private:
 
 	QRSpecs() {
 		//exit(int) is a c function. use some other name
-		auto& exit_ = PropertyManager::get().getGeneralSettings().get_child("ui.mainmenu.ukontroll");
-		mXOffset = exit_.get<float>("xoffset");
-		mYOffsetBot = exit_.get<float>("yoffsetbot");
-		mYOffsetTop = exit_.get<float>("yoffsettop");
-		mFilename = exit_.get<std::string>("filename");
+		auto& qrs = PropertyManager::get().getGeneralSettings().get_child("ui.mainmenu.ukontroll");
+		mXOffset = qrs.get<float>("xoffset");
+		mYOffsetBot = qrs.get<float>("yoffsetbot");
+		mYOffsetTop = qrs.get<float>("yoffsettop");
+		mUkontrollFilename = qrs.get<std::string>("filename");
+		mCursorPos.x = qrs.get<float>("cursorposx");
+		mCursorPos.y = qrs.get<float>("cursorposy");
 	}
 };
 
 QRDisplay::QRDisplay():
-	Button(sf::Vector2f(QRSpecs::get().mXOffset, QRSpecs::get().mYOffsetBot), QRSpecs::get().mFilename),
+	Button(QRSpecs::get().mCursorPos, "transp.png"),
 	mUpdated(false),
 	mActivated(false),
-	mStatus( BOTTOM ),
+	mStatus( TOP ),
 	mQrPos( 0,0 )
 {
+	mUkontrollTexture_sp = ResourceManager::get().getTexture(FS_DIR_UI + QRSpecs::get().mUkontrollFilename);
+	auto& win = *WindowManager::get().getRenderWindow();
+	auto& qrs = QRSpecs::get();
+
+	mUkontrollSprite.setTexture( *mUkontrollTexture_sp);
+	mUkontrollPos = sf::Vector2f( qrs.mXOffset, qrs.mYOffsetTop );
+	mUkontrollSprite.setPosition( mUkontrollPos.x * win.getSize().x, mUkontrollPos.y * win.getSize().y );
 }
 
 void QRDisplay::activate() {
 	bool updated = false;
-	if( InputManager::get().isADown() )
+	if( InputManager::get().isADown() || InputManager::get().isStartDown() )
 		updated = true;
 
 	if(mActivated == false && updated == true && (InputManager::get().isADown() ||InputManager::get().isStartDown() ) ){
@@ -71,24 +81,33 @@ void QRDisplay::activate() {
 }
 
 void QRDisplay::update(MenuState* menuState_p){
-	if( mStatus == ASCEND ){
-		if( mBounds.top > QRSpecs::get().mYOffsetTop )
+	if( mStatus == ASCEND ) {
+		if( mUkontrollPos.y > QRSpecs::get().mYOffsetTop ) {
+			mUkontrollPos.y -= 2.f / 1080.f;
 			mBounds.top -= 2.f / 1080.f;
+		}
 		else
 			mStatus = TOP;
-	} else 	if( mStatus == DESCEND ){
-		if( mBounds.top < QRSpecs::get().mYOffsetBot )
+	} else if( mStatus == DESCEND ) {
+		if( mUkontrollPos.y < QRSpecs::get().mYOffsetBot ){
+			mUkontrollPos.y += 2.f / 1080.f;
 			mBounds.top += 2.f / 1080.f;
+		}
 		else
 			mStatus = BOTTOM;
 	}
+	auto& win = *WindowManager::get().getRenderWindow();
+	mUkontrollSprite.setPosition( mUkontrollPos.x * win.getSize().x, mUkontrollPos.y * win.getSize().y );
+	
 
-	mQrPos = sf::Vector2f( mBounds.left + (8.f / 1080.f), mBounds.top + mBounds.height - (8.f / 1080.f) );
+	mQrPos = sf::Vector2f( mUkontrollPos.x + (8.f / 1080.f), mUkontrollPos.y + (180.f / 1080.f) );
 }
 
 void QRDisplay::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	Button::draw(target, states);		
 	
+	target.draw(mUkontrollSprite, states);
+
 	if( mActivated ){
 		auto qrSprite = sf::Sprite( *mQrCodeTexture_sp );
 		qrSprite.setPosition( mQrPos.x * target.getSize().x, mQrPos.y * target.getSize().y );

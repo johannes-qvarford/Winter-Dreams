@@ -85,7 +85,7 @@ void StateManager::run() {
 
 			updateFrame();
 
-//			std::cout << 1000 / (frameTime.getElapsedTime().asMilliseconds()+1)  <<" ";	//+1 to not get a "divided by zero" error
+		std::cout << 1000 / (frameTime.getElapsedTime().asMilliseconds()+1)  <<"\t ";	//+1 to not get a "divided by zero" error
 //			std::cout<< "[" <<frameTime.getElapsedTime().asMicroseconds() <<"]\t";
 			
 			frameTime.restart();
@@ -155,6 +155,10 @@ void StateManager::updateFrame() {
 		assert(0);
 		break;
 	}
+
+#ifdef _WIN32
+	SetThreadExecutionState(ES_CONTINUOUS | ES_DISPLAY_REQUIRED);
+#endif
 }
 
 void StateManager::darkenWindow(float alpha) {

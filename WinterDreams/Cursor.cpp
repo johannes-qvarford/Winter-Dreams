@@ -7,7 +7,7 @@
 
 #include <SFML/Graphics/Vertex.hpp>
 
-static int COOLDOWN = 10;
+static int COOLDOWN = 20;
 
 class CursorSpecs {
 public:
@@ -65,7 +65,6 @@ void Cursor::update(MenuState* state_p) {
 			mWidgets[mCurrentWidget]->onHover(true);
 
 			mCooldownFrames = 0;
-			resizeFrame();
 		}
 		//down
 		else if(xstick < 0 && ystick < 0) {
@@ -78,10 +77,10 @@ void Cursor::update(MenuState* state_p) {
 			mWidgets[mCurrentWidget]->onHover(true);
 
 			mCooldownFrames = 0;
-			resizeFrame();
+			
 		}
 	}
-
+	resizeFrame();
 	mWidgets[mCurrentWidget]->activate();
 }
 

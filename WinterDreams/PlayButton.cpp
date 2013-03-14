@@ -8,7 +8,6 @@
 #include "StateManager.h"
 #include "InputManager.h"
 
-
 class PlayButtonSpecs {
 public:
 
@@ -50,19 +49,26 @@ int counter = 0;
 
 void PlayButton::activate() {
 	
-	if(/*mUpdated == false &&*/ (InputManager::get().isADown() ||InputManager::get().isStartDown() ) ){
-		//mUpdated = true;
-		counter++;
+	if((InputManager::get().isADown() ||InputManager::get().isStartDown() ) ){
+
 		mActivationSound.play();
 
 		auto first_level_name = PropertyManager::get().getGeneralSettings().get<std::string>("first_level_name");
+		auto intromovie = PropertyManager::get().getGeneralSettings().get<std::string>("levels.onetime_intro_video");
+		auto introaudio = PropertyManager::get().getGeneralSettings().get<std::string>("levels.onetime_intro_music");
 
 		auto loadingState_p = new LoadingVideoState(first_level_name);
+#ifdef SHIPPING
+		auto videoState_p = new VideoState(intromovie, introaudio, false);
+#else
+		auto videoState_p = new VideoState(intromovie, introaudio, true);
+#endif
 		auto& stateMgr = StateManager::get();
 
 		stateMgr.freezeState(100);
 		stateMgr.popState();
 		stateMgr.pushState(loadingState_p);
+		stateMgr.pushState(videoState_p);
 		stateMgr.unfreezeState(100);
 	}
 }

@@ -30,8 +30,11 @@ private:
 	};
 
 	DisplayStatus mStatus;
+	std::shared_ptr<sf::Texture> mUkontrollTexture_sp;
+	sf::Sprite mUkontrollSprite;
 	std::shared_ptr<sf::Texture> mQrCodeTexture_sp;
 	sf::Vector2f mQrPos;
+	sf::Vector2f mUkontrollPos;
 	bool mUpdated;
 	bool mActivated;
 	
