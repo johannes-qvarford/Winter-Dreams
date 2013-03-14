@@ -11,9 +11,10 @@
 #include <SFML\Audio\Sound.hpp>
 #include <cassert>
 
-VideoState::VideoState(const std::string& videoFileName, const std::string& musicFileName) :
+VideoState::VideoState(const std::string& videoFileName, const std::string& musicFileName, const bool isSkippable) :
 	mRequestPerformed( false ),
 	mInitialized( false ),
+	mIsSkippable( isSkippable ),
 	mVideoFileName( videoFileName ),
 	mMusicFileName( musicFileName )
 {
@@ -50,7 +51,7 @@ void VideoState::update() {
 //////////////////////////////////////////////
 	mVideo->update( mDeltaTime.restart() );
 
-	if( mVideo->isDone() || InputManager::get().isStartDown() )
+	if( mVideo->isDone() || (InputManager::get().isStartDown() && mIsSkippable == true ) )
 		reqestVideoEnd();
 }
 

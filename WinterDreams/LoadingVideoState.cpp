@@ -14,8 +14,9 @@
 #include <cassert>
 
 LoadingVideoState::LoadingVideoState(const std::string& levelName) :
-VideoState(PropertyManager::get().getGeneralSettings().get<std::string>(
-		"levels." + levelName + ".intro_video")),
+VideoState(
+		PropertyManager::get().getGeneralSettings().get<std::string>("levels." + levelName + ".intro_video"), 
+		PropertyManager::get().getGeneralSettings().get<std::string>("levels." + levelName + ".intro_music", "") ),
 	mRunMutex(),
 	mResoruceMutex(),
 	mRunning( true ),
@@ -29,10 +30,6 @@ VideoState(PropertyManager::get().getGeneralSettings().get<std::string>(
 	{
 //		mIsLoadingIcon.setTexture( *mIsLoadingIconTexture );
 		mDoneLoadingIcon.setTexture( *mDoneLoadingIconTexture );
-
-//		mIsLoadingIcon.setOrigin(55,55);
-//		mIsLoadingIcon.setPosition(55,55);
-
 	}
 
 LoadingVideoState::~LoadingVideoState() {
@@ -88,7 +85,7 @@ void LoadingVideoState::onVideoEnd() {
 	sm.freezeState();
 	sm.popState();
 	sm.pushState( mLoadingSpecs_p->mLoadedLevel_p );
-	sm.unfreezeState(0);
+	sm.unfreezeState();
 
 }
 

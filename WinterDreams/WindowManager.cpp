@@ -32,6 +32,7 @@ WindowManager::WindowManager() :
 #else
 	mFullscreen = false;
 #endif
+	mWindow.setActive(true);
 	mMode = sf::VideoMode::getFullscreenModes()[0];
 
 	//update video mode first.

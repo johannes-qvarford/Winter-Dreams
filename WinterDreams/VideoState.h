@@ -26,7 +26,7 @@ public:
 	// /It will automaticly search in the FS_DIR_VIDEO for the
 	// /argument file name.
 	////////////////////////////////////////////////////////////
-	VideoState(const std::string& videoFileName, const std::string& musicFileName = "");
+	VideoState(const std::string& videoFileName, const std::string& musicFileName = "", const bool isSkippable = true);
 	////////////////////////////////////////////////////////////
 	// /No dynamic member variables.
 	////////////////////////////////////////////////////////////
@@ -69,7 +69,7 @@ private:
 	////////////////////////////////////////////////////////////
 	virtual void onVideoEnd();
 
-
+	bool mIsSkippable;
 	bool mRequestPerformed;	//True if a VideoEnd request has been performed
 
 	std::string mVideoFileName;

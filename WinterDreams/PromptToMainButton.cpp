@@ -38,7 +38,6 @@ void PromptToMainButton::activate() {
 
 		auto& stateMgr = StateManager::get();
 
-			//TODO: ADD PROMPT STATE
 		stateMgr.freezeState(30);
 		stateMgr.pushState(MenuState::makePromptQuitMenuState(mBgTexture) );
 		stateMgr.unfreezeState(30);
