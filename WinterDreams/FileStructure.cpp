@@ -19,7 +19,7 @@ const std::string FS_DIR_LOADINGSCREEN		= FS_DIR_MAIN + "Images/LoadingScreen/";
 const std::string FS_DIR_VIDEO				= FS_DIR_MAIN + "Video/";
 
 #ifdef _MSC_VER
-extern const std::string FS_DIR_FONTS = "C:/Windows/Fonts/";
+extern const std::string FS_DIR_FONTS = FS_DIR_MAIN + "Fonts/";
 #elif defined __GNUG__
 extern const std::string FS_DIR_FONTS = "/usr/share/fonts/truetype/msttcorefonts/";
 #else

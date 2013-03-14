@@ -6,7 +6,7 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	auto& properties = pt.get_child("properties");
 	auto addtime = properties.get<float>("addtime", -1);
 	auto timer = properties.get<std::string>("timer");
-	auto startdisabled = properties.get<bool>("startdisabled");
+	auto startdisabled = properties.get<bool>("startdisabled", true);
 
 	auto addFrames = secsToFrames(addtime);
 

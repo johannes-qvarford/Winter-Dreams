@@ -1,0 +1,25 @@
+#ifndef INCLUDED_MAINMENUBUTTON
+#define INCLUDED_MAINMENUBUTTON
+
+#include "Button.h"
+
+class GoToMainMenuButton : public Button {
+public:
+	////////////////////////////////////////////////////////////
+	// /Create a button that sends the player directly to the main
+	// /menu. No prompt.
+	////////////////////////////////////////////////////////////
+	GoToMainMenuButton();
+
+	////////////////////////////////////////////////////////////
+	// /Does the following:
+	// /pop, pop, pop, push(MainMenuState)
+	////////////////////////////////////////////////////////////
+	void activate();
+
+private:
+
+	bool mUpdated;
+};
+
+#endif

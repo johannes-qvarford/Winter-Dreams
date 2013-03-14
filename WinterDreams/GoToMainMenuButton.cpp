@@ -1,4 +1,4 @@
-#include "MainMenuButton.h"
+#include "GoToMainMenuButton.h"
 #include "ResourceManager.h"
 #include "FileStructure.h"
 #include "StateManager.h"
@@ -22,31 +22,33 @@ public:
 private:
 
 	MainMenuButtonSpecs() {
-		auto& MainMenu = PropertyManager::get().getGeneralSettings().get_child("ui.ingamemenu.mainmenu");
+		auto& MainMenu = PropertyManager::get().getGeneralSettings().get_child("ui.promptquit.yes");
 		mXOffset = MainMenu.get<float>("xoffset");
 		mYOffset = MainMenu.get<float>("yoffset");
 		mFilename = MainMenu.get<std::string>("filename");
 	}
 };
 
-MainMenuButton::MainMenuButton():
+GoToMainMenuButton::GoToMainMenuButton():
 	Button(sf::Vector2f(MainMenuButtonSpecs::get().mXOffset, MainMenuButtonSpecs::get().mYOffset), MainMenuButtonSpecs::get().mFilename),
 	mUpdated(false)
 {
 }
 
-void MainMenuButton::activate() {
+void GoToMainMenuButton::activate() {
 	
-	if(mUpdated == false && (InputManager::get().isADown() ||InputManager::get().isStartDown() ) ){
-		mUpdated = true;
+	if(InputManager::get().isADown() ||InputManager::get().isStartDown() ){
 		Button::activate();
 
 		auto& stateMgr = StateManager::get();
 		auto mms = MenuState::makeMainMenuState();
 
+		stateMgr.freezeState();
+		stateMgr.popState();
 		stateMgr.popState();
 		stateMgr.popState();
 		stateMgr.pushState(mms);
+		stateMgr.unfreezeState();
 
 		onHover(false);
 	}

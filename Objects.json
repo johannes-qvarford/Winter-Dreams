@@ -287,18 +287,19 @@
 
 			"walkspeed": 1.75,
 
+
 			"framesperstep": 27,
 			"footsteps":[
 				{
 					"name":"ice",
-					"wfilename":"FootStepNorth.png",
-					"efilename":"FootStepNorth.png",
+					"wfilename":"FootStepWest.png",
+					"efilename":"FootStepWest.png",
 					"sfilename":"FootStepNorth.png",
 					"nfilename":"FootStepNorth.png",
-					"nwfilename":"FootStepNorth.png",
-					"nefilename":"FootStepNorth.png",
-					"swfilename":"FootStepNorth.png",
-					"sefilename":"FootStepNorth.png",
+					"nwfilename":"FootStepNorthwest.png",
+					"nefilename":"FootStepNortheast.png",
+					"swfilename":"FootStepNortheast.png",
+					"sefilename":"FootStepNorthwest.png",
 					"soundfilename":"MonoPickaxeIce.ogg"
 				}
 			],
@@ -484,6 +485,7 @@
 		},
 		"soundscape":{
 			"narrator":{
+
 				"1001.ogg": "[t0]You finally open your eyes, but you are not with me. [t5250]You are somewhere else.",
 				"1002.ogg": "[t0]Isn't that a good girl, [t2500]now try and see if you can get those frozen limbs moving [t7200]and we can see about getting you back to me. ",
 				"1003.ogg": "[t0]Your steps crack against the icy floor, [t3800]the coldness is numbing, but you don't care. [t8200]You are home, are you not?",

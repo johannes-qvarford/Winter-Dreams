@@ -4,6 +4,7 @@
 #include "SFML/Graphics/Rect.hpp"
 #include "CollisionZone.h"
 #include "Player.h"
+#include "TextDisplay.h"
 
 class SoundScape : public CollisionZone {
 public:
@@ -20,7 +21,7 @@ public:
 // /startsEnabled behövs för att veta om ljudet ska köras direkt eller om det ska aktiveras först
 // /soundType är för att bestämma om soundscapen är en narrator, sound eller music 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-	SoundScape(sf::Rect<float> collisionBox, float innerRadius, int rangeDecay, float volume, bool loop, std::string soundName, bool startsEnabled, std::string soundType, int fadeInTime, bool threeD);
+	SoundScape(sf::Rect<float> collisionBox, float innerRadius, int rangeDecay, float volume, bool loop, std::string soundName, bool startsEnabled, std::string soundType, int fadeInTime, bool threeD, SubLevel* subLevel_p);
 
 ////////////////////////////////////////////////////////////////////////
 // /stoppa ljudet/musiken
@@ -35,8 +36,10 @@ public:
 ////////////////////////////////////////////////////////////////////////
 	void update(SubLevel* subLevel_p);
 
+	void setHasNarratorPlayed(bool played);
 
 	void drawSelf();
+
 private:
 
 	bool mBoolEntity;
@@ -53,9 +56,12 @@ private:
 	std::string mSoundName;
 	std::shared_ptr<sf::SoundBuffer> mBuffer;
 	std::shared_ptr<sf::Sound> mSound;
+	std::weak_ptr<TextDisplay> mText_wp;
 	std::weak_ptr<Player> mPlayer_wp;
 	bool mEnabledLastFrame;
-	
+	int mSpot;
+	//bool mICanHasNarratorSpot;
+	bool mHasNarratorPlayed;
 	
 	float getVolume(SubLevel* subLevel_p);
 

@@ -140,7 +140,7 @@ void SubLevel::render() {
 	auto& window = *WindowManager::get().getWindow();
 	auto& renderWindow = *WindowManager::get().getRenderWindow();
 	auto& renderStates = *WindowManager::get().getStates();
-	
+	window.clear();
 	renderStates.transform = sf::Transform::Identity;
 	
 	//draw background
@@ -298,6 +298,11 @@ static bool smallerPosition(std::shared_ptr<PhysicalEntity> lhs_p, std::shared_p
 	if( lhs_p->getLayer() < rhs_p->getLayer() )
 		return true;
 	else if( lhs_p->getLayer() > rhs_p->getLayer() )
+		return false;
+	
+	if( lhs_p->getMinorLayer() < rhs_p->getMinorLayer() )
+		return true;
+	else if( lhs_p->getMinorLayer() > rhs_p->getMinorLayer() )
 		return false;
 
 	auto lhsIsoDepth = lhsBox.left + lhsBox.top + (lhsBox.width + lhsBox.height) / 2;

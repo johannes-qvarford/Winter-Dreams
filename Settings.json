@@ -11,7 +11,7 @@
 			"first_sublevel_name": "lvl_1_1",
 			"sublevels": {
 				"lvl_1_1": "lvl_1_1v15_t.json", 
-				"lvl_1_2": "lvl_1_2v08_fix.json"
+				"lvl_1_2": "lvl_1_2v09.json"
 			},
 			"next_level": "lvl_2"
 		},
@@ -21,8 +21,8 @@
 			"intro_video": "loading_2_video.ogv",
 			"first_sublevel_name": "lvl_1_1",
 			"sublevels": {
-				"lvl_1_1": "lvl_1_1v14.json", 
-				"lvl_1_2": "lvl_1_2v08_fix.json"
+				"lvl_1_1": "lvl_1_1v15.json", 
+				"lvl_1_2": "lvl_1_2v09.json"
 			},
 			"next_level": "lvl_2"
 		}
@@ -86,24 +86,41 @@
 		},
 		"ingamemenu": {
 			"frame": {
-				"filename":"frame.png",
+				"filename":"frame_ingame.png",
 				"xoffset":0.0425,
 				"yoffset":0.355
 			},
 			"continue": {
-				"filename":"placeholder.png",
-				"xoffset":0.5,
-				"yoffset":0.5
+				"filename":"resume_game.png",
+				"xoffset":0.18,
+				"yoffset":0.600
 			},
 			"options": {
-				"filename":"placeholder.png",
-				"xoffset":0.7,
-				"yoffset":0.7
+				"filename":"settings_2.png",
+				"xoffset":0.18,
+				"yoffset":0.700
 			},
 			"mainmenu": {
-				"filename":"placeholder.png",
-				"xoffset":0.3,
-				"yoffset":0.3
+				"filename":"return_to_menu.png",
+				"xoffset":0.18,
+				"yoffset":0.800
+			}
+		},
+		"promptquit":{
+			"frame": {
+				"filename":"prompt_return_frame.png",
+				"xoffset":0.0425,
+				"yoffset":0.355
+			},
+			"yes": {
+				"filename":"prompt_return_yes.png",
+				"xoffset":0.18,
+				"yoffset":0.600
+			},
+			"no": {
+				"filename":"prompt_return_no.png",
+				"xoffset":0.18,
+				"yoffset":0.700
 			}
 		},
 		"settings": {

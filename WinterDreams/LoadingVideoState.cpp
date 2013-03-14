@@ -77,6 +77,7 @@ void LoadingVideoState::render() {
 }
 
 void LoadingVideoState::onUnfreeze() {	
+	State::onUnfreeze();
 	VideoState::onUnfreeze();
 	mThread.launch();
 }

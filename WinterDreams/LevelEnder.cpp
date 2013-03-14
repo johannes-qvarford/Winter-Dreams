@@ -13,7 +13,6 @@ LevelEnder::LevelEnder( bool startsEnabled, const sf::FloatRect& hitBox):
 }
 
 LevelEnder::~LevelEnder() {
-	InputManager::get().unlockInput();
 }
 
 void LevelEnder::update(SubLevel* subLevel_p) {
@@ -35,7 +34,6 @@ void LevelEnder::onCollision(PhysicalEntity* physical_p, const sf::FloatRect& in
 		auto lvs_p = new LoadingVideoState(nextLevelName);
 
 		auto& sm = StateManager::get();
-		InputManager::get().lockInput();
 		sm.freezeState(200);
 		sm.popState();
 		sm.pushState(lvs_p);
