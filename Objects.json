@@ -291,7 +291,7 @@
 			"blinkframedistance": 8,
 
 			"walkspeed": 1.75,
-
+			"pickaxe_cooldown": 25,
 
 			"framesperstep": 27,
 			"footsteps":[
