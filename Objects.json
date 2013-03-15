@@ -52,9 +52,13 @@
 				"filename": "darkwall.png"
 			},
 			"light_source":{
-				"yorigin": 716,
-				"xorigin": 218,
-				"filename": "light_source.png"
+					"spritewidth": "200",
+					"spriteheight": "900",
+					"yorigin": "1020",
+					"xorigin": "55",
+					"numberofsprites": "8",
+					"framespersprite": "10",
+					"filename": "light_source.png"
 			},
 			"bridge_segment":{
 				"yorigin": 180,
@@ -174,13 +178,13 @@
 			
 			"animations" : {
 				"placeholder": {
-					"spritewidth": "128",
-					"spriteheight": "179",
-					"yorigin": "153",
-					"xorigin": "32",
-					"numberofsprites": "1",
-					"framespersprite": "100",
-					"filename": "light_source.png"
+					"spritewidth": "200",
+					"spriteheight": "900",
+					"yorigin": "881",
+					"xorigin": "55",
+					"numberofsprites": "8",
+					"framespersprite": "10",
+					"filename": "light_source_.png"
 				}
 			},
 			"lightsize": {
