@@ -63,11 +63,16 @@ void QRDisplay::activate() {
 		mActivated = true;
 
 		auto response = getResponse();
-
-		mQrCodeTexture_sp = std::make_shared<sf::Texture>( getQR( response ) );
+		if( response.getStatus() == sf::Http::Response::Ok) {
+			mQrCodeTexture_sp = std::make_shared<sf::Texture>( getQR( response ) );
 		
-		auto socket =  openSocket( response );
-		InputManager::get().setSocket( socket );
+			auto socket =  openSocket( response );
+			InputManager::get().setSocket( socket );
+		}
+		else {
+			mQrCodeTexture_sp = ResourceManager::get().getTexture(FS_DIR_UI + "ukontroll_connection_fail.png" );
+		}
+
 	}
 
 	if( mStatus == BOTTOM && updated == true ){
