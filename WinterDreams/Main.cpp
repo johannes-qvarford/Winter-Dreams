@@ -17,14 +17,9 @@
 #include <SFML/System/Thread.hpp>
 #include <SFML/System/Sleep.hpp>
 
-void a(int i) {
-	sf::RenderTexture w;
-	sf::RenderTexture w1;
-	sf::sleep(sf::milliseconds(2000));
-}
-
 int main()
 {
+
 	try {
 		auto& prop = PropertyManager::get();
 		auto& settings = prop.getGeneralSettings();

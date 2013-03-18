@@ -189,16 +189,25 @@
 	},
 	
 	"itemdisplay": {
-		"xfromleft": "0.0285",
-		"yfromtop": "0.0435",
-		"xiconoffset": "0.054",
-		"yiconoffset": "0.098",
+		"xfromleft": "0.0104",
+		"yfromtop": "0.0185",
+		"xiconoffset": "0.0651",
+		"yiconoffset": "0.1157",
 		"animations": {
+			"frame": {
+				"spritewidth": "628",
+				"spriteheight": "628",
+				"yorigin": "0",
+				"xorigin": "0",
+				"numberofsprites": "1",
+				"framespersprite": "100",
+				"filename": "frame.png"			
+			},
 			"itembox": {				
 				"spritewidth": "94",
 				"spriteheight": "94",
-				"yorigin": "47",
-				"xorigin": "47",
+				"yorigin": "0",
+				"xorigin": "0",
 				"numberofsprites": "1",
 				"framespersprite": "100",
 				"filename": "itembox.png"
@@ -207,8 +216,8 @@
 				"iconindex": "1",
 				"spritewidth": "85",
 				"spriteheight": "85",
-				"yorigin": "42",
-				"xorigin": "42",
+				"yorigin": "0",
+				"xorigin": "0",
 				"numberofsprites": "1",
 				"framespersprite": "100",
 				"filename": "pickaxe.png"
@@ -236,38 +245,38 @@
 			"orb_orange": {				
 				"spritewidth": "85",
 				"spriteheight": "85",
-				"yorigin": "45",
-				"xorigin": "45",
+				"yorigin": "0",
+				"xorigin": "0",
 				"numberofsprites": "1",
 				"framespersprite": "100",
-				"filename": "orb_orange.png"
+				"filename": "lvl_1_2_display_crown.png"
 			},
 			"orb_purple": {				
 				"spritewidth": "85",
 				"spriteheight": "85",
-				"yorigin": "45",
-				"xorigin": "45",
+				"yorigin": "0",
+				"xorigin": "0",
 				"numberofsprites": "1",
 				"framespersprite": "100",
-				"filename": "orb_purple.png"
+				"filename": "lvl_1_2_display_napkin.png"
 			},
 			"orb_red": {				
 				"spritewidth": "85",
 				"spriteheight": "85",
-				"yorigin": "45",
-				"xorigin": "45",
+				"yorigin": "0",
+				"xorigin": "0",
 				"numberofsprites": "1",
 				"framespersprite": "100",
-				"filename": "orb_red.png"
+				"filename": "lvl_1_2_display_bone.png"
 			},
 			"orb_blue": {				
 				"spritewidth": "85",
 				"spriteheight": "85",
-				"yorigin": "45",
-				"xorigin": "45",
+				"yorigin": "0",
+				"xorigin": "0",
 				"numberofsprites": "1",
 				"framespersprite": "100",
-				"filename": "orb_blue.png"
+				"filename": "lvl_1_2_display_flute.png"
 			}
 		}	
 	}		

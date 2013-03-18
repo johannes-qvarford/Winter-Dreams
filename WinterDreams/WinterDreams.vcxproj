@@ -238,7 +238,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)..\sfTheora-1.4\lib\;$(SolutionDir)..\..\Lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-network.lib;sfml-system.lib;sfml-audio.lib;sfml-graphics.lib;sfml-window.lib;sfTheora.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-network.lib;sfml-system.lib;sfml-audio.lib;sfml-graphics.lib;sfml-window.lib;sfTheora.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
