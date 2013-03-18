@@ -49,6 +49,7 @@
 			"darkwall":{
 				"yorigin": 189,
 				"xorigin": 90,
+
 				"filename": "darkwall.png"
 			},
 			"light_source":{
@@ -330,7 +331,7 @@
 			"invulnerabilityframes": 40,
 			"blinkframedistance": 8,
 
-			"walkspeed": 1.75,
+			"walkspeed": 10.75,
 			"pickaxe_cooldown": 25,
 
 			"framesperstep": 27,
@@ -491,40 +492,40 @@
 					"filename": "shoes.png"
 				},
 				"orb_red": {				
-					"spritewidth": "32",
-					"spriteheight": "32",
-					"yorigin": "32",
+					"spritewidth": "48",
+					"spriteheight": "35",
+					"yorigin": "35",
 					"xorigin": "0",
 					"numberofsprites": "1",
 					"framespersprite": "100",
-					"filename": "orb_red.png"
+					"filename": "lvl_1_2_bone.png"
 				},
 				"orb_purple": {				
-					"spritewidth": "32",
-					"spriteheight": "32",
-					"yorigin": "32",
+					"spritewidth": "48",
+					"spriteheight": "14",
+					"yorigin": "14",
 					"xorigin": "0",
 					"numberofsprites": "1",
 					"framespersprite": "100",
-					"filename": "orb_purple.png"
+					"filename": "lvl_1_2_napkin.png"
 				},
 				"orb_orange": {				
-					"spritewidth": "32",
-					"spriteheight": "32",
-					"yorigin": "32",
+					"spritewidth": "48",
+					"spriteheight": "48",
+					"yorigin": "48",
 					"xorigin": "0",
 					"numberofsprites": "1",
 					"framespersprite": "100",
-					"filename": "orb_orange.png"
+					"filename": "lvl_1_2_crown.png"
 				},
 				"orb_blue": {				
-					"spritewidth": "32",
-					"spriteheight": "32",
-					"yorigin": "32",
+					"spritewidth": "48",
+					"spriteheight": "34",
+					"yorigin": "34",
 					"xorigin": "0",
 					"numberofsprites": "1",
 					"framespersprite": "100",
-					"filename": "orb_blue.png"
+					"filename": "lvl_1_2_flute.png"
 				}
 			}
 		},

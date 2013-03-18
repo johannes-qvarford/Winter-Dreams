@@ -59,7 +59,7 @@ void PlayButton::activate() {
 
 		auto loadingState_p = new LoadingVideoState(first_level_name);
 #ifdef SHIPPING
-		auto videoState_p = new VideoState(intromovie, introaudio, false);
+		auto videoState_p = new VideoState(intromovie, introaudio, true);
 #else
 		auto videoState_p = new VideoState(intromovie, introaudio, true);
 #endif
