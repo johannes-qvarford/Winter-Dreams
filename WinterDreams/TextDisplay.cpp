@@ -7,7 +7,7 @@
 TextDisplay::TextDisplay(const std::vector<TimedText>& timedText, const sf::Vector2f& position, bool startEnabled):
 	Script(startEnabled),
 	mNumFrames(0),
-	mFont_sp(ResourceManager::get().getFont(FS_DIR_FONTS + "arial.ttf")),
+	mFont_sp(ResourceManager::get().getFont(FS_DIR_FONTS + "CapitalisTypOasis.ttf")),
 	mTimedText(timedText),
 	mPosition(position),
 	mShaderX_sp(ResourceManager::get().getShader(FS_DIR_SHADERS + "GaussBlurX.frag")),
