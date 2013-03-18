@@ -51,6 +51,7 @@ void LevelSplash::update(SubLevel* subLevel_p) {
  	mLevelSplash.setPosition(  pos );
 	
 	if( mLifeTime > 0 ){
+		InputManager::get().lockInput();
 		--mLifeTime;
 	}
 	else if( mFadeOutTimeCurrent < mFadeOutTime){
