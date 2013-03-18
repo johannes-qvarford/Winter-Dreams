@@ -14,7 +14,7 @@
 			"into_music": "",
 			"first_sublevel_name": "lvl_1_1",
 			"sublevels": {
-				"lvl_1_1": "lvl_1_1v15_t.json", 
+				"lvl_1_1": "lvl_1_1v15.json", 
 				"lvl_1_2": "lvl_1_2v09.json"
 			},
 			"next_level": "lvl_2"
