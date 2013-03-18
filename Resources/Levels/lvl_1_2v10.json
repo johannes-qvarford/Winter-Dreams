@@ -266,7 +266,7 @@
                  "name":"gp_queueitem_red",
                  "properties":
                     {
-                     "entity":"gp_bridge_1_col,gp_bridge_5_col,fx_bridge_1_gfx,fx_bridge_5_gfx,gp_red_trigger,fx_red_ghost_0,fx_red_ghost_1,sn_red_activate",
+                     "entity":"gp_bridge_1_col,gp_bridge_5_col,fx_bridge_1_gfx,fx_bridge_5_gfx,gp_red_trigger,fx_red_ghost_0,fx_red_ghost_1,sn_red_activate,fx_red_light",
                      "queue":"gp_queue_1",
                      "startdisabled":"true"
                     },
@@ -281,7 +281,7 @@
                  "name":"gp_queueitem_blue",
                  "properties":
                     {
-                     "entity":"gp_bridge_4_col,gp_bridge_6_col,gp_bridge_7_col,gp_bridge_9_col,fx_bridge_4_gfx,fx_bridge_6_gfx,fx_bridge_7_gfx,fx_bridge_9_gfx,gp_blue_trigger,fx_blue_ghost_0,fx_blue_ghost_1,sn_blue_activate",
+                     "entity":"gp_bridge_4_col,gp_bridge_6_col,gp_bridge_7_col,gp_bridge_9_col,fx_bridge_4_gfx,fx_bridge_6_gfx,fx_bridge_7_gfx,fx_bridge_9_gfx,gp_blue_trigger,fx_blue_ghost_0,fx_blue_ghost_1,sn_blue_activate,fx_blue_light",
                      "queue":"gp_queue_1",
                      "startdisabled":"true"
                     },
@@ -296,7 +296,7 @@
                  "name":"gp_queueitem_orange",
                  "properties":
                     {
-                     "entity":"gp_bridge_1_col,gp_bridge_3_col,gp_bridge_4_col,gp_bridge_8_col,fx_bridge_1_gfx,fx_bridge_3_gfx,fx_bridge_4_gfx,fx_bridge_8_gfx,gp_orange_trigger,fx_orange_ghost_0,fx_orange_ghost_1,sn_orange_activate",
+                     "entity":"gp_bridge_1_col,gp_bridge_3_col,gp_bridge_4_col,gp_bridge_8_col,fx_bridge_1_gfx,fx_bridge_3_gfx,fx_bridge_4_gfx,fx_bridge_8_gfx,gp_orange_trigger,fx_orange_ghost_0,fx_orange_ghost_1,sn_orange_activate,fx_orange_light",
                      "queue":"gp_queue_1",
                      "startdisabled":"true"
                     },
@@ -311,7 +311,7 @@
                  "name":"gp_queueitem_purple",
                  "properties":
                     {
-                     "entity":"gp_bridge_1_col,gp_bridge_2_col,gp_bridge_4_col,fx_bridge_1_gfx,fx_bridge_2_gfx,fx_bridge_4_gfx,gp_purple_trigger,fx_purple_ghost_0,fx_purple_ghost_1,sn_purple_activate",
+                     "entity":"gp_bridge_1_col,gp_bridge_2_col,gp_bridge_4_col,fx_bridge_1_gfx,fx_bridge_2_gfx,fx_bridge_4_gfx,gp_purple_trigger,fx_purple_ghost_0,fx_purple_ghost_1,sn_purple_activate,fx_purple_light",
                      "queue":"gp_queue_1",
                      "startdisabled":"true"
                     },
@@ -505,6 +505,62 @@
                      "soundfile":"puzzle2.ogg"
                     },
                  "type":"soundscape",
+                 "visible":true,
+                 "width":32,
+                 "x":800,
+                 "y":320
+                }, 
+                {
+                 "height":32,
+                 "name":"fx_red_light",
+                 "properties":
+                    {
+                     "brightness":"2",
+                     "startdisabled":"true"
+                    },
+                 "type":"light",
+                 "visible":true,
+                 "width":32,
+                 "x":1440,
+                 "y":768
+                }, 
+                {
+                 "height":32,
+                 "name":"fx_orange_light",
+                 "properties":
+                    {
+                     "brightness":"2",
+                     "startdisabled":"true"
+                    },
+                 "type":"light",
+                 "visible":true,
+                 "width":32,
+                 "x":800,
+                 "y":1376
+                }, 
+                {
+                 "height":32,
+                 "name":"fx_blue_light",
+                 "properties":
+                    {
+                     "brightness":"2",
+                     "startdisabled":"true"
+                    },
+                 "type":"light",
+                 "visible":true,
+                 "width":32,
+                 "x":384,
+                 "y":768
+                }, 
+                {
+                 "height":32,
+                 "name":"fx_purple_light",
+                 "properties":
+                    {
+                     "brightness":"2",
+                     "startdisabled":"true"
+                    },
+                 "type":"light",
                  "visible":true,
                  "width":32,
                  "x":800,
