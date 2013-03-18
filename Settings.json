@@ -144,19 +144,17 @@
 				"filename":"placeholder.png"
 			},
 			"general": {
-				"slidericon": {
+				"slider": {
 					"xoffset":0,
 					"yoffset":0,
-					"filename": "placeholder_sliderleft.png"
-				},
-				"sliderline": {
-					"xoffset":0,
-					"yoffset":0,
-					"filename": "placeholder_sliderright.png"
+					"sliderx":0,
+					"slidery":0,
+					"stepsize":0,
+					"filename": "placeholder.png"
 				}
 			},
 			"soundvolume": {
-				"filename": "placeholder_soundvolume.png",
+				"filename": "placeholder.png",
 				"xoffset":0,
 				"yoffset":0
 			},
