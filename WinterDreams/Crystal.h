@@ -46,6 +46,12 @@ public:
 	// /as inactive.
 	//////////////////////////////////////////////////////
 	void adjustHealth(int adjustment);
+
+	//////////////////////////////////////////////////////
+	// /Get the Crystal's health.
+	//////////////////////////////////////////////////////
+	int getHealth() const;
+
 	//////////////////////////////////////////////////////
 	// /This definition is requested by Physical Entity.
 	// /Unless an object is dependent on it's direction,
@@ -60,6 +66,7 @@ private:
 	int							mHP;				//The crystal's HP
 	std::shared_ptr<SolidZone>	mSolidZone;			//The crystal's collision zone
 	std::shared_ptr<sf::SoundBuffer> mSoundBuffer;  //The crystal's "smashed" sound
+	std::shared_ptr<sf::SoundBuffer> mDestroyedSoundBuffer;//The crystal's "destroyed completely" sound.
 	int							mVersion;
 	//No copies
 	Crystal(const Crystal& crystal);

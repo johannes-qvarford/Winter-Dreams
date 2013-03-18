@@ -50,6 +50,9 @@ private:
 	std::string mTargetLevel;
 	std::string mTargetPortal;
 
+	sf::Sound mSound;
+	std::shared_ptr<sf::SoundBuffer> mSoundBuffer_sp;
+
 	//No copies
 	LevelPortal(const LevelPortal& lp);
 	//No copies

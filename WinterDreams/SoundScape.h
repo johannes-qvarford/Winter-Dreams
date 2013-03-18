@@ -9,8 +9,6 @@
 class SoundScape : public CollisionZone {
 public:
 
-
-
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // /Konstruktorn behöver collisionBox för att veta vart soundscapen ska vara.
 // /innerRadius behövs för att veta hur stor radien är för maxvolymen

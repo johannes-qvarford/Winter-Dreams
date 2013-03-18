@@ -10,7 +10,8 @@
 static const int LIGHT_ID_MAX = 10;
 
 const unsigned int WINDOW_WINDOWED = sf::Style::Titlebar | sf::Style::Close;
-const unsigned int WINDOW_FULLSCREEN = sf::Style::None | sf::Style::Resize;
+//const unsigned int WINDOW_WINDOWED = sf::Style::None;
+const unsigned int WINDOW_FULLSCREEN = sf::Style::None;
 
 //Returns the static instance of WindowManager
 WindowManager& WindowManager::get(){

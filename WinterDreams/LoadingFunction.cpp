@@ -28,8 +28,9 @@ LoadingSpecs::LoadingSpecs(const LoadingSpecs& l):
 		mLevelName( l.mLevelName ),
 		mRunMutex_p( l.mRunMutex_p ),
 		mResourceMutex_p( l.mResourceMutex_p ),
-		mRunning_p( l.mRunning_p )
-	{ 
+		mRunning_p( l.mRunning_p ),
+		mMainThreadRunning_p( l.mMainThreadRunning_p )
+	{
 	}
 
 static void loadSubLevel(const std::string& subLevelName, LevelState* levelState_p, sf::Mutex* mutex);
@@ -74,6 +75,15 @@ void loadingFunc::loadLevel(LoadingSpecs& specs) {
 	specs.mRunMutex_p->lock();
 	*specs.mRunning_p = false;
 	specs.mRunMutex_p->unlock();
+	
+	bool stop = false;
+	while(stop == false) {
+		sf::sleep(sf::milliseconds(10));
+		specs.mRunMutex_p->lock();
+		if(*specs.mMainThreadRunning_p == false)
+			stop = true;
+		specs.mRunMutex_p->unlock();
+	}
 }
 
 static void loadSubLevel(const std::string& subLevelName, LevelState* levelState_p, sf::Mutex* mutex) {

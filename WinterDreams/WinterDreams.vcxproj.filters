@@ -240,12 +240,15 @@
     </ClCompile>
     <ClCompile Include="TextDisplay.cpp">
       <Filter>Sources\Entity</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="PromptToMainButton.cpp">
       <Filter>Sources\UI</Filter>
     </ClCompile>
     <ClCompile Include="GoToMainMenuButton.cpp">
       <Filter>Sources\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration_scenary.cpp">
+      <Filter>Sources\Registration</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -458,6 +461,9 @@
     </ClInclude>
     <ClInclude Include="PromptToMainButton.h">
       <Filter>Includes\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ScenaryTemplate.h">
+      <Filter>Sources\Registration</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

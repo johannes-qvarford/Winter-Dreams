@@ -39,6 +39,7 @@
     <ClCompile Include="PlayerControls.cpp" />
     <ClCompile Include="Registration_counter.cpp" />
     <ClCompile Include="Registration_playercontrols.cpp" />
+    <ClCompile Include="Registration_scenary.cpp" />
     <ClCompile Include="ResumeButton.cpp" />
     <ClCompile Include="PromptToMainButton.cpp" />
     <ClCompile Include="SubLevelFade.cpp" />
@@ -122,6 +123,7 @@
     <ClInclude Include="LoadingFunction.h" />
     <ClInclude Include="LoadingVideoState.h" />
     <ClInclude Include="PlayerControls.h" />
+    <ClInclude Include="ScenaryTemplate.h" />
     <ClInclude Include="TextDisplay.h" />
     <ClInclude Include="PromptToMainButton.h" />
     <ClInclude Include="TimeAdder.h" />
@@ -224,7 +226,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>SHIPPING;SKIPPING_REAL;_SCL_SECURE_NO_WARNINGS;PLACE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;PLACE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)..\sfTheora-1.4\include\;$(SolutionDir)..\SFML\include\;$(SolutionDir)..\boost-svn\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PrecompiledHeader.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)..\..\Obj\$(Configuration)\PCH.pch</PrecompiledHeaderOutputFile>

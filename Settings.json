@@ -122,12 +122,12 @@
 			"yes": {
 				"filename":"prompt_return_yes.png",
 				"xoffset":0.18,
-				"yoffset":0.600
+				"yoffset":0.700
 			},
 			"no": {
 				"filename":"prompt_return_no.png",
 				"xoffset":0.18,
-				"yoffset":0.700
+				"yoffset":0.800
 			}
 		},
 		"settings": {
@@ -174,9 +174,10 @@
 		"credits": {
 			"bgfilename": "mainmenu2.png",
 			"frame": {
-				"filename":"credits_list.png",
-				"xoffset":0.166,
-				"yoffset":0.0
+				"filename":"credits_list_70.png",
+				"xoffset":0.0350,
+				"yoffset_":0.31,
+				"yoffset": 0.29
 			},
 			
 			"continue": {			

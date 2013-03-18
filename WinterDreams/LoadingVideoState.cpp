@@ -1,3 +1,4 @@
+
 #include "LoadingVideoState.h"
 #include "LoadingFunction.h"
 #include "LevelState.h"
@@ -20,9 +21,10 @@ VideoState(
 	mRunMutex(),
 	mResoruceMutex(),
 	mRunning( true ),
+	mMainThreadRunning( true ),
 	mDone(false),	
 
-	mLoadingSpecs_p ( new LoadingSpecs(levelName, new LevelState(levelName), &mRunMutex, &mResoruceMutex, &mRunning )), 
+	mLoadingSpecs_p ( new LoadingSpecs(levelName, new LevelState(levelName), &mRunMutex, &mResoruceMutex, &mRunning, &mMainThreadRunning )), 
 	mThread ( loadingFunc::loadLevel, *mLoadingSpecs_p) ,
 
 //	mIsLoadingIconTexture( ResourceManager::get().getTexture(FS_DIR_LOADINGSCREEN + "loadingicon.png") ),
@@ -34,13 +36,35 @@ VideoState(
 
 LoadingVideoState::~LoadingVideoState() {
 	//mResoruceMutex.lock();
-	//mRunMutex.lock();
+	mRunMutex.lock();
+	mMainThreadRunning = false;
+	mRunMutex.unlock();
+
 	mThread.wait();	//Not a good solution but it works
+	
 	//mRunMutex.unlock();
 	//mResoruceMutex.unlock();
 }
 
 void LoadingVideoState::update() {
+	static sf::Context* t = new sf::Context();
+	static sf::Context* s = nullptr;
+
+	//sf::Context context;
+
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) && t != nullptr) {
+		auto b = reinterpret_cast<unsigned int*>(t) + 1;
+		//*b = 0;
+		delete t;
+		t = nullptr;
+	}
+
+	
+
+	if(s == nullptr && sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+		s = new sf::Context();
+	}
+
 	if( mInitialized == false )
 		VideoState::update();
 

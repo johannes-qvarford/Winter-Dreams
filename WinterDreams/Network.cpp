@@ -170,5 +170,5 @@ PacketContents getPacket(sf::TcpSocket* tcpSocket, bool& connected){
 		lastFrameMovement = content;
 	}
 
-	return packetContents;	//pukes
+	return packetContents;
 }
