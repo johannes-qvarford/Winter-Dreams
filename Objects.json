@@ -47,8 +47,8 @@
 				"filename": "bridgeOuterTop.png"
 			},
 			"darkwall":{
-				"yorigin": 128,
-				"xorigin": 64,
+				"yorigin": 189,
+				"xorigin": 90,
 				"filename": "darkwall.png"
 			},
 			"light_source":{
@@ -74,6 +74,46 @@
 				"yorigin": 215,
 				"xorigin": 187,
 				"filename": "Wall_section_left.png"
+			},
+			"kallor_0":[
+				"yorigin": 116,
+				"xorigin": 18,
+				"filename": "kallor_0"
+			},
+			"kallor_1":[
+				"yorigin": 116,
+				"xorigin": 18,
+				"filename": "kallor_1"
+			},
+			"lucinde_0":[
+				"yorigin": 116,
+				"xorigin": 18,
+				"filename": "lucinde_0"
+			},
+			"lucinde_1":[
+				"yorigin": 116,
+				"xorigin": 18,
+				"filename": "lucinde_1"
+			},
+			"zeb_0":[
+				"yorigin": 116,
+				"xorigin": 18,
+				"filename": "zeb_0"
+			},
+			"zeb_1":[
+				"yorigin": 116,
+				"xorigin": 18,
+				"filename": "zeb_1"
+			},
+			"zeles_0":[
+				"yorigin": 116,
+				"xorigin": 18,
+				"filename": "zeles_0"
+			},
+			"zeles_1":[
+				"yorigin": 116,
+				"xorigin": 18,
+				"filename": "zeles_1"
 			}
 		}
 	},
