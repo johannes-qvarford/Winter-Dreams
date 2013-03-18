@@ -82,10 +82,6 @@ void OccludedEntity::drawSelf(){
 	states.blendMode = sf::BlendAlpha;
 	states.shader = mShader.get();
 	renTex->draw(spr, states);
-
-	auto vertex = sf::Vertex(pos, sf::Color(255, 0, 0));
-	renTex->draw(&vertex, 1, sf::Points);
-
 }
 
 sf::FloatRect& OccludedEntity::getHitBox() {

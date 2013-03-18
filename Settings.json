@@ -122,12 +122,12 @@
 			"yes": {
 				"filename":"prompt_return_yes.png",
 				"xoffset":0.18,
-				"yoffset":0.600
+				"yoffset":0.700
 			},
 			"no": {
 				"filename":"prompt_return_no.png",
 				"xoffset":0.18,
-				"yoffset":0.700
+				"yoffset":0.800
 			}
 		},
 		"settings": {

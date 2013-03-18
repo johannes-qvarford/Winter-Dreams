@@ -29,6 +29,7 @@ public:
 	static PlayerSpecs& get();
 	int mFramesPerStep;
 	int mInvulFrames;
+	int mPickaxeCooldown;
 	float mBlinkFrameDistance;
 	float mMoveSpeed;
 	float mBrightness;
@@ -49,6 +50,7 @@ PlayerSpecs::PlayerSpecs() {
 	mBlinkFrameDistance = player.get<float>( "blinkframedistance" );
 	mMoveSpeed = player.get<float>( "walkspeed" );
 	mBrightness = player.get<float>("brightness");
+	mPickaxeCooldown = player.get<int>("pickaxe_cooldown");
 	
 	AnimationSpecs::parse( player, mAnimSpecList );
 
@@ -313,7 +315,8 @@ void Player::updateActions(SubLevel* subLevel_p) {
 	if( InputManager::get().isADown()  && mActionCooldown <= 0 ){
 		if( mInventory.getCurrentEquip() == "pickaxe" ){
 			addHitBox( subLevel_p, this, 1, mInventory.getCurrentEquip() );
-			mActionCooldown = 40;
+			mDirection = sf::Vector2i(0,0);
+			mActionCooldown = PlayerSpecs::get().mPickaxeCooldown;
 		}
 	}
 }
