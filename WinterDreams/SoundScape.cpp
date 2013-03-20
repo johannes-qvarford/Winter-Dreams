@@ -31,7 +31,7 @@ private:
 	}
 };
 
-SoundScape::SoundScape(sf::Rect<float> collisionBox, float innerRadius, int rangeDecay, float volume, bool loop, std::string soundName, bool startsEnabled, std::string soundType, int fadeInTime, bool threeD, SubLevel* subLevel_p):
+SoundScape::SoundScape(sf::Rect<float> collisionBox, float innerRadius, int rangeDecay, float volume, bool loop, std::string soundName, bool startsEnabled, std::string soundType, int fadeInTime, int fadeOutTime, bool threeD, SubLevel* subLevel_p):
 CollisionZone(startsEnabled, collisionBox, false),
 mBoolEntity(false),
 mInnerRadius(innerRadius),
@@ -40,6 +40,7 @@ mVolume(volume),
 mLoop(loop),
 mSoundType(soundType),
 mFadeInTime(fadeInTime),
+mFadeOutTime(fadeOutTime),
 mSoundName(soundName),
 mEnabledLastFrame(startsEnabled),
 mInitMusic(false),
@@ -49,6 +50,7 @@ mThreeD(threeD),
 mSpot(0),
 //mICanHasNarratorSpot(false),
 mHasNarratorPlayed(true),
+mQuitMusic(false),
 mSound(new sf::Sound())
 {
 ////////////////////////////////////////////////////////////////////////
@@ -139,7 +141,7 @@ float SoundScape::getVolume(SubLevel* subLevel_p){
 		mClock.restart();
 
 		if (mTotalVolume + 0.1 < mVolume * volumeModifier){
-			float vol = float(time.asMicroseconds()) / (mFadeInTime * 1000);
+			float vol = float(time.asMicroseconds()) / ((mFadeInTime + 0.00000001f) * 1000);
 			mTotalVolume +=  vol * (mVolume * volumeModifier);
 			if(mTotalVolume > mVolume * volumeModifier)
 				mTotalVolume = mVolume * volumeModifier;
@@ -148,6 +150,25 @@ float SoundScape::getVolume(SubLevel* subLevel_p){
 
 		if (mTotalVolume >= mVolume * volumeModifier){
 			mInitMusic = true;
+		}
+	}
+
+//////////////////////////////////////////////////////////////////////
+// /Är det nu en låt eller ett ljud slutar så kan det vilja fade:as ut
+//////////////////////////////////////////////////////////////////////
+	if (mSoundType == "music" && mQuitMusic == false && mLoop == true && getEnabled() == false){
+		time = mClock.getElapsedTime();
+		mClock.restart();
+
+		if (mTotalVolume > 0.1){
+			float vol = float(time.asMicroseconds()) / ((mFadeOutTime + 0.00000001f) * 1000);
+			mTotalVolume -=  vol * (mVolume * volumeModifier);
+			if(mTotalVolume < 0)
+				mTotalVolume = 0;
+		}
+
+		if (mTotalVolume <= 0){
+			mQuitMusic = true;
 		}
 	}
 
@@ -251,6 +272,10 @@ void SoundScape::update(SubLevel* subLevel_p){
 			mSound->play();
 		}
 
+		if(mLoop)
+			mQuitMusic = false;
+		else
+			mSound->stop();
 	}
 
 	/*if (mIsWaitingForSpot && subLevel_p->getLevel()->isSpotAvailable(mSpot) == true){
@@ -264,12 +289,16 @@ void SoundScape::update(SubLevel* subLevel_p){
 // /Samma sak fast tvärtom
 //////////////////////////////////////////////////////////////////////
 	else if (enabledThisFrame == false && mEnabledLastFrame == true){
-		mSound->stop();
+		//mSound->stop();
 		
 		//kill text if it's still alive.
 		if(auto text_sp = mText_wp.lock()) {
 			text_sp->setAlive(false);
 		}
+
+		//make it fade out
+
+		mQuitMusic = true;
 	}
 	
 
