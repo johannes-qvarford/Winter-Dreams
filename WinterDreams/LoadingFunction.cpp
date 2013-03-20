@@ -136,10 +136,14 @@ static void loadSubLevel(const std::string& subLevelName, LevelState* levelState
 		//may need to change when switching level.
 		const float X_OFFSET = properties.get<float>("xmapoffset");	
 		const float Y_OFFSET = properties.get<float>("ymapoffset");
+
 		auto mlOffset = sf::Vector2f((cosf(22.5f) * yLength) + X_OFFSET, Y_OFFSET);
 
+		const float bgX = properties.get<float>("xbgoffset", 0);	
+		const float bgY = properties.get<float>("ybgoffset", 0);
+
 		subLevel_sp->setMapTexture(mlTexture_sp, mlOffset);
-		subLevel_sp->setBackgroundTexture(bkTexture_sp, sf::Vector2f(0,0));
+		subLevel_sp->setBackgroundTexture(bkTexture_sp, sf::Vector2f(bgX, bgY));
 //		mLoadedLevel->setBackgroundTexture(bgTexture_sp, sf::Vector2f(0, 0));
 	}
 

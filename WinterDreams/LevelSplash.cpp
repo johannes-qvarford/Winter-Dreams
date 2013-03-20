@@ -44,10 +44,10 @@ void LevelSplash::update(SubLevel* subLevel_p) {
 
 	auto& win = *WindowManager::get().getRenderWindow();
 
-	auto pos = sf::Vector2f( 0,0 );
+	auto pos = sf::Vector2f( 0.5f, 0.3f );
 	mLevelSplash.setScale( static_cast<float>(win.getSize().x) / 1920.f, static_cast<float>(win.getSize().y) / 1080.f ) ; 
 
-//	mLevelSplash.setOrigin( mLevelSplashTexture->getSize().x / 2, mLevelSplashTexture->getSize().y / 2 );
+	mLevelSplash.setOrigin( mLevelSplashTexture->getSize().x / 2, mLevelSplashTexture->getSize().y / 2 );
  	mLevelSplash.setPosition(  pos );
 	
 	if( mLifeTime > 0 ){
