@@ -106,15 +106,15 @@ float SoundScape::getVolume(SubLevel* subLevel_p){
 // /OSV. volumeModifier delas med 100 för att få ett decimaltal som man kan gångra med mVolume senare
 //////////////////////////////////////////////////////////////////////
 	if (mSoundType == "narrator"){
-		volumeModifier = float(PropertyManager::get().getUserSettings()->get<int>("narratorVolume") );
+		volumeModifier = float(PropertyManager::get().getUserSettings()->get<int>("volumes.narratorVolume") );
 		volumeModifier = float(volumeModifier/100 );
 	}
 	else if (mSoundType == "sound"){
-		volumeModifier = float(PropertyManager::get().getUserSettings()->get<int>("soundVolume") );
+		volumeModifier = float(PropertyManager::get().getUserSettings()->get<int>("volumes.soundVolume") );
 		volumeModifier = float(volumeModifier/100 );
 	}
 	else {
-		volumeModifier = float(PropertyManager::get().getUserSettings()->get<int>("musicVolume") );
+		volumeModifier = float(PropertyManager::get().getUserSettings()->get<int>("volumes.musicVolume") );
 		volumeModifier = float(volumeModifier/100 );
 	}
 

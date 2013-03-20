@@ -29,6 +29,11 @@ PropertyManager::PropertyManager():
 	json_parser::read_json(USER_SETTINGS_FILENAME, mUserSettings);
 }
 
+PropertyManager::~PropertyManager(){
+	using namespace boost::property_tree;
+	json_parser::write_json(USER_SETTINGS_FILENAME, mUserSettings);
+}
+
 const boost::property_tree::ptree& PropertyManager::getGeneralSettings() const {
 	return mGeneralSettings;
 }

@@ -1,16 +1,16 @@
-#ifndef INCLUDED_SOUNDVOLUMESLIDER
-#define INCLUDED_SOUNDVOLUMESLIDER
+#ifndef INCLUDED_NarratorVOLUMESLIDER
+#define INCLUDED_NarratorVOLUMESLIDER
 
 #include "ResourceManager.h"
 #include "Button.h"
 #include <string>
 
-class SoundVolumeSlider : public Button {
+class NarratorVolumeSlider : public Button {
 public:
 	////////////////////////////////////////////////////////////
 	// /Create a sound volume slider "button".
 	////////////////////////////////////////////////////////////
-	SoundVolumeSlider();
+	NarratorVolumeSlider();
 
 	////////////////////////////////////////////////////////////
 	// /Does the following:

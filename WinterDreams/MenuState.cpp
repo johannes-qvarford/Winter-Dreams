@@ -6,8 +6,14 @@
 #include "Cursor.h"
 #include "QRDisplay.h"
 #include "ResumeButton.h"
+
+
 #include "ResolutionButton.h"
 #include "SoundVolumeSlider.h"
+#include "MusicVolumeSlider.h"
+#include "NarratorVolumeSlider.h"
+#include "KeyBindButton.h"
+
 #include "PromptToMainButton.h"
 #include "GoToMainMenuButton.h"
 
@@ -127,10 +133,10 @@ public:
 	float mFrameYOffset;
 private:
 	SettingsMenuStateSpecs() {
-		auto& sms = PropertyManager::get().getGeneralSettings().get_child("ui.settingsmenu");
-		mFrameFilename = sms.get<std::string>("frame.filename");
-		mFrameXOffset = sms.get<float>("frame.xoffset");
-		mFrameXOffset = sms.get<float>("frame.yoffset");
+		auto& sms = PropertyManager::get().getGeneralSettings().get_child("ui.settings.general");
+		mFrameFilename = sms.get<std::string>("filename");
+		mFrameXOffset = sms.get<float>("xoffset");
+		mFrameYOffset = sms.get<float>("yoffset");
 	}
 };
 
@@ -245,31 +251,40 @@ MenuState* MenuState::makeSettingsMenuState(sf::Texture background) {
 
 	auto widgets = std::vector<std::shared_ptr<Widget >> ();
 
+	auto settingsmenuframe_sp = std::make_shared<Button>( sf::Vector2f(specs.mFrameXOffset, specs.mFrameYOffset), specs.mFrameFilename);
+
+
 	//create buttons
 //	auto resolution_sp = std::make_shared<ResolutionButton>();
 	//auto vsync_sp = std::make_shared<VSyncButton>();
-//	auto sndvol_sp = std::make_shared<SoundVolumeSlider>();
-	/*auto mscvol_sp = std::make_shared<MusicVolumeSlider>();
-	auto vicvol_sp = std::make_shared<VoiceVolumeSlider>();
-	auto subtitle_sp = std::make_shared<SubtitleButton>();
-	auto up_sp = std::make_shared<UpKeyButton>();
-	auto down_sp = std::make_shared<DownKeyButton>();
-	auto left_sp = std::make_shared<LeftKeyButton>();
-	auto right_sp = std::make_shared<RightKeyButton>();
-	auto use_sp = std::make_shared<UseKeyButton>();
-	auto switch_sp = std::make_shared<SwitchKeyButton>();
-	auto resume_sp = std::make_shared<ResumeButton>();*/
+	auto sndvol_sp = std::make_shared<SoundVolumeSlider>();
+	auto mscvol_sp = std::make_shared<MusicVolumeSlider>();
+	auto narvol_sp = std::make_shared<NarratorVolumeSlider>();
+	//auto subtitle_sp = std::make_shared<SubtitleButton>();
+	auto up_sp = std::make_shared<KeyBindButton>();
+	auto resume_sp = std::make_shared<ResumeButton>();
 
 //	widgets.push_back(resolution_sp);
-//	widgets.push_back(sndvol_sp);
+	widgets.push_back(sndvol_sp);
+	widgets.push_back(mscvol_sp);
+	widgets.push_back(narvol_sp);
+	widgets.push_back(up_sp);
+	widgets.push_back(resume_sp);
 
 	auto cursor_sp = std::make_shared<Cursor>(widgets);
 
 	//add a background image
 	auto bg_sp = std::make_shared<sf::Texture>(background);
 
+	
+	state_p->addWidget(settingsmenuframe_sp);
 //	state_p->addWidget(resolution_sp);
-//	state_p->addWidget(sndvol_sp);
+	state_p->addWidget(sndvol_sp);
+	state_p->addWidget(mscvol_sp);
+	state_p->addWidget(narvol_sp);
+	state_p->addWidget(up_sp);
+	state_p->addWidget(cursor_sp);
+	state_p->setBackground(std::make_shared<sf::Texture>(background));
 
 	return state_p;
 }
