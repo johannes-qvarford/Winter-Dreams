@@ -115,7 +115,7 @@ unsigned int WindowManager::getNextLightID(){
 
 	++mNextLightID;
 
-	assert( mNextLightID <= LIGHT_ID_MAX );
+	//assert( mNextLightID <= LIGHT_ID_MAX );
 
 	return value;
 }
