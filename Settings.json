@@ -189,8 +189,8 @@
 	},
 	
 	"itemdisplay": {
-		"xfromleft": "0.0104",
-		"yfromtop": "0.0185",
+		"xfromleft": "0.0328",
+		"yfromtop": "0.0574",
 		"xiconoffset": "0.0651",
 		"yiconoffset": "0.1157",
 		"animations": {
@@ -204,10 +204,10 @@
 				"filename": "frame.png"			
 			},
 			"itembox": {				
-				"spritewidth": "94",
-				"spriteheight": "94",
-				"yorigin": "0",
-				"xorigin": "0",
+				"spritewidth": "117",
+				"spriteheight": "117",
+				"yorigin": "58",
+				"xorigin": "58",
 				"numberofsprites": "1",
 				"framespersprite": "100",
 				"filename": "itembox.png"
@@ -216,8 +216,8 @@
 				"iconindex": "1",
 				"spritewidth": "85",
 				"spriteheight": "85",
-				"yorigin": "0",
-				"xorigin": "0",
+				"yorigin": "42",
+				"xorigin": "42",
 				"numberofsprites": "1",
 				"framespersprite": "100",
 				"filename": "pickaxe.png"
@@ -245,8 +245,8 @@
 			"orb_orange": {				
 				"spritewidth": "85",
 				"spriteheight": "85",
-				"yorigin": "0",
-				"xorigin": "0",
+				"yorigin": "42",
+				"xorigin": "42",
 				"numberofsprites": "1",
 				"framespersprite": "100",
 				"filename": "lvl_1_2_display_crown.png"
@@ -254,8 +254,8 @@
 			"orb_purple": {				
 				"spritewidth": "85",
 				"spriteheight": "85",
-				"yorigin": "0",
-				"xorigin": "0",
+				"yorigin": "42",
+				"xorigin": "42",
 				"numberofsprites": "1",
 				"framespersprite": "100",
 				"filename": "lvl_1_2_display_napkin.png"
@@ -263,8 +263,8 @@
 			"orb_red": {				
 				"spritewidth": "85",
 				"spriteheight": "85",
-				"yorigin": "0",
-				"xorigin": "0",
+				"yorigin": "42",
+				"xorigin": "42",
 				"numberofsprites": "1",
 				"framespersprite": "100",
 				"filename": "lvl_1_2_display_bone.png"
@@ -272,8 +272,8 @@
 			"orb_blue": {				
 				"spritewidth": "85",
 				"spriteheight": "85",
-				"yorigin": "0",
-				"xorigin": "0",
+				"yorigin": "42",
+				"xorigin": "42",
 				"numberofsprites": "1",
 				"framespersprite": "100",
 				"filename": "lvl_1_2_display_flute.png"
