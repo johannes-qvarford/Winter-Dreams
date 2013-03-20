@@ -122,28 +122,28 @@
 				"filename": "level2_overlaps.png"
 			},
 			"tower_1":{
-				"yorigin": 368,
-				"xorigin": 1016,
+				"yorigin": 1016,
+				"xorigin": 368,
 				"filename": "tower1_over.png"
 			},
 			"tower_2":{
-				"yorigin": 368,
-				"xorigin": 1016,
+				"yorigin": 1016,
+				"xorigin": 368,
 				"filename": "tower2_over.png"
 			},
 			"tower_3":{
-				"yorigin": 368,
-				"xorigin": 1016,
+				"yorigin": 1016,
+				"xorigin": 368,
 				"filename": "tower3&5_over.png"
 			},
 			"tower_4":{
-				"yorigin": 368,
-				"xorigin": 1016,
+				"yorigin": 1016,
+				"xorigin": 368,
 				"filename": "tower4_over.png"
 			},
 			"tower_6":{
-				"yorigin": 368,
-				"xorigin": 1016,
+				"yorigin": 1016,
+				"xorigin": 368,
 				"filename": "tower6_over.png"
 			}
 		}
@@ -567,8 +567,8 @@
 				"1001.ogg": "[t0]You finally open your eyes, but you are not with me. [t5250]You are somewhere else.",
 				"1002.ogg": "[t0]Isn't that a good girl, [t2500]now try and see if you can get those frozen limbs moving [t7200]and we can see about getting you back to me. ",
 				"1003.ogg": "[t0]Your steps crack against the icy floor, [t3800]the coldness is numbing, but you don't care. [t8200]You are home, are you not?",
-				"1004.ogg": "[t0]Doesn't it smell of childhood, nostalgia, of dreamsâ€¦ [t6000]or maybe nightmares? [t8000]Pray tell me, young one, what lurks in your mind of what was?",
-				"1005.ogg": "[t0]We are exploring the restraints, [t2700]the shackles holding you down inside yourself. [t7000]Our quest takes us deeperâ€¦",
+				"1004.ogg": "[t0]Doesn't it smell of childhood, nostalgia, of dreams... [t6000]or maybe nightmares? [t8000]Pray tell me, young one, what lurks in your mind of what was?",
+				"1005.ogg": "[t0]We are exploring the restraints, [t2700]the shackles holding you down inside yourself. [t7000]Our quest takes us deeper.",
 				"1006.ogg": "[t0]You see the slithering forms of your so-called friends. [t4000]Most of them has done their duty by now. [t6700]They saw the night and in time, so shall you. [t11500]But not now. First, the light.",
 				
 				"1007.ogg": "[t0]You feel the shadowy form glide through you, [t3500]consuming what little hope you might have had.",
@@ -585,46 +585,63 @@
 				"1016.ogg": "[t0]The warmth stands in stark contrast to the cold. [t4300]It's almost scary, but you need it. [t8200]You need it to bloom.",
 				"1017.ogg": "[t0]The light is life. [t2600]With it your fears are gone.",
 				
-				"1018.ogg": "[t0]This is your family. Your mother Lucinde, father Kallor and the brother of yours, Zeb. They want you to stay here, locked in your own past. Their faces are blank, the only emotion you can see is resentment radiating from them. They won't let you pass.",
-				"1019.ogg": "[t0]Their dark silhouettes doesn't flinch. If anything, they only smile knowingly. Only you can make them move.",
-				"1020.ogg": "[t0]Your fledgling essence chase your family away. They never liked you, so that shouldn't be a surprise.",
+				"1018.ogg": "[t0]This is your family. Your mother Lucinde, father Kallor [t7000]and the brother of yours, Zeb. They want you to stay here, [t12000]locked in your own past. Their faces are blank, [t17000]the only emotion you can see is resentment radiating from them. [t23000]They won't let you pass.",
+				"1019.ogg": "[t0]Their dark silhouettes doesn't flinch. If anything, they only smile knowingly. [t7500]Only you can make them move.",
+				"1020.ogg": "[t0]Your fledgling essence chase your family away. They never liked you, [t6000]so that shouldn't be a surprise.",
 				
-				"1021.ogg": "[t0]What is that? The little pickaxe look just about the same pitiful size as yourself.",
-				"1022.ogg": "[t0]The handy little tool seems to whisper to you, 'I want to pick things apart.' ",
-				"1023.ogg": "[t0]The pickaxe feels as if an extension of yourself. With it you can battle your own troubled little mind.",
+				"1021.ogg": "[t0]What is that? [t2300]The little pickaxe look just about the same pitiful size as yourself.",
+				"1022.ogg": "[t0]The handy little tool seems to whisper to you, [t4200]'I want to pick things apart.' ",
+				"1023.ogg": "[t0]The pickaxe feels as if an extension of yourself. [t4500]With it you can battle your own troubled little mind.",
 				
-				"1024.ogg": "[t0]The shadows flee deeper within yourself. *sighs* You're not making this easy. Oh well, go catch them.",
-				"1025.ogg": "[t0]You are not complete and until you tell yourself the answer, you cannot go here. You'll have to endure the darkness of your dreams before you can progress.",
+				"1024.ogg": "[t0]The shadows flee deeper within yourself. [t4700]You're not making this easy. Oh well, go catch them.",
+				"1025.ogg": "[t0]You are not complete and until you tell yourself the answer, [t4600]you cannot go here. You'll have to endure the darkness of your dreams [t10300]before you can progress.",
 				"1026.ogg": "[t0]Time to meet the family.",
-				"1027.ogg": "[t0]And we go even deeper, finally I'll get to know you.",
+				"1027.ogg": "[t0]And we go even deeper, finally [t4000]I'll get to know you.",
 				
 				
-				"1028.ogg": "[t0]You're greeted by the smell of fresh linens and that special stew your mother made at most once a year.",
-				"1029.ogg": "[t0]You see your mother's most treasured little lie. You know what she said, 'It's a bone from the Midnight Dragon'. But it's not.",
+				"1028.ogg": "[t0]You're greeted by the smell of fresh linens [t4000]and that special stew your mother made at most once a year.",
+				"1029.ogg": "[t0]You see your mother's most treasured little lie. [t4000]You know what she said, 'It's a bone from the Midnight Dragon'. [t10000]But it's not.",
 				"1030.ogg": "[t0]It's gnarled and old, but you pick it up anyways.",
 				
-				"1031.ogg": "[t0]Your mother eyes you with contempt, her gaze seems devoid of anything resembling love for you. That's a familiar feeling.",
-				"1032.ogg": "[t0]The barest hint of a smile splits the dark face of your mother. Bridges blink into existence and it seems that she waves you across.",
+				"1031.ogg": "[t0]Your mother eyes you with contempt, [t3000]her gaze seems devoid of anything resembling love for you. [t8600]That's a familiar feeling.",
+				"1032.ogg": "[t0]The barest hint of a smile splits the dark face of your mother. [t6500]Bridges blink into existence and it seems that she waves you across.",
 				
-				"1033.ogg": "[t0]The discarded crown of your father, a symbol of something great yet forgotten. It's curious that he isn't wearing it. ",
+				"1033.ogg": "[t0]The discarded crown of your father, a symbol of something great yet forgotten. [t6700]It's curious that he isn't wearing it. ",
 				"1034.ogg": "[t0]Your father watches you passively.",
-				"1035.ogg": "[t0]Your father's crown glimmers as you take it closer. It was a gift without meaning, for a King without a kingdom.",
+				"1035.ogg": "[t0]Your father's crown glimmers as you take it closer. [t4500]It was a gift without meaning, [t7000]for a King without a kingdom.",
 				
 				"1036.ogg": "[t0]Your brother played his flute, but of late he has been silent.",
 				"1037.ogg": "[t0]Your big brother, the one to live, stands motionless.",
 				
-				"1038.ogg": "[t0]That's for your tears. It's curious that the napkin is dry.",
+				"1038.ogg": "[t0]That's for your tears. [t2300]It's curious that the napkin is dry.",
 				"1039.ogg": "[t0]That's your frame, containing everything that keeps you here.",
-				"1040.ogg": "[t0]You blink and tremble as your eyes seems to sting. You can now see.",
+				"1040.ogg": "[t0]You blink and tremble as your eyes seems to sting. [t4800]You can now see.",
 				
-				"1041.ogg": "[t0]The cave tells me you should leave. The memories of your family is still within you, but they hold you back.",
+				"1041.ogg": "[t0]The cave tells me you should leave. The memories of your family is still within you, [t6800]but they hold you back.",
 				"1042.ogg": "[t0]Leave it behind and come to me.",
 				"1043.ogg": "[t0]You never have to come back.",
 				
 				"1044.ogg": "[t0]It's time to go. Time to wake up.",
 				"1045.ogg": "[t0]Foolish girl, turn around.",
-				"1046.ogg": "[t0]I feel your uncertainty, you'd rather perish here. You can't, wander on.",
+				"1046.ogg": "[t0]I feel your uncertainty, you'd rather perish here. [t5500]You can't, wander on.",
 				"1047.ogg": "[t0]Come to me."
+				
+				"2001.ogg": "[t0]Look upon what was. See what your people brought. [t4800]See what your ancestors left you."
+				"2002.ogg": "[t0]This is their… arrogance wrought in pale flames."
+				"2003.ogg": "[t0]You walk in memories. What little innocence you might have had [t4900]is a luxury… and a lie. [t8500]While they claim it is tragedy, it’s still necessary. I know you understand, [t16000]deep down, you know it has to be."
+				
+				"2004.ogg": "[t0]Only one way to go and it’s closed."
+				"2005.ogg": "[t0]Sweet little Princess, witness the ruin."
+				"2006.ogg": "[t0]You see a statue. Its broken shape echoes history. [t5500]You have been told what happened these centuries ago. A dragon clad in midnight [t11700]terrorizing and ravaging your beautiful world. It stormed through your shining cities, [t18500]leaving ashes in its wake. The Midnight Dragon was your end. [t25700]It’s still your end."
+				
+				"2007.ogg": "[t0]No lever to pull this time."
+				"2008.ogg": "[t0]The crystals contain memories, locked in time. You must sing their song, make them echo your light to lure out their secrets."
+				
+				"2009.ogg": "[t0]The crystal hums to life."
+				"2010.ogg": "[t0]Once more your light dims and that of the crystal blinks alive."
+				"2011.ogg": "[t0]The crystals are on the verge of telling, you’ll need all of them alight at the same time."
+				"2012.ogg": "[t0]You may wander deeper into our memory."
+				"2013.ogg": "[t0]The pathway leads away, closer to the heart of the memory, to the very core of your downfall."
 			}
 		},
 		"hitbox": {
