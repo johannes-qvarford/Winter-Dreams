@@ -1,4 +1,4 @@
-#include "SoundVolumeSlider.h"
+#include "MusicVolumeSlider.h"
 #include "FileStructure.h"
 #include "StateManager.h"
 #include "LoadingState.h"
@@ -8,10 +8,10 @@
 #include "WindowManager.h"
 #include <SFML/Graphics/Sprite.hpp>
 
-class SoundVolumeSliderSpecs {
+class MusicVolumeSliderSpecs {
 public:
 
-	static SoundVolumeSliderSpecs& get(){ static SoundVolumeSliderSpecs sSpecs; return sSpecs; }
+	static MusicVolumeSliderSpecs& get(){ static MusicVolumeSliderSpecs sSpecs; return sSpecs; }
 
 	float mXOffset;
 
@@ -25,40 +25,40 @@ public:
 
 private:
 
-	SoundVolumeSliderSpecs() {
-		auto& sndvol = PropertyManager::get().getGeneralSettings().get_child("ui.settings.soundvolume");
+	MusicVolumeSliderSpecs() {
+		auto& mscvol = PropertyManager::get().getGeneralSettings().get_child("ui.settings.musicvolume");
 		auto& general = PropertyManager::get().getGeneralSettings().get_child("ui.settings.general.slider");
-			mXOffset = sndvol.get<float>("xoffset");
-		mYOffset = sndvol.get<float>("yoffset");
-		mSliderX = sndvol.get<float>("sliderx");
-		mSliderY = sndvol.get<float>("slidery");
+		mXOffset = mscvol.get<float>("xoffset");
+		mYOffset = mscvol.get<float>("yoffset");
+		mSliderX = mscvol.get<float>("sliderx");
+		mSliderY = mscvol.get<float>("slidery");
 		mStepSize = general.get<float>("stepsize");
 
-		mFilename = sndvol.get<std::string>("filename");
+		mFilename = mscvol.get<std::string>("filename");
 		mSliderFilename = general.get<std::string>("filename");
 	}
 };
 
-SoundVolumeSlider::SoundVolumeSlider():
-	Button(sf::Vector2f(SoundVolumeSliderSpecs::get().mXOffset, SoundVolumeSliderSpecs::get().mYOffset), SoundVolumeSliderSpecs::get().mSliderFilename),
+MusicVolumeSlider::MusicVolumeSlider():
+	Button(sf::Vector2f(MusicVolumeSliderSpecs::get().mXOffset, MusicVolumeSliderSpecs::get().mYOffset), MusicVolumeSliderSpecs::get().mSliderFilename),
 	mUpdated(false)
 {
-	mTexture = ResourceManager::get().getTexture(FS_DIR_UI + SoundVolumeSliderSpecs::get().mSliderFilename);
-	mVolume = PropertyManager::get().getUserSettings()->get_child("volumes").get<short>("soundVolume");
+	mTexture = ResourceManager::get().getTexture(FS_DIR_UI + MusicVolumeSliderSpecs::get().mSliderFilename);
+	mVolume = PropertyManager::get().getUserSettings()->get_child("volumes").get<short>("musicVolume");
 	mFrameCount=0;
 }
 
-void SoundVolumeSlider::update(){
+void MusicVolumeSlider::update(){
 }
 
-void SoundVolumeSlider::draw(sf::RenderTarget& target, sf::RenderStates states) const{
+void MusicVolumeSlider::draw(sf::RenderTarget& target, sf::RenderStates states) const{
 	Button::draw(target,states);
 	sf::Sprite sprite(*mTexture);
-	sprite.setPosition(SoundVolumeSliderSpecs::get().mSliderX*target.getSize().x+(mVolume*SoundVolumeSliderSpecs::get().mStepSize),SoundVolumeSliderSpecs::get().mSliderY*target.getSize().y);
+	sprite.setPosition(MusicVolumeSliderSpecs::get().mSliderX*target.getSize().x+(mVolume*MusicVolumeSliderSpecs::get().mStepSize),MusicVolumeSliderSpecs::get().mSliderY*target.getSize().y);
 	WindowManager::get().getRenderWindow()->draw(sprite);
 }
 
-void SoundVolumeSlider::activate() {
+void MusicVolumeSlider::activate() {
 	
 	auto& im = InputManager::get();
 	if (im.getStick().x<-0.70){
@@ -89,5 +89,5 @@ void SoundVolumeSlider::activate() {
 		onHover(false);
 	}
 	auto& usr = PropertyManager::get().getUserSettings()->get_child("volumes");
-	usr.put<short>("soundVolume",mVolume);
+	usr.put<short>("musicVolume",mVolume);
 }

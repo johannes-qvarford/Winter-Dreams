@@ -3,6 +3,8 @@
 #include "InputManager.h"
 #include "StateManager.h"
 #include "ResourceManager.h"
+#include "MenuState.h"
+#include "WindowManager.h"
 
 #include <SFML/Audio/Music.hpp>
 
@@ -49,14 +51,14 @@ void SettingsButton::activate() {
 
 		mActivationSound.play();
 
-		auto first_level_name = PropertyManager::get().getGeneralSettings().get<std::string>("first_level_name");
+		auto texture = ResourceManager::get().getTexture(FS_DIR_UI + "mainmenu2.png");
 
-//		auto loadingState_p = new LoadingState(first_level_name);
+		auto menustate = MenuState::makeSettingsMenuState(*texture);
+
 		auto& stateMgr = StateManager::get();
 
-//		stateMgr.freezeState();
-//		stateMgr.popState();
-//		stateMgr.pushState(loadingState_p);
-//		stateMgr.unfreezeState();
+		stateMgr.freezeState();
+		stateMgr.pushState(menustate);
+		stateMgr.unfreezeState();
 	}
 }

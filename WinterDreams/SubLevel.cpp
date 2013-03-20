@@ -176,11 +176,11 @@ void SubLevel::render() {
 	auto viewRect = sf::FloatRect(center.x - size.x*0.6f, center.y - size.y*0.6f, size.x*1.2f, size.y*1.2f) ;
 
 	for(auto it = mGraphicalEntities.begin(), end = mGraphicalEntities.end(); it != end; ++it) {
-		auto transformedRect = GAME_TO_SCREEN.transformRect( (*it)->getHitBox() );
-		if( viewRect.intersects( transformedRect ) ){	
+//		auto transformedRect = GAME_TO_SCREEN.transformRect( (*it)->getHitBox() );
+//		if( viewRect.intersects( transformedRect ) ){	
 			auto graphical_sp = *it;
 			graphical_sp->drawSelf();
-		}
+		
 	}
 
 	//display

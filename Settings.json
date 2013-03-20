@@ -143,31 +143,41 @@
 				"filename":"placeholder.png"
 			},
 			"general": {
-				"slidericon": {
+				"xoffset":0.1,
+				"yoffset":0.0370370,
+				"filename":"options_tr.png",
+				"slider": {
 					"xoffset":0,
 					"yoffset":0,
-					"filename": "placeholder_sliderleft.png"
-				},
-				"sliderline": {
-					"xoffset":0,
-					"yoffset":0,
-					"filename": "placeholder_sliderright.png"
+					"stepsize":2.26,
+					"filename": "slider_tick.png"
 				}
 			},
 			"soundvolume": {
-				"filename": "placeholder_soundvolume.png",
-				"xoffset":0,
-				"yoffset":0
+				"filename": "slider_tick.png",
+				"xoffset":0.1761417,
+				"yoffset":0.3861111,
+				"sliderx":0.3357537,
+				"slidery":0.3627626
 			},
 			"musicvolume": {
-				"filename": "placeholder_musicvolume.png",
-				"xoffset":0,
-				"yoffset":0
+				"filename": "slider_tick.png",
+				"xoffset":0.1760417,
+				"yoffset":0.4148148,
+				"sliderx":0.3357537,
+				"slidery":0.3916667
 			},
-			"voicevolume": {
-				"filename": "placeholder_voicevolume.png",
-				"xoffset":0,
-				"yoffset":0
+			"narratorvolume": {
+				"filename": "placeholder_narratorvolume.png",
+				"xoffset":0.1760417,
+				"yoffset":0.4287037,
+				"sliderx":0.3357537,
+				"slidery":0.4287037
+			},
+			"keybind": { 
+				"xoffset":0.3357537,
+				"yoffset":0.6,
+				"filename":"mark_of_a_hero.png"
 			}
 		},
 		"credits": {
