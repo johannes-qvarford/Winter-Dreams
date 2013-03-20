@@ -116,7 +116,8 @@ void Crystal::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::FloatR
 	static sf::Sound sound(*mSoundBuffer);
 	static sf::Sound destroyedSound(*mDestroyedSoundBuffer);
 
-	sound.setVolume(10);
+	sound.setVolume(PropertyManager::get().getUserSettings()->get<float>("soundVolume") * 0.3f);
+	destroyedSound.setVolume(PropertyManager::get().getUserSettings()->get<float>("soundVolume") * 0.3f);
 		//First do the standard Solid Zone collisions
 	mSolidZone->onCollision( entityCollidedWith_p, intersection );
 

@@ -30,11 +30,35 @@ VideoState(
 //	mIsLoadingIconTexture( ResourceManager::get().getTexture(FS_DIR_LOADINGSCREEN + "loadingicon.png") ),
 	mDoneLoadingIconTexture( ResourceManager::get().getTexture(FS_DIR_LOADINGSCREEN + "doneloadingicon.png") )
 	{
+	#ifdef _WIN32
+	if(! SetPriorityClass( GetCurrentProcess(), REALTIME_PRIORITY_CLASS ) ){
+		std::cerr<< "Process prio failed";
+		assert( false && "Set thread priority failed, terminating" );
+	}
+
+	if(! SetThreadPriority( GetCurrentThread(), THREAD_PRIORITY_ABOVE_NORMAL ) ){
+		std::cerr<< "Thread prio failed";
+		assert( false && "Set thread priority failed, terminating" );
+	}
+	#endif
+
 //		mIsLoadingIcon.setTexture( *mIsLoadingIconTexture );
 		mDoneLoadingIcon.setTexture( *mDoneLoadingIconTexture );
 	}
 
 LoadingVideoState::~LoadingVideoState() {
+	#ifdef _WIN32
+	if(! SetThreadPriority( GetCurrentThread(), THREAD_PRIORITY_NORMAL ) ){
+		std::cerr<< "Thread prio failed";
+		assert( false && "Set thread priority failed, terminating" );
+	}
+
+	if(! SetPriorityClass( GetCurrentProcess(), NORMAL_PRIORITY_CLASS ) ){
+		std::cerr<< "Process prio failed";
+		assert( false && "Set thread priority failed, terminating" );
+	}
+	#endif
+
 	//mResoruceMutex.lock();
 	mRunMutex.lock();
 	mMainThreadRunning = false;
