@@ -25,6 +25,7 @@
     <ClCompile Include="FootStep.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="InventoryDisplay.cpp" />
+    <ClCompile Include="KeyBindButton.cpp" />
     <ClCompile Include="LevelEnder.cpp" />
     <ClCompile Include="LevelSplash.cpp" />
     <ClCompile Include="LevelState.cpp" />
@@ -36,12 +37,15 @@
     <ClCompile Include="GoToMainMenuButton.cpp" />
     <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="LoadingVideoState.cpp" />
+    <ClCompile Include="MusicVolumeSlider.cpp" />
+    <ClCompile Include="NarratorVolumeSlider.cpp" />
     <ClCompile Include="PlayerControls.cpp" />
     <ClCompile Include="Registration_counter.cpp" />
     <ClCompile Include="Registration_playercontrols.cpp" />
     <ClCompile Include="Registration_scenary.cpp" />
     <ClCompile Include="ResumeButton.cpp" />
     <ClCompile Include="PromptToMainButton.cpp" />
+    <ClCompile Include="SoundVolumeSlider.cpp" />
     <ClCompile Include="SubLevelFade.cpp" />
     <ClCompile Include="Registration_levelend.cpp" />
     <ClCompile Include="Registration_timeadder.cpp" />
@@ -113,6 +117,7 @@
     <ClInclude Include="Crystal.h" />
     <ClInclude Include="GraphicalEntity.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="KeyBindButton.h" />
     <ClInclude Include="LevelEnder.h" />
     <ClInclude Include="LevelSplash.h" />
     <ClInclude Include="LevelState.h" />
@@ -122,8 +127,11 @@
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="LoadingFunction.h" />
     <ClInclude Include="LoadingVideoState.h" />
+    <ClInclude Include="MusicVolumeSlider.h" />
+    <ClInclude Include="NarratorVolumeSlider.h" />
     <ClInclude Include="PlayerControls.h" />
     <ClInclude Include="ScenaryTemplate.h" />
+    <ClInclude Include="SoundVolumeSlider.h" />
     <ClInclude Include="TextDisplay.h" />
     <ClInclude Include="PromptToMainButton.h" />
     <ClInclude Include="TimeAdder.h" />

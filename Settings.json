@@ -26,7 +26,7 @@
 			"into_music": "AmbientWind2.wav",
 			"first_sublevel_name": "lvl_2_1",
 			"sublevels": {
-				"lvl_2_1": "lvl_2_1v04.json"
+				"lvl_2_1": "lvl_2_1v04_na.json"
 			},
 			"next_level": "lvl_1"
 		}

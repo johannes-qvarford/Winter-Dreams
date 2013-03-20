@@ -250,6 +250,18 @@
     <ClCompile Include="Registration_scenary.cpp">
       <Filter>Sources\Registration</Filter>
     </ClCompile>
+    <ClCompile Include="SoundVolumeSlider.cpp">
+      <Filter>Sources\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="MusicVolumeSlider.cpp">
+      <Filter>Sources\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="NarratorVolumeSlider.cpp">
+      <Filter>Sources\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyBindButton.cpp">
+      <Filter>Sources\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameToScreen.h">
@@ -464,6 +476,18 @@
     </ClInclude>
     <ClInclude Include="ScenaryTemplate.h">
       <Filter>Sources\Registration</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundVolumeSlider.h">
+      <Filter>Includes\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="MusicVolumeSlider.h">
+      <Filter>Includes\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="NarratorVolumeSlider.h">
+      <Filter>Includes\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyBindButton.h">
+      <Filter>Includes\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
