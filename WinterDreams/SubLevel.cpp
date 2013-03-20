@@ -176,11 +176,11 @@ void SubLevel::render() {
 	auto viewRect = sf::FloatRect(center.x - size.x*0.6f, center.y - size.y*0.6f, size.x*1.2f, size.y*1.2f) ;
 
 	for(auto it = mGraphicalEntities.begin(), end = mGraphicalEntities.end(); it != end; ++it) {
-		auto transformedRect = GAME_TO_SCREEN.transformRect( (*it)->getHitBox() );
-		if( viewRect.intersects( transformedRect ) ){	
+//		auto transformedRect = GAME_TO_SCREEN.transformRect( (*it)->getHitBox() );
+//		if( viewRect.intersects( transformedRect ) ){	
 			auto graphical_sp = *it;
 			graphical_sp->drawSelf();
-		}
+		
 	}
 
 	//display
@@ -211,15 +211,18 @@ void SubLevel::render() {
 //	renderWindow.display();
 
 
-	for( int i = 0; i < 10; ++i) {
-		char brightness[] = "brightness[0]";
-		char maxDis[] = "maxDis[0]";
+	for( int i = 0; i < 20; ++i) {
+		//char brightness[] = "brightness[0]";
+		//char maxDis[] = "maxDis[0]";
 
-		brightness[11] += i;
-		maxDis[7] += i;
+		auto md = std::string("maxDis[") + std::to_string(static_cast<long long>(i)) + "]";
+		auto br = std::string("brightness[") + std::to_string(static_cast<long long>(i)) + "]";
+
+		//brightness[11] += i;
+		//maxDis[7] += i;
 		
-		mLightCircleShader->setParameter( brightness, 0 );
-		mLightCircleShader->setParameter( maxDis, 1 );
+		mLightCircleShader->setParameter( br.c_str(), 0 );
+		mLightCircleShader->setParameter( md.c_str(), 1 );
 	}
 }
 
@@ -358,15 +361,10 @@ static void handleCollision(PhysicalEntity* lhs_p, PhysicalEntity* rhs_p) {
 void SubLevel::setLightPoint(const int& lightID, const sf::Vector2f& position, const float& brightness, const float& maxDis){
 	auto pos = GAME_TO_SCREEN * position;
 
-	char posX[] = "lightPosx[0]";
-	char posY[] = "lightPosy[0]";
-	char bright[] = "brightness[0]";
-	char dist[] = "maxDis[0]";
-
-	posX[10] += lightID;
-	posY[10] += lightID;
-	bright[11] += lightID;
-	dist[7] += lightID;
+	auto md = std::string("maxDis[") + std::to_string(static_cast<long long>(lightID)) + "]";
+	auto br = std::string("brightness[") + std::to_string(static_cast<long long>(lightID)) + "]";
+	auto posX = std::string("lightPosx[") + std::to_string(static_cast<long long>(lightID)) + "]";
+	auto posY = std::string("lightPosy[") + std::to_string(static_cast<long long>(lightID)) + "]";
 
 	auto viewPos = getLevel()->getCamera()->getPosition();
 	auto viewSize = WindowManager::get().getRenderWindow()->getView().getSize();
@@ -378,6 +376,6 @@ void SubLevel::setLightPoint(const int& lightID, const sf::Vector2f& position, c
 
 	mLightCircleShader->setParameter( posX, x );
 	mLightCircleShader->setParameter( posY, y );
-	mLightCircleShader->setParameter( bright, brightness );
-	mLightCircleShader->setParameter( dist, maxDis );
+	mLightCircleShader->setParameter( br, brightness );
+	mLightCircleShader->setParameter( md, maxDis );
 }

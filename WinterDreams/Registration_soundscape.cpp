@@ -12,10 +12,11 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	auto loop = properties.get<bool>("loop", false);
 	auto threeD = properties.get<bool>("sound3d", false);
 	auto fadein = properties.get<int>("fadein", 0);
+	auto fadeout = properties.get<int>("fadeout", 0);
 	auto soundtype = properties.get<std::string>("soundtype", "sound");
 
 	auto collisionBox = sf::FloatRect(position.x, position.y, -1, 1);
-	auto soundScape_sp = std::shared_ptr<CollisionZone>(new SoundScape(collisionBox, innerradius, rangedecay, volume, loop, soundfile, !startdisabled, soundtype, fadein, threeD, subLevel_p));
+	auto soundScape_sp = std::shared_ptr<CollisionZone>(new SoundScape(collisionBox, innerradius, rangedecay, volume, loop, soundfile, !startdisabled, soundtype, fadein, fadeout, threeD, subLevel_p));
 	
 	if(name != "")
 		subLevel_p->mapEntityToName(name, soundScape_sp);

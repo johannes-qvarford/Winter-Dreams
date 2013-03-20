@@ -1,13 +1,34 @@
 
 #if !defined(SCENARY_NAME)
-#error not defined SCENARY_OBJNAME
+#error not defined SCENARY_NAME
 #endif
 
+#ifndef STRINGIFY
 #define STRINGIFY(x) #x
+#endif
+
+#ifndef XSTRINGIFY
 #define XSTRINGIFY(x) STRINGIFY(x)
-#define SCENARY_CALLBACK SCENARY_NAME ## Callback
-#define SCENARY_REG SCENARY_NAME ## Reg
+#endif
+
+#ifndef FORWARD_ARG
+#define FORWARD_ARG(x) x
+#endif
+
+#ifdef SCENARY_CALLBACK
+#undef SCENARY_CALLBACK
+#endif
+#ifdef SCENARY_REG
+#undef SCENARY_REG
+#endif
+#ifdef SCENARY_STRING
+#undef SCENARY_STRING
+#endif
+
+#define SCENARY_CALLBACK FORWARD_ARG(SCENARY_NAME) ## Callback
+#define SCENARY_REG FORWARD_ARG(SCENARY_NAME) ## Reg
 #define SCENARY_STRING XSTRINGIFY(SCENARY_NAME)
+
 
 #include "RegistrationCommonHeaders.h"
 #include "PropertyManager.h"
@@ -44,3 +65,5 @@ static void SCENARY_CALLBACK(SubLevel* subLevel_p, const sf::Vector2f& position,
 }
 
 static ObjectTypeRegistration SCENARY_REG(SCENARY_STRING, SCENARY_CALLBACK);
+
+#undef SCENARY_NAME

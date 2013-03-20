@@ -2,8 +2,11 @@
 #include "Player.h"
 #include "PropertyManager.h"
 #include "GameToScreen.h"
+#include <SFML\Audio\Sound.hpp>
 #include "FileStructure.h"
 #include "WindowManager.h"
+#include "ResourceManager.h"
+
 
 class ItemSpecs{
 public:	
@@ -14,6 +17,7 @@ public:
 	static ItemSpecs& get();
 
 	std::list<AnimationSpecs> mAnimSpecs;
+	std::string mPickUpSound;
 
 private:
 	ItemSpecs();						//Singleton-pattern
@@ -21,12 +25,13 @@ private:
 	ItemSpecs& operator=(ItemSpecs& p);	//No copies
 };
 ////////////////////////////////////////////////////////////////////////////////
-ItemSpecs::ItemSpecs() {
+ItemSpecs::ItemSpecs() { 
 	auto& obj = PropertyManager::get().getObjectSettings();
 	auto& item = obj.get_child( "objects.items" );
 	
 	AnimationSpecs::parse( item, mAnimSpecs);
-}
+	mPickUpSound = item.get<std::string>("itemsound");
+} 
 ////////////////////////////////////////////////////////////////////////////////
 ItemSpecs& ItemSpecs::get() { 
 	static ItemSpecs p;
@@ -58,6 +63,7 @@ Item::Item(sf::FloatRect position, std::string itemName, bool startEnabled) :
 
 		mAnimation = new Animation(FS_DIR_OBJECTANIMATIONS +"item/"+ file , w, h, nos, fps, xO, yO);
 	}
+	mSoundBuffer = ResourceManager::get().getSoundBuffer( FS_DIR_SOUNDS + ItemSpecs::get().mPickUpSound );
 }
 
 Item::~Item() {
@@ -80,11 +86,14 @@ sf::FloatRect& Item::getHitBox()  {
 void Item::update(SubLevel* subLevel_p) { /* Do nothing */ } 
 
 void Item::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::Rect<float>& intersection) {
+	static sf::Sound sound( *mSoundBuffer );
+
 	if( dynamic_cast<Player*>( entityCollidedWith_p ) ){
 			//If the item collided with an entity of player type, add the item to the players inventory
 		auto player = dynamic_cast<Player*>( entityCollidedWith_p );
 		player->changeInventory()->giveItem(mItemName, 1);
 			//Set the item to dead, so the item is removed.
 		setAlive( false );
+		sound.play();
 	}
 }

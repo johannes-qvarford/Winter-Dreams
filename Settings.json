@@ -14,8 +14,8 @@
 			"into_music": "",
 			"first_sublevel_name": "lvl_1_1",
 			"sublevels": {
-				"lvl_1_1": "lvl_1_1v15_t.json", 
-				"lvl_1_2": "lvl_1_2v09.json"
+				"lvl_1_1": "lvl_1_1v16.json", 
+				"lvl_1_2": "lvl_1_2v10.json"
 			},
 			"next_level": "lvl_2"
 		},
@@ -24,12 +24,11 @@
 		{
 			"intro_video": "loading_2_video.ogv",
 			"into_music": "AmbientWind2.wav",
-			"first_sublevel_name": "lvl_1_1",
+			"first_sublevel_name": "lvl_2_1",
 			"sublevels": {
-				"lvl_1_1": "lvl_1_1v15.json", 
-				"lvl_1_2": "lvl_1_2v09.json"
+				"lvl_2_1": "lvl_2_1v03.json"
 			},
-			"next_level": "lvl_2"
+			"next_level": "lvl_1"
 		}
 		
 	},
@@ -199,16 +198,25 @@
 	},
 	
 	"itemdisplay": {
-		"xfromleft": "0.0285",
-		"yfromtop": "0.0435",
-		"xiconoffset": "0.054",
-		"yiconoffset": "0.098",
+		"xfromleft": "0.0328",
+		"yfromtop": "0.0574",
+		"xiconoffset": "0.0651",
+		"yiconoffset": "0.1157",
 		"animations": {
+			"frame": {
+				"spritewidth": "628",
+				"spriteheight": "628",
+				"yorigin": "0",
+				"xorigin": "0",
+				"numberofsprites": "1",
+				"framespersprite": "100",
+				"filename": "frame.png"			
+			},
 			"itembox": {				
-				"spritewidth": "94",
-				"spriteheight": "94",
-				"yorigin": "47",
-				"xorigin": "47",
+				"spritewidth": "117",
+				"spriteheight": "117",
+				"yorigin": "58",
+				"xorigin": "58",
 				"numberofsprites": "1",
 				"framespersprite": "100",
 				"filename": "itembox.png"
@@ -246,38 +254,38 @@
 			"orb_orange": {				
 				"spritewidth": "85",
 				"spriteheight": "85",
-				"yorigin": "45",
-				"xorigin": "45",
+				"yorigin": "42",
+				"xorigin": "42",
 				"numberofsprites": "1",
 				"framespersprite": "100",
-				"filename": "orb_orange.png"
+				"filename": "lvl_1_2_display_crown.png"
 			},
 			"orb_purple": {				
 				"spritewidth": "85",
 				"spriteheight": "85",
-				"yorigin": "45",
-				"xorigin": "45",
+				"yorigin": "42",
+				"xorigin": "42",
 				"numberofsprites": "1",
 				"framespersprite": "100",
-				"filename": "orb_purple.png"
+				"filename": "lvl_1_2_display_napkin.png"
 			},
 			"orb_red": {				
 				"spritewidth": "85",
 				"spriteheight": "85",
-				"yorigin": "45",
-				"xorigin": "45",
+				"yorigin": "42",
+				"xorigin": "42",
 				"numberofsprites": "1",
 				"framespersprite": "100",
-				"filename": "orb_red.png"
+				"filename": "lvl_1_2_display_bone.png"
 			},
 			"orb_blue": {				
 				"spritewidth": "85",
 				"spriteheight": "85",
-				"yorigin": "45",
-				"xorigin": "45",
+				"yorigin": "42",
+				"xorigin": "42",
 				"numberofsprites": "1",
 				"framespersprite": "100",
-				"filename": "orb_blue.png"
+				"filename": "lvl_1_2_display_flute.png"
 			}
 		}	
 	}		

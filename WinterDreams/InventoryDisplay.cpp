@@ -96,7 +96,7 @@ InventoryDisplay::InventoryDisplay(std::weak_ptr<Player> player) :
 	}
 
 	mBoxAnimation_p = &mAnimationMap.find("itembox")->second;
-
+	mFrameAnimation_p = &mAnimationMap.find("frame")->second;
 }
 
 InventoryDisplay::~InventoryDisplay()
@@ -254,4 +254,8 @@ void InventoryDisplay::updateUI() {
 			/////////////////////////////////////////////////////////
 		mItemSpriteList.push_back( mBoxAnimation_p->getCurrentSprite() );
 	}
+/////////////////////////////////////////////////////////
+//Add the inventory fame's sprite to the list
+////////////////////////////////////////////////////////
+	mItemSpriteList.push_back( mFrameAnimation_p->getCurrentSprite() );
 }

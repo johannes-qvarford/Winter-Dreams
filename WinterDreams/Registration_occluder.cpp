@@ -18,11 +18,6 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	
 	auto fadetime = properties.get<int>("fadetime", 500);
 	auto name = pt.get<std::string>("name","");
-	auto width = pt.get<int>("width");
-	auto height = -pt.get<int>("height");
-
-	auto adjustedWidth = width / 32.f * X_STEP;
-	auto adjustedHeight = -height / 32.f * Y_STEP;
 
 	//based on sprite, get properties used to create animation
 	auto& animations = PropertyManager::get().getObjectSettings().get_child("occluder.animations");
@@ -35,6 +30,8 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	int spriteheight = spriteTree.get<int>("spriteheight", -1);
 	int numberofsprites = spriteTree.get<int>("numberofsprites", 1);
 	int framespersprite = spriteTree.get<int>("framespersprite", 100);
+	int width = spriteTree.get<int>("width", 32);
+	int height = spriteTree.get<int>("height", 32);
 
 	//create a temporary texture to get its dimensions.
 	auto temp_sp = ResourceManager::get().getTexture(FS_DIR_OBJECTANIMATIONS + "occluder/" + filename);
@@ -42,10 +39,13 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	auto sWidth = spritewidth != -1 ? spritewidth : temp_sp->getSize().x;
 	auto sHeight = spriteheight != -1 ? spriteheight : temp_sp->getSize().y; 
 
+	auto hWidth = width / 32.f * X_STEP;
+	auto hHeight = -height / 32.f * Y_STEP;
+
 	Animation anim(FS_DIR_OBJECTANIMATIONS + "occluder/" + filename, sWidth, sHeight, numberofsprites, framespersprite, xorigin, yorigin); 
 
 	auto occluded_sp = std::shared_ptr<OccludedEntity>(new OccludedEntity(
-		sf::FloatRect(position, sf::Vector2f(X_STEP, -Y_STEP)), anim, enabledopacity / 100, disabledopacity / 100, fadetime, layer, !startdisabled));
+		sf::FloatRect(position, sf::Vector2f(hWidth, hHeight)), anim, enabledopacity / 100, disabledopacity / 100, fadetime, layer, !startdisabled));
 	
 	//does it have a name? What's it called? Oh, %n? That's cute.
 	if(name != "")

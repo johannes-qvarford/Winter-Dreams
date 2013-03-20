@@ -3,6 +3,7 @@
 
 #include "GraphicalEntity.h"
 #include "Animation.h"
+#include <SFML/Audio/SoundBuffer.hpp>
 #include <SFML/Graphics/Rect.hpp>
 #include <string>
 
@@ -47,6 +48,7 @@ private:
 	sf::FloatRect	mHitBox;
 	std::string		mItemName;
 	Animation*		mAnimation;
+	std::shared_ptr<sf::SoundBuffer> mSoundBuffer;
 };
 
 #endif

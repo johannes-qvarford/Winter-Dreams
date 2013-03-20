@@ -47,8 +47,9 @@
 				"filename": "bridgeOuterTop.png"
 			},
 			"darkwall":{
-				"yorigin": 128,
-				"xorigin": 64,
+				"yorigin": 189,
+				"xorigin": 90,
+
 				"filename": "darkwall.png"
 			},
 			"light_source":{
@@ -74,6 +75,76 @@
 				"yorigin": 215,
 				"xorigin": 187,
 				"filename": "Wall_section_left.png"
+			},
+			"kallor_0":{
+				"yorigin": 116,
+				"xorigin": 18,
+				"filename": "kallor_0.png"
+			},
+			"kallor_1":{
+				"yorigin": 116,
+				"xorigin": 18,
+				"filename": "kallor_1.png"
+			},
+			"lucinde_0":{
+				"yorigin": 116,
+				"xorigin": 18,
+				"filename": "lucinde_0.png"
+			},
+			"lucinde_1":{
+				"yorigin": 116,
+				"xorigin": 18,
+				"filename": "lucinde_1.png"
+			},
+			"zeb_0":{
+				"yorigin": 116,
+				"xorigin": 18,
+				"filename": "zeb_0.png"
+			},
+			"zeb_1":{
+				"yorigin": 116,
+				"xorigin": 18,
+				"filename": "zeb_1.png"
+			},
+			"zeles_0":{
+				"yorigin": 116,
+				"xorigin": 18,
+				"filename": "zeles_0.png"
+			},
+			"zeles_1":{
+				"yorigin": 116,
+				"xorigin": 18,
+				"filename": "zeles_1.png"
+			},
+			"lvl_2_1_overlay":{
+				"yorigin": 4560,
+				"xorigin": 4512,
+				"filename": "level2_overlaps.png"
+			},
+			"tower_1":{
+				"yorigin": 368,
+				"xorigin": 1016,
+				"filename": "tower1_over.png"
+			},
+			"tower_2":{
+				"yorigin": 368,
+				"xorigin": 1016,
+				"filename": "tower2_over.png"
+			},
+			"tower_3":{
+				"yorigin": 368,
+				"xorigin": 1016,
+				"filename": "tower3&5_over.png"
+			},
+			"tower_4":{
+				"yorigin": 368,
+				"xorigin": 1016,
+				"filename": "tower4_over.png"
+			},
+			"tower_6":{
+				"yorigin": 368,
+				"xorigin": 1016,
+				"filename": "tower6_over.png"
 			}
 		}
 	},
@@ -419,6 +490,8 @@
 		},
 		
 		"items": {
+			"itemsound": "ItemFound.ogg",
+			
 			"animations": {
 				"pickaxe": {
 					"iconindex": "1",
@@ -451,40 +524,40 @@
 					"filename": "shoes.png"
 				},
 				"orb_red": {				
-					"spritewidth": "32",
-					"spriteheight": "32",
-					"yorigin": "32",
+					"spritewidth": "48",
+					"spriteheight": "35",
+					"yorigin": "35",
 					"xorigin": "0",
 					"numberofsprites": "1",
 					"framespersprite": "100",
-					"filename": "orb_red.png"
+					"filename": "lvl_1_2_bone.png"
 				},
 				"orb_purple": {				
-					"spritewidth": "32",
-					"spriteheight": "32",
-					"yorigin": "32",
+					"spritewidth": "48",
+					"spriteheight": "14",
+					"yorigin": "14",
 					"xorigin": "0",
 					"numberofsprites": "1",
 					"framespersprite": "100",
-					"filename": "orb_purple.png"
+					"filename": "lvl_1_2_napkin.png"
 				},
 				"orb_orange": {				
-					"spritewidth": "32",
-					"spriteheight": "32",
-					"yorigin": "32",
+					"spritewidth": "48",
+					"spriteheight": "48",
+					"yorigin": "48",
 					"xorigin": "0",
 					"numberofsprites": "1",
 					"framespersprite": "100",
-					"filename": "orb_orange.png"
+					"filename": "lvl_1_2_crown.png"
 				},
 				"orb_blue": {				
-					"spritewidth": "32",
-					"spriteheight": "32",
-					"yorigin": "32",
+					"spritewidth": "48",
+					"spriteheight": "34",
+					"yorigin": "34",
 					"xorigin": "0",
 					"numberofsprites": "1",
 					"framespersprite": "100",
-					"filename": "orb_blue.png"
+					"filename": "lvl_1_2_flute.png"
 				}
 			}
 		},
@@ -591,13 +664,207 @@
 					
 					"comment": "yorigin = height(200) - 40 - 16 = 144 in this case, xorigin = 68",
 					
-					"_yorigin": "151",
-					"_xorigin": "89",
 					"yorigin": "144",
 					"xorigin": "68",
 					"numberofsprites": "1",
-					"framespersprite": "1",			
+					"framespersprite": "1",
 					"filename": "kristall_1_f.png"
+				}
+			},
+			"sc_crystal_2": {
+				"animations": {
+					"spritewidth": "200",
+					"spriteheight": "200",
+					
+					"comment": "yorigin = height(200) - 40 - 16 = 144 in this case, xorigin = 68",
+					
+					"yorigin": "144",
+					"xorigin": "68",
+					"numberofsprites": "1",
+					"framespersprite": "1",
+					"filename": "kristall_2_f.png"
+				}
+			},
+			"sc_crystal_3": {
+				"animations": {
+					"spritewidth": "200",
+					"spriteheight": "200",
+					
+					"comment": "yorigin = height(200) - 40 - 16 = 144 in this case, xorigin = 68",
+					
+					"yorigin": "144",
+					"xorigin": "68",
+					"numberofsprites": "1",
+					"framespersprite": "1",
+					"filename": "kristall_3_f.png"
+				}
+			},
+			"sc_crystal_4": {
+				"animations": {
+					"spritewidth": "200",
+					"spriteheight": "200",
+					
+					"comment": "yorigin = height(200) - 40 - 16 = 144 in this case, xorigin = 68",
+					
+					"yorigin": "144",
+					"xorigin": "68",
+					"numberofsprites": "1",
+					"framespersprite": "1",
+					"filename": "kristall_4_f.png"
+				}
+			},
+			"sc_crystal_5": {
+				"animations": {
+					"spritewidth": "200",
+					"spriteheight": "200",
+					
+					"comment": "yorigin = height(200) - 40 - 16 = 144 in this case, xorigin = 68",
+					
+					"yorigin": "144",
+					"xorigin": "68",
+					"numberofsprites": "1",
+					"framespersprite": "1",
+					"filename": "kristall_5_f.png"
+				}
+			},
+			"sc_crystal_6": {
+				"animations": {
+					"spritewidth": "200",
+					"spriteheight": "200",
+					
+					"comment": "yorigin = height(200) - 40 - 16 = 144 in this case, xorigin = 68",
+					
+					"yorigin": "144",
+					"xorigin": "68",
+					"numberofsprites": "1",
+					"framespersprite": "1",
+					"filename": "kristall_6_f.png"
+				}
+			},
+			"sc_crystal_7": {
+				"animations": {
+					"spritewidth": "200",
+					"spriteheight": "200",
+					
+					"comment": "yorigin = height(200) - 40 - 16 = 144 in this case, xorigin = 68",
+					
+					"yorigin": "144",
+					"xorigin": "68",
+					"numberofsprites": "1",
+					"framespersprite": "1",
+					"filename": "kristall_7_f.png"
+				}
+			},
+			"sc_crystal_8": {
+				"animations": {
+					"spritewidth": "200",
+					"spriteheight": "200",
+					
+					"comment": "yorigin = height(200) - 40 - 16 = 144 in this case, xorigin = 68",
+					
+					"yorigin": "144",
+					"xorigin": "68",
+					"numberofsprites": "1",
+					"framespersprite": "1",
+					"filename": "kristall_8_f.png"
+				}
+			},
+			"sc_stone_1": {
+				"animations": {
+					"spritewidth": "200",
+					"spriteheight": "200",
+					
+					"comment": "yorigin = height(200) - 40 - 16 = 144 in this case, xorigin = 68",
+					
+					"yorigin": "144",
+					"xorigin": "68",
+					"numberofsprites": "1",
+					"framespersprite": "1",
+					"filename": "sc_stone_1_f.png"
+				}
+			},
+			"sc_stone_2": {
+				"animations": {
+					"spritewidth": "200",
+					"spriteheight": "200",
+					
+					"comment": "yorigin = height(200) - 40 - 16 = 144 in this case, xorigin = 68",
+					
+					"yorigin": "144",
+					"xorigin": "68",
+					"numberofsprites": "1",
+					"framespersprite": "1",
+					"filename": "sc_stone_2_f.png"
+				}
+			},
+			"sc_stone_3": {
+				"animations": {
+					"spritewidth": "200",
+					"spriteheight": "200",
+					
+					"comment": "yorigin = height(200) - 40 - 16 = 144 in this case, xorigin = 68",
+					
+					"yorigin": "144",
+					"xorigin": "68",
+					"numberofsprites": "1",
+					"framespersprite": "1",
+					"filename": "sc_stone_3_f.png"
+				}
+			},
+			"sc_stone_4": {
+				"animations": {
+					"spritewidth": "200",
+					"spriteheight": "200",
+					
+					"comment": "yorigin = height(200) - 40 - 16 = 144 in this case, xorigin = 68",
+					
+					"yorigin": "144",
+					"xorigin": "68",
+					"numberofsprites": "1",
+					"framespersprite": "1",
+					"filename": "sc_stone_4_f.png"
+				}
+			},
+			"sc_stone_5": {
+				"animations": {
+					"spritewidth": "200",
+					"spriteheight": "200",
+					
+					"comment": "yorigin = height(200) - 40 - 16 = 144 in this case, xorigin = 68",
+					
+					"yorigin": "144",
+					"xorigin": "68",
+					"numberofsprites": "1",
+					"framespersprite": "1",
+					"filename": "sc_stone_5_f.png"
+				}
+			},
+			"sc_stone_6": {
+				"animations": {
+					"spritewidth": "200",
+					"spriteheight": "200",
+					
+					"comment": "yorigin = height(200) - 40 - 16 = 144 in this case, xorigin = 68",
+					
+					"yorigin": "144",
+					"xorigin": "68",
+					"numberofsprites": "1",
+					"framespersprite": "1",
+					"filename": "sc_stone_6_f.png"
+				}
+			},
+			"sc_stone_7": {
+				"animations": {
+					"spritewidth": "200",
+					"spriteheight": "200",
+					
+					"comment": "yorigin = height(200) - 40 - 16 = 144 in this case, xorigin = 68",
+					
+					"yorigin": "144",
+					"xorigin": "68",
+					"numberofsprites": "1",
+					"framespersprite": "1",
+					"filename": "sc_stone_7_f.png"
 				}
 			}
 		}
