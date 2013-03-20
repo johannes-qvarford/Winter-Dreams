@@ -1,5 +1,5 @@
 #version 110
-#define NUM_LIGHTS 10
+#define NUM_LIGHTS 20
 
 uniform sampler2D texture;
 uniform float lightPosx[NUM_LIGHTS];

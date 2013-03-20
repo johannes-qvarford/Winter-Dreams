@@ -115,6 +115,11 @@
 				"yorigin": 116,
 				"xorigin": 18,
 				"filename": "zeles_1.png"
+			},
+			"lvl_2_1_overlay":{
+				"yorigin": 4560,
+				"xorigin": 4512,
+				"filename": "level2_overlaps.png"
 			}
 		}
 	},
@@ -331,7 +336,7 @@
 			"invulnerabilityframes": 40,
 			"blinkframedistance": 8,
 
-			"walkspeed": 10.75,
+			"walkspeed": 1.75,
 			"pickaxe_cooldown": 25,
 
 			"framesperstep": 27,

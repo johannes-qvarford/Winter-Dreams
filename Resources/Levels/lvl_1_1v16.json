@@ -572,7 +572,7 @@
                      "loop":"true",
                      "rangedecay":"0",
                      "sound3d":"false",
-                     "soundfile":"lvl_1_main.wav",
+                     "soundfile":"lvl_1_main.ogg",
                      "soundtype":"music",
                      "volume":"100"
                     },
