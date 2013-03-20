@@ -120,6 +120,31 @@
 				"yorigin": 4560,
 				"xorigin": 4512,
 				"filename": "level2_overlaps.png"
+			},
+			"tower_1":{
+				"yorigin": 368,
+				"xorigin": 1016,
+				"filename": "tower1_over.png"
+			},
+			"tower_2":{
+				"yorigin": 368,
+				"xorigin": 1016,
+				"filename": "tower2_over.png"
+			},
+			"tower_3":{
+				"yorigin": 368,
+				"xorigin": 1016,
+				"filename": "tower3&5_over.png"
+			},
+			"tower_4":{
+				"yorigin": 368,
+				"xorigin": 1016,
+				"filename": "tower4_over.png"
+			},
+			"tower_6":{
+				"yorigin": 368,
+				"xorigin": 1016,
+				"filename": "tower6_over.png"
 			}
 		}
 	},
