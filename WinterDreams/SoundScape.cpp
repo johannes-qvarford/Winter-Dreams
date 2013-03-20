@@ -274,8 +274,6 @@ void SoundScape::update(SubLevel* subLevel_p){
 
 		if(mLoop)
 			mQuitMusic = false;
-		else
-			mSound->stop();
 	}
 
 	/*if (mIsWaitingForSpot && subLevel_p->getLevel()->isSpotAvailable(mSpot) == true){

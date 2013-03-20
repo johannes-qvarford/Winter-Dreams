@@ -490,6 +490,8 @@
 		},
 		
 		"items": {
+			"itemsound": "ItemFound.ogg",
+			
 			"animations": {
 				"pickaxe": {
 					"iconindex": "1",

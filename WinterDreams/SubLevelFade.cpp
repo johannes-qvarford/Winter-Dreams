@@ -1,5 +1,6 @@
 #include "SubLevelFade.h"
 #include "WindowManager.h"
+#include "InputManager.h"
 #include <SFML\Graphics\Vertex.hpp>
 
 
@@ -18,6 +19,7 @@ SubLevelFade::SubLevelFade(int fadeTime, SubLevelFade::FadeType type):
 void SubLevelFade::update(SubLevel* subLevel_p){
 	
 		if (mWaitingFrames < mFadeTime){
+			InputManager::get().lockInput();
 			if (mType == FADE_IN)
 				mAlpha -= (1.0f/mFadeTime);
 			else if (mType == FADE_OUT)
@@ -25,8 +27,10 @@ void SubLevelFade::update(SubLevel* subLevel_p){
 
 			mWaitingFrames++;
 		}
-		else
+		else{
+			InputManager::get().unlockInput();
 			setAlive(false);
+		}
 
 }
 
