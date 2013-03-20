@@ -44,11 +44,6 @@ void LevelSplash::update(SubLevel* subLevel_p) {
 
 	auto& win = *WindowManager::get().getRenderWindow();
 
-	auto pos = sf::Vector2f( 0.5f, 0.3f );
-	mLevelSplash.setScale( static_cast<float>(win.getSize().x) / 1920.f, static_cast<float>(win.getSize().y) / 1080.f ) ; 
-
-	mLevelSplash.setOrigin( mLevelSplashTexture->getSize().x / 2, mLevelSplashTexture->getSize().y / 2 );
- 	mLevelSplash.setPosition(  pos );
 	
 	if( mLifeTime > 0 ){
 		InputManager::get().lockInput();
@@ -68,9 +63,17 @@ void LevelSplash::draw() const{
 	auto& win = *WindowManager::get().getRenderWindow();
 	auto states = *WindowManager::get().getStates();
 
+	auto ls = sf::Sprite();
+	auto pos = sf::Vector2f( 0.5f * win.getSize().x, 0.2f * win.getSize().y );
+	ls.setScale( static_cast<float>(win.getSize().x) / 1920.f, static_cast<float>(win.getSize().y) / 1080.f ) ; 
+
+	ls.setOrigin( mLevelSplashTexture->getSize().x / 2, mLevelSplashTexture->getSize().y / 2 );
+ 	ls.setPosition( pos );
+	ls.setTexture(*mLevelSplashTexture);
+
 	states.blendMode = sf::BlendAlpha;
 	states.shader = mBlendShader.get();
 	mBlendShader->setParameter( "alpha", mAlpha );
 
-	win.draw( mLevelSplash, states );
+	win.draw( ls, states );
 }
