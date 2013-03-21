@@ -50,7 +50,7 @@ mThreeD(threeD),
 mSpot(0),
 //mICanHasNarratorSpot(false),
 mHasNarratorPlayed(true),
-mQuitMusic(false),
+mQuitMusic(true),
 mSound(new sf::Sound())
 {
 ////////////////////////////////////////////////////////////////////////
@@ -140,7 +140,7 @@ float SoundScape::getVolume(SubLevel* subLevel_p){
 		time = mClock.getElapsedTime();
 		mClock.restart();
 
-		if (mTotalVolume + 0.1 < mVolume * volumeModifier){
+		if (mTotalVolume <= mVolume * volumeModifier){
 			float vol = float(time.asMicroseconds()) / ((mFadeInTime + 0.00000001f) * 1000);
 			mTotalVolume +=  vol * (mVolume * volumeModifier);
 			if(mTotalVolume > mVolume * volumeModifier)
@@ -148,7 +148,8 @@ float SoundScape::getVolume(SubLevel* subLevel_p){
 			
 		}
 
-		if (mTotalVolume >= mVolume * volumeModifier){
+		if (mTotalVolume - 0.1f >= mVolume * volumeModifier){
+			mTotalVolume = mVolume * volumeModifier;
 			mInitMusic = true;
 		}
 	}
@@ -167,7 +168,7 @@ float SoundScape::getVolume(SubLevel* subLevel_p){
 				mTotalVolume = 0;
 		}
 
-		if (mTotalVolume <= 0){
+		if (mTotalVolume <= 0.2){
 			mQuitMusic = true;
 		}
 	}
@@ -273,7 +274,7 @@ void SoundScape::update(SubLevel* subLevel_p){
 		}
 
 		if(mLoop)
-			mQuitMusic = false;
+			mQuitMusic = true;
 	}
 
 	/*if (mIsWaitingForSpot && subLevel_p->getLevel()->isSpotAvailable(mSpot) == true){
@@ -296,7 +297,7 @@ void SoundScape::update(SubLevel* subLevel_p){
 
 		//make it fade out
 
-		mQuitMusic = true;
+		mQuitMusic = false;
 	}
 	
 

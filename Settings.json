@@ -1,5 +1,5 @@
 {
-	"first_level_name" : "lvl_2",
+	"first_level_name" : "lvl_1",
 	"cam_pan_percentage" : "0.05",
 	"level_or_menu" : "menu",
 	
@@ -14,7 +14,7 @@
 			"into_music": "",
 			"first_sublevel_name": "lvl_1_1",
 			"sublevels": {
-				"lvl_1_1": "lvl_1_1v16.json", 
+				"lvl_1_1": "lvl_1_1v18.json", 
 				"lvl_1_2": "lvl_1_2v10.json"
 			},
 			"next_level": "lvl_2"
