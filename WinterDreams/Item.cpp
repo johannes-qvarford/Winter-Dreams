@@ -89,6 +89,7 @@ void Item::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::Rect<floa
 	static sf::Sound sound( *mSoundBuffer );
 	sound.setVolume( PropertyManager::get().getUserSettings()->get<float>("volumes.soundVolume") * 0.4 );
 
+
 	if( dynamic_cast<Player*>( entityCollidedWith_p ) ){
 			//If the item collided with an entity of player type, add the item to the players inventory
 		auto player = dynamic_cast<Player*>( entityCollidedWith_p );
