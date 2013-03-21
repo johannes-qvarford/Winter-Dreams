@@ -30,11 +30,13 @@ VideoState(
 //	mIsLoadingIconTexture( ResourceManager::get().getTexture(FS_DIR_LOADINGSCREEN + "loadingicon.png") ),
 	mDoneLoadingIconTexture( ResourceManager::get().getTexture(FS_DIR_LOADINGSCREEN + "doneloadingicon.png") )
 	{
+
 //		mIsLoadingIcon.setTexture( *mIsLoadingIconTexture );
 		mDoneLoadingIcon.setTexture( *mDoneLoadingIconTexture );
 	}
 
 LoadingVideoState::~LoadingVideoState() {
+
 	//mResoruceMutex.lock();
 	mRunMutex.lock();
 	mMainThreadRunning = false;

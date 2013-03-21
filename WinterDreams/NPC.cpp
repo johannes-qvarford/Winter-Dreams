@@ -182,6 +182,8 @@ sf::FloatRect& NPC::getHitBox() {
 }
 
 void NPC::onCollision(PhysicalEntity * pe_p, const sf::FloatRect& intersection) {
+	mSound.setVolume( PropertyManager::get().getUserSettings()->get<float>("volumes.soundVolume") * 0.3f );
+
 	auto player_p = dynamic_cast<Player*>(pe_p);
 	if(player_p == nullptr)
 		return;

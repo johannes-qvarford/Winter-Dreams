@@ -53,12 +53,12 @@ void SettingsButton::activate() {
 
 		auto texture = ResourceManager::get().getTexture(FS_DIR_UI + "mainmenu2.png");
 
-		auto menustate = MenuState::makeSettingsMenuState(*texture);
+	//	auto menustate = MenuState::makeSettingsMenuState(*texture);
 
 		auto& stateMgr = StateManager::get();
 
 		stateMgr.freezeState();
-		stateMgr.pushState(menustate);
+	//	stateMgr.pushState(menustate);
 		stateMgr.unfreezeState();
 	}
 }

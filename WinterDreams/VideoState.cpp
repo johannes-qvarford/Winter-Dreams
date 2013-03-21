@@ -17,6 +17,7 @@ VideoState::VideoState(const std::string& videoFileName, const std::string& musi
 	mIsSkippable( isSkippable ),
 	mVideoFileName( videoFileName ),
 	mMusicFileName( musicFileName )
+
 {
 }
 
@@ -36,7 +37,9 @@ void VideoState::update() {
 		auto lenght = mVideo->getDuration();
 
 		if( mMusicFileName != "" ){
-			mMusic.openFromFile( FS_DIR_MUSIC + mMusicFileName );
+			if(!mMusic.openFromFile( FS_DIR_MUSIC + mMusicFileName )) {
+				assert(0);
+			}
 			mMusic.play();
 		}
 
