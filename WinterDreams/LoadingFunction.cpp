@@ -39,12 +39,6 @@ LoadingSpecs::LoadingSpecs(const LoadingSpecs& l):
 static void loadSubLevel(const std::string& subLevelName, LevelState* levelState_p, sf::Mutex* mutex);
 
 void loadingFunc::loadLevel(LoadingSpecs& specs) {
-#ifdef _WIN32
-	if(! SetThreadPriority( GetCurrentThread(), THREAD_PRIORITY_BELOW_NORMAL) ){
-		std::cerr<< "Thread prio failed";
-		assert( false && "Set thread priority failed, terminating" );
-	}
-#endif
 		
 	//look in settings for which sublevels to load.
 	specs.mResourceMutex_p->lock();

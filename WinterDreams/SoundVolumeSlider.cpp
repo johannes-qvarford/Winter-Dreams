@@ -44,7 +44,7 @@ SoundVolumeSlider::SoundVolumeSlider():
 	mUpdated(false)
 {
 	mTexture = ResourceManager::get().getTexture(FS_DIR_UI + SoundVolumeSliderSpecs::get().mSliderFilename);
-	mVolume = PropertyManager::get().getUserSettings()->get_child("volumes").get<short>("soundVolume");
+	mVolume = PropertyManager::get().getUserSettings()->get_child("volumes").get<short>("volumes.soundVolume");
 	mFrameCount=0;
 }
 
