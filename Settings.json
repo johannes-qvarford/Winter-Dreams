@@ -26,7 +26,7 @@
 			"intro_music": "Campfire_scene_2_voiceacting.ogg",
 			"first_sublevel_name": "lvl_2_1",
 			"sublevels": {
-				"lvl_2_1": "lvl_2_1v04_na.json"
+				"lvl_2_1": "lvl_2_1v05.json"
 			},
 			"next_level": "lvl_1"
 		}
