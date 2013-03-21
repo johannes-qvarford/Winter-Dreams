@@ -13,6 +13,9 @@
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/optional/optional.hpp>
 
+#include <Windows.h>
+#include <tchar.h>
+
 #include <iostream>
 
 #include "Player.h"
@@ -36,9 +39,13 @@ LoadingSpecs::LoadingSpecs(const LoadingSpecs& l):
 static void loadSubLevel(const std::string& subLevelName, LevelState* levelState_p, sf::Mutex* mutex);
 
 void loadingFunc::loadLevel(LoadingSpecs& specs) {
-	
-
-	
+#ifdef _WIN32
+	if(! SetThreadPriority( GetCurrentThread(), THREAD_PRIORITY_BELOW_NORMAL) ){
+		std::cerr<< "Thread prio failed";
+		assert( false && "Set thread priority failed, terminating" );
+	}
+#endif
+		
 	//look in settings for which sublevels to load.
 	specs.mResourceMutex_p->lock();
 	auto& settings = PropertyManager::get().getGeneralSettings();
@@ -60,6 +67,8 @@ void loadingFunc::loadLevel(LoadingSpecs& specs) {
 	std::shared_ptr<Camera> camera_sp = specs.mLoadedLevel_p->getCamera();
 	std::shared_ptr<InventoryDisplay> display_sp = specs.mLoadedLevel_p->getInventoryDisplay();
 
+	std::cout << "add stuff to sublevels" << std::endl; 
+
 	for(auto it = sublevels.begin(), end = sublevels.end(); it != end; ++it) {
 		//iterate over all sublevels.
 		auto subLevelName = it->first;
@@ -70,6 +79,8 @@ void loadingFunc::loadLevel(LoadingSpecs& specs) {
 		subLevel_sp->addScript(std::static_pointer_cast<Script>(camera_sp));
 		subLevel_sp->addScript(std::static_pointer_cast<Script>(display_sp));
 	}
+
+	std::cout << "done adding stuff to sublevels" << std::endl; 
 
 	//we're done here!
 	specs.mRunMutex_p->lock();
@@ -89,6 +100,8 @@ void loadingFunc::loadLevel(LoadingSpecs& specs) {
 static void loadSubLevel(const std::string& subLevelName, LevelState* levelState_p, sf::Mutex* mutex) {
 	using namespace boost::property_tree;
 	
+	std::cout << "loading sublevel " << subLevelName << std::endl; 
+
 	//get managers
 	mutex->lock();
 	auto& propMgr = PropertyManager::get();
@@ -114,19 +127,19 @@ static void loadSubLevel(const std::string& subLevelName, LevelState* levelState
 
 //		auto& bgFilename = level.get<std::string>(NAME_LEVELSETTINGS_BACKGROUND);
 		auto map = properties.get_child(NAME_LEVELSETTINGS_MAPLAYER);
-		properties.get_value<std::string>();
 		auto mlFilename = properties.get<std::string>(NAME_LEVELSETTINGS_MAPLAYER);
 		auto bkFilename = properties.get<std::string>("background");
 		
 //		auto bgTexture_sp = resMgr.getTexture(bgFilename);
 		mutex->lock();		
-		std::cout<< "Done \n";
+		std::cout<< "Start load tex\n";
 		auto mlTexture_sp = resMgr.getTexture(FS_DIR_MAPS + mlFilename);
 		mutex->unlock();
 		mutex->lock();		
-		std::cout<< "Done \n";
+		std::cout<< "Done 1\n";
 		auto bkTexture_sp = resMgr.getTexture(FS_DIR_BACKGROUNDS + bkFilename);
 		mutex->unlock();
+		std::cout << "Done 2\n";
 
 		auto yTiles = levelData.get<int>("height");
 
@@ -147,7 +160,8 @@ static void loadSubLevel(const std::string& subLevelName, LevelState* levelState
 //		mLoadedLevel->setBackgroundTexture(bgTexture_sp, sf::Vector2f(0, 0));
 	}
 
-	
+	std::cout << "loading tileset data" << subLevelName << std::endl; 
+
 	{
 		//check tilesets, to map gids to objectnames
 		auto tilesets = levelData.get_child("tilesets");
@@ -178,6 +192,9 @@ static void loadSubLevel(const std::string& subLevelName, LevelState* levelState
 			}
 		}
 	}
+	std::cout << "stop loading tileset data" << subLevelName << std::endl; 
+
+	std::cout << "loading object data" << subLevelName << std::endl; 
 
 	{
 		auto& layers = levelData.get_child("layers");
@@ -244,4 +261,8 @@ static void loadSubLevel(const std::string& subLevelName, LevelState* levelState
 			}
 		}
 	}
+	std::cout << "done loading object data" << subLevelName << std::endl; 
+
+	std::cout << "done loading sublevel " << subLevelName << std::endl; 
+
 }

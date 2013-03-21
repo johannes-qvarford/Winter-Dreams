@@ -1,5 +1,5 @@
 {
-	"first_level_name" : "lvl_2",
+	"first_level_name" : "lvl_1",
 	"cam_pan_percentage" : "0.05",
 	"level_or_menu" : "menu",
 	
@@ -10,8 +10,8 @@
 		
 		"lvl_1":
 		{
-			"intro_video": "loading_2_video.ogv",
-			"into_music": "",
+			"intro_video": "Campfire_scene_without_sound.ogv",
+			"intro_music": "Campfire_scene_voiceacting.ogg",
 			"first_sublevel_name": "lvl_1_1",
 			"sublevels": {
 				"lvl_1_1": "lvl_1_1v16.json", 
@@ -22,8 +22,8 @@
 		
 		"lvl_2":
 		{
-			"intro_video": "loading_2_video.ogv",
-			"into_music": "AmbientWind2.wav",
+			"intro_video": "Campfire_scene_2_without_sound.ogv",
+			"intro_music": "Campfire_scene_2_voiceacting.ogg",
 			"first_sublevel_name": "lvl_2_1",
 			"sublevels": {
 				"lvl_2_1": "lvl_2_1v04_na.json"

@@ -1,5 +1,7 @@
 #include "ResourceManager.h"
 
+#include <fstream>
+
 ResourceManager::ResourceManager()
 {}
 
@@ -26,10 +28,35 @@ std::shared_ptr<sf::Texture> ResourceManager::getTexture(const std::string &key)
 		//Else, load the element described by the key. 
 	else{
 		std::shared_ptr<sf::Texture> tex (new sf::Texture);
-		if (!tex->loadFromFile(mFilePath + key)){
-				//If load fails, error.
+
+		//std::ifstream file(key.c_str());
+
+		//if(!file) {
+		//	assert(false);
+		//}
+
+		//std::vector<char> buffer;
+
+		//file.seekg(0, std::ios::end);
+		//auto size = file.tellg();
+		//file.seekg(0, std::ios::beg);
+		//buffer.resize(size);
+		//file.read(&buffer[0], size);
+
+		auto img = sf::Image();
+		if(!img.loadFromFile(key)) {
+			assert(0);
+		}
+
+		if(!tex->loadFromImage(img)) {
 			assert(false);
 		}
+
+		//if (!tex->loadFromFile(mFilePath + key)){
+		//		//If load fails, error.
+		//	assert(false);
+		//}
+
 		//Then return a shared_ptr to the element just loaded.
 		mTextureMap.insert(std::pair<std::string, std::weak_ptr<sf::Texture> >(key, tex) );
 		return tex;
