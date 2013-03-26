@@ -5,7 +5,7 @@
 #include <cassert>
 
 Timer::Timer(int maxFrames, int alarmFrames, const std::list<std::string>& entList, Timer::TriggerAction action, bool startsEnabled):
-	Script(startsEnabled),
+	Entity(startsEnabled),
 	mMaxFrames(maxFrames),
 	mAlarmFrames(alarmFrames),
 	mCurrentFrames(alarmFrames),

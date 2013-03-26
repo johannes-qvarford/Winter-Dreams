@@ -69,9 +69,14 @@ void loadingFunc::loadLevel(LoadingSpecs& specs) {
 		auto subLevel_sp = specs.mLoadedLevel_p->getSubLevel(subLevelName);
 
 		//add them to the sublevel.
-		subLevel_sp->addGraphicalEntity(std::static_pointer_cast<GraphicalEntity>(player_sp));
-		subLevel_sp->addScript(std::static_pointer_cast<Script>(camera_sp));
-		subLevel_sp->addScript(std::static_pointer_cast<Script>(display_sp));
+		subLevel_sp->addEntity(player_sp);
+		subLevel_sp->addDrawable(player_sp, SubLevel::DRAW_WORLD);
+		subLevel_sp->addCollidable(player_sp, SubLevel::SEEK_SEEKER);
+
+		subLevel_sp->addEntity(camera_sp);
+
+		subLevel_sp->addEntity(display_sp);
+		subLevel_sp->addDrawable(display_sp, SubLevel::DRAW_SCREEN);
 	}
 
 	std::cout << "done adding stuff to sublevels" << std::endl; 

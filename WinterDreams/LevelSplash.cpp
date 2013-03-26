@@ -1,4 +1,4 @@
-#include "PrecompiledHeader.h"
+
 #include "LevelSplash.h"
 
 #include "ResourceManager.h"
@@ -17,7 +17,7 @@
 
 
 LevelSplash::LevelSplash(const std::string& splashFileName, const int lifeTime, int fadeoutTime, bool startEnabled) : 
-	Script( startEnabled ),
+	Entity(startEnabled),
 	mLifeTime( lifeTime ),
 	mAlpha( 1.f ),
 	mFadeOutTime( fadeoutTime ),
@@ -28,10 +28,6 @@ LevelSplash::LevelSplash(const std::string& splashFileName, const int lifeTime, 
 	mBlendShader( ResourceManager::get().getShader( FS_DIR_SHADERS + "Blend.frag" ) )
 {
 }
-
-LevelSplash::~LevelSplash()
-{}
-
 
 void LevelSplash::update(SubLevel* subLevel_p) {
 	if(getEnabled() == false)
@@ -59,7 +55,7 @@ void LevelSplash::update(SubLevel* subLevel_p) {
 	}
 }
 
-void LevelSplash::draw() const{
+void LevelSplash::draw() {
 	auto& win = *WindowManager::get().getRenderWindow();
 	auto states = *WindowManager::get().getStates();
 
@@ -67,7 +63,7 @@ void LevelSplash::draw() const{
 	auto pos = sf::Vector2f( 0.5f * win.getSize().x, 0.2f * win.getSize().y );
 	ls.setScale( static_cast<float>(win.getSize().x) / 1920.f, static_cast<float>(win.getSize().y) / 1080.f ) ; 
 
-	ls.setOrigin( mLevelSplashTexture->getSize().x / 2, mLevelSplashTexture->getSize().y / 2 );
+	ls.setOrigin( mLevelSplashTexture->getSize().x / 2.f, mLevelSplashTexture->getSize().y / 2.f );
  	ls.setPosition( pos );
 	ls.setTexture(*mLevelSplashTexture);
 

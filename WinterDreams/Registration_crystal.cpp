@@ -11,10 +11,9 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 
 	auto crystal_sp = std::shared_ptr<Crystal>( new Crystal( rect, true ) );
 
-	//if(name != "")
-	//	subLevel_p->mapEntityToName(name, crystal_sp);
-
-	subLevel_p->addGraphicalEntity(crystal_sp);
+	subLevel_p->addEntity(crystal_sp);
+	subLevel_p->addDrawable(crystal_sp, SubLevel::DRAW_WORLD);
+	subLevel_p->addCollidable(crystal_sp, SubLevel::SEEK_RECIEVER);
 }
 
 static ObjectTypeRegistration reg("crystal", regCallback);

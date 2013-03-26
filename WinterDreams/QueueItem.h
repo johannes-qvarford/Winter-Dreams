@@ -1,7 +1,7 @@
 #ifndef INCLUDED_QUEUEITEM
 #define INCLUDED_QUEUEITEM
 
-#include "Script.h"
+#include "Entity.h"
 
 #include <string>
 #include <list>
@@ -12,7 +12,7 @@
 // /should be added to the queue when it gets enabled
 // /(usually by a trigger, one of its entities is often the same trigger).
 ////////////////////////////////////////////////////////////
-class QueueItem : public Script {
+class QueueItem : public Entity {
 public:
 	////////////////////////////////////////////////////////////
 	// /Create a QueueItem that knows of a queue to add itself to,
@@ -30,11 +30,6 @@ public:
 	// /it will add itself to the queue if so, and then disable itself.
 	////////////////////////////////////////////////////////////
 	void update(SubLevel* subLevel_p);
-
-	////////////////////////////////////////////////////////////
-	// /Draw nothing.
-	////////////////////////////////////////////////////////////
-	void draw() const;
 
 	////////////////////////////////////////////////////////////
 	// /Get the entities tied to the queue item.

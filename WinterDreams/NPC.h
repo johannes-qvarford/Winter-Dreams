@@ -1,7 +1,11 @@
 #ifndef INCLUDED_NPC
 #define INCLUDED_NPC
 
-#include "GraphicalEntity.h"
+#include "Entity.h"
+#include "Drawable.h"
+#include "Collidable.h"
+#include "BaseHitBoxHaveable.h"
+
 #include "Animation.h"
 
 #include <SFML/Graphics/Rect.hpp>
@@ -13,7 +17,7 @@
 // /When it collides with the player, it lowers
 // /her light level.
 //////////////////////////////////////////////////////
-class NPC : public GraphicalEntity {
+class NPC : public Entity, public Collidable, public Drawable, public BaseHitBoxHaveable{
 public:
 
 	//////////////////////////////////////////////////////
@@ -32,11 +36,9 @@ public:
 	//////////////////////////////////////////////////////
 	// /Draw the NPC.
 	//////////////////////////////////////////////////////
-	void drawSelf();
+	void draw();
 
-	void onCollision(PhysicalEntity * pe_p, const sf::FloatRect& intersection);
-
-	sf::FloatRect& getHitBox();
+	void onCollision(Collidable * col_p, const sf::FloatRect& intersection);
 
 private:
 
@@ -59,8 +61,6 @@ private:
 	const std::vector<sf::Vector2f>* mPath_p;
 
 	int mNextPoint;
-
-	sf::FloatRect mHitBox;
 };
 
 #endif

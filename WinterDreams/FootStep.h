@@ -1,3 +1,4 @@
+#error incomplete, should not be used
 #ifndef INCLUDED_FOOTSTEP
 #define INCLUDED_FOOTSTEP
 

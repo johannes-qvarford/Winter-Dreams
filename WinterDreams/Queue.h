@@ -1,7 +1,7 @@
 #ifndef INCLUDED_QUEUE
 #define INCLUDED_QUEUE
 
-#include "Script.h"
+#include "Entity.h"
 
 #include <list>
 #include <string>
@@ -14,7 +14,7 @@ class QueueItem;
 // /a number of queued items. all entities in a queued item have their state swapped
 // /when they get put into the queue, and pushed out of the queue.
 ////////////////////////////////////////////////////////////
-class Queue : public Script {
+class Queue : public Entity {
 public:
 	////////////////////////////////////////////////////////////
 	// /Create a queue that can hold a maximun number of items.
@@ -26,11 +26,6 @@ public:
 	// /Destructor.
 	////////////////////////////////////////////////////////////
 	~Queue();
-
-	////////////////////////////////////////////////////////////
-	// /Draw nothing.
-	////////////////////////////////////////////////////////////
-	void draw() const;
 
 	////////////////////////////////////////////////////////////
 	// /Try to add the initial items to the queue if it hasn't already.

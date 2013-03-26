@@ -13,16 +13,16 @@ public:
 	/////////////////////////////////////////////////////////
     // /Returns the number of items you possess.
     /////////////////////////////////////////////////////////
-	unsigned short hasItem(std::string item) const;
+	int hasItem(const std::string& item) const;
 	/////////////////////////////////////////////////////////
-    // /Adds a number of item to the inventory.
+    // /Add an item to the inventory.
     /////////////////////////////////////////////////////////
-	void giveItem(std::string item, unsigned short = 0);
+	void giveItem(const std::string& item);
     /////////////////////////////////////////////////////////
-	// /Removes a number of item to the inventory.
-    // /If the item hasn't been mapped, does nothing.
+	// /Removes an item to the inventory.
+    // /If the item hasn't been mapped, do nothing.
     /////////////////////////////////////////////////////////
-	void takeItem(std::string item, unsigned short = 0);
+	void takeItem(const std::string& item);
 	/////////////////////////////////////////////////////////
 	// /Equips the next item among the equipable items currently
 	// /in the players inventory
@@ -33,7 +33,7 @@ public:
 	// equiped. 
 	// If there is no item equiped, returns ""
 	/////////////////////////////////////////////////////////
-	std::string getCurrentEquip() const;
+	const std::string& getCurrentEquip() const;
 
 private:
 	std::list<std::string> mInventoryList;

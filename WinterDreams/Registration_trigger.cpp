@@ -46,13 +46,14 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	std::list<std::string> absenceRequiredItems;
 	seperateRequiredItems(items, &absenceRequiredItems, &requiredItems);
 
-	auto triggerZone_sp = std::shared_ptr<CollisionZone>(
+	auto triggerZone_sp = std::shared_ptr<TriggerZone>(
 		new TriggerZone(box, action, enterTriggerList, exitTriggerList, requiredItems, absenceRequiredItems, minlightlevel, subLevel_p, once, !startdisabled));
 
 	if(name != "")
 		subLevel_p->mapEntityToName(name, triggerZone_sp);
 
-	subLevel_p->addCollisionZone(triggerZone_sp);
+	subLevel_p->addEntity(triggerZone_sp);
+	subLevel_p->addCollidable(triggerZone_sp, SubLevel::SEEK_RECIEVER);
 }
 
 static ObjectTypeRegistration reg("trigger", regCallback);

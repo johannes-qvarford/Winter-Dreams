@@ -1,10 +1,12 @@
 #ifndef INCLUDED_CAMERA
 #define INCLUDED_CAMERA
 
-#include "Script.h"
+#include "Drawable.h"
+#include "Entity.h"
+#include "Collidable.h"
+
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/View.hpp>
-class PhysicalEntity;
 
 ////////////////////////////////////////////////////////////
 // /The class for controlling the in-game view (i.e the camera).
@@ -13,7 +15,7 @@ class PhysicalEntity;
 // /or construct it with a sf::Vector2f, in which case the
 // /vector describes the cameras centerpoint.
 ////////////////////////////////////////////////////////////
-class Camera : public Script{
+class Camera : public Entity{
 public:
 	////////////////////////////////////////////////////////////
 	// /Assigns the camera to look at a certain position.
@@ -24,7 +26,7 @@ public:
 	////////////////////////////////////////////////////////////
 	// /Assign the camera to follow an entity
 	////////////////////////////////////////////////////////////
-	Camera(std::shared_ptr<PhysicalEntity> entity);
+	Camera(std::shared_ptr<Collidable> entity);
 	
 	////////////////////////////////////////////////////////////
 	// /If the camera follows a physical entity, it does not
@@ -44,7 +46,7 @@ public:
 	// /This will NOT automaticlly make the camera follow to the entity
 	// /Call lockCamera() to make the camera follow the entity.
 	////////////////////////////////////////////////////////////
-	void followEntity(std::shared_ptr<PhysicalEntity> entity);
+	void followEntity(std::shared_ptr<Collidable> entity);
 	////////////////////////////////////////////////////////////
 	// /The camera will pan to the argument position no faster
 	// /then the cameras current pan speed. 
@@ -71,9 +73,8 @@ public:
 
 	const sf::Vector2f& getPosition() { return mCameraPosition; }
 
-	void draw() const;
 private:
-	std::weak_ptr<PhysicalEntity>	mLockedEntity;  // A pointer to the locked entity. Will be NULL if no entity is locked.
+	std::weak_ptr<Collidable>	mLockedEntity;  // A pointer to the locked entity. Will be NULL if no entity is locked.
 	sf::Vector2f					mCameraPosition;  // The cameras position, in screen  
 	sf::Vector2f					mDesiredPosition;// The position to which the came wish to move
 	bool							mLockedCamera;

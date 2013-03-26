@@ -36,7 +36,6 @@ PortalSpecs::PortalSpecs() {
 	auto& obj = PropertyManager::get().getObjectSettings();
 	auto& item = obj.get_child( "objects.levelportal" );
 	
-	
 	mSoundFilename = item.get<std::string>("soundfilename");
 	mWaitingFrames = item.get<int>("waitingframes");
 	AnimationSpecs::parse( item, mAnimSpecs);
@@ -51,10 +50,9 @@ PortalSpecs& PortalSpecs::get() {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-LevelPortal::LevelPortal(sf::FloatRect position, SubLevel* subLevel, const std::string& targetLevel, const std::string& targetPortal, bool startEnabled, bool enabledOnce, sf::Vector2i direction) :
-	GraphicalEntity( startEnabled ),
-	mOnce( enabledOnce ),
-	mHitBox( position ),
+LevelPortal::LevelPortal(const sf::FloatRect& position, SubLevel* subLevel, const std::string& targetLevel, const std::string& targetPortal, bool startEnabled, const sf::Vector2i& direction):
+	Entity(startEnabled),
+	BaseHitBoxHaveable(position),
 	mSubLevel_p(subLevel),
 	mTargetLevel( targetLevel ),
 	mTargetPortal( targetPortal ),
@@ -139,7 +137,8 @@ void LevelPortal::update(SubLevel* subLevel_p){
 		camera.lockCamera();
 
 		auto fade_sp = std::shared_ptr<SubLevelFade>(new SubLevelFade(PortalSpecs::get().mWaitingFrames, SubLevelFade::FADE_IN));
-		nextSubLevel_p->addScript(fade_sp);
+		nextSubLevel_p->addEntity(fade_sp);
+		nextSubLevel_p->addDrawable(fade_sp, SubLevel::DRAW_SCREEN);
 		mIsWaiting = false;
 		mWaitingFrames = 0;
 	}	
@@ -147,7 +146,7 @@ void LevelPortal::update(SubLevel* subLevel_p){
 	mCurrentAnimation_p->updateAnimation();		
 }
 
-void LevelPortal::onCollision(PhysicalEntity* pe, const sf::Rect<float>& intersection) {
+void LevelPortal::onCollision(Collidable* pe, const sf::Rect<float>& intersection) {
 		//////////////////////////////////////////////////////////////
 		// /If targetPortal is "", the portal is a one-way portal. Hence
 		// /it shouldn't affect anything on collision
@@ -160,16 +159,16 @@ void LevelPortal::onCollision(PhysicalEntity* pe, const sf::Rect<float>& interse
 	if( dynamic_cast<Player*>(pe) && !mIsWaiting){
 		mIsWaiting = true;
 		auto fade_sp = std::shared_ptr<SubLevelFade>(new SubLevelFade(PortalSpecs::get().mWaitingFrames, SubLevelFade::FADE_OUT));
-		mSubLevel_p->addScript(fade_sp);
+		mSubLevel_p->addEntity(fade_sp);
+		mSubLevel_p->addDrawable(fade_sp, SubLevel::DRAW_SCREEN);
+
+		setEnabled(false);
 		//play sound
 		mSound.play();
 	}
-
-	//if (mOnce == true)
-	//	setEnabled(false);
 }
 
-void LevelPortal::drawSelf() {	
+void LevelPortal::draw() {	
 	sf::Vector2f pos = GAME_TO_SCREEN * sf::Vector2f( mHitBox.left, mHitBox.top);
 	auto& s = mCurrentAnimation_p->getCurrentSprite();
 	s.setPosition( pos );

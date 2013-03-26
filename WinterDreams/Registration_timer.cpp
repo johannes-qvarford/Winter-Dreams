@@ -25,7 +25,7 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	if(name != "")
 		subLevel_p->mapEntityToName(name, timer_sp);
 
-	subLevel_p->addScript(timer_sp);
+	subLevel_p->addEntity(timer_sp);
 }
 
 static ObjectTypeRegistration reg("timer", regCallback);

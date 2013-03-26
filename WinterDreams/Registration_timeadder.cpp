@@ -14,8 +14,7 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 
 	if(name != "")
 		subLevel_p->mapEntityToName(name, adder_sp);
-
-	subLevel_p->addScript(adder_sp);
+	subLevel_p->addEntity(adder_sp);
 }
 
 static ObjectTypeRegistration reg("timeadder", regCallback);

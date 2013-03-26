@@ -5,7 +5,7 @@
 
 
 SubLevelFade::SubLevelFade(int fadeTime, SubLevelFade::FadeType type):
-	Script(true),
+	Entity(true),
 	mFadeTime(fadeTime),
 	mType(type),
 	mWaitingFrames(0)
@@ -34,7 +34,7 @@ void SubLevelFade::update(SubLevel* subLevel_p){
 
 }
 
-void SubLevelFade::draw() const{
+void SubLevelFade::draw() {
 	auto& window = *WindowManager::get().getRenderWindow();
 	auto& states = *WindowManager::get().getStates();
 

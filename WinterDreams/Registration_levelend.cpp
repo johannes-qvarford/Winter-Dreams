@@ -17,7 +17,8 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	if(name != "")
 		subLevel_p->mapEntityToName(name, le_sp);
 
-	subLevel_p->addCollisionZone(le_sp);
+	subLevel_p->addEntity(le_sp);
+	subLevel_p->addCollidable(le_sp, SubLevel::SEEK_RECIEVER);
 }
 
 static ObjectTypeRegistration reg("levelend", regCallback);

@@ -1,9 +1,11 @@
 #ifndef INCLUDED_SUBLEVELFADE
 #define INCLUDED_SUBLEVELFADE
 
-#include "Script.h"
+#include "Entity.h"
+#include "Drawable.h"
+#include "BaseHitBoxHaveable.h"
 
-class SubLevelFade: public Script{
+class SubLevelFade: public Entity, public Drawable, public BaseHitBoxHaveable{
 public:
 	enum FadeType{
 		FADE_IN,
@@ -14,7 +16,7 @@ public:
 
 	void update(SubLevel* subLevel_p);
 
-	void draw() const;
+	void draw();
 
 private:
 	int mFadeTime;

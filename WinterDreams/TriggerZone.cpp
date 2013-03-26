@@ -16,7 +16,9 @@
 static const int EXIT_FRAMES = 2;
 
 TriggerZone::TriggerZone(const sf::FloatRect& hitBox, TriggerZone::Action action, const std::list<std::string>& onEnterNames, const std::list<std::string>& onExitNames, std::list<std::string> requiredItems, std::list<std::string> absenceRequiredItems, int lightLevel, SubLevel* subLevel_p, bool triggerOnce, bool startEnabled):
-	CollisionZone(startEnabled, hitBox, triggerOnce),
+	Entity(startEnabled),
+	BaseHitBoxHaveable(hitBox),
+	mOnce(triggerOnce),
 	mAction(action),
 	mUpdatesSinceLastTouch(EXIT_FRAMES + 1),
 	mInZone(false),
@@ -82,11 +84,11 @@ void TriggerZone::drawSelf() {
 #endif
 }
 
-void TriggerZone::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::Rect<float>& intersection) {
+void TriggerZone::onCollision(Collidable* col_p, const sf::Rect<float>& intersection) {
 	
 	//only collide with players with a high enough light level.
 	
-	auto player_p = dynamic_cast<Player*>(entityCollidedWith_p);
+	auto player_p = dynamic_cast<Player*>(col_p);
 	if(player_p == nullptr || player_p->getCurrentLightLevel() < mLightLevel)
 		return;
 
@@ -129,10 +131,10 @@ void TriggerZone::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::Re
 			case ACTION_DISABLE: entity_sp->setEnabled(false); break;
 			}
 			//disable self if it's a one time trigger
-			CollisionZone::onCollision(entityCollidedWith_p, intersection);
+			if(mOnce)
+				setEnabled(false);
 		}
 	}
-
 
 	//reset
 	mUpdatesSinceLastTouch = 0;

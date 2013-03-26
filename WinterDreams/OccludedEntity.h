@@ -1,21 +1,20 @@
 #ifndef INCLUDED_OCCLUDEDENTITY
 #define INCLUDED_OCCLUDEDENTITY
-#include "GraphicalEntity.h"
+
+#include "Entity.h"
+#include "Drawable.h"
+#include "BaseHitBoxHaveable.h"
+
 #include "Animation.h"
 
-class OccludedEntity : public GraphicalEntity {
+class OccludedEntity : public Entity, public Drawable, public BaseHitBoxHaveable {
 public:
+	//NOTE: Expects high layer (100, not 1 for example, see Drawable)
 	OccludedEntity(const sf::FloatRect& initialPosition, const Animation& animation, float enabledOpacity, float disabledOpacity, int fadeTime, int layer, bool startEnabled);
-	
-	~OccludedEntity();
 	
 	void update(SubLevel* subLevel_p){};
 
-	void onCollision(PhysicalEntity * pe_p,const sf::FloatRect& intersection){}
-	
-	void drawSelf();
-
-	sf::FloatRect& getHitBox();
+	void draw();
 
 	int getLayer();
 private:
@@ -30,7 +29,6 @@ private:
 
 	Animation mAnimation;
 
-	sf::FloatRect mHitBox;
 
 	sf::Vector2f mOffset;
 };

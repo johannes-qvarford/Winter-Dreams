@@ -1,14 +1,16 @@
 #ifndef INCLUDED_COUNTERADDER
 #define INCLUDED_COUNTERADDER
 
-#include "Script.h"
+#include "Entity.h"
 
 ////////////////////////////////////////////////////////////
 // /CounterAdder is script that adds certain amount to a
 // /counter when it gets enabled, at which it will disable 
 // /itself.
+// /
+// /WARNING: Should use onChangeEnabled
 ////////////////////////////////////////////////////////////
-class CounterAdder : public Script {
+class CounterAdder : public Entity {
 public:
 
 	////////////////////////////////////////////////////////////

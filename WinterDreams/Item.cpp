@@ -40,10 +40,10 @@ ItemSpecs& ItemSpecs::get() {
 ////////////////////////////////////////////////////////////////////////////////
 
 
-Item::Item(sf::FloatRect position, std::string itemName, bool startEnabled) :
-	GraphicalEntity( startEnabled ),
-	mItemName( itemName ),
-	mHitBox( position )	
+Item::Item(const sf::FloatRect& position, const std::string& itemName, bool startEnabled) :
+	Entity( startEnabled ),
+	BaseHitBoxHaveable(position),
+	mItemName( itemName )
 {
 	auto& animSpecs = ItemSpecs::get().mAnimSpecs;
 
@@ -70,7 +70,7 @@ Item::~Item() {
 	delete mAnimation;
 }
 
-void Item::drawSelf() {
+void Item::draw() {
 	auto sprite = mAnimation->getCurrentSprite();
 	sprite.setPosition(GAME_TO_SCREEN * sf::Vector2f( mHitBox.left, mHitBox.top ) );
 	
@@ -79,20 +79,15 @@ void Item::drawSelf() {
 	window.draw( sprite, state);
 }
 
-sf::FloatRect& Item::getHitBox()  { 
-	return mHitBox; 
-}
+void Item::update(SubLevel* subLevel_p) {} 
 
-void Item::update(SubLevel* subLevel_p) { /* Do nothing */ } 
-
-void Item::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::Rect<float>& intersection) {
+void Item::onCollision(Collidable* col_p, const sf::Rect<float>& intersection) {
 	static sf::Sound sound( *mSoundBuffer );
-	sound.setVolume( PropertyManager::get().getUserSettings()->get<float>("volumes.soundVolume") * 0.4 );
+	sound.setVolume( PropertyManager::get().getUserSettings()->get<float>("volumes.soundVolume") * 0.4f );
 
-	if( dynamic_cast<Player*>( entityCollidedWith_p ) ){
+	if( auto player_p = dynamic_cast<Player*>( col_p ) ){
 			//If the item collided with an entity of player type, add the item to the players inventory
-		auto player = dynamic_cast<Player*>( entityCollidedWith_p );
-		player->changeInventory()->giveItem(mItemName, 1);
+		player_p->changeInventory()->giveItem(mItemName);
 			//Set the item to dead, so the item is removed.
 		setAlive( false );
 		sound.play();

@@ -47,10 +47,10 @@ LightPointSpecs::LightPointSpecs(){
 ///////////////////////////////////////////////////////////////////////////////////////
 
 LightPoint::LightPoint(const sf::FloatRect& initialPosition, int lightLevel, bool once, bool startEnabled):
-	GraphicalEntity(startEnabled),
+	Entity(startEnabled),
+	BaseHitBoxHaveable(sf::FloatRect(initialPosition.left, initialPosition.top, X_STEP, -Y_STEP)),
 	mCurrentAnimation_p(NULL),
 	mAnimationMap(),
-	mHitBox(initialPosition.left, initialPosition.top, X_STEP, -Y_STEP),
 	mLightLevel(lightLevel),
 	mOnce(once)
 {
@@ -60,7 +60,7 @@ LightPoint::LightPoint(const sf::FloatRect& initialPosition, int lightLevel, boo
 	mCurrentAnimation_p = &it->second;
 }
 
-void LightPoint::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::FloatRect& intersection) {
+void LightPoint::onCollision(Collidable* entityCollidedWith_p, const sf::FloatRect& intersection) {
 	//don't do anything if not enabled
 	if(getEnabled() == false)
 		return;
@@ -85,25 +85,6 @@ void LightPoint::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::Flo
 
 void LightPoint::update(SubLevel* subLevel_p) {
 	addLightSource( subLevel_p );
-
-	//do nothing
-}
-
-void LightPoint::drawSelf() {
-	//auto& manager = WindowManager::get();
-	//auto& window = *manager.getWindow();
-	//auto& states = *manager.getStates();
-	//auto sprite = mCurrentAnimation_p->getCurrentSprite();
-	//auto& hitBox = getHitBox();
-	//auto position = GAME_TO_SCREEN * sf::Vector2f(hitBox.left, hitBox.top);
-
-	//sprite.setPosition(position);
-
-	//window.draw(sprite, states);
-}
-
-sf::FloatRect& LightPoint::getHitBox() {
-	return mHitBox;
 }
 
 void LightPoint::addLightSource(SubLevel* subLevel_p){

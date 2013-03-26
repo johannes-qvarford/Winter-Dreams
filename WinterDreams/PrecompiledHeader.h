@@ -1,3 +1,5 @@
+//disable warning about dominance
+#pragma warning( disable : 4250 )
 
 #include <string>
 #include <map>

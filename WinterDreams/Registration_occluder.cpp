@@ -12,7 +12,7 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	auto& properties = pt.get_child("properties");
 	auto startdisabled = properties.get<bool>("startdisabled", false);
 	auto sprite = properties.get<std::string>("sprite");
-	auto layer = properties.get<int>("layer", 1);
+	auto layer = properties.get<float>("layer", 1);
 	auto enabledopacity = properties.get<float>("enabledopacity", 100);
 	auto disabledopacity = properties.get<float>("disabledopacity", 0);
 	
@@ -45,13 +45,15 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	Animation anim(FS_DIR_OBJECTANIMATIONS + "occluder/" + filename, sWidth, sHeight, numberofsprites, framespersprite, xorigin, yorigin); 
 
 	auto occluded_sp = std::shared_ptr<OccludedEntity>(new OccludedEntity(
-		sf::FloatRect(position, sf::Vector2f(hWidth, hHeight)), anim, enabledopacity / 100, disabledopacity / 100, fadetime, layer, !startdisabled));
+		sf::FloatRect(position, sf::Vector2f(hWidth, hHeight)), anim, enabledopacity / 100, disabledopacity / 100, fadetime, layer * 100, !startdisabled));
 	
 	//does it have a name? What's it called? Oh, %n? That's cute.
 	if(name != "")
 		subLevel_p->mapEntityToName( name , occluded_sp);
 
-	subLevel_p->addGraphicalEntity(occluded_sp);
+
+	subLevel_p->addEntity(occluded_sp);
+	subLevel_p->addDrawable(occluded_sp, SubLevel::DRAW_WORLD);
 }
 
 static ObjectTypeRegistration reg("occluder", regCallback);

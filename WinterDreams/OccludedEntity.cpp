@@ -8,13 +8,13 @@
 #include <algorithm>
 
 OccludedEntity::OccludedEntity(const sf::FloatRect& initialPosition, const Animation& animation, float enabledOpacity, float disabledOpacity, int fadeTime, int layer, bool startEnabled) :
-	GraphicalEntity ( startEnabled ),
+	Entity(startEnabled),
+	BaseHitBoxHaveable(initialPosition),
 	mEnabledAlpha(enabledOpacity),
 	mDisabledAlpha(disabledOpacity),
 	mLayer(layer),
 	mShader(ResourceManager::get().getShader(FS_DIR_SHADERS + "Blend.frag")),
-	mAnimation(animation),
-	mHitBox(initialPosition)
+	mAnimation(animation)
 {
 	if (getEnabled()){
 		mCurrentAlpha=enabledOpacity;
@@ -22,35 +22,19 @@ OccludedEntity::OccludedEntity(const sf::FloatRect& initialPosition, const Anima
 		mCurrentAlpha=disabledOpacity;
 	}
 
+	if(layer != 150)
+		int a = 3;
+
 	mFadeTime=static_cast<float>(fadeTime / (1000.f / 60.f));
 }
 
-OccludedEntity::~OccludedEntity(){
-}
 
-void OccludedEntity::drawSelf(){
+void OccludedEntity::draw(){
 	auto renTex = WindowManager::get().getWindow();
 	auto states = *WindowManager::get().getStates();
 
 	static float xoffset = 0;
 	static float yoffset = 0;
-
-	//if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) {
-	//	xoffset += 0.20;
-	//}
-	//if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num4)) {
-	//	xoffset -= 0.20;
-	//}
-	//if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num5)) {
-	//	yoffset += 0.20;
-	//}
-	//if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num6)) {
-	//	yoffset -= 0.20;
-	//}
-
-	//std::cout << xoffset << " "  << yoffset << std::endl; 
-
-//	std::cout << ol << std::endl;
 
 	if (getEnabled()){
 		if (mCurrentAlpha < mEnabledAlpha){
@@ -82,10 +66,6 @@ void OccludedEntity::drawSelf(){
 	states.blendMode = sf::BlendAlpha;
 	states.shader = mShader.get();
 	renTex->draw(spr, states);
-}
-
-sf::FloatRect& OccludedEntity::getHitBox() {
-	return mHitBox;
 }
 
 int OccludedEntity::getLayer() {

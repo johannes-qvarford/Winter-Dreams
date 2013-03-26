@@ -147,7 +147,7 @@
                      "soundfile":"2001.ogg",
                      "soundtype":"narrator"
                     },
-                 "type":"soundscape",
+                 "type":"soundscape_",
                  "visible":true,
                  "width":32,
                  "x":3136,
@@ -202,7 +202,7 @@
                      "layer":"3",
                      "sprite":"tower_1"
                     },
-                 "type":"occluder",
+                 "type":"occluder_",
                  "visible":true,
                  "width":0,
                  "x":2005,
@@ -218,7 +218,7 @@
                      "layer":"3",
                      "sprite":"tower_4"
                     },
-                 "type":"occluder",
+                 "type":"occluder_",
                  "visible":true,
                  "width":0,
                  "x":2133,
@@ -234,7 +234,7 @@
                      "layer":"3",
                      "sprite":"tower_3"
                     },
-                 "type":"occluder",
+                 "type":"occluder_",
                  "visible":true,
                  "width":0,
                  "x":1238,
@@ -266,7 +266,7 @@
                      "layer":"3",
                      "sprite":"tower_6"
                     },
-                 "type":"occluder",
+                 "type":"occluder_",
                  "visible":true,
                  "width":0,
                  "x":3161,
@@ -282,7 +282,7 @@
                      "layer":"3",
                      "sprite":"tower_4"
                     },
-                 "type":"occluder",
+                 "type":"occluder_",
                  "visible":true,
                  "width":0,
                  "x":1238,

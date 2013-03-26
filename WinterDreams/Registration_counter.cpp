@@ -13,7 +13,7 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 
 	auto counter_sp = std::make_shared<Counter>(entList, countamount, !startdisabled, subLevel_p);
 		
-	subLevel_p->addScript(counter_sp);
+	subLevel_p->addEntity(counter_sp);
 
 	if( name != "" )
 		subLevel_p->mapEntityToName( name, counter_sp );

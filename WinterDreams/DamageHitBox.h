@@ -1,20 +1,26 @@
 #ifndef INCLUDED_DAMAGEHITBOX
 #define INCLUDED_DAMAGEHITBOX
 
-#include <SFML/Graphics/Rect.hpp>
+#include "Entity.h"
+#include "Drawable.h"
+#include "Collidable.h"
+#include "BaseHitBoxHaveable.h"
+
 #include <memory>
-#include "GraphicalEntity.h"
 
 #include "Animation.h"
 #include "WindowManager.h"
 #include "ResourceManager.h"
 #include "GameToScreen.h"
 
+
+
+
 namespace sf{
 	class Sound;
 };
 
-class DamageHitBox : public GraphicalEntity{
+class DamageHitBox : public BaseHitBoxHaveable, public Entity, public Collidable, public Drawable {
 public:
     enum DamageType{PICKAXE, LANTERN};
     ///////////////////////////////////////////////
@@ -23,28 +29,25 @@ public:
 	// /The member variable mLifeTime (in the definition) describes it's life time
 	// /----SHOULD ADD ITSELF TO THE ENTITY VECTOR----
     ///////////////////////////////////////////////
-	DamageHitBox(const sf::Rect<float>& hitBox, unsigned int damage, std::string damageType);
+	DamageHitBox(const sf::FloatRect& hitBox, unsigned int damage, const std::string& damageType);
 	~DamageHitBox();
-    ///////////////////////////////////////////////
-    // /Returns the rectal hitbox
-    ///////////////////////////////////////////////
-	sf::Rect<float>& getHitBox();
+
     ///////////////////////////////////////////////
     // /The death of a hitbox creeps closer
     ///////////////////////////////////////////////
 	void update(SubLevel* subLevel_p);
     ///////////////////////////////////////////////
-    // /Draws the hitbox (for debugging reasons)
+    // /Draws the damage animation
     ///////////////////////////////////////////////
-	void drawSelf();
+	void draw();
 	///////////////////////////////////////////////
 	// /Defines what the DamageHitBox should do on collision.
 	///////////////////////////////////////////////
-	void onCollision(PhysicalEntity* entityCollidedWith_p, const sf::FloatRect& intersection);
+	void onCollision(Collidable* col_p, const sf::FloatRect& intersection);
 	///////////////////////////////////////////////
 	// /Get the damage hitbox's damage type.
 	///////////////////////////////////////////////
-	std::string getDamageType() const;
+	const std::string& getDamageType() const;
 	///////////////////////////////////////////////
 	// /Get the damage hitbox's damage amount.
 	///////////////////////////////////////////////
@@ -55,8 +58,6 @@ public:
 	// /several entitys the same frame.
 	///////////////////////////////////////////////
 	void disableNextFrame();
-
-	sf::Vector2i getDirection() { return sf::Vector2i(0,0); }
 
 private:
 	Animation*						mCurrentAnimation_p; //The current animation

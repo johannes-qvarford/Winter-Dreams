@@ -1,7 +1,10 @@
 #ifndef INCLUDED_INVENTORYDISPLAY
 #define INCLUDED_INVENTORYDISPLAY
 
-#include "Script.h"
+#include "Entity.h"
+#include "Drawable.h"
+#include "BaseHitBoxHaveable.h"
+
 #include "Animation.h"
 #include <memory>
 #include <string>
@@ -12,7 +15,7 @@ class Player;
 // /This class handles the drawing of the inventory box 
 // /that displays what the player currently has equiped.
 ////////////////////////////////////////////////////////////
-class InventoryDisplay : public Script {
+class InventoryDisplay : public Entity, public Drawable, public BaseHitBoxHaveable {
 public:
 	////////////////////////////////////////////////////////////
 	// /The instance will need a shared pointer to know where to
@@ -28,7 +31,7 @@ public:
 	// /Draws the inventory box as well as the icon representing
 	// /the item the player currently have equipped.
 	////////////////////////////////////////////////////////////
-	void draw() const;
+	void draw();
 
 	void update(SubLevel* subLevel_p);
 private:

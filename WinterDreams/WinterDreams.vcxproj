@@ -12,9 +12,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationSpecs.cpp" />
+    <ClCompile Include="BaseHitBoxHaveable.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="CollisionZone.cpp" />
     <ClCompile Include="Counter.cpp" />
     <ClCompile Include="CounterAdder.cpp" />
     <ClCompile Include="CreditsButton.cpp" />
@@ -22,7 +22,6 @@
     <ClCompile Include="ExitButton.cpp" />
     <ClCompile Include="FileStructure.cpp" />
     <ClCompile Include="Crystal.cpp" />
-    <ClCompile Include="FootStep.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="InventoryDisplay.cpp" />
     <ClCompile Include="KeyBindButton.cpp" />
@@ -102,20 +101,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationSpecs.h" />
+    <ClInclude Include="BaseHitBoxHaveable.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="CollisionZone.h" />
+    <ClInclude Include="Collidable.h" />
     <ClInclude Include="Counter.h" />
     <ClInclude Include="CounterAdder.h" />
     <ClInclude Include="CreditsButton.h" />
-    <ClInclude Include="CutsceneTriggerZone.h" />
     <ClInclude Include="DamageHitBox.h" />
+    <ClInclude Include="Drawable.h" />
     <ClInclude Include="ExitButton.h" />
     <ClInclude Include="FileStructure.h" />
-    <ClInclude Include="FootStep.h" />
     <ClInclude Include="GameToScreen.h" />
     <ClInclude Include="Crystal.h" />
-    <ClInclude Include="GraphicalEntity.h" />
+    <ClInclude Include="HitBoxHaveable.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="KeyBindButton.h" />
     <ClInclude Include="LevelEnder.h" />
@@ -148,7 +147,6 @@
     <ClInclude Include="OccludedEntity.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleSystem.h" />
-    <ClInclude Include="PhysicalEntity.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PrecompiledHeader.h" />
     <ClInclude Include="PropertyManager.h" />
@@ -156,7 +154,6 @@
     <ClInclude Include="Queue.h" />
     <ClInclude Include="QueueItem.h" />
     <ClInclude Include="RegistrationCommonHeaders.h" />
-    <ClInclude Include="Script.h" />
     <ClInclude Include="SettingsButton.h" />
     <ClInclude Include="SolidZone.h" />
     <ClInclude Include="SoundScape.h" />
@@ -234,8 +231,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;PLACE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\sfTheora-1.4\include\;$(SolutionDir)..\SFML\include\;$(SolutionDir)..\boost-svn\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>SHIPPING;SHIPPING_REAL;_SCL_SECURE_NO_WARNINGS;PLACE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>SHIPPING;SHIPPING_REAL;$(SolutionDir)..\sfTheora-1.4\include\;$(SolutionDir)..\SFML\include\;$(SolutionDir)..\boost-svn\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PrecompiledHeader.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)..\..\Obj\$(Configuration)\PCH.pch</PrecompiledHeaderOutputFile>
       <ForcedIncludeFiles>PrecompiledHeader.h</ForcedIncludeFiles>

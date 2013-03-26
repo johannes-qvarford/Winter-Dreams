@@ -1,21 +1,22 @@
 #ifndef INCLUDED_TRIGGERZONE
 #define INCLUDED_TRIGGERZONE
 
-#include "CollisionZone.h"
+#include "Entity.h"
+#include "Collidable.h"
+#include "BaseHitBoxHaveable.h"
 
 class SubLevel;
 
 ///////////////////////////////////////////////
 // /Trigger zones are entities with a set collision box.
 ///////////////////////////////////////////////
-class TriggerZone : public CollisionZone {
+class TriggerZone : public Entity, public Collidable, public BaseHitBoxHaveable {
 public:
 	enum Action {
 		ACTION_SWAP,
 		ACTION_ENABLE,
 		ACTION_DISABLE
 	};
-
 
 	///////////////////////////////////////////////
 	// /Create a TriggerZone, that can trigger once or several times, only at a certain lightlevel, only when the player has certain items.
@@ -39,9 +40,11 @@ public:
 	// /swap enter entities enabled state when a player
 	// /goes from not touching the zone, to touching the zone.
 	///////////////////////////////////////////////
-	void onCollision(PhysicalEntity* entityCollidedWith_p, const sf::Rect<float>& intersection);
+	void onCollision(Collidable* col_p, const sf::Rect<float>& intersection);
 
 private:
+
+	bool mOnce;
 
 	Action mAction;
 

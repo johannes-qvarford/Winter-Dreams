@@ -9,14 +9,14 @@ Inventory::Inventory() {
 	mCurrentItem = mInventoryList.end();
 }
 
-unsigned short Inventory::hasItem(std::string item) const{
-	unsigned short amount = 0;
-		/////////////////////////////////////////
-		// Search the inventory list for elements
-		// with the same name as the argument.
-		//
-		// If found, increase amount by 1
-		/////////////////////////////////////////
+int Inventory::hasItem(const std::string& item) const{
+	int amount = 0;
+	/////////////////////////////////////////
+	// Search the inventory list for elements
+	// with the same name as the argument.
+	//
+	// If found, increase amount by 1
+	/////////////////////////////////////////
     for(auto it = mInventoryList.begin(), end = mInventoryList.end(); it != end; ++it){
 		if( *it == item )
 			++amount;
@@ -25,7 +25,7 @@ unsigned short Inventory::hasItem(std::string item) const{
 	return amount;
 }
 
-void Inventory::giveItem(std::string item, unsigned short){
+void Inventory::giveItem(const std::string& item){
 		/////////////////////////////////////////
 		// Add the argument item to the inventory
 		// list
@@ -36,7 +36,7 @@ void Inventory::giveItem(std::string item, unsigned short){
 		equipNext();
 }
 
-void Inventory::takeItem(std::string item, unsigned short){
+void Inventory::takeItem(const std::string& item){
 		/////////////////////////////////////////
 		// Search the inventory list for an element
 		// with the same name as the argument.
@@ -91,15 +91,16 @@ void Inventory::equipNext() {
 	} while(tempIter != mCurrentItem);
 }
 
-std::string Inventory::getCurrentEquip() const{
-		/////////////////////////////////////////
-		// If mCurrentItem == mInventoryList.end(),
-		//  return ""
-		// Else if
-		//	mCurrentItem.iconindex == 0
-		//	return ""
-		// Else
-		//  return *mCurrentItem
-		/////////////////////////////////////////
-	return (mCurrentItem == mInventoryList.end() ) ? "" : (ITEMS_PTREE.get<int>(*mCurrentItem + ".iconindex", 0) == 0) ? "" : *mCurrentItem;
+const std::string& Inventory::getCurrentEquip() const{
+	static const std::string empty("");
+	/////////////////////////////////////////
+	// If mCurrentItem == mInventoryList.end(),
+	//  return ""
+	// Else if
+	//	mCurrentItem.iconindex == 0
+	//	return ""
+	// Else
+	//  return *mCurrentItem
+	/////////////////////////////////////////
+	return (mCurrentItem == mInventoryList.end() ) ? empty : (ITEMS_PTREE.get<int>(*mCurrentItem + ".iconindex", 0) == 0) ? empty : *mCurrentItem;
 }

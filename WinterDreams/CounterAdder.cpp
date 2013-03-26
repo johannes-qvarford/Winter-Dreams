@@ -3,7 +3,7 @@
 #include "Counter.h"
 
 CounterAdder::CounterAdder(int amount, bool startsEnabled, const std::string& counterName):
-	Script(startsEnabled),
+	Entity(startsEnabled),
 	mCounterName(counterName),
 	mAmount(amount)
 {

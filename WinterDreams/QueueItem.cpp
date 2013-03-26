@@ -4,7 +4,7 @@
 #include "SubLevel.h"
 
 QueueItem::QueueItem(const std::string& queueName, const std::list<std::string>& entityNames, bool startsEnabled):
-	Script(startsEnabled),
+	Entity(startsEnabled),
 	mQueueName(queueName),
 	mEntities(entityNames)
 {
@@ -23,9 +23,6 @@ void QueueItem::update(SubLevel* subLevel_p) {
 
 		queue_p->queueItem(subLevel_p, this);
 	}
-}
-
-void QueueItem::draw() const {
 }
 
 const std::list<std::string>& QueueItem::getEntities() {

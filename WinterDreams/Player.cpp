@@ -9,7 +9,6 @@
 #include "FileStructure.h"
 #include "PropertyManager.h"
 #include "InputManager.h"
-#include "FootStep.h"
 #include <list>
 #include <iostream>
 
@@ -71,7 +70,8 @@ PlayerSpecs& PlayerSpecs::get() {
 }
 ////////////////////////////////////////////////////////////////////////////////
 Player::Player(sf::FloatRect initialPosition, int lightLevel, bool startEnabled) :
-	GraphicalEntity( startEnabled ),
+	Entity(startEnabled),
+	BaseHitBoxHaveable(sf::FloatRect(initialPosition.left, initialPosition.top, X_STEP , -Y_STEP)),
 	mActionCooldown( 0 ),
 	mIsActionActive( false),
 	mInventory (Inventory() ),
@@ -80,7 +80,6 @@ Player::Player(sf::FloatRect initialPosition, int lightLevel, bool startEnabled)
 	mLightLevel( lightLevel ),
 	mDirection( 0,0),
 	mFacingDir( 1,1),
-	mHitBox( initialPosition.left, initialPosition.top, X_STEP , -Y_STEP ), //All hitbox heights are now inverted, ask Johannes.
 	mFramesSinceLastBlink(0),
 	mFramesSinceLastHit(1000),
 	mCurrentLightIntensity( PlayerSpecs::get().mLightToDistance.find( mLightLevel )->second ),
@@ -144,7 +143,7 @@ void Player::update(SubLevel* subLevel_p){
 	updateCurrentAnimation();
 }
 
-void Player::drawSelf(){
+void Player::draw(){
 	auto& specs = PlayerSpecs::get();
 
 	//blink if your invulnerable(and it has been a certain number of frames since the last blink).
@@ -154,21 +153,14 @@ void Player::drawSelf(){
 	//Get the current animation's sprite
 	auto sprite = mCurrentAnimation_p->getCurrentSprite();
 	//Assign the sprite a position (in Screen Coordinates)
-	sprite.setPosition( GAME_TO_SCREEN * getPosition() );
+	sprite.setPosition( GAME_TO_SCREEN * BaseHitBoxHaveable::getPosition() );
 	//Draw the sprite
 	WindowManager::get().getWindow()->draw( sprite ,*WindowManager::get().getStates() );
 }
 
-sf::FloatRect& Player::getHitBox(){
-	return mHitBox;
+void Player::onCollision(Collidable* entityCollidedWith_p, const sf::Rect<float>& intersection){
 }
 
-void Player::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::Rect<float>& intersection){
-}
-
-sf::Vector2f Player::getPosition(){
-	return sf::Vector2f(mHitBox.left, mHitBox.top);
-}
 
 void Player::setPosition(const sf::Vector2f& position){
 	mHitBox.left = position.x;
@@ -264,9 +256,9 @@ void Player::updateMovement(SubLevel* subLevel_p) {
 		if ((mFacingDir == sf::Vector2i(1, 0) || mFacingDir == sf::Vector2i(-1, 0)) && mRightFoot)
 			offset = sf::Vector2f(0, -7);
 
-		mRightFoot = !mRightFoot;
-		auto footStep_sp = std::shared_ptr<FootStep>(new FootStep(sf::Vector2f(mHitBox.left + 11, mHitBox.top - 15) + offset, mFacingDir, "ice", 124));
-		subLevel_p->addScript(footStep_sp);
+//		mRightFoot = !mRightFoot;
+//		auto footStep_sp = std::shared_ptr<FootStep>(new FootStep(sf::Vector2f(mHitBox.left + 11, mHitBox.top - 15) + offset, mFacingDir, "ice", 124));
+//		subLevel_p->addScript(footStep_sp);
 
 	}
 }
@@ -360,7 +352,7 @@ sf::Vector2i Player::getFacingDirection() const {
 void Player::addLightSource(SubLevel* subLevel_p){
 	auto ID = WindowManager::get().getNextLightID();
 
-	auto pos = getPosition();
+	auto pos = BaseHitBoxHaveable::getPosition();
 	pos.x += mHitBox.width/2.f;
 	pos.y += mHitBox.height/2.f;
 
@@ -398,7 +390,7 @@ void Player::setInvulnerable() {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 static void addHitBox( SubLevel* subLevel_p, Player* player, int dmgAmount, const std::string& type) {
-	auto& hitBox = player->getHitBox();
+	auto& hitBox = player->BaseHitBoxHaveable::getHitBox();
 	auto faceDir = player->getFacingDirection();
 
 	auto x = hitBox.left;
@@ -411,9 +403,12 @@ static void addHitBox( SubLevel* subLevel_p, Player* player, int dmgAmount, cons
 	
 	sf::FloatRect rect( newPosX, newPosY, width, height);
 
-	std::shared_ptr<GraphicalEntity> dmgHitBox( new DamageHitBox(rect, dmgAmount, type) );
+	std::shared_ptr<DamageHitBox> dmgHitBox( new DamageHitBox(rect, dmgAmount, type) );
 
-	subLevel_p->addGraphicalEntity( dmgHitBox );
+
+	subLevel_p->addEntity(dmgHitBox);
+	subLevel_p->addDrawable(dmgHitBox, SubLevel::DRAW_WORLD);
+	subLevel_p->addCollidable(dmgHitBox, SubLevel::SEEK_SEEKER);
 }
 
 static int convert( int value) {

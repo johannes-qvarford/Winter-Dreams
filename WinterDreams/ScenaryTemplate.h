@@ -59,9 +59,10 @@ static void SCENARY_CALLBACK(SubLevel* subLevel_p, const sf::Vector2f& position,
 	Animation anim(FS_DIR_OBJECTANIMATIONS + "scenary/" + filename, sWidth, sHeight, numberofsprites, framespersprite, xorigin, yorigin); 
 
 	auto occluded_sp = std::shared_ptr<OccludedEntity>(new OccludedEntity(
-		sf::FloatRect(position, sf::Vector2f(X_STEP, -Y_STEP)), anim, 1.f, 1.f, 100, 1, true));
+		sf::FloatRect(position, sf::Vector2f(X_STEP, -Y_STEP)), anim, 1.f, 1.f, 100, 150, true));
 
-	subLevel_p->addGraphicalEntity(occluded_sp);
+	subLevel_p->addEntity(occluded_sp);
+	subLevel_p->addDrawable(occluded_sp, SubLevel::DRAW_WORLD);
 }
 
 static ObjectTypeRegistration SCENARY_REG(SCENARY_STRING, SCENARY_CALLBACK);

@@ -1,10 +1,12 @@
 #include "SolidZone.h"
+
 #ifdef DEBUG_SOLIDZONE
 #include "GameToScreen.h"
 #include "FileStructure.h"
 #include "ResourceManager.h"
 #include "WindowManager.h"
 #endif
+
 #include "Player.h"
 
 static const char* SolidZone_IMAGE_FILENAME_1 = "collision128x64/flat64.png";
@@ -12,8 +14,9 @@ static const char* SolidZone_IMAGE_FILENAME_2 = "collision256x128/flat128.png";
 static const char* SolidZone_IMAGE_FILENAME_3 = "collision512x256/flat256.png";
 static const float STEP = 35.77708763999664f;
 
-SolidZone::SolidZone(sf::Rect<float> HitBox, bool startsEnabled):
-	CollisionZone(startsEnabled, HitBox, false)
+SolidZone::SolidZone(const sf::FloatRect& hitBox, bool startsEnabled):
+	Entity(startsEnabled),
+	BaseHitBoxHaveable(hitBox)
 {
 #ifdef DEBUG_SOLIDZONE
 	auto& hitBox = getHitBox();
@@ -42,20 +45,20 @@ SolidZone::SolidZone(sf::Rect<float> HitBox, bool startsEnabled):
 #endif
 }
 
-void SolidZone::onCollision(PhysicalEntity* pe, const sf::Rect<float>& intersection){
+void SolidZone::update(SubLevel* subLevel_p) {
+}
+
+void SolidZone::onCollision(Collidable* col_p, const sf::Rect<float>& intersection){
 	
 	if (getEnabled() == false)
 		return;
 	
-	CollisionZone::onCollision(pe, intersection);
-
-	Player* pl = dynamic_cast<Player*>(pe);
-	if(pl == nullptr)
+	Player* pl_p = dynamic_cast<Player*>(col_p);
+	if(pl_p == nullptr)
 		return;
 
-	sf::Rect<float>& hitBox = pe->getHitBox();
-	sf::Vector2i direction = pl->getDirection();
-	sf::Rect<float>& myHitBox = getHitBox();
+	sf::Rect<float>& hitBox = pl_p->getHitBox();
+	sf::Vector2i direction = pl_p->getDirection();
 /*
 // Specialfallan då höjden och bredden på intersection är lika stora (ish)
 */
@@ -104,7 +107,7 @@ void SolidZone::onCollision(PhysicalEntity* pe, const sf::Rect<float>& intersect
 		// är players y-värde större, adddera intersections-höjden
 		// annars minska med intersections-höjd
 		*/
-		if (hitBox.top + hitBox.height > myHitBox.top + myHitBox.height)
+		if (hitBox.top + hitBox.height > mHitBox.top + mHitBox.height)
 			hitBox.top += intersection.height;
 		else
 			hitBox.top -= intersection.height;
@@ -115,18 +118,16 @@ void SolidZone::onCollision(PhysicalEntity* pe, const sf::Rect<float>& intersect
 	// annars minska players x-värde med intersection-bredden
 	*/
 	else {
-		if (hitBox.left > myHitBox.left)
+		if (hitBox.left > mHitBox.left)
 			hitBox.left += intersection.width;
 		else
 			hitBox.left -= intersection.width;
 	}
 }
 
-void SolidZone::drawSelf(){
+#ifdef DEBUG_SOLIDZONE
+void SolidZone::draw(){
 
-
-	#ifdef DEBUG_SOLIDZONE
-	
 	auto window_p = WindowManager::get().getWindow();
 	if(!getEnabled())
 		return;
@@ -147,5 +148,6 @@ void SolidZone::drawSelf(){
 
 	window.draw(vertices, 4, sf::Quads, states);
 	//	window_p->draw(mSprite);
-#endif
 }
+
+#endif

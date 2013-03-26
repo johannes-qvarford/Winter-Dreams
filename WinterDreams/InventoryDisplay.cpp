@@ -70,7 +70,7 @@ InvDispSpecs& InvDispSpecs::get() {
 ////////////////////////////////////////////////////////////////////////////////
 
 InventoryDisplay::InventoryDisplay(std::weak_ptr<Player> player) :
-	Script( true ),
+	Entity( true ),
 	mPlayer_wp( player )
 {
 		//get a copy to the windows size
@@ -103,7 +103,7 @@ InventoryDisplay::~InventoryDisplay()
 {}
 
 /////////////////////////////////////////////////////////
-void InventoryDisplay::draw() const{
+void InventoryDisplay::draw() {
 	auto& window = *WindowManager::get().getRenderWindow();
 	auto& rendState = *WindowManager::get().getStates();
 

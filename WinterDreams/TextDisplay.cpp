@@ -5,7 +5,7 @@
 #include "ResourceManager.h"
 
 TextDisplay::TextDisplay(const std::vector<TimedText>& timedText, const sf::Vector2f& position, bool startEnabled):
-	Script(startEnabled),
+	Entity(startEnabled),
 	mNumFrames(0),
 	mFont_sp(ResourceManager::get().getFont(FS_DIR_FONTS + "arial.ttf")),
 	mTimedText(timedText),
@@ -33,7 +33,7 @@ void TextDisplay::update(SubLevel* subLevel_p) {
 	mLastIndex = curIndex;
 }
 
-void TextDisplay::draw() const {
+void TextDisplay::draw() {
 	if(mTimedText.empty() ) {
 		return;
 	}
@@ -51,7 +51,8 @@ void TextDisplay::draw() const {
 
 	text.setColor(sf::Color::White);
 	text.setFont(*mFont_sp);
-	text.setString(mTimedText[mLastIndex].mText);
+	auto r = mTimedText[mLastIndex].mText;
+	text.setString(r);
 	text.setCharacterSize(csize);
 
 	auto winSize = window.getSize();

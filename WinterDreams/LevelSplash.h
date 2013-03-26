@@ -1,7 +1,9 @@
 #ifndef INCLUDED_LEVELSPLASH
 #define INCLUDED_LEVELSPLASH
 
-#include "Script.h"
+#include "Entity.h"
+#include "Drawable.h"
+#include "BaseHitBoxHaveable.h"
 
 class SubLevel;
 ////////////////////////////////////////////////////////////
@@ -9,7 +11,7 @@ class SubLevel;
 // /beginning of a level. The splash will only be displayed
 // /once and will then destroy itself.
 ////////////////////////////////////////////////////////////
-class LevelSplash :	public Script {
+class LevelSplash :	public Entity, public Drawable, public BaseHitBoxHaveable {
 public:
 	////////////////////////////////////////////////////////////
 	// /A levelSplash needs a lifeTime, to know for how long
@@ -21,17 +23,15 @@ public:
 	// /Lastly, it needs a level name to know which splash to load
 	////////////////////////////////////////////////////////////
 	LevelSplash(const std::string& splashFileName, int lifeTime, const int fadeoutTime, bool startEnabled);
-	////////////////////////////////////////////////////////////
-	// /Destructor
-	////////////////////////////////////////////////////////////
-	~LevelSplash();
+
 	////////////////////////////////////////////////////////////
 	// /While the level splash is drawn it locks the input manager
 	// /so that the player cannot move.
 	// /It keeps being drawn as long as it's lifetime is greater
 	// /then zero.
 	////////////////////////////////////////////////////////////
-	void draw() const;
+	void draw();
+
 	////////////////////////////////////////////////////////////
 	// /Reduces the level splash's remaining life time
 	////////////////////////////////////////////////////////////

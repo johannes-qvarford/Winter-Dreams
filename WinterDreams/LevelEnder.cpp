@@ -1,4 +1,5 @@
 #include "LevelEnder.h"
+
 #include "LoadingVideoState.h"
 #include "SubLevel.h"
 #include "LevelState.h"
@@ -7,23 +8,22 @@
 #include "InputManager.h"
 
 LevelEnder::LevelEnder( bool startsEnabled, const sf::FloatRect& hitBox):
-	CollisionZone(startsEnabled, hitBox, true),
+	Entity(startsEnabled),
+	BaseHitBoxHaveable(hitBox),
 	mSubLevel_p(nullptr)
 {
 }
 
-LevelEnder::~LevelEnder() {
-}
 
 void LevelEnder::update(SubLevel* subLevel_p) {
 	//we need sublevel in onCollision.
 	mSubLevel_p = subLevel_p;
 }
 
-void LevelEnder::onCollision(PhysicalEntity* physical_p, const sf::FloatRect& intersection) {
+void LevelEnder::onCollision(Collidable* physical_p, const sf::FloatRect& intersection) {
 	
 	if(getEnabled()) {
-		CollisionZone::onCollision(physical_p, intersection);
+		setEnabled_impl(false);
 
 		auto& levelName = mSubLevel_p->getLevel()->getLevelName();
 
@@ -39,7 +39,4 @@ void LevelEnder::onCollision(PhysicalEntity* physical_p, const sf::FloatRect& in
 		sm.pushState(lvs_p);
 		sm.unfreezeState(100);
 	}
-}
-
-void LevelEnder::drawSelf() {
 }

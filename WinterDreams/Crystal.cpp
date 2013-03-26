@@ -1,10 +1,15 @@
 #include "Crystal.h"
+
+#include <string>
+
+#include "SolidZone.h"
+
 #include "WindowManager.h"
 #include "GameToScreen.h"
 #include "DamageHitBox.h"
 #include "FileStructure.h"
 #include "PropertyManager.h"
-#include <string>
+
 
 class CrystalSpecs{
 public:	
@@ -39,7 +44,8 @@ CrystalSpecs& CrystalSpecs::get() {
 ////////////////////////////////////////////////////////////////////////////////
 
 Crystal::Crystal( const sf::FloatRect& position, bool startEnabled) : 
-	GraphicalEntity( startEnabled ),
+	Entity( startEnabled ),
+	BaseHitBoxHaveable(position),
 	mSolidZone( new SolidZone( position, startEnabled ) ),
 	mVersion ( rand()%3+1 ),
 	mHP		( CrystalSpecs::get().mHealth ),
@@ -83,8 +89,6 @@ Crystal::Crystal( const sf::FloatRect& position, bool startEnabled) :
 	}
 }
 
-Crystal::~Crystal() { }
-
 void Crystal::update(SubLevel* subLevel_p) {
 
 	updateAnimation();
@@ -93,7 +97,7 @@ void Crystal::update(SubLevel* subLevel_p) {
 		setAlive( false );
 }
 
-void Crystal::drawSelf() {
+void Crystal::draw() {
 	auto& windowManager = WindowManager::get();
 	auto sprite = mCurrentAnimation->getCurrentSprite();
 
@@ -104,32 +108,32 @@ void Crystal::adjustHealth(int adjustment){
 	mHP += adjustment;
 }
 
-sf::FloatRect& Crystal::getHitBox() {
-	return mSolidZone->getHitBox();
-}
-
 int Crystal::getHealth() const {
 	return mHP;
 }
 
-void Crystal::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::FloatRect& intersection) {
+void Crystal::onCollision(Collidable* col_p, const sf::FloatRect& intersection) {
 	static sf::Sound sound(*mSoundBuffer);
 	static sf::Sound destroyedSound(*mDestroyedSoundBuffer);
 
 	sound.setVolume(PropertyManager::get().getUserSettings()->get<float>("volumes.soundVolume") * 0.3f);
 	destroyedSound.setVolume(PropertyManager::get().getUserSettings()->get<float>("volumes.soundVolume") * 0.3f);
-		//First do the standard Solid Zone collisions
-	mSolidZone->onCollision( entityCollidedWith_p, intersection );
+	
+	//First do the standard Solid Zone collisions
+	mSolidZone->onCollision( col_p, intersection );
 
 		//Then, if crystal collided with a DamageHitBox
-	if( dynamic_cast<DamageHitBox*>( entityCollidedWith_p ) && entityCollidedWith_p->getEnabled() ) {
-		auto dmgHitBox = dynamic_cast<DamageHitBox*>( entityCollidedWith_p );
+	if(auto dhb_p = dynamic_cast<DamageHitBox*>( col_p )  ) {
 		
-		if( dmgHitBox->getDamageType() == "pickaxe" ) {
+		//it has to be enabled
+		if(dhb_p->getEnabled() == false)
+			return;
+
+		if( dhb_p->getDamageType() == "pickaxe" ) {
 				//Reduce crytal's HP by DamageHitBox's damage then set the hitbox to !enabled
 			
-			adjustHealth(dmgHitBox->getDamageAmount() * -1);
-			dmgHitBox->disableNextFrame();
+			adjustHealth(dhb_p->getDamageAmount() * -1);
+			dhb_p->disableNextFrame();
 
 			auto status = sound.getStatus();
 			auto destroyedStatus = destroyedSound.getStatus();

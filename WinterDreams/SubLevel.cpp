@@ -6,36 +6,65 @@
 #include "Player.h"
 #include "LevelState.h"
 
-#include "Script.h"
-#include "GraphicalEntity.h"
-#include "CollisionZone.h"
+#include "Entity.h"
+#include "Drawable.h"
+#include "Collidable.h"
 
 #include "WindowManager.h"
 #include "ResourceManager.h"
 #include "GameToScreen.h"
 #include "FileStructure.h"
 
-#include <algorithm>
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/VertexArray.hpp>
-#include <cmath>
-#include <iostream>
-
 #include <SFML/Graphics/Shader.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Mouse.hpp>
+#include <cmath>
+#include <iostream>
+#include <algorithm>
+#include <boost/foreach.hpp>
 
-static bool smallerPosition(std::shared_ptr<PhysicalEntity> lhs_p, std::shared_ptr<PhysicalEntity> rhs_sp);
-static void handleCollision(PhysicalEntity* lhs_p, PhysicalEntity* rhs_p);
+static bool smallerPosition(std::shared_ptr<Drawable> lhs_sp, std::shared_ptr<Drawable> rhs_sp);
+static void handleCollision(Collidable* lhs_p, Collidable* rhs_p);
+
+template<typename C, typename E>
+static void deleteInactive(C* con, std::shared_ptr<E> remove_sp) {
+	
+	//we need to be careful about invalid iterators
+	//if we erase an iterator; it is invalidated.
+	//the iterators around it are not.
+	{
+		auto it = con->begin();
+		auto end = con->end();
+
+		//iterator to next element
+		auto nextIt = it;
+
+		while(it != end) {
+			++nextIt;
+
+			auto e_sp = *it;
+
+			if(e_sp == remove_sp) {
+				con->erase(it);
+			}
+			//nextIt is not invalidated either way
+			it = nextIt;
+		}
+	}
+}
 
 SubLevel::SubLevel(LevelState* levelState_p):
 	mLevelState_p(levelState_p),
 	mNameToEntity(),
 	mNameToAiPath(),
-	mCollisionZones(),
-	mGraphicalEntities(),
-	mScripts(),
+	mEntities(),
+	mWorldDrawables(),
+	mScreenDrawables(),
+	mSeekers(),
+	mRecievers(),
 	mMapTexture(),
 	mBackgroundTexture(),
 	mLightCircleShader( ResourceManager::get().getShader( FS_DIR_SHADERS + "Darkness.frag" ) )
@@ -73,42 +102,58 @@ void SubLevel::update() {
 	//	j -= 0.1;
 	//}
 
-	//update graphical entities.
-	for(auto it = mGraphicalEntities.begin(), end = mGraphicalEntities.end(); it != end; ++it) {
-		auto graphical_sp = *it;
-
-		graphical_sp->update(this);
-		checkCollisions(graphical_sp);
+	//update all entities
+	BOOST_FOREACH(auto& e_sp, mEntities) {
+		e_sp->update(this);
 	}
 
-	//update collision zones.
-	for(auto it = mCollisionZones.begin(), end = mCollisionZones.end(); it != end; ++it) {
-		auto colZone_sp = *it;
-
-		colZone_sp->update(this);
+	//check collisions
+	BOOST_FOREACH(auto& s_sp, mSeekers) {
+		BOOST_FOREACH(auto& r_sp, mRecievers) {
+			handleCollision(s_sp.get(), r_sp.get());
+		}
 	}
 
-	//update scripts
-	for(auto it = mScripts.begin(), end = mScripts.end(); it != end; ++it) {
-		auto script_sp = *it;
-
-		script_sp->update(this);
+	//delete inactive entities
+	std::vector<std::shared_ptr<Entity> > inactiveEntities;
+	BOOST_FOREACH(auto& e_sp, mEntities) {
+		if(e_sp->getAlive() == false) {
+			inactiveEntities.push_back(e_sp);
+		}
 	}
-
-	//delete inactive entities.
-	deleteInactives();
+	BOOST_FOREACH(auto e_sp, inactiveEntities) {
+		deleteInactive(&mEntities, e_sp);
+		
+		//check if the entity belongs to drawables and collidables too.
+		if(auto d_sp = std::dynamic_pointer_cast<Drawable>(e_sp)) {
+			deleteInactive(&mScreenDrawables, d_sp);
+			deleteInactive(&mWorldDrawables, d_sp);
+		}
+		if(auto col_sp = std::dynamic_pointer_cast<Collidable>(e_sp)) {
+			deleteInactive(&mSeekers, col_sp);
+			deleteInactive(&mRecievers, col_sp);
+		}
+	}
 }
 
-void SubLevel::addGraphicalEntity(std::shared_ptr<GraphicalEntity> graphical_sp){
-	mGraphicalEntities.push_back(graphical_sp);
+void SubLevel::addCollidable(std::shared_ptr<Collidable> col_sp, SubLevel::CollidableType type) {
+	if(type == SEEK_RECIEVER) {
+		mRecievers.push_back(col_sp);
+	} else {
+		mSeekers.push_back(col_sp);
+	}
 }
 
-void SubLevel::addScript(std::shared_ptr<Script> script_sp) {
-	mScripts.push_back(script_sp);
+void SubLevel::addDrawable(std::shared_ptr<Drawable> draw_sp, SubLevel::DrawableType type){
+	if(type == DRAW_SCREEN) {
+		mScreenDrawables.push_back(draw_sp);
+	} else {
+		mWorldDrawables.push_back(draw_sp);
+	}
 }
 
-void SubLevel::addCollisionZone(std::shared_ptr<CollisionZone> colZone_sp) {
-	mCollisionZones.push_back(colZone_sp);
+void SubLevel::addEntity(std::shared_ptr<Entity> ent_sp) {
+	mEntities.push_back(ent_sp);
 }
 
 void SubLevel::setMapTexture(std::shared_ptr<sf::Texture> texture_sp, const sf::Vector2f& position) {
@@ -164,10 +209,8 @@ void SubLevel::render() {
 		window.draw(sprite);
 	}
 
-
-
 	//sort them in drawing order.
-	mGraphicalEntities.sort(smallerPosition);
+	mWorldDrawables.sort(smallerPosition);
 	
 	//Calculate a viewrect, which will be used for view culling
 	auto& view = WindowManager::get().getWindow()->getView();
@@ -175,16 +218,9 @@ void SubLevel::render() {
 	auto size = view.getSize();
 	auto viewRect = sf::FloatRect(center.x - size.x*0.6f, center.y - size.y*0.6f, size.x*1.2f, size.y*1.2f) ;
 
-	for(auto it = mGraphicalEntities.begin(), end = mGraphicalEntities.end(); it != end; ++it) {
-//		auto transformedRect = GAME_TO_SCREEN.transformRect( (*it)->getHitBox() );
-//		if( viewRect.intersects( transformedRect ) ){	
-			auto graphical_sp = *it;
-			graphical_sp->drawSelf();
-		
+	BOOST_FOREACH(auto d, mWorldDrawables) {
+		d->draw();
 	}
-
-	//display
-
 
 	window.display();
 
@@ -200,112 +236,32 @@ void SubLevel::render() {
 #else
 	renderWindow.draw(renderTextureSprite, mLightCircleShader.get() );
 #endif
-	for(auto it = mScripts.begin(), end = mScripts.end(); it != end; ++it) {
-		auto script_sp = *it;
-		script_sp->draw();
 
+	BOOST_FOREACH(auto d, mScreenDrawables) {
+		d->draw();
 	}
 
-
-//This is statemanagers job now
-//	renderWindow.display();
-
-
 	for( int i = 0; i < 20; ++i) {
-		//char brightness[] = "brightness[0]";
-		//char maxDis[] = "maxDis[0]";
 
 		auto md = std::string("maxDis[") + std::to_string(static_cast<long long>(i)) + "]";
 		auto br = std::string("brightness[") + std::to_string(static_cast<long long>(i)) + "]";
 
-		//brightness[11] += i;
-		//maxDis[7] += i;
-		
 		mLightCircleShader->setParameter( br.c_str(), 0 );
 		mLightCircleShader->setParameter( md.c_str(), 1 );
 	}
 }
 
 void SubLevel::deleteInactives() {
-	//we need to be careful about invalid iterators
-	//if we erase an iterator; it is invalidated.
-	//the iterators around it are not.
 	
-	//iterate over graphical entities
-	{
-		auto it = mGraphicalEntities.begin();
-		auto end = mGraphicalEntities.end();
-
-		//iterator to next element
-		auto nextIt = it;
-
-		while(it != end) {
-			++nextIt;
-
-			auto graphical_sp = *it;
-
-			if(graphical_sp->getAlive() == false) {
-				//'it' is invalidated
-				mGraphicalEntities.erase(it);
-			}
-			//nextIt is not invalidated either way
-			it = nextIt;
-		}
-	}
-
-	//iterate over collision zones
-	{
-		auto it = mCollisionZones.begin();
-		auto end = mCollisionZones.end();
-
-		auto nextIt = it;
-
-		while(it != end) {
-			++nextIt;
-
-			auto colZone_sp = *it;
-
-			if(colZone_sp->getAlive() == false) {
-				mCollisionZones.erase(it);
-			}
-
-			it = nextIt;
-		}
-	}
-
-	//iterare over scripts
-	{
-		auto it = mScripts.begin();
-		auto end = mScripts.end();
-
-		auto nextIt = it;
-
-		while(it != end) {
-			++nextIt;
-
-			Script* script_p = it->get();
-
-			if(script_p->getAlive() == false) {
-				mScripts.erase(it);
-			}
-
-			it = nextIt;
-		}
-	}
 }
 
-static bool smallerPosition(std::shared_ptr<PhysicalEntity> lhs_p, std::shared_ptr<PhysicalEntity> rhs_p) {
-	auto& lhsBox = lhs_p->getHitBox();
-	auto& rhsBox = rhs_p->getHitBox();
+static bool smallerPosition(std::shared_ptr<Drawable> lhs_sp, std::shared_ptr<Drawable> rhs_sp) {
+	auto& lhsBox = lhs_sp->getHitBox();
+	auto& rhsBox = rhs_sp->getHitBox();
 
-	if( lhs_p->getLayer() < rhs_p->getLayer() )
+	if( lhs_sp->getLayer() < rhs_sp->getLayer() )
 		return true;
-	else if( lhs_p->getLayer() > rhs_p->getLayer() )
-		return false;
-	
-	if( lhs_p->getMinorLayer() < rhs_p->getMinorLayer() )
-		return true;
-	else if( lhs_p->getMinorLayer() > rhs_p->getMinorLayer() )
+	else if( lhs_sp->getLayer() > rhs_sp->getLayer() )
 		return false;
 
 	auto lhsIsoDepth = lhsBox.left + lhsBox.top + (lhsBox.width + lhsBox.height) / 2;
@@ -314,32 +270,7 @@ static bool smallerPosition(std::shared_ptr<PhysicalEntity> lhs_p, std::shared_p
 	return lhsIsoDepth < rhsIsoDepth;
 }
 
-void SubLevel::checkCollisions(std::shared_ptr<GraphicalEntity> graphical_sp) {
-#ifndef SHIPPING_REAL
-	if( sf::Keyboard::isKeyPressed( sf::Keyboard::C ) )
-		return;
-#endif
-
-	for(auto it = mGraphicalEntities.begin(), end = mGraphicalEntities.end(); it != end; ++it) {
-		auto other_sp = *it;
-
-		//we can't collide with ourselves!
-		if(graphical_sp == other_sp)
-			continue;
-
-		//check and handle collision
-		handleCollision(graphical_sp.get(), other_sp.get());
-	}
-
-	for(auto it = mCollisionZones.begin(), end = mCollisionZones.end(); it != end; ++it) {
-		auto other_sp = *it;
-
-		//check and handle collision
-		handleCollision(other_sp.get(), graphical_sp.get());
-	}
-}
-
-static void handleCollision(PhysicalEntity* lhs_p, PhysicalEntity* rhs_p) {
+static void handleCollision(Collidable* lhs_p, Collidable* rhs_p) {
 	//collision boxes have negative width
 	//perform check as if they had a smaller y position, and a positive height
 	
@@ -352,9 +283,9 @@ static void handleCollision(PhysicalEntity* lhs_p, PhysicalEntity* rhs_p) {
 	rhsDummy.height = -rhsDummy.height;
 
 	auto intersection = sf::FloatRect();
-
 	if(lhsDummy.intersects(rhsDummy, intersection)) {
 		lhs_p->onCollision(rhs_p, intersection);
+		rhs_p->onCollision(lhs_p, intersection);
 	}
 }
 

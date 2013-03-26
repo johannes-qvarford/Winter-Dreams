@@ -1,8 +1,10 @@
 #include "DamageHitBox.h"
+
+#include <SFML/Audio.hpp>
+
 #include "SubLevel.h"
 #include "Crystal.h"
 #include "FileStructure.h"
-#include <SFML/Audio.hpp>
 #include "PropertyManager.h"
 #include "GameToScreen.h"
 #include "InputManager.h"
@@ -42,9 +44,9 @@ HitBoxSpecs& HitBoxSpecs::get() {
 // /Simply assigns the arguments to the correct member variable.
 // /EXCEPTION: mLifeTime is assigned manually. Defines how many updates the hitbox lives.
 ///////////////////////////////////////////////
-DamageHitBox::DamageHitBox(const sf::Rect<float>& hitBox, unsigned int damage, std::string damageType) :
-	GraphicalEntity( true ),
-	mHitBox( hitBox ),
+DamageHitBox::DamageHitBox(const sf::FloatRect& hitBox, unsigned int damage, const std::string& damageType) :
+	Entity(true),
+	BaseHitBoxHaveable(hitBox),
 	mDamage( damage ),
 	mDamageType( damageType ),
 	mLifeTime(10),
@@ -75,12 +77,6 @@ DamageHitBox::DamageHitBox(const sf::Rect<float>& hitBox, unsigned int damage, s
 DamageHitBox::~DamageHitBox() {
 	delete mCurrentAnimation_p;
 }
-	///////////////////////////////////////////////
-	// /Returns the hit box of the damage zone
-	///////////////////////////////////////////////
-sf::FloatRect& DamageHitBox::getHitBox() {
-	return mHitBox;
-}
 
 void DamageHitBox::update(SubLevel* subLevel_p){
 	mCurrentAnimation_p->updateAnimation();
@@ -92,22 +88,18 @@ void DamageHitBox::update(SubLevel* subLevel_p){
 		setAlive( false );
 
 }
-	///////////////////////////////////////////////
-	// /Draws a red circle representing the damage hitbox. Only for bug testing
-	///////////////////////////////////////////////
-void DamageHitBox::drawSelf(){ 
+
+void DamageHitBox::draw(){ 
 	WindowManager::get().getWindow()->draw( mCurrentAnimation_p->getCurrentSprite(), *WindowManager::get().getStates() );
 }
-	///////////////////////////////////////////////
-	// /Defines what the DamageHitBox should do on collision.
-	///////////////////////////////////////////////
-void DamageHitBox::onCollision(PhysicalEntity* entityCollidedWith_p, const sf::FloatRect& intersection) { }
+
+void DamageHitBox::onCollision(Collidable* col_p, const sf::FloatRect& intersection) { }
 
 int DamageHitBox::getDamageAmount() const {
 	return getEnabled() ? mDamage: 0;
 }
 
-std::string DamageHitBox::getDamageType() const {
+const std::string& DamageHitBox::getDamageType() const {
 	return mDamageType;
 }
 

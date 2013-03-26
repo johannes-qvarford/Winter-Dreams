@@ -361,7 +361,7 @@
 			"invulnerabilityframes": 40,
 			"blinkframedistance": 8,
 
-			"walkspeed": 1.75,
+			"walkspeed": 10.75,
 			"pickaxe_cooldown": 25,
 
 			"framesperstep": 27,
@@ -797,7 +797,7 @@
 					"xorigin": "68",
 					"numberofsprites": "1",
 					"framespersprite": "1",
-					"filename": "sc_stone_1_f.png"
+					"filename": "sten_1_f.png"
 				}
 			},
 			"sc_stone_2": {
@@ -811,7 +811,7 @@
 					"xorigin": "68",
 					"numberofsprites": "1",
 					"framespersprite": "1",
-					"filename": "sc_stone_2_f.png"
+					"filename": "sten_2_f.png"
 				}
 			},
 			"sc_stone_3": {
@@ -825,7 +825,7 @@
 					"xorigin": "68",
 					"numberofsprites": "1",
 					"framespersprite": "1",
-					"filename": "sc_stone_3_f.png"
+					"filename": "sten_3_f.png"
 				}
 			},
 			"sc_stone_4": {
@@ -839,7 +839,7 @@
 					"xorigin": "68",
 					"numberofsprites": "1",
 					"framespersprite": "1",
-					"filename": "sc_stone_4_f.png"
+					"filename": "sten_4_f.png"
 				}
 			},
 			"sc_stone_5": {
@@ -853,7 +853,7 @@
 					"xorigin": "68",
 					"numberofsprites": "1",
 					"framespersprite": "1",
-					"filename": "sc_stone_5_f.png"
+					"filename": "sten_5_f.png"
 				}
 			},
 			"sc_stone_6": {
@@ -867,7 +867,7 @@
 					"xorigin": "68",
 					"numberofsprites": "1",
 					"framespersprite": "1",
-					"filename": "sc_stone_6_f.png"
+					"filename": "sten_6_f.png"
 				}
 			},
 			"sc_stone_7": {
@@ -881,7 +881,7 @@
 					"xorigin": "68",
 					"numberofsprites": "1",
 					"framespersprite": "1",
-					"filename": "sc_stone_7_f.png"
+					"filename": "sten_7_f.png"
 				}
 			}
 		}

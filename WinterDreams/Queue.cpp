@@ -6,7 +6,7 @@ static void swapEntitiesStates(SubLevel* subLevel_p, QueueItem* queueItem_p);
 static Entity* toEntity(SubLevel* subLevel_p, const std::string& name);
 
 Queue::Queue(int numItems, const std::list<std::string>& initialQueueItems, bool startsEnabled):
-	Script(startsEnabled),
+	Entity(startsEnabled),
 	mNumItems(numItems),
 	mQueuedItems(),
 	mInitialQueueItems(initialQueueItems),
@@ -35,9 +35,6 @@ void Queue::update(SubLevel* subLevel_p) {
 		//list can't be to big
 		assert(numItems <= mNumItems);
 	}
-}
-
-void Queue::draw() const {
 }
 
 void Queue::queueItem(SubLevel* subLevel_p, const std::string& queueItemName) {

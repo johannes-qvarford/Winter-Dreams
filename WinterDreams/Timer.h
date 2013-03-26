@@ -1,8 +1,7 @@
 #ifndef INCLUDED_TIMER
 #define INCLUDED_TIMER
 
-#include "Script.h"
-class SubLevel;
+#include "Entity.h"
 
 ////////////////////////////////////////////////////////////
 // /Timer is a script that ticks a certain amount of frames
@@ -10,8 +9,9 @@ class SubLevel;
 // /When its alarm goes of, it changes the state of a list
 // /of entities, and disables itself.
 ////////////////////////////////////////////////////////////
-class Timer : public Script {
+class Timer : public Entity {
 public:
+
 	enum TriggerAction {
 		ACTION_SWAP,
 		ACTION_ENABLE,

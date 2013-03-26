@@ -46,6 +46,7 @@ bool WindowManager::update() {
 	if(desktop != mLastDesktopMode)
 		onDesktopModeChanged();
 
+	mTexture2.display();
 	mWindow.draw( sf::Sprite(mTexture2.getTexture()) );
 	mWindow.display();
 
@@ -77,6 +78,10 @@ bool WindowManager::update() {
 #endif
 		}
 	}
+
+	mTexture.clear();
+	mTexture2.clear();
+
 	return true;
 }
 

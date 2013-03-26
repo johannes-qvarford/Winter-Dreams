@@ -1,26 +1,25 @@
 #ifndef INCLUDED_LEVELENDER
 #define INCLUDED_LEVELENDER
 
-#include "CollisionZone.h"
+#include "Entity.h"
+#include "Collidable.h"
+#include "BaseHitBoxHaveable.h"
 
 ////////////////////////////////////////////////////////////
 // /LevelEnder ends the current level, and starts loading the
 // /next level, when colliding with the player.
+// /WARNING: Should be updated to use onChangeEnabled.
 ////////////////////////////////////////////////////////////
-class LevelEnder : public CollisionZone {
+class LevelEnder : public Entity, public Collidable, public BaseHitBoxHaveable {
 public:
 
 	LevelEnder(bool startsEnabled, const sf::FloatRect& hitBox);
 
-	~LevelEnder();
-
 	void update(SubLevel* subLevel_p);
 
-	void onCollision(PhysicalEntity* physical_p, const sf::Rect<float>& intersection);
+	void onCollision(Collidable* physical_p, const sf::FloatRect& intersection);
 
-	void drawSelf();
 private:
-
 	SubLevel* mSubLevel_p;
 
 };

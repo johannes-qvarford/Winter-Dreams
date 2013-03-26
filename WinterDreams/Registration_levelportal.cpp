@@ -26,9 +26,12 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 		direction = sf::Vector2i(-1, 0);
 	sf::FloatRect rect( position.x, position.y, adjustedWidth, adjustedHeight );
 	
-	auto portal_sp = std::make_shared<LevelPortal>(rect, subLevel_p, levelname, targetportal, !startdisabled, once, direction);
+	//WARNING: ignores once
+	auto portal_sp = std::make_shared<LevelPortal>(rect, subLevel_p, levelname, targetportal, !startdisabled, direction);
 
-	subLevel_p->addGraphicalEntity(portal_sp);
+	subLevel_p->addEntity(portal_sp);
+	subLevel_p->addDrawable(portal_sp, SubLevel::DRAW_WORLD);
+	subLevel_p->addCollidable(portal_sp, SubLevel::SEEK_RECIEVER);
 
 	if( name != "" )
 		subLevel_p->mapEntityToName( name, portal_sp );

@@ -1,13 +1,17 @@
 #ifndef INCLUDED_PLAYER
 #define INCLUDED_PLAYER
 
-#include "GraphicalEntity.h"
+#include "Entity.h"
+#include "Drawable.h"
+#include "Collidable.h"
+#include "BaseHitBoxHaveable.h"
+
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Keyboard.hpp>
-#include "Inventory.h"
-#include "Animation.h"
 #include <map>
+
+#include "Inventory.h"
 #include "Animation.h"
 
 class Inventory;
@@ -24,7 +28,7 @@ enum MovementMode {
 ////////////////////////////////////////////////////////
 // /Concrete class representing the players character.
 ////////////////////////////////////////////////////////
-class Player : public GraphicalEntity {
+class Player : public Entity, public Drawable, public Collidable, public BaseHitBoxHaveable {
 public:
 	//////////////////////////////////////////////////////
 	// /Players constructor needs a sf::FloatRect to assign
@@ -46,12 +50,7 @@ public:
 	//////////////////////////////////////////////////////
 	// /Defines how the avatar is drawn onto the window.
 	//////////////////////////////////////////////////////
-	void drawSelf();
-	//////////////////////////////////////////////////////
-	// /Returns the avatar's hitbox.
-	// /Used primarily to check for collisions with other physical entities.
-	//////////////////////////////////////////////////////
-	sf::FloatRect& getHitBox();
+	void draw();
 	//////////////////////////////////////////////////////
 	// /Defines what actions should be performed if the avatar collides
 	// /with the argument PhysicalEntity. 
@@ -61,13 +60,8 @@ public:
 	// /This function defines how the avatar should effect
 	// /the entity collided with. NOT how the player should be effected.
 	//////////////////////////////////////////////////////
-	void onCollision(PhysicalEntity* entityCollidedWith_p, const sf::Rect<float>& intersection);
-	//////////////////////////////////////////////////////
-	// /Returns the avatars's current position as a 
-	// /const sf::Vector2f-reference.
-	// /This function cannot be used to affect the avatar's position.
-	//////////////////////////////////////////////////////
-	sf::Vector2f getPosition();
+	void onCollision(Collidable* entityCollidedWith_p, const sf::Rect<float>& intersection);
+
 	//////////////////////////////////////////////////////
 	// /Assigns the avatars's positonto the position
 	// /described by the argument sf::Vector2f.
@@ -170,7 +164,6 @@ private:
 
 	Animation*						 mCurrentAnimation_p; //The avatar's current animation
 	std::map<std::string, Animation> mAnimationMap;		//The avatar's animation map
-	sf::FloatRect					 mHitBox;			//The avatar's current hitbox
 	int								 mLightLevel;		//The avatar's current light
 	float							 mCurrentLightIntensity;
 	float							 mDeltaLightIntensity;

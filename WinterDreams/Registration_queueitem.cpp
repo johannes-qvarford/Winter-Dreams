@@ -17,7 +17,7 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	if(name != "")
 		subLevel_p->mapEntityToName(name, queueItem_sp);
 
-	subLevel_p->addScript(queueItem_sp);
+	subLevel_p->addEntity(queueItem_sp);
 }
 
 static ObjectTypeRegistration reg("queueitem", regCallback);

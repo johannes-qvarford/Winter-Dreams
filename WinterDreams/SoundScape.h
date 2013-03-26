@@ -1,12 +1,18 @@
 #ifndef INCLUDED_SOUNDSCAPE
 #define INCLUDED_SOUNDSCAPE
 
-#include "SFML/Graphics/Rect.hpp"
-#include "CollisionZone.h"
+#include "Entity.h"
+#include "Drawable.h"
+#include "BaseHitBoxHaveable.h"
+
 #include "Player.h"
 #include "TextDisplay.h"
 
-class SoundScape : public CollisionZone {
+class SoundScape : public Entity ,public BaseHitBoxHaveable
+#ifdef DEBUG_SOUNDCAPE
+	,public Drawable
+#endif
+{
 public:
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -26,7 +32,6 @@ public:
 ////////////////////////////////////////////////////////////////////////
 	~SoundScape();
 
-
 ////////////////////////////////////////////////////////////////////////
 // /Spela upp ljud/musik med full volym om man är inom en viss radie, spela det
 // /lägre om man är utanför maxvoymradien men innanför maxlängdradien, loopa ljudet/låten
@@ -35,9 +40,9 @@ public:
 	void update(SubLevel* subLevel_p);
 
 	void setHasNarratorPlayed(bool played);
-
-	void drawSelf();
-
+#ifdef DEBUG_SOUNDSCAPE
+	void draw();
+#endif
 private:
 
 	bool mBoolEntity;

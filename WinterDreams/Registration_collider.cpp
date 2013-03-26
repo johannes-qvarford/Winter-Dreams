@@ -10,13 +10,13 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 
 	auto box = sf::FloatRect(position.x, position.y - adjustedHeight - Y_STEP, adjustedWidth, adjustedHeight);
 	
-	auto solid_sp = std::shared_ptr<CollisionZone>(new SolidZone(box, !startdisabled));
+	auto solid_sp = std::shared_ptr<SolidZone>(new SolidZone(box, !startdisabled));
 	
 	//does it have a name?
 	if(name != "")
 		subLevel_p->mapEntityToName(name, solid_sp);
-	
-	subLevel_p->addCollisionZone(solid_sp);
+
+	subLevel_p->addCollidable(solid_sp, SubLevel::SEEK_RECIEVER);	//do not seek collisions
 }
 
 static ObjectTypeRegistration reg("collider", regCallback);

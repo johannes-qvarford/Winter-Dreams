@@ -16,7 +16,8 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	if(name != "")
 		subLevel_p->mapEntityToName(name, light_sp);
 	
-	subLevel_p->addGraphicalEntity(light_sp);
+	subLevel_p->addEntity(light_sp);
+	subLevel_p->addCollidable(light_sp, SubLevel::SEEK_RECIEVER);
 }
 
 static ObjectTypeRegistration reg("light", regCallback);

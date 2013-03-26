@@ -15,12 +15,14 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 
 	auto initialPosition = sf::FloatRect(position.x, position.y, X_STEP, -Y_STEP);
 
-	auto npc_sp = std::shared_ptr<GraphicalEntity>(new NPC(path, initialPosition, damage, !startdisabled));
+	auto npc_sp = std::shared_ptr<NPC>(new NPC(path, initialPosition, damage, !startdisabled));
 
 	if(name != "")
 		subLevel_p->mapEntityToName(name, npc_sp);
 
-	subLevel_p->addGraphicalEntity(npc_sp); 
+	subLevel_p->addEntity(npc_sp);
+	subLevel_p->addDrawable(npc_sp, SubLevel::DRAW_WORLD);
+	subLevel_p->addCollidable(npc_sp, SubLevel::SEEK_RECIEVER);
 }
 
 static ObjectTypeRegistration reg("npc", regCallback);

@@ -3,7 +3,7 @@
 #include "SubLevel.h"
 
 PlayerControls::PlayerControls(bool startsEnabled):
-	Script(startsEnabled)
+	Entity(startsEnabled)
 {
 }
 
@@ -12,7 +12,4 @@ void PlayerControls::update(SubLevel* subLevel_p) {
 		InputManager::get().unlockInput();
 	else
 		InputManager::get().lockInput();
-}
-
-void PlayerControls::draw() const {
 }

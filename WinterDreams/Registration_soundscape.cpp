@@ -16,12 +16,15 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	auto soundtype = properties.get<std::string>("soundtype", "sound");
 
 	auto collisionBox = sf::FloatRect(position.x, position.y, -1, 1);
-	auto soundScape_sp = std::shared_ptr<CollisionZone>(new SoundScape(collisionBox, innerradius, rangedecay, volume, loop, soundfile, !startdisabled, soundtype, fadein, fadeout, threeD, subLevel_p));
+	auto soundScape_sp = std::shared_ptr<SoundScape>(new SoundScape(collisionBox, innerradius, rangedecay, volume, loop, soundfile, !startdisabled, soundtype, fadein, fadeout, threeD, subLevel_p));
 	
 	if(name != "")
 		subLevel_p->mapEntityToName(name, soundScape_sp);
 	
-	subLevel_p->addCollisionZone(soundScape_sp);
+	subLevel_p->addEntity(soundScape_sp);
+#ifdef DEBUG_SOUNDSCAPE
+	subLevel_p->addCollidable(soundScape_sp, SubLevel::SEEK_RECIEVER);
+#endif
 }
 
 static ObjectTypeRegistration reg("soundscape", regCallback);

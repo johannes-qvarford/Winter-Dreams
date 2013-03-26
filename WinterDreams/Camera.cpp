@@ -1,18 +1,17 @@
-#include "PrecompiledHeader.h"
+
 #include "Camera.h"
-#include <cmath>
-#include <memory>
 
 #include "GameToScreen.h"
 #include "PropertyManager.h"
 #include "WindowManager.h"
-#include "PhysicalEntity.h"
 
+#include <cmath>
+#include <memory>
 
 static float CAM_PAN_PERCENTAGE = 0;
 
 Camera::Camera(sf::Vector2f position) :
-	Script( true ),
+	Entity( true ),
 	mCameraPosition(  GAME_TO_SCREEN * position),
 	mDesiredPosition( mCameraPosition ),
 	mLockedEntity(),
@@ -21,8 +20,8 @@ Camera::Camera(sf::Vector2f position) :
 	CAM_PAN_PERCENTAGE = PropertyManager::get().getGeneralSettings().get<float>("cam_pan_percentage");
 	}
 
-Camera::Camera( std::shared_ptr<PhysicalEntity> entity ) :
-	Script( true ),
+Camera::Camera( std::shared_ptr<Collidable> entity ) :
+	Entity( true ),
 	mLockedEntity( entity ),
 	mLockedCamera( true )
 {
@@ -46,7 +45,7 @@ void Camera::update(SubLevel* subLevel_p){
 		//desired position to the entitys current position
 
 	if( mLockedCamera && !mLockedEntity.expired() ) {
-		auto physical = std::shared_ptr<PhysicalEntity>( mLockedEntity );
+		auto physical = std::shared_ptr<Collidable>( mLockedEntity );
 		auto entityX = physical->getHitBox().left + physical->getHitBox().width/2; 
 		auto entityY = physical->getHitBox().top + physical->getHitBox().height/2;
 		auto entityPos = sf::Vector2f( entityX , entityY );
@@ -101,7 +100,7 @@ void Camera::update(SubLevel* subLevel_p){
 	window.setView( sf::View( camPos, winSizeF) );
 }
 
-void Camera::followEntity(std::shared_ptr<PhysicalEntity> entity){
+void Camera::followEntity(std::shared_ptr<Collidable> entity){
 	mLockedEntity = entity;
 }
 
@@ -116,4 +115,3 @@ void Camera::snapToPosition(sf::Vector2f position){
 	mDesiredPosition = position;
 }
 
-void Camera::draw() const {}

@@ -4,7 +4,7 @@
 
 
 TimeAdder::TimeAdder(int addFrames, const std::string& timerName, bool startsEnabled):
-	Script(startsEnabled),
+	Entity(startsEnabled),
 	mAddFrames(addFrames),
 	mTimerName(timerName)
 {
@@ -22,7 +22,4 @@ void TimeAdder::update(SubLevel* subLevel_p) {
 			timer_sp->addTime(mAddFrames);
 		}
 	}
-}
-
-void TimeAdder::draw() const {
 }

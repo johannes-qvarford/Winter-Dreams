@@ -1,7 +1,7 @@
 #ifndef INCLUDED_COUNTER
 #define INCLUDED_COUNTER
 
-#include "Script.h"
+#include "Entity.h"
 
 #include <string>
 #include <list>
@@ -12,7 +12,7 @@
 // /Unlike TriggerZone, it only does this when its counter 
 // /reaches a certain number.
 ////////////////////////////////////////////////////////////
-class Counter : public Script {
+class Counter : public Entity {
 public:
 	enum ActivateReason {
 		REASON_LS,
@@ -47,7 +47,6 @@ public:
 
 	void update(SubLevel* subLevel_p){}
 
-	void draw() const{}
 private:
 
 	SubLevel* mSubLevel_p;

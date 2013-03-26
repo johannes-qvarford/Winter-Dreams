@@ -32,7 +32,8 @@ private:
 };
 
 SoundScape::SoundScape(sf::Rect<float> collisionBox, float innerRadius, int rangeDecay, float volume, bool loop, std::string soundName, bool startsEnabled, std::string soundType, int fadeInTime, int fadeOutTime, bool threeD, SubLevel* subLevel_p):
-CollisionZone(startsEnabled, collisionBox, false),
+Entity(startsEnabled),
+BaseHitBoxHaveable(collisionBox),
 mBoolEntity(false),
 mInnerRadius(innerRadius),
 mRangeDecay(rangeDecay),
@@ -74,15 +75,11 @@ SoundScape::~SoundScape(){
 	mSound->stop();
 }
 
-
-
-
-
 float SoundScape::getVolume(SubLevel* subLevel_p){
 
 	std::shared_ptr<Player> player_sp(mPlayer_wp);
 
-	sf::Rect<float> soundScapeHitBox_r = getHitBox();
+	sf::Rect<float> soundScapeHitBox_r = mHitBox;
 	sf::Rect<float> playerHitBox_r = player_sp->getHitBox();
 
 	sf::Vector2f soundScapeHitBox(soundScapeHitBox_r.left, soundScapeHitBox_r.top);
@@ -277,13 +274,6 @@ void SoundScape::update(SubLevel* subLevel_p){
 			mQuitMusic = true;
 	}
 
-	/*if (mIsWaitingForSpot && subLevel_p->getLevel()->isSpotAvailable(mSpot) == true){
-			mClock.restart();
-			mSound->play();
-			mIsWaitingForSpot = false;
-
-	}*/
-
 //////////////////////////////////////////////////////////////////////
 // /Samma sak fast tvärtom
 //////////////////////////////////////////////////////////////////////
@@ -300,15 +290,8 @@ void SoundScape::update(SubLevel* subLevel_p){
 		mQuitMusic = false;
 	}
 	
-
 	float volume = getVolume(subLevel_p);
-
-
-	
-
 	mSound->setVolume(volume);
-
-
 	mEnabledLastFrame = enabledThisFrame;
 }
 
@@ -318,7 +301,8 @@ void SoundScape::setHasNarratorPlayed(bool played){
 }
 
 
-void SoundScape::drawSelf(){
+#ifdef DEBUG_SOUNDSCAPE
+void SoundScape::draw(){
 	auto& manager = WindowManager::get();
 	auto& window = *manager.getWindow();
 	auto& states = *manager.getStates();
@@ -327,12 +311,12 @@ void SoundScape::drawSelf(){
 	auto position = sf::Vector2f(hitBox.left, hitBox.top);
 	position = GAME_TO_SCREEN * position;
 
-
 	for (int i = 0; i < 7; i++){
 		position.x += i;
 
 		sf::Vertex vertex[] = {sf::Vertex(position, sf::Color::Yellow)};
-		//window.draw(vertex, 1, sf::Points, states);
+		window.draw(vertex, 1, sf::Points, states);
 
 	}
 }
+#endif

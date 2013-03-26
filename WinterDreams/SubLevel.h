@@ -9,11 +9,8 @@ namespace sf {
 	class Texture;
 }
 
-class GraphicalEntity;
-class PhysicalEntity;
-class CollisionZone;
-class Script;
-class AiPath;
+class Drawable;
+class Collidable;
 class Entity;
 class LevelState;
 
@@ -53,20 +50,33 @@ public:
 	////////////////////////////////////////////////////////////
 	void render();
 	
+	enum DrawableType {
+		DRAW_WORLD,
+		DRAW_SCREEN
+	};
 	////////////////////////////////////////////////////////////
-	// /Add a graphical entity to the sub level. 
+	// /Add a drawable to the sub level.
+	// /If its a world drawable, sort according to its layer and position.
+	// /If not, draw directly on screen, no matter the order.
 	////////////////////////////////////////////////////////////
-	void addGraphicalEntity(std::shared_ptr<GraphicalEntity> graphicalEntity_sp);
+	void addDrawable(std::shared_ptr<Drawable> draw_sp, DrawableType type);
 	
+	enum CollidableType {
+		SEEK_SEEKER,
+		SEEK_RECIEVER
+	};
 	////////////////////////////////////////////////////////////
-	// /Add a collision zone to the sub level. 
+	// /Add a collidable to the sub level.
+	// /If its a seeker, collisions against recivers will be checked every frame.
+	// /If not, it will collide with seekers.
+	// /NOTE: A seeker is not automaticly a reciever.
 	////////////////////////////////////////////////////////////
-	void addCollisionZone(std::shared_ptr<CollisionZone> graphicalEntity_sp);
+	void addCollidable(std::shared_ptr<Collidable> col_sp, CollidableType type);
 
 	////////////////////////////////////////////////////////////
-	// /Add a script to the sub level.
+	// /Add an entity to the sub level.
 	////////////////////////////////////////////////////////////
-	void addScript(std::shared_ptr<Script> script_sp);
+	void addEntity(std::shared_ptr<Entity> ent_sp);
 	
 	////////////////////////////////////////////////////////////
 	// /Set the map texture at a position in screencoordinates.
@@ -112,9 +122,9 @@ public:
 private:
 
 	
-	typedef std::list<std::shared_ptr<GraphicalEntity> > GraphicalEntities;
-	typedef std::list<std::shared_ptr<Script> > Scripts;
-	typedef std::list<std::shared_ptr<CollisionZone> > CollisionZones;
+	typedef std::list<std::shared_ptr<Drawable> > Drawables;
+	typedef std::list<std::shared_ptr<Collidable> > Collidables;
+	typedef std::list<std::shared_ptr<Entity> > Entities;
 	typedef std::map<std::string, std::weak_ptr<Entity> > EntityMap;
 	typedef std::map<std::string, std::vector<sf::Vector2f> > AiPathMap;
 	typedef std::pair<std::shared_ptr<sf::Texture>, sf::Vector2f> PositionedTexture;
@@ -123,10 +133,10 @@ private:
 private:
 	
 	////////////////////////////////////////////////////////////
-	// /Check collisions between a GraphicalEntity
-	// /and the other PhysicalEntities. 
+	// /Check collisions between a Collidable(must be a seeker)
+	// /and the other Collidables. 
 	////////////////////////////////////////////////////////////
-	void checkCollisions(std::shared_ptr<GraphicalEntity> graphical_sp);
+	void checkCollisions(std::shared_ptr<Collidable> col_sp);
 
 	////////////////////////////////////////////////////////////
 	// /Remove all entities that are not active anymore.
@@ -139,11 +149,15 @@ private:
 
 	AiPathMap mNameToAiPath;
 
-	CollisionZones mCollisionZones;
+	Entities mEntities;
 
-	GraphicalEntities mGraphicalEntities;
+	Drawables mWorldDrawables;
 
-	Scripts mScripts;			
+	Drawables mScreenDrawables;
+	
+	Collidables mSeekers;
+
+	Collidables mRecievers;
 
 	PositionedTexture mMapTexture;
 

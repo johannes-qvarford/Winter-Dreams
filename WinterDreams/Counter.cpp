@@ -5,7 +5,7 @@
 #include <cassert>
 
 Counter::Counter(const std::list<std::string>& entList, int count, bool startsEnabled, SubLevel* subLevel_p, Counter::ActivateAction action, Counter::ActivateReason reason):
-	Script(startsEnabled),
+	Entity(startsEnabled),
 	mSubLevel_p(subLevel_p),
 	mEntList(entList),
 	mReason(reason),

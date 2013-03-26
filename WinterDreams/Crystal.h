@@ -1,17 +1,19 @@
 #ifndef INCLUDED_CRYSTAL
 #define INCLUDED_CRYSTAL
 
-#include "GraphicalEntity.h"
-#include "SolidZone.h"
-#include "Animation.h"
-#include <SFML/Graphics/Rect.hpp>
+#include "Entity.h"
+#include "Drawable.h"
+#include "Collidable.h"
+#include "BaseHitBoxHaveable.h"
 
 class SolidZone;
+
+#include "Animation.h"
 //////////////////////////////////////////////////////
 // /Represents ice blocks which can be destryed by hitting it
 // /with a pickaxe.
 //////////////////////////////////////////////////////
-class Crystal : public GraphicalEntity {
+class Crystal : public Entity, public Drawable, public Collidable, public BaseHitBoxHaveable {
 public:
 	//////////////////////////////////////////////////////
 	// /The FloatRect's top will represent the Crystal's Y.
@@ -19,10 +21,7 @@ public:
 	// /The FloatRect's width and height sets bounds for it's hitbox
 	//////////////////////////////////////////////////////
 	Crystal(const sf::FloatRect& position, bool startEnabled = true);
-	//////////////////////////////////////////////////////
-	// /No dynamicly allocated member variables
-	//////////////////////////////////////////////////////
-	~Crystal();
+
 	//////////////////////////////////////////////////////
 	// /Defines what Crystal should do each update
 	//////////////////////////////////////////////////////
@@ -30,15 +29,11 @@ public:
 	//////////////////////////////////////////////////////
 	// /Defines how the Crystal should draw itself
 	//////////////////////////////////////////////////////
-	void drawSelf();
-	//////////////////////////////////////////////////////
-	// /Returns the hitbox of the Crystal
-	//////////////////////////////////////////////////////
-	sf::FloatRect& getHitBox();
+	void draw();
 	//////////////////////////////////////////////////////
 	// /Defines what the Crystal should do with the entity it collides with
 	//////////////////////////////////////////////////////
-	void onCollision(PhysicalEntity* entityCollidedWith_p, const sf::FloatRect& intersection);
+	void onCollision(Collidable* col_p, const sf::FloatRect& intersection);
 	//////////////////////////////////////////////////////
 	// /Used for increasing och decreasing an Crystal's health.
 	// /Send a negative argument to decrease the health.
@@ -52,19 +47,13 @@ public:
 	//////////////////////////////////////////////////////
 	int getHealth() const;
 
-	//////////////////////////////////////////////////////
-	// /This definition is requested by Physical Entity.
-	// /Unless an object is dependent on it's direction,
-	// /the return value is of no importence.
-	//////////////////////////////////////////////////////
-	sf::Vector2i getDirection() { return sf::Vector2i( 0,0 ); }
 private:
 	void updateAnimation();
 
 	std::map<std::string, Animation> mAnimationMap; //The crystal's collection of Animations
 	Animation*					mCurrentAnimation;	//The crystal's animation
 	int							mHP;				//The crystal's HP
-	std::shared_ptr<SolidZone>	mSolidZone;			//The crystal's collision zone
+	std::shared_ptr<SolidZone>	mSolidZone;			//The crystal's collision zone(NOTE: its hitbox will not be used for collision detection!)
 	std::shared_ptr<sf::SoundBuffer> mSoundBuffer;  //The crystal's "smashed" sound
 	std::shared_ptr<sf::SoundBuffer> mDestroyedSoundBuffer;//The crystal's "destroyed completely" sound.
 	int							mVersion;

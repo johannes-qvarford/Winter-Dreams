@@ -38,7 +38,9 @@ void LevelState::update() {
 			if (mQueue.empty() == false){
 				mQueue.front().mSound_sp->play();
 				for(auto it = mSubLevels.begin(), end = mSubLevels.end(); it != end; ++it) {
-					it->second->addScript(mQueue.front().mText_sp);
+					
+					it->second->addEntity(mQueue.front().mText_sp);
+					it->second->addDrawable(mQueue.front().mText_sp, SubLevel::DRAW_SCREEN);
 				}
 			}
 		}
@@ -193,18 +195,20 @@ void LevelState::queueNarrator(SoundScape* soundScape_p, std::shared_ptr<sf::Sou
 		for(size_t i = 1; i < splitVec.size(); i+=2) {
 			TextDisplay::TimedText tt;
 			tt.mText = splitVec[i+1];
-			tt.mTimestamp = (std::atoi(splitVec[i].c_str()+1)) / 1000.f * 60;
+			tt.mTimestamp = float((std::atoi(splitVec[i].c_str()+1)) / 1000.f * 60.f);
 			timedTexts.push_back(tt);
 		}
 	}
-	auto text_sp = std::make_shared<TextDisplay>(timedTexts, sf::Vector2f(0.5, 0.8), true);
+	auto text_sp = std::make_shared<TextDisplay>(timedTexts, sf::Vector2f(0.5f, 0.8f), true);
 	//save this, so that we can kill it later.
 	n.mText_sp = text_sp;
 	mQueue.push(n);
 	if(mQueue.size() == 1) {
 		mQueue.front().mSound_sp->play();
 		for(auto it = mSubLevels.begin(), end = mSubLevels.end(); it != end; ++it) {
-			it->second->addScript(mQueue.front().mText_sp);
+			
+			it->second->addEntity(mQueue.front().mText_sp);
+			it->second->addDrawable(mQueue.front().mText_sp, SubLevel::DRAW_SCREEN);
 		}
 	}
 }

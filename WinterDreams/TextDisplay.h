@@ -1,13 +1,17 @@
 #ifndef INCLUDED_TEXTDISPLAY
 #define INCLUDED_TEXTDISPLAY
 
-#include "Script.h"
+
+#include "Entity.h"
+#include "Drawable.h"
+#include "BaseHitBoxHaveable.h"
+
 #include <vector>
 
 ////////////////////////////////////////////////////////////
 // /TextDisplay is used to draw text on the screen.
 ////////////////////////////////////////////////////////////
-class TextDisplay : public Script {
+class TextDisplay : public Entity, public Drawable, public BaseHitBoxHaveable {
 public:
 
 	struct TimedText {
@@ -28,7 +32,7 @@ public:
 	////////////////////////////////////////////////////////////
 	// /Draw the text.
 	////////////////////////////////////////////////////////////
-	void draw() const;
+	void draw();
 
 private:
 

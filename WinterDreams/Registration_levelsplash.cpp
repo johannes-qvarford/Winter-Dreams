@@ -12,9 +12,10 @@ static void regCallback(SubLevel* subLevel_p, const sf::Vector2f& position, cons
 	auto secLifeTime = int(lifetime * 60);
 	auto secFadeOutTime = int(fadeouttime * 60);
 
-	auto splash = std::shared_ptr<LevelSplash>( new LevelSplash(splashimgfile, secLifeTime, secFadeOutTime, !startdisabled) );
+	auto splash_sp = std::shared_ptr<LevelSplash>( new LevelSplash(splashimgfile, secLifeTime, secFadeOutTime, !startdisabled) );
 
-	subLevel_p->addScript( splash );
+	subLevel_p->addEntity(splash_sp);
+	subLevel_p->addDrawable(splash_sp, SubLevel::DRAW_SCREEN);
 }
 
 static ObjectTypeRegistration reg("levelsplash", regCallback);

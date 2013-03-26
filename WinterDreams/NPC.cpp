@@ -53,13 +53,13 @@ NPCSpecs::NPCSpecs()
 }
 
 NPC::NPC(const std::string& pathName, const sf::FloatRect& initialPosition, int damage, bool startsEnabled):
-	GraphicalEntity(startsEnabled),
+	Entity(startsEnabled),
+	BaseHitBoxHaveable(initialPosition),
 	mDamage(damage),
 	mFoundPath(false),
 	mPathName(pathName),
 	mPath_p(NULL),
 	mNextPoint(0),
-	mHitBox(initialPosition),
 	mFirstFrame(false),
 	mSound(),
 	mSoundBuffer(ResourceManager::get().getSoundBuffer(FS_DIR_SOUNDS + NPCSpecs::get().getSoundFilename()))
@@ -162,7 +162,7 @@ void NPC::update(SubLevel* subLevel_p) {
 	}
 }
 
-void NPC::drawSelf() {
+void NPC::draw() {
 	auto sprite = mCurrentAnimation_p->getCurrentSprite();
 	
 	//get screen position
@@ -177,14 +177,10 @@ void NPC::drawSelf() {
 
 }
 
-sf::FloatRect& NPC::getHitBox() {
-	return mHitBox;
-}
-
-void NPC::onCollision(PhysicalEntity * pe_p, const sf::FloatRect& intersection) {
+void NPC::onCollision(Collidable * col_p, const sf::FloatRect& intersection) {
 	mSound.setVolume( PropertyManager::get().getUserSettings()->get<float>("volumes.soundVolume") * 0.3f );
 
-	auto player_p = dynamic_cast<Player*>(pe_p);
+	auto player_p = dynamic_cast<Player*>(col_p);
 	if(player_p == nullptr)
 		return;
 
